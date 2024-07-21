@@ -2,9 +2,16 @@ spring:
   application:
     name: homewizard-api
 
-low-level:
-  scheduler:
-    frequency-in-milliseconds: 10000
-  csv:
+output:
+  most-detailed:
     enabled: true
-    file-name: lala10sec.csv
+    fetch-rate-in-milliseconds: 10000
+    output-file-name: smartMeterOutput10seconds.csv
+
+  hour:
+    enabled: true
+    output-file-name: smartMeterOutputHour.csv
+
+  day:
+    enabled: true
+    output-file-name: smartMeterOutputDay.csv
