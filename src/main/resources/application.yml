@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: homewizard-api
+
+low-level:
+  scheduler:
+    frequency-in-milliseconds: 10000
+  csv:
+    enabled: true
+    file-name: lala10sec.csv

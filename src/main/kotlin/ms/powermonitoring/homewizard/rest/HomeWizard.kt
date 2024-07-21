@@ -1,12 +1,12 @@
-package ms.homewizardapi.controller
+package ms.powermonitoring.homewizard.rest
 
-import ms.homewizardapi.model.HomeWizardMeasurementData
+import ms.powermonitoring.homewizard.model.HomeWizardMeasurementData
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 
 
 @Service
-class HomeWizardDataClient {
+class HomeWizard {
     private val baseUrl = "http://192.168.2.40"
     private val restTemplate = RestTemplate()
 
@@ -15,6 +15,9 @@ class HomeWizardDataClient {
         //todo: check if we have a body/response --  error handling
         return response!!
     }
+
+
+
 }
 
 

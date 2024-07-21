@@ -1,4 +1,4 @@
-package ms.homewizardapi.model
+package ms.powermonitoring.homewizard.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.math.BigDecimal
@@ -30,25 +30,25 @@ data class HomeWizardMeasurementData(
     @JsonProperty(value = "total_power_export_t2_kwh")
     val totalPowerExportT2Kwh: BigDecimal,
     @JsonProperty(value = "active_power_w")
-    val activePowerW: BigDecimal,
+    val activePowerWatt: BigDecimal,
     @JsonProperty(value = "active_power_l1_w")
-    val activePowerL1W: BigDecimal,
+    val activePowerL1Watt: BigDecimal,
     @JsonProperty(value = "active_power_l2_w")
-    val activePowerL2W: BigDecimal,
+    val activePowerL2Watt: BigDecimal,
     @JsonProperty(value = "active_power_l3_w")
-    val activePowerL3W: BigDecimal,
+    val activePowerL3Watt: BigDecimal,
     @JsonProperty(value = "active_voltage_l1_v")
-    val activeVoltageL1V: BigDecimal,
+    val activeVoltageL1Volt: BigDecimal,
     @JsonProperty(value = "active_voltage_l2_v")
-    val activeVoltageL2V: BigDecimal,
+    val activeVoltageL2Volt: BigDecimal,
     @JsonProperty(value = "active_voltage_l3_v")
-    val activeVoltageL3V: BigDecimal,
+    val activeVoltageL3Volt: BigDecimal,
     @JsonProperty(value = "active_current_l1_a")
-    val activeCurrentL1A: BigDecimal,
+    val activeCurrentL1Ampere: BigDecimal,
     @JsonProperty(value = "active_current_l2_a")
-    val activeCurrentL2A: BigDecimal,
+    val activeCurrentL2Ampere: BigDecimal,
     @JsonProperty(value = "active_current_l3_a")
-    val activeCurrentL3A: BigDecimal,
+    val activeCurrentL3Ampere: BigDecimal,
     @JsonProperty(value = "voltage_sag_l1_count")
     val voltageSagL1Count: Int,
     @JsonProperty(value = "voltage_sag_l2_count")
