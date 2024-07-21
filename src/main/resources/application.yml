@@ -3,15 +3,8 @@ spring:
     name: homewizard-api
 
 output:
-  most-detailed:
-    enabled: true
-    fetch-rate-in-milliseconds: 10000
-    output-file-name: smartMeterOutput10seconds.csv
-
-  hour:
-    enabled: true
-    output-file-name: smartMeterOutputHour.csv
-
-  day:
-    enabled: true
-    output-file-name: smartMeterOutputDay.csv
+  enabled: true
+  variable-time-fetch-rate-in-milliseconds: 10000
+  variable-time-file-name: smartMeterOutput.csv
+  hour-file-name: smartMeterOutputHour.csv
+  day-file-name: smartMeterOutputDay.csv
