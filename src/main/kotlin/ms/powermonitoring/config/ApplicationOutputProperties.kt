@@ -8,5 +8,6 @@ data class ApplicationOutputProperties(
     val variableTimeFetchRateInMilliseconds: Int,
     val variableTimeFileName: String,
     val hourFileName: String,
-    val dayFileName: String
+    val dayFileName: String,
+    val path: String
 )

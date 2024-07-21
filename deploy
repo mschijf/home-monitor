@@ -1,0 +1,7 @@
+program=homewizard-api
+path=homewizard-monitor
+# mvn clean package
+ssh pi rm $path/$program*.jar
+scp target/$program*.jar pi:~/$path
+ssh pi bash $path/start.sh
+

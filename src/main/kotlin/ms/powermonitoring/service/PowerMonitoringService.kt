@@ -3,6 +3,7 @@ package ms.powermonitoring.service
 import ms.powermonitoring.config.ApplicationOutputProperties
 import ms.powermonitoring.homewizard.model.HomeWizardMeasurementData
 import ms.powermonitoring.homewizard.rest.HomeWizard
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.io.File
 import java.time.LocalDateTime
@@ -16,24 +17,30 @@ class PowerMonitoringService(
     private val homeWizard: HomeWizard,
     private val applicationOutputProperties: ApplicationOutputProperties
 ) {
-
+    private val log = LoggerFactory.getLogger(javaClass)
     private val timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-    private val decimalFormat = DecimalFormat("#.000")
+    private val decimalFormat = DecimalFormat("#0.000")
 
     fun variableTimedPowerMeasurement() {
-        File(applicationOutputProperties.variableTimeFileName)
-            .appendText(homeWizard.getHomeWizardData().toCSV(includingActivePower = true))
+        appendToFile(applicationOutputProperties.variableTimeFileName, includingActivePower = true)
     }
 
     fun storeHourPowerMeasurement() {
-        File(applicationOutputProperties.hourFileName)
-            .appendText(homeWizard.getHomeWizardData().toCSV(includingActivePower = false))
-    }
-    fun storeDayPowerMeasurement() {
-        File(applicationOutputProperties.dayFileName)
-            .appendText(homeWizard.getHomeWizardData().toCSV(includingActivePower = false))
+        appendToFile(applicationOutputProperties.hourFileName)
     }
 
+    fun storeDayPowerMeasurement() {
+        appendToFile(applicationOutputProperties.dayFileName)
+    }
+
+    fun appendToFile(fileName: String, includingActivePower: Boolean=false) {
+        val resultMkdirs: Boolean = File(applicationOutputProperties.path).mkdirs()
+        if (resultMkdirs) {
+            log.info("created the directory ${applicationOutputProperties.path}")
+        }
+        File(applicationOutputProperties.path+"/"+fileName)
+            .appendText(homeWizard.getHomeWizardData().toCSV(includingActivePower))
+    }
 
     private fun HomeWizardMeasurementData.toCSV(includingActivePower: Boolean): String {
         val response = this
