@@ -3,11 +3,13 @@ package ms.powermonitoring.service
 import ms.powermonitoring.config.ApplicationOutputProperties
 import ms.powermonitoring.homewizard.model.HomeWizardMeasurementData
 import ms.powermonitoring.homewizard.rest.HomeWizard
-import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.text.DecimalFormat
+
+
 
 @Service
 class PowerMonitoringService(
@@ -15,7 +17,8 @@ class PowerMonitoringService(
     private val applicationOutputProperties: ApplicationOutputProperties
 ) {
 
-    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    private val timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    private val decimalFormat = DecimalFormat("#.000")
 
     fun variableTimedPowerMeasurement() {
         File(applicationOutputProperties.variableTimeFileName)
@@ -34,15 +37,15 @@ class PowerMonitoringService(
 
     private fun HomeWizardMeasurementData.toCSV(includingActivePower: Boolean): String {
         val response = this
-        var result =  "${LocalDateTime.now().format(formatter)};" +
-                "${response.totalPowerImportKwh};" +
-                "${response.totalPowerImportT1Kwh};" +
-                "${response.totalPowerImportT2Kwh};"
+        var result =  "${LocalDateTime.now().format(timeFormat)};" +
+                "${decimalFormat.format(response.totalPowerImportKwh)};" +
+                "${decimalFormat.format(response.totalPowerImportT1Kwh)};" +
+                "${decimalFormat.format(response.totalPowerImportT2Kwh)};"
                 if (includingActivePower) {
-                    result += "${response.activePowerWatt};" +
-                            "${response.activePowerL1Watt};" +
-                            "${response.activePowerL2Watt};" +
-                            "${response.activePowerL3Watt};"
+                    result += "${decimalFormat.format(response.activePowerWatt)};" +
+                            "${decimalFormat.format(response.activePowerL1Watt)};" +
+                            "${decimalFormat.format(response.activePowerL2Watt)};" +
+                            "${decimalFormat.format(response.activePowerL3Watt)};"
                 }
                 result += "\n"
         return result

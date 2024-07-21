@@ -16,7 +16,7 @@ data class HomeWizardMeasurementData(
     @JsonProperty(value = "unique_id")
     val uniqueId: String,
     @JsonProperty(value = "active_tariff")
-    val activeTarrif: Int,
+    val activeTariff: Int,
     @JsonProperty(value = "total_power_import_kwh")
     val totalPowerImportKwh: BigDecimal,
     @JsonProperty(value = "total_power_import_t1_kwh")
