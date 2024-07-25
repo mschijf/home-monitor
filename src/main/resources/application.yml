@@ -9,3 +9,9 @@ output:
   hour-file-name: smartMeterOutputHour.csv
   day-file-name: smartMeterOutputDay.csv
   path: ./data
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,info,metric
