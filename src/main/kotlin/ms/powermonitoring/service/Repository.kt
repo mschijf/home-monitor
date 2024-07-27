@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import ms.powermonitoring.config.ApplicationOutputProperties
-import ms.powermonitoring.homewizard.model.HomeWizardMeasurementDataTimed
+import ms.powermonitoring.homewizard.model.HomeWizardMeasurementData
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.io.File
@@ -32,41 +32,41 @@ class Repository(
         jsonMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
     }
 
-    fun storeDetailedMeasurement(data: HomeWizardMeasurementDataTimed) {
+    fun storeDetailedMeasurement(data: HomeWizardMeasurementData) {
         store(detailedFileName, data, includingActivePower = true)
     }
 
-    fun retrieveLastMeasurementOrNull() : HomeWizardMeasurementDataTimed? =
+    fun retrieveLastMeasurementOrNull() : HomeWizardMeasurementData? =
         retrieveLastMeasurement(detailedFileName)
 
-    fun storeHourlyMeasurement(data: HomeWizardMeasurementDataTimed) {
+    fun storeHourlyMeasurement(data: HomeWizardMeasurementData) {
         store(hourFileName, data, includingActivePower = false)
     }
 
-    fun retrieveLastHourlyMeasurementOrNull() : HomeWizardMeasurementDataTimed? =
+    fun retrieveLastHourlyMeasurementOrNull() : HomeWizardMeasurementData? =
         retrieveLastMeasurement(hourFileName)
 
-    fun storeDailyMeasurement(data: HomeWizardMeasurementDataTimed) {
+    fun storeDailyMeasurement(data: HomeWizardMeasurementData) {
         store(dayFileName, data, includingActivePower = false)
     }
 
-    fun retrieveLastDailyMeasurementOrNull() : HomeWizardMeasurementDataTimed? =
+    fun retrieveLastDailyMeasurementOrNull() : HomeWizardMeasurementData? =
         retrieveLastMeasurement(dayFileName)
 
 
-    private fun store(fileName: String, data: HomeWizardMeasurementDataTimed, includingActivePower: Boolean) {
+    private fun store(fileName: String, data: HomeWizardMeasurementData, includingActivePower: Boolean) {
         val json = jsonMapper.writeValueAsString(data)
         File(applicationOutputProperties.path+"/"+fileName+"_last.json").writeText(json)
         val textLine = data.toCSV(includingActivePower)
         File(applicationOutputProperties.path+"/"+fileName+".csv").appendText(textLine)
     }
 
-    private fun retrieveLastMeasurement(fileName: String) : HomeWizardMeasurementDataTimed? {
+    private fun retrieveLastMeasurement(fileName: String) : HomeWizardMeasurementData? {
         try {
             return File(applicationOutputProperties.path + "/" + fileName + "_last.json")
                 .readText(Charsets.UTF_8)
                 .let {
-                    jsonMapper.readValue(it, HomeWizardMeasurementDataTimed::class.java)
+                    jsonMapper.readValue(it, HomeWizardMeasurementData::class.java)
                 }
         } catch(ex: Exception) {
             return null
@@ -78,8 +78,8 @@ class Repository(
     private val timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     private val decimalFormat = DecimalFormat("#0.000")
 
-    private fun HomeWizardMeasurementDataTimed.toCSV(includingActivePower: Boolean): String {
-        val response = this.data
+    private fun HomeWizardMeasurementData.toCSV(includingActivePower: Boolean): String {
+        val response = this
         var result =  "${this.time.format(timeFormat)};" +
                 "${decimalFormat.format(response.totalPowerImportKwh)};" +
                 "${decimalFormat.format(response.totalPowerImportT1Kwh)};" +

@@ -2,7 +2,6 @@ package ms.powermonitoring.service
 
 import io.micrometer.core.instrument.MeterRegistry
 import ms.powermonitoring.homewizard.model.HomeWizardMeasurementData
-import ms.powermonitoring.homewizard.model.HomeWizardMeasurementDataTimed
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.util.concurrent.atomic.AtomicInteger

@@ -3,10 +3,13 @@ package ms.powermonitoring.homewizard.model
 import com.fasterxml.jackson.annotation.JsonAlias
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.math.BigDecimal
+import java.time.LocalDateTime
 
 // see https://api-documentation.homewizard.com/docs/endpoints/api-v1-data/
 
 data class HomeWizardMeasurementData(
+    @JsonProperty("time")
+    val time: LocalDateTime = LocalDateTime.now(),
 
     @JsonProperty(value = "wifi_strength")
     @JsonAlias("wifiStrength")

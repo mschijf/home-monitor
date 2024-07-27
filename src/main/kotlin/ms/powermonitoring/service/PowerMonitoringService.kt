@@ -1,8 +1,7 @@
 package ms.powermonitoring.service
 
-import ms.powermonitoring.homewizard.model.HomeWizardMeasurementDataTimed
+import ms.powermonitoring.homewizard.model.HomeWizardMeasurementData
 import ms.powermonitoring.homewizard.rest.HomeWizard
-import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.Duration
@@ -15,14 +14,13 @@ class PowerMonitoringService(
     private val measurement: MicroMeterMeasurement
 ) {
 
-    private val log = LoggerFactory.getLogger(PowerMonitoringService::class.java)
-    private var lastDetailedMeasurement: HomeWizardMeasurementDataTimed = homeWizard.getHomeWizardData()
+    private var lastDetailedMeasurement: HomeWizardMeasurementData = homeWizard.getHomeWizardData()
 
     @Scheduled(fixedRate = 10_000)
     fun detailedPowerMeasurement() {
         val homeWizardData = homeWizard.getHomeWizardData()
         repository.storeDetailedMeasurement(homeWizardData)
-        measurement.setMetrics(homeWizardData.data)
+        measurement.setMetrics(homeWizardData)
         lastDetailedMeasurement = homeWizardData
     }
 
@@ -33,7 +31,7 @@ class PowerMonitoringService(
         repository.storeHourlyMeasurement(homeWizardData)
 
         if (Duration.between(lastMeasurement.time, homeWizardData.time).toSeconds() <= 3600)
-            measurement.setHourMetric(homeWizardData.data, lastMeasurement.data)
+            measurement.setHourMetric(homeWizardData, lastMeasurement)
     }
 
     @Scheduled(cron = "0 0 0 * * *")
@@ -42,6 +40,6 @@ class PowerMonitoringService(
         val homeWizardData = homeWizard.getHomeWizardData()
         repository.storeDailyMeasurement(homeWizardData)
         if (Duration.between(lastMeasurement.time, homeWizardData.time).toSeconds() <= 3600*24)
-            measurement.setDayMetric(homeWizardData.data, lastMeasurement.data)
+            measurement.setDayMetric(homeWizardData, lastMeasurement)
     }
 }
