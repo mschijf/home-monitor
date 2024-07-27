@@ -1,7 +1,7 @@
-package ms.powermonitoring.controller
+package ms.homemonitoring.controller
 
-import ms.powermonitoring.homewizard.model.HomeWizardMeasurementData
-import ms.powermonitoring.homewizard.rest.HomeWizard
+import ms.homemonitoring.homewizard.model.HomeWizardMeasurementData
+import ms.homemonitoring.homewizard.rest.HomeWizard
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 

@@ -1,6 +1,7 @@
-package ms.powermonitoring
+package ms.homemonitoring
 
-import ms.powermonitoring.config.ApplicationOutputProperties
+import ms.homemonitoring.config.ApplicationOutputProperties
+import ms.homemonitoring.config.HomeWizardProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
@@ -10,9 +11,9 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @SpringBootApplication
 @EnableScheduling
 @Configuration
-@EnableConfigurationProperties(ApplicationOutputProperties::class)
-class PowerMonitoringApplication
+@EnableConfigurationProperties(ApplicationOutputProperties::class, HomeWizardProperties::class)
+class HomeMonitoringApplication
 
 fun main(args: Array<String>) {
-    runApplication<PowerMonitoringApplication>(*args)
+    runApplication<HomeMonitoringApplication>(*args)
 }

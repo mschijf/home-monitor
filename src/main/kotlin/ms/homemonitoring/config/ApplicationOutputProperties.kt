@@ -1,4 +1,4 @@
-package ms.powermonitoring.config
+package ms.homemonitoring.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

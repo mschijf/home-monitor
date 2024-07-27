@@ -1,10 +1,8 @@
-package ms.powermonitoring.service
+package ms.homemonitoring.service
 
-import ms.powermonitoring.homewizard.model.HomeWizardMeasurementData
-import ms.powermonitoring.homewizard.rest.HomeWizard
+import ms.homemonitoring.homewizard.rest.HomeWizard
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
-import java.time.Duration
 
 
 @Service

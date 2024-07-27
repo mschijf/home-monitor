@@ -1,6 +1,9 @@
 spring:
   application:
-    name: homewizard-api
+    name: home-monitoring
+
+homewizard:
+    url: http://192.168.2.40
 
 output:
   base-file-name: smartMeterOutput

@@ -1,7 +1,7 @@
-package ms.powermonitoring.service
+package ms.homemonitoring.service
 
 import io.micrometer.core.instrument.MeterRegistry
-import ms.powermonitoring.homewizard.model.HomeWizardMeasurementData
+import ms.homemonitoring.homewizard.model.HomeWizardMeasurementData
 import org.springframework.stereotype.Service
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.roundToInt
