@@ -51,18 +51,14 @@ class PowerMonitoringService(
 
     private var homewizardPowerImportT1Kwh = meterRegistry.gauge("homewizardPowerImportT1", AtomicInteger(0))!!
     private var homewizardPowerImportT2Kwh = meterRegistry.gauge("homewizardPowerImportT2", AtomicInteger(0))!!
-    private var homewizardPowerImportTotalKwh = meterRegistry.gauge("homewizardPowerImportTotalKwh", AtomicInteger(0))!!
     private var homewizardActivePowerL1Watt = meterRegistry.gauge("homewizardActivePowerL1Watt", AtomicInteger(0))!!
     private var homewizardActivePowerL2Watt = meterRegistry.gauge("homewizardActivePowerL2Watt", AtomicInteger(0))!!
     private var homewizardActivePowerL3Watt = meterRegistry.gauge("homewizardActivePowerL3Watt", AtomicInteger(0))!!
-    private var homewizardActivePowerTotalWatt = meterRegistry.gauge("homewizardActivePowerTotalWatt", AtomicInteger(0))!!
 
     private fun setMetrics(lastMeasurement: HomeWizardMeasurementData) {
-        homewizardPowerImportTotalKwh.set((lastMeasurement.totalPowerImportKwh.toDouble()*1000.0).roundToInt())
         homewizardPowerImportT1Kwh.set((lastMeasurement.totalPowerImportT1Kwh.toDouble()*1000.0).roundToInt())
         homewizardPowerImportT2Kwh.set((lastMeasurement.totalPowerImportT2Kwh.toDouble()*1000.0).roundToInt())
 
-        homewizardActivePowerTotalWatt.set(lastMeasurement.activePowerWatt.toDouble().roundToInt())
         homewizardActivePowerL1Watt.set(lastMeasurement.activePowerL1Watt.toDouble().roundToInt())
         homewizardActivePowerL2Watt.set(lastMeasurement.activePowerL2Watt.toDouble().roundToInt())
         homewizardActivePowerL3Watt.set(lastMeasurement.activePowerL3Watt.toDouble().roundToInt())

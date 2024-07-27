@@ -10,7 +10,7 @@
     </parent>
     <groupId>ms</groupId>
     <artifactId>homewizard-api</artifactId>
-    <version>0.2.3</version>
+    <version>0.2.4</version>
     <name>homewizard-api</name>
     <description>homewizard-api</description>
     <url/>
