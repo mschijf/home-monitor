@@ -3,9 +3,7 @@ spring:
     name: homewizard-api
 
 output:
-  variable-time-file-name: smartMeterOutput.csv
-  hour-file-name: smartMeterOutputHour.csv
-  day-file-name: smartMeterOutputDay.csv
+  base-file-name: smartMeterOutput
   path: ./data
 
 management:

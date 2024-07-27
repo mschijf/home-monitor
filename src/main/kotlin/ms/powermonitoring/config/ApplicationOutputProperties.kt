@@ -4,8 +4,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties(prefix = "output")
 data class ApplicationOutputProperties(
-    val variableTimeFileName: String,
-    val hourFileName: String,
-    val dayFileName: String,
+    val baseFileName: String,
     val path: String
 )
