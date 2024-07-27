@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ms</groupId>
-    <artifactId>homewizard-api</artifactId>
-    <version>0.5.0</version>
-    <name>homewizard-api</name>
-    <description>homewizard-api</description>
+    <artifactId>home-monitoring</artifactId>
+    <version>0.9</version>
+    <name>homewizard-monitoring</name>
+    <description>home-monitoring: power(electricity), tado (temperature), ...</description>
     <url/>
     <licenses>
         <license/>
