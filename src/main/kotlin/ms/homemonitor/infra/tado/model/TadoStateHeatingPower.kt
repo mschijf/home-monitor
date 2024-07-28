@@ -1,4 +1,4 @@
-package ms.homemonitor.tado.model
+package ms.homemonitor.infra.tado.model
 
 data class TadoStateHeatingPower(
     val type: String,

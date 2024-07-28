@@ -1,4 +1,4 @@
-package ms.homemonitor.tado.model
+package ms.homemonitor.infra.tado.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

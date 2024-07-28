@@ -1,4 +1,4 @@
-package ms.homemonitor.homewizard.model
+package ms.homemonitor.infra.homewizard.model
 
 import com.fasterxml.jackson.annotation.JsonAlias
 import com.fasterxml.jackson.annotation.JsonProperty

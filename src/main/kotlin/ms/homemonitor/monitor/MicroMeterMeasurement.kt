@@ -1,7 +1,8 @@
-package ms.homemonitor.service
+package ms.homemonitor.monitor
 
 import io.micrometer.core.instrument.MeterRegistry
-import ms.homemonitor.homewizard.model.HomeWizardMeasurementData
+import ms.homemonitor.infra.homewizard.model.HomeWizardMeasurementData
+import ms.homemonitor.infra.tado.model.TadoState
 import org.springframework.stereotype.Service
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.roundToInt
@@ -24,4 +25,8 @@ class MicroMeterMeasurement(
         homewizardActivePowerL2Watt.set(lastMeasurement.activePowerL2Watt.toDouble().roundToInt())
         homewizardActivePowerL3Watt.set(lastMeasurement.activePowerL3Watt.toDouble().roundToInt())
     }
+
+    fun setMetrics(lastMeasurement: TadoState) {
+    }
+
 }

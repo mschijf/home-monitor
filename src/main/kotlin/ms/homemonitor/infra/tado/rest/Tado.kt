@@ -1,8 +1,8 @@
-package ms.homemonitor.tado.rest
+package ms.homemonitor.infra.tado.rest
 
 import com.sun.jdi.request.InvalidRequestStateException
 import ms.homemonitor.config.TadoProperties
-import ms.homemonitor.tado.model.*
+import ms.homemonitor.infra.tado.model.*
 import org.slf4j.LoggerFactory
 import org.springframework.http.*
 import org.springframework.stereotype.Service
@@ -84,7 +84,7 @@ class Tado(private val tadoProperties: TadoProperties) {
         return HttpEntity<Any?>(headers)
     }
 
-    private fun getTadoMe(accessTokenHeaderRequest: HttpEntity<Any?>) :TadoMe {
+    private fun getTadoMe(accessTokenHeaderRequest: HttpEntity<Any?>) : TadoMe {
         val response = restTemplate.exchange(
             "${tadoProperties.baseRestUrl}api/v2/me", HttpMethod.GET, accessTokenHeaderRequest, TadoMe::class.java)
 
@@ -131,7 +131,7 @@ class Tado(private val tadoProperties: TadoProperties) {
 //        return getTadoJsonNodeOutput(request)
 //    }
 
-    fun getTadoData():TadoState {
+    fun getTadoStateData(): TadoState {
         val tadoOAuth = getAccessToken()
         val request = createAccessTokenHeaderRequest(tadoOAuth.accessToken)
         val homeId = getTadoMe(request).homes[0].id

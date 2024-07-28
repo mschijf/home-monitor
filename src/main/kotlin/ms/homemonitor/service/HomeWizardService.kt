@@ -1,14 +1,16 @@
 package ms.homemonitor.service
 
-import ms.homemonitor.homewizard.rest.HomeWizard
+import ms.homemonitor.infra.homewizard.rest.HomeWizard
+import ms.homemonitor.monitor.MicroMeterMeasurement
+import ms.homemonitor.repository.HomeWizardRepository
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 
 @Service
-class PowerMonitoringService(
+class HomeWizardService(
     private val homeWizard: HomeWizard,
-    private val repository: Repository,
+    private val repository: HomeWizardRepository,
     private val measurement: MicroMeterMeasurement
 ) {
 

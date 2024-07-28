@@ -1,20 +1,18 @@
-package ms.homemonitor.service
+package ms.homemonitor.repository
 
 import ms.homemonitor.config.ApplicationOutputProperties
-import ms.homemonitor.homewizard.model.HomeWizardMeasurementData
+import ms.homemonitor.infra.homewizard.model.HomeWizardMeasurementData
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.io.File
 import java.text.DecimalFormat
 import java.time.format.DateTimeFormatter
 
-
 @Service
-class Repository(
+class HomeWizardRepository(
     private val applicationOutputProperties: ApplicationOutputProperties) {
 
-    private val log = LoggerFactory.getLogger(Repository::class.java)
-//    private val jsonMapper = ObjectMapper()
+    private val log = LoggerFactory.getLogger(HomeWizardRepository::class.java)
 
     private val hourFileName = applicationOutputProperties.baseFileName+"Hour"
     private val dayFileName = applicationOutputProperties.baseFileName+"Day"
@@ -25,8 +23,6 @@ class Repository(
         if (resultMkdir) {
             log.info("created the directory ${applicationOutputProperties.path}")
         }
-//        jsonMapper.registerModule(JavaTimeModule())
-//        jsonMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
     }
 
     fun storeDetailedMeasurement(data: HomeWizardMeasurementData) {
@@ -43,10 +39,14 @@ class Repository(
 
     private fun store(fileName: String, data: HomeWizardMeasurementData, includingActivePower: Boolean) {
         val textLine = data.toCSV(includingActivePower)
-        File(applicationOutputProperties.path+"/"+fileName+".csv").appendText(textLine)
+        File(applicationOutputProperties.path + "/" + fileName + ".csv").appendText(textLine)
     }
 
 
+//    private val jsonMapper = ObjectMapper()
+//        jsonMapper.registerModule(JavaTimeModule())
+//        jsonMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+//
 //    fun retrieveLastMeasurementOrNull() : HomeWizardMeasurementData? =
 //        retrieveLastMeasurement(detailedFileName)
 //
