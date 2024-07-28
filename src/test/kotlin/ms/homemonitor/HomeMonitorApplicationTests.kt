@@ -1,10 +1,10 @@
-package ms.homemonitoring
+package ms.homemonitor
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class PowerMonitoringApplicationTests {
+class HomeMonitorApplicationTests {
 
     @Test
     fun contextLoads() {

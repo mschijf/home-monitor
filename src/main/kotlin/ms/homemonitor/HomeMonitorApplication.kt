@@ -1,9 +1,8 @@
-package ms.homemonitoring
+package ms.homemonitor
 
-import ms.homemonitoring.config.ApplicationOutputProperties
-import ms.homemonitoring.config.HomeWizardProperties
-import ms.homemonitoring.config.TadoProperties
-import ms.homemonitoring.tado.rest.Tado
+import ms.homemonitor.config.ApplicationOutputProperties
+import ms.homemonitor.config.HomeWizardProperties
+import ms.homemonitor.config.TadoProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
@@ -17,8 +16,8 @@ import org.springframework.scheduling.annotation.EnableScheduling
     ApplicationOutputProperties::class,
     HomeWizardProperties::class,
     TadoProperties::class)
-class HomeMonitoringApplication
+class HomeMonitorApplication
 
 fun main(args: Array<String>) {
-    runApplication<HomeMonitoringApplication>(*args)
+    runApplication<HomeMonitorApplication>(*args)
 }

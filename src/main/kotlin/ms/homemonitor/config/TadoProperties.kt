@@ -1,4 +1,4 @@
-package ms.homemonitoring.config
+package ms.homemonitor.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

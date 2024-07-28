@@ -1,6 +1,6 @@
-package ms.homemonitoring.service
+package ms.homemonitor.service
 
-import ms.homemonitoring.homewizard.rest.HomeWizard
+import ms.homemonitor.homewizard.rest.HomeWizard
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 

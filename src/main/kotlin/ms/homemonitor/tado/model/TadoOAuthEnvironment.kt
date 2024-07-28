@@ -1,4 +1,4 @@
-package ms.homemonitoring.tado.model
+package ms.homemonitor.tado.model
 
 data class TadoOAuthEnvironment(
     val clientId: String,

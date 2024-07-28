@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ms</groupId>
-    <artifactId>home-monitoring</artifactId>
-    <version>0.9</version>
+    <artifactId>home-monitor</artifactId>
+    <version>0.9.1</version>
     <name>homewizard-monitoring</name>
     <description>home-monitoring: power(electricity), tado (temperature), ...</description>
     <url/>

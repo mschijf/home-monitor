@@ -1,7 +1,7 @@
-package ms.homemonitoring.homewizard.rest
+package ms.homemonitor.homewizard.rest
 
-import ms.homemonitoring.config.HomeWizardProperties
-import ms.homemonitoring.homewizard.model.HomeWizardMeasurementData
+import ms.homemonitor.config.HomeWizardProperties
+import ms.homemonitor.homewizard.model.HomeWizardMeasurementData
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 

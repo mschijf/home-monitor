@@ -1,10 +1,10 @@
-package ms.homemonitoring.tado.rest
+package ms.homemonitor.tado.rest
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import ms.homemonitoring.config.TadoProperties
-import ms.homemonitoring.tado.model.TadoOAuth
-import ms.homemonitoring.tado.model.TadoOAuthEnvironment
+import ms.homemonitor.config.TadoProperties
+import ms.homemonitor.tado.model.TadoOAuth
+import ms.homemonitor.tado.model.TadoOAuthEnvironment
 import org.slf4j.LoggerFactory
 import org.springframework.http.*
 import org.springframework.stereotype.Service
@@ -17,7 +17,6 @@ class Tado(private val tadoProperties: TadoProperties) {
 
     private val log = LoggerFactory.getLogger(Tado::class.java)
     private val restTemplate = RestTemplate()
-    private val tadoOAuth = getAccessToken()
 
     private fun getTadoOAuthEnvironment(): TadoOAuthEnvironment {
         // check the current env variables, including client_secret to use on https://my.tado.com/webapp/env.js
@@ -25,7 +24,7 @@ class Tado(private val tadoProperties: TadoProperties) {
         val response = try {
             restTemplate.getForObject(tadoProperties.envUrl, String::class.java)
         } catch (ex: Exception) {
-            log.warn("Error while reading environemnt from ${tadoProperties.envUrl}", ex)
+            log.warn("Error while reading environment from ${tadoProperties.envUrl}", ex)
             null
         }
 
@@ -103,6 +102,7 @@ class Tado(private val tadoProperties: TadoProperties) {
         //home
         //zones
         //state
+        val tadoOAuth = getAccessToken()
         return getHomes(tadoOAuth.accessToken)
     }
 

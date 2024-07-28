@@ -1,10 +1,9 @@
-package ms.homemonitoring.controller
+package ms.homemonitor.controller
 
 import com.fasterxml.jackson.databind.JsonNode
-import ms.homemonitoring.homewizard.model.HomeWizardMeasurementData
-import ms.homemonitoring.homewizard.rest.HomeWizard
-import ms.homemonitoring.tado.model.TadoOAuth
-import ms.homemonitoring.tado.rest.Tado
+import ms.homemonitor.homewizard.model.HomeWizardMeasurementData
+import ms.homemonitor.homewizard.rest.HomeWizard
+import ms.homemonitor.tado.rest.Tado
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 

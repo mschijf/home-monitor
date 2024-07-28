@@ -1,7 +1,7 @@
-package ms.homemonitoring.service
+package ms.homemonitor.service
 
-import ms.homemonitoring.config.ApplicationOutputProperties
-import ms.homemonitoring.homewizard.model.HomeWizardMeasurementData
+import ms.homemonitor.config.ApplicationOutputProperties
+import ms.homemonitor.homewizard.model.HomeWizardMeasurementData
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.io.File
