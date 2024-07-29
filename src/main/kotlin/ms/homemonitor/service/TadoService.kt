@@ -15,8 +15,8 @@ class TadoService(
 
     @Scheduled(fixedRate = 15*60*1000)
     fun tadoMeasurement() {
-        val tadoStateData = tado.getTadoStateData()
-        repository.storeTadoData(tadoStateData)
-        measurement.setMetrics(tadoStateData)
+        val tadoResponse = tado.getTadoResponse()
+        repository.storeTadoData(tadoResponse)
+        measurement.setMetrics(tadoResponse)
     }
 }

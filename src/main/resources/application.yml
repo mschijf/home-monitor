@@ -8,9 +8,8 @@ homewizard:
 tado:
   envUrl: https://app.tado.com/env.js
   clientId: tado-web-app
-  tokenUrl: https://auth.tado.com/oauth/token
-  username: via-commandline-arguments --tado.username=<username>
-  password: via-commandline-arguments --tado.password=<password>
+  username: via application.yml on remote location
+  password: via application.yml on remote location
   secret: wZaRN7rpjn3FoNyF5IFuxg9uMzYJcvOoQ8QWiIqS3hfk6gLhVlG57j5YNoZL2Rtc
   baseRestUrl: https://my.tado.com/
 

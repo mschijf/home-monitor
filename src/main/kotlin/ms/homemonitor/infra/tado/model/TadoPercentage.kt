@@ -1,7 +1,7 @@
 package ms.homemonitor.infra.tado.model
 
-data class TadoStateHumidity(
+data class TadoPercentage(
     val type: String,
     val percentage: Double,
-    //timestamp??
+    //timestamp?
 )

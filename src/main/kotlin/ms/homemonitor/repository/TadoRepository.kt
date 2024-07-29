@@ -1,7 +1,7 @@
 package ms.homemonitor.repository
 
 import ms.homemonitor.config.ApplicationOutputProperties
-import ms.homemonitor.infra.tado.model.TadoState
+import ms.homemonitor.infra.tado.model.TadoResponseModel
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -11,7 +11,7 @@ class TadoRepository(
 
     private val log = LoggerFactory.getLogger(TadoRepository::class.java)
 
-    fun storeTadoData(data: TadoState) {
+    fun storeTadoData(data: TadoResponseModel) {
 //        store(dayFileName, data, includingActivePower = false)
     }
 

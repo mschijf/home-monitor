@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
+import org.springframework.web.client.exchange
 
 
 //More information: https://blog.scphillips.com/posts/2017/01/the-tado-api-v2/
@@ -43,7 +44,6 @@ class Tado(private val tadoProperties: TadoProperties) {
         if (result != null && result.isFilled())
             return result
 
-
         log.warn("Error while reading environment from ${tadoProperties.envUrl} --> reponse = null, or some properties are not filled. Continue with default values from yaml file")
         return TadoOAuthEnvironment(
                 clientId = tadoProperties.clientId,
@@ -72,8 +72,9 @@ class Tado(private val tadoProperties: TadoProperties) {
 
 
     private fun getAccessToken() : TadoOAuth {
+        val endPoint = "https://auth.tado.com/oauth/token"
         val request = createAccessTokenRequest()
-        val response = restTemplate.postForObject(tadoProperties.tokenUrl, request, TadoOAuth::class.java)
+        val response = restTemplate.postForObject(endPoint, request, TadoOAuth::class.java)
             ?: throw InvalidRequestStateException("result is null while fetching access token")
         return response
     }
@@ -84,30 +85,53 @@ class Tado(private val tadoProperties: TadoProperties) {
         return HttpEntity<Any?>(headers)
     }
 
+    private inline fun <reified T>getTadoResponse(endPoint: String, accessTokenHeaderRequest: HttpEntity<Any?>): ResponseEntity<T> {
+        return restTemplate.exchange(
+            url="${tadoProperties.baseRestUrl}$endPoint",
+            HttpMethod.GET,
+            accessTokenHeaderRequest, T::class.java
+            )
+    }
+
+
     private fun getTadoMe(accessTokenHeaderRequest: HttpEntity<Any?>) : TadoMe {
-        val response = restTemplate.exchange(
-            "${tadoProperties.baseRestUrl}api/v2/me", HttpMethod.GET, accessTokenHeaderRequest, TadoMe::class.java)
-
-
-        return response.body
+        return getTadoResponse<TadoMe> ("api/v2/me", accessTokenHeaderRequest)
+            .body
             ?: throw InvalidRequestStateException("response-body is null while fetching Tado-me")
     }
 
     private fun getTadoZonesForHome(accessTokenHeaderRequest: HttpEntity<Any?>, homeId: Int) : List<TadoZone> {
-        val response = restTemplate.exchange(
-            "${tadoProperties.baseRestUrl}api/v2/homes/$homeId/zones", HttpMethod.GET, accessTokenHeaderRequest, Array<TadoZone>::class.java)
-
-        return response.body?.toList()
+        return getTadoResponse<List<TadoZone>> (
+            endPoint = "api/v2/homes/$homeId/zones", accessTokenHeaderRequest)
+            .body
             ?: throw InvalidRequestStateException("response-body is null while fetching Tado Zones for home")
     }
 
     private fun getTadoStateForZone(accessTokenHeaderRequest: HttpEntity<Any?>, homeId: Int, zoneId: Int) : TadoState {
-        val response = restTemplate.exchange(
-            "${tadoProperties.baseRestUrl}api/v2/homes/$homeId/zones/$zoneId/state", HttpMethod.GET, accessTokenHeaderRequest, TadoState::class.java)
-
-        return response.body
+        return getTadoResponse<TadoState> (
+            endPoint = "api/v2/homes/$homeId/zones/$zoneId/state", accessTokenHeaderRequest)
+            .body
             ?: throw InvalidRequestStateException("response-body is null while fetching Tado-state for zone $zoneId")
     }
+
+    private fun getTadoOutsideWeather(accessTokenHeaderRequest: HttpEntity<Any?>, homeId: Int): TadoWeather {
+        return getTadoResponse<TadoWeather> (
+            endPoint = "api/v2/homes/$homeId/weather", accessTokenHeaderRequest)
+            .body
+            ?: throw InvalidRequestStateException("response-body is null while fetching Tado-weather for home $homeId")
+    }
+
+    fun getTadoResponse(): TadoResponseModel {
+        val tadoOAuth = getAccessToken()
+        val request = createAccessTokenHeaderRequest(tadoOAuth.accessToken)
+        val homeId = getTadoMe(request).homes[0].id
+        val zoneId = getTadoZonesForHome(request, homeId)[0].id
+        return TadoResponseModel(
+            getTadoStateForZone(request, homeId, zoneId),
+            getTadoOutsideWeather(request, homeId)
+        )
+    }
+
 
 //    fun getTadoJsonNodeOutput(accessTokenHeaderRequest: HttpEntity<Any?>): JsonNode {
 //
@@ -131,12 +155,5 @@ class Tado(private val tadoProperties: TadoProperties) {
 //        return getTadoJsonNodeOutput(request)
 //    }
 
-    fun getTadoStateData(): TadoState {
-        val tadoOAuth = getAccessToken()
-        val request = createAccessTokenHeaderRequest(tadoOAuth.accessToken)
-        val homeId = getTadoMe(request).homes[0].id
-        val zoneId = getTadoZonesForHome(request, homeId)[0].id
-        return getTadoStateForZone(request, homeId, zoneId)
-    }
 
 }

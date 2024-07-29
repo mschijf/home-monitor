@@ -2,7 +2,8 @@ package ms.homemonitor.monitor
 
 import io.micrometer.core.instrument.MeterRegistry
 import ms.homemonitor.infra.homewizard.model.HomeWizardMeasurementData
-import ms.homemonitor.infra.tado.model.TadoState
+import ms.homemonitor.infra.tado.model.TadoResponseModel
+import ms.homemonitor.monitor.atomic.wrapper.DoubleWrapper
 import org.springframework.stereotype.Service
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.roundToInt
@@ -26,7 +27,27 @@ class MicroMeterMeasurement(
         homewizardActivePowerL3Watt.set(lastMeasurement.activePowerL3Watt.toDouble().roundToInt())
     }
 
-    fun setMetrics(lastMeasurement: TadoState) {
-    }
+//    setting_heating_power: ON/OFF
+//    setting_heating_temperature: ??
+//    activityDataPoints_heatingPower_percentage: 0
+//    sensorDataPoints_insideTemperature_celsius: 24.24
+//    sensorDataPoints_humidity_percentage: 24.24
 
+    private var tadoInsideTemperature = meterRegistry.gauge("tadoInsideTemperature", DoubleWrapper(0.0))!!
+    private var tadoHumidityPercentage = meterRegistry.gauge("tadoHumidityPercentage", DoubleWrapper(0.0))!!
+    private var tadoHeatingPowerPercentage = meterRegistry.gauge("tadoHeatingPowerPercentage", DoubleWrapper(0.0))!!
+    private var tadoOutsideTemperature = meterRegistry.gauge("tadoOutsideTemperature", DoubleWrapper(0.0))!!
+    private var tadoOutsideSolarPercentage = meterRegistry.gauge("tadoOutsideSolarPercentage", DoubleWrapper(0.0))!!
+
+    fun setMetrics(lastMeasurement: TadoResponseModel) {
+        lastMeasurement.tadoState.let { inside ->
+            tadoInsideTemperature.set(inside.sensorDataPoints.insideTemperature.celsius)
+            tadoHumidityPercentage.set(inside.sensorDataPoints.humidity.percentage)
+            tadoHeatingPowerPercentage.set(inside.activityDataPoints.heatingPower.percentage)
+        }
+        lastMeasurement.weather.let { outside ->
+            tadoOutsideTemperature.set(outside.outsideTemperature.celsius)
+            tadoOutsideSolarPercentage.set(outside.solarIntensity.percentage)
+        }
+    }
 }

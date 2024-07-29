@@ -1,6 +1,6 @@
 package ms.homemonitor.infra.tado.model
 
-data class TadoStateSetting(
+data class TadoPowerSetting(
     val type: String,
     val power: String,
     val temperature: Double
