@@ -14,7 +14,6 @@ tado:
   baseRestUrl: https://my.tado.com/
 
 output:
-  base-file-name: smartMeterOutput
   path: ./data
 
 management:

@@ -1,5 +1,6 @@
 package ms.homemonitor.service
 
+import ms.homemonitor.infra.homewizard.model.HomeWizardMeasurementData
 import ms.homemonitor.infra.homewizard.rest.HomeWizard
 import ms.homemonitor.monitor.MicroMeterMeasurement
 import ms.homemonitor.repository.HomeWizardRepository
@@ -18,7 +19,7 @@ class HomeWizardService(
     fun detailedPowerMeasurement() {
         val homeWizardData = homeWizard.getHomeWizardData()
         repository.storeDetailedMeasurement(homeWizardData)
-        measurement.setMetrics(homeWizardData)
+        setMetrics(homeWizardData)
     }
 
     @Scheduled(cron = "0 0 * * * *")
@@ -31,5 +32,15 @@ class HomeWizardService(
     fun dayPowerMeasurement() {
         val homeWizardData = homeWizard.getHomeWizardData()
         repository.storeDailyMeasurement(homeWizardData)
+    }
+
+
+    private fun setMetrics(data: HomeWizardMeasurementData) {
+        measurement.setDoubleGauge("homewizardPowerT1Kwh", data.totalPowerImportT1Kwh.toDouble())
+        measurement.setDoubleGauge("homewizardPowerT2Kwh", data.totalPowerImportT2Kwh.toDouble())
+
+        measurement.setDoubleGauge("homewizardActivePowerL1Watt", data.activePowerL1Watt.toDouble())
+        measurement.setDoubleGauge("homewizardActivePowerL2Watt", data.activePowerL2Watt.toDouble())
+        measurement.setDoubleGauge("homewizardActivePowerL3Watt", data.activePowerL3Watt.toDouble())
     }
 }

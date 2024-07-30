@@ -131,29 +131,4 @@ class Tado(private val tadoProperties: TadoProperties) {
             getTadoOutsideWeather(request, homeId)
         )
     }
-
-
-//    fun getTadoJsonNodeOutput(accessTokenHeaderRequest: HttpEntity<Any?>): JsonNode {
-//
-//        val response2 : ResponseEntity<String> = restTemplate.exchange(
-//            "${tadoProperties.baseRestUrl}api/v2/homes/1140394", HttpMethod.GET, accessTokenHeaderRequest, String::class.java)
-//        val response3 : ResponseEntity<String> = restTemplate.exchange(
-//            "${tadoProperties.baseRestUrl}api/v2/homes/1140394/zones", HttpMethod.GET, accessTokenHeaderRequest, String::class.java)
-//        val response4 : ResponseEntity<String> = restTemplate.exchange(
-//            "${tadoProperties.baseRestUrl}api/v2/homes/1140394/zones/1/dayReport?date=2024-07-27", HttpMethod.GET, accessTokenHeaderRequest, String::class.java)
-//        val response5 : ResponseEntity<String> = restTemplate.exchange(
-//            "${tadoProperties.baseRestUrl}api/v2/homes/1140394/zones/1/state", HttpMethod.GET, accessTokenHeaderRequest, String::class.java)
-//
-//
-//        val root: JsonNode = ObjectMapper().readTree(response5.body)
-//        return root
-//    }
-//
-//    fun getTadoTmp():JsonNode {
-//        val tadoOAuth = getAccessToken()
-//        val request = createAccessTokenHeaderRequest(tadoOAuth.accessToken)
-//        return getTadoJsonNodeOutput(request)
-//    }
-
-
 }
