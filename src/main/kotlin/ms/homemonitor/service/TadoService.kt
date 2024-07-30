@@ -13,7 +13,7 @@ class TadoService(
     private val measurement: MicroMeterMeasurement
 ) {
 
-    @Scheduled(fixedRate = 15*60*1000)
+    @Scheduled(fixedRate = 1*60*1000)
     fun tadoMeasurement() {
         val tadoResponse = tado.getTadoResponse()
         repository.storeTadoData(tadoResponse)
