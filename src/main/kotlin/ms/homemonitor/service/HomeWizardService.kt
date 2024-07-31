@@ -1,5 +1,6 @@
 package ms.homemonitor.service
 
+import ms.homemonitor.config.HomeWizardProperties
 import ms.homemonitor.infra.homewizard.model.HomeWizardMeasurementData
 import ms.homemonitor.infra.homewizard.rest.HomeWizard
 import ms.homemonitor.monitor.MicroMeterMeasurement
@@ -12,11 +13,14 @@ import org.springframework.stereotype.Service
 class HomeWizardService(
     private val homeWizard: HomeWizard,
     private val repository: HomeWizardRepository,
-    private val measurement: MicroMeterMeasurement
+    private val measurement: MicroMeterMeasurement,
+    private val homeWizardProperties: HomeWizardProperties,
 ) {
 
     @Scheduled(fixedRate = 10_000)
     fun detailedPowerMeasurement() {
+        if (!homeWizardProperties.enabled)
+            return
         val homeWizardData = homeWizard.getHomeWizardData()
         repository.storeDetailedMeasurement(homeWizardData)
         setMetrics(homeWizardData)
@@ -24,12 +28,16 @@ class HomeWizardService(
 
     @Scheduled(cron = "0 0 * * * *")
     fun hourPowerMeasurement() {
+        if (!homeWizardProperties.enabled)
+            return
         val homeWizardData = homeWizard.getHomeWizardData()
         repository.storeHourlyMeasurement(homeWizardData)
     }
 
     @Scheduled(cron = "0 0 0 * * *")
     fun dayPowerMeasurement() {
+        if (!homeWizardProperties.enabled)
+            return
         val homeWizardData = homeWizard.getHomeWizardData()
         repository.storeDailyMeasurement(homeWizardData)
     }

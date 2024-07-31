@@ -3,15 +3,20 @@ spring:
     name: home-monitoring
 
 homewizard:
+    enabled: true
     url: http://192.168.2.40
 
 tado:
+  enabled: true
   envUrl: https://app.tado.com/env.js
   clientId: tado-web-app
   username: via application.yml on remote location
   password: via application.yml on remote location
   secret: wZaRN7rpjn3FoNyF5IFuxg9uMzYJcvOoQ8QWiIqS3hfk6gLhVlG57j5YNoZL2Rtc
   baseRestUrl: https://my.tado.com/
+
+raspberrypi:
+  enabled: true
 
 output:
   path: ./data

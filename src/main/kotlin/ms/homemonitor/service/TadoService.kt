@@ -1,5 +1,6 @@
 package ms.homemonitor.service
 
+import ms.homemonitor.config.TadoProperties
 import ms.homemonitor.infra.tado.model.TadoResponseModel
 import ms.homemonitor.infra.tado.rest.Tado
 import ms.homemonitor.monitor.MicroMeterMeasurement
@@ -11,11 +12,14 @@ import org.springframework.stereotype.Service
 class TadoService(
     private val tado: Tado,
     private val repository: TadoRepository,
-    private val measurement: MicroMeterMeasurement
+    private val measurement: MicroMeterMeasurement,
+    private val tadoProperties: TadoProperties,
 ) {
 
     @Scheduled(cron = "0 * * * * *")
     fun tadoMeasurement() {
+        if (!tadoProperties.enabled)
+            return
         val tadoResponse = tado.getTadoResponse()
         repository.storeTadoData(tadoResponse)
         setMetrics(tadoResponse)
