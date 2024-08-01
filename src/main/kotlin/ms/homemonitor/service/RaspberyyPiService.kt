@@ -23,7 +23,7 @@ class RaspberyyPiService(
     }
 
     fun setMetrics(data: RaspberryPiStatsModel) {
-        measurement.setDoubleGauge("systemCpuTemprature", data.cpuTemperature)
-        measurement.setDoubleGauge("systemGpuTemprature", data.gpuTemperature)
+        measurement.setDoubleGauge("systemCpuTemperature", data.cpuTemperature)
+        measurement.setDoubleGauge("systemGpuTemperature", data.gpuTemperature)
     }
 }
