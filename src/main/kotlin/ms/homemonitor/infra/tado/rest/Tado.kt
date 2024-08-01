@@ -99,28 +99,28 @@ class Tado(private val tadoProperties: TadoProperties) {
 
 
     private fun getTadoMe(accessTokenHeaderRequest: HttpEntity<Any?>) : TadoMe {
-        return getTadoResponse<TadoMe> ("api/v2/me", accessTokenHeaderRequest)
+        return getTadoResponse<TadoMe> ("/api/v2/me", accessTokenHeaderRequest)
             .body
             ?: throw InvalidRequestStateException("response-body is null while fetching Tado-me")
     }
 
     private fun getTadoZonesForHome(accessTokenHeaderRequest: HttpEntity<Any?>, homeId: Int) : List<TadoZone> {
         return getTadoResponse<List<TadoZone>> (
-            endPoint = "api/v2/homes/$homeId/zones", accessTokenHeaderRequest)
+            endPoint = "/api/v2/homes/$homeId/zones", accessTokenHeaderRequest)
             .body
             ?: throw InvalidRequestStateException("response-body is null while fetching Tado Zones for home")
     }
 
     private fun getTadoStateForZone(accessTokenHeaderRequest: HttpEntity<Any?>, homeId: Int, zoneId: Int) : TadoState {
         return getTadoResponse<TadoState> (
-            endPoint = "api/v2/homes/$homeId/zones/$zoneId/state", accessTokenHeaderRequest)
+            endPoint = "/api/v2/homes/$homeId/zones/$zoneId/state", accessTokenHeaderRequest)
             .body
             ?: throw InvalidRequestStateException("response-body is null while fetching Tado-state for zone $zoneId")
     }
 
     private fun getTadoOutsideWeather(accessTokenHeaderRequest: HttpEntity<Any?>, homeId: Int): TadoWeather {
         return getTadoResponse<TadoWeather> (
-            endPoint = "api/v2/homes/$homeId/weather", accessTokenHeaderRequest)
+            endPoint = "/api/v2/homes/$homeId/weather", accessTokenHeaderRequest)
             .body
             ?: throw InvalidRequestStateException("response-body is null while fetching Tado-weather for home $homeId")
     }

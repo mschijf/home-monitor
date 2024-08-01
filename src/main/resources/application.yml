@@ -13,7 +13,7 @@ tado:
   username: via application.yml on remote location
   password: via application.yml on remote location
   secret: wZaRN7rpjn3FoNyF5IFuxg9uMzYJcvOoQ8QWiIqS3hfk6gLhVlG57j5YNoZL2Rtc
-  baseRestUrl: https://my.tado.com/
+  baseRestUrl: https://my.tado.com
 
 raspberrypi:
   enabled: true
