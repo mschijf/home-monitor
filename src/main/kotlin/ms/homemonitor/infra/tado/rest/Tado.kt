@@ -41,8 +41,12 @@ class Tado(private val tadoProperties: TadoProperties) {
             null
         }
 
-        if (result != null && result.isFilled())
+        if (result != null && result.isFilled()) {
+            if (result.clientId != tadoProperties.clientId || result.clientSecret != tadoProperties.secret || result.baseUrl != tadoProperties.baseRestUrl) {
+                log.warn("tado evironment doesn't match expected values!")
+            }
             return result
+        }
 
         log.warn("Error while reading environment from ${tadoProperties.envUrl} --> reponse = null, or some properties are not filled. Continue with default values from yaml file")
         return TadoOAuthEnvironment(

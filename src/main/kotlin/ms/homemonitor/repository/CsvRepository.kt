@@ -12,8 +12,6 @@ abstract class CsvRepository(applicationOutputProperties: ApplicationOutputPrope
     init {
         if (File(path).mkdirs()) {
             log.info("created the directory $path")
-        } else {
-            log.info("directory $path already exist")
         }
     }
 
