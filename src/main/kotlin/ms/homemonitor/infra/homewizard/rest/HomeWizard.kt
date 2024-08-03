@@ -14,7 +14,7 @@ class HomeWizard(
 
     fun getHomeWizardData(): HomeWizardMeasurementData {
         val response = restTemplate
-            .getForObject("${homeWizardProperties.url}/api/v1/data", HomeWizardMeasurementData::class.java)
+            .getForObject("${homeWizardProperties.baseRestUrl}/data", HomeWizardMeasurementData::class.java)
             ?: throw IllegalStateException("Could not get data from HomeWizard. - response is null")
 
         return response

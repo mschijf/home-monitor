@@ -5,5 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 @ConfigurationProperties(prefix = "homewizard")
 data class HomeWizardProperties(
     val enabled: Boolean,
-    val url: String,
+    val baseRestUrl: String,
 )
+

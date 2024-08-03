@@ -4,16 +4,16 @@ spring:
 
 homewizard:
     enabled: true
-    url: http://192.168.2.40
+    baseRestUrl: http://192.168.2.40/api/v1
 
 tado:
   enabled: true
-  envUrl: https://app.tado.com/env.js
-  clientId: tado-web-app
+  tokenUrl: https://auth.tado.com/oauth/token
+  clientId: public-api-preview
+  clientSecret: 4HJGRffVR8xb3XdEUQpjgZ1VplJi6Xgw
   username: via application.yml on remote location
   password: via application.yml on remote location
-  secret: wZaRN7rpjn3FoNyF5IFuxg9uMzYJcvOoQ8QWiIqS3hfk6gLhVlG57j5YNoZL2Rtc
-  baseRestUrl: https://my.tado.com
+  baseRestUrl: https://my.tado.com/api/v2
 
 raspberrypi:
   enabled: true
