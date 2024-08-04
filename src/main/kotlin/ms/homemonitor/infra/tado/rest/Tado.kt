@@ -1,12 +1,13 @@
 package ms.homemonitor.infra.tado.rest
 
 import ms.homemonitor.config.TadoProperties
+import ms.homemonitor.infra.resttools.getForEntityWithHeader
 import ms.homemonitor.infra.tado.model.*
-import ms.homemonitor.infra.resttools.getForObjectWithHeader
-import org.springframework.http.*
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
-
 
 
 // More information     : https://blog.scphillips.com/posts/2017/01/the-tado-api-v2/
@@ -20,44 +21,39 @@ class Tado(
 
     private val restTemplate = RestTemplate()
 
-    private fun createAccessTokenHeaderRequest(): HttpEntity<Any?> {
+    private inline fun <reified T : Any>getTadoObjectViaRest(endPoint: String): T  {
         val accessToken = tadoAccessToken.getTadoAccessToken()
         val headers = HttpHeaders()
         headers.setBearerAuth(accessToken)
-        return HttpEntity<Any?>(headers)
+        var response = restTemplate.getForEntityWithHeader<T>(endPoint, HttpEntity<Any?>(headers))
+        if (response.statusCode == HttpStatus.UNAUTHORIZED) {
+            val newAccessToken = tadoAccessToken.refreshedTadoAccessToken()
+            val newHeaders = HttpHeaders()
+            headers.setBearerAuth(newAccessToken)
+            response = restTemplate.getForEntityWithHeader<T>(endPoint, HttpEntity<Any?>(newHeaders))
+        }
+        return response.body!!
     }
 
-    private fun getTadoMe(accessTokenHeaderRequest: HttpEntity<Any?>) : TadoMe {
-        return restTemplate.getForObjectWithHeader<TadoMe> (
-            "${tadoProperties.baseRestUrl}/me",
-            accessTokenHeaderRequest)
+    private fun getTadoMe() : TadoMe {
+        return getTadoObjectViaRest("${tadoProperties.baseRestUrl}/me")
     }
 
-    private fun getTadoZonesForHome(accessTokenHeaderRequest: HttpEntity<Any?>, homeId: Int) : List<TadoZone> {
-        return restTemplate.getForObjectWithHeader<List<TadoZone>> (
-                endPoint = "${tadoProperties.baseRestUrl}/homes/$homeId/zones",
-                accessTokenHeaderRequest)
+    private fun getTadoZonesForHome(homeId: Int) : List<TadoZone> {
+        return getTadoObjectViaRest("${tadoProperties.baseRestUrl}/homes/$homeId/zones")
     }
 
-    private fun getTadoStateForZone(accessTokenHeaderRequest: HttpEntity<Any?>, homeId: Int, zoneId: Int) : TadoState {
-        return restTemplate.getForObjectWithHeader<TadoState> (
-            endPoint = "${tadoProperties.baseRestUrl}/homes/$homeId/zones/$zoneId/state",
-            accessTokenHeaderRequest)
+    private fun getTadoStateForZone(homeId: Int, zoneId: Int) : TadoState {
+        return getTadoObjectViaRest("${tadoProperties.baseRestUrl}/homes/$homeId/zones/$zoneId/state")
     }
 
-    private fun getTadoOutsideWeather(accessTokenHeaderRequest: HttpEntity<Any?>, homeId: Int): TadoWeather {
-        return restTemplate.getForObjectWithHeader<TadoWeather> (
-            endPoint = "${tadoProperties.baseRestUrl}/homes/$homeId/weather",
-            accessTokenHeaderRequest)
+    private fun getTadoOutsideWeather(homeId: Int): TadoWeather {
+        return getTadoObjectViaRest("${tadoProperties.baseRestUrl}/homes/$homeId/weather")
     }
 
     fun getTadoResponse(): TadoResponseModel {
-        val request = createAccessTokenHeaderRequest()
-        val homeId = getTadoMe(request).homes[0].id
-        val zoneId = getTadoZonesForHome(request, homeId)[0].id
-        return TadoResponseModel(
-            getTadoStateForZone(request, homeId, zoneId),
-            getTadoOutsideWeather(request, homeId)
-        )
+        val homeId = getTadoMe().homes[0].id
+        val zoneId = getTadoZonesForHome(homeId)[0].id
+        return TadoResponseModel(getTadoStateForZone(homeId, zoneId), getTadoOutsideWeather(homeId))
     }
 }
