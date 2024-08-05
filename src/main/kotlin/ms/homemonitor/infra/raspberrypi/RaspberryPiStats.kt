@@ -20,7 +20,7 @@ class RaspberryPiStats(private val commandExecutor: CommandExecutor) {
             commandExecutor
                 .execCommand("cat", arrayListOf("/sys/class/thermal/thermal_zone0/temp"))[0].toDouble() / 1000.0
         } catch (e: Exception) {
-            log.error("Couldn't retrieve cpu temperature, casue by ${e.message}")
+            log.error("Couldn't retrieve cpu temperature, caused by ${e.message}")
             -1.0
         }
     }
@@ -33,7 +33,7 @@ class RaspberryPiStats(private val commandExecutor: CommandExecutor) {
                 .trim()
                 .toDouble()
         } catch (e: Exception) {
-            log.error("Couldn't retrieve gpu temperature, casue by ${e.message}")
+            log.error("Couldn't retrieve gpu temperature, caused by ${e.message}")
             -1.0
         }
     }

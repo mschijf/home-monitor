@@ -46,7 +46,7 @@ class TadoAccessToken(
         return bodyMap
     }
 
-    private fun refreshAccessTokenObjectFromUserNameAndPassword() {
+    private fun refreshAccessTokenObject() {
         val headers = HttpHeaders()
         headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
         headers.accept = listOf( MediaType.APPLICATION_JSON)
@@ -70,7 +70,7 @@ class TadoAccessToken(
 
     private fun getTadoOAuthObject() : TadoOAuth {
         if (accessTokenObject == null) {
-            refreshAccessTokenObjectFromUserNameAndPassword()
+            refreshAccessTokenObject()
         }
         return accessTokenObject!!
     }
@@ -78,8 +78,9 @@ class TadoAccessToken(
     fun getTadoAccessToken(): String {
         return getTadoOAuthObject().accessToken
     }
+
     fun refreshedTadoAccessToken(): String {
-        refreshAccessTokenObjectFromUserNameAndPassword()
+        refreshAccessTokenObject()
         return getTadoOAuthObject().accessToken
     }
 

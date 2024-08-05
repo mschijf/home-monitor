@@ -1,9 +1,6 @@
 package ms.homemonitor
 
-import ms.homemonitor.config.ApplicationOutputProperties
-import ms.homemonitor.config.HomeWizardProperties
-import ms.homemonitor.config.RaspberryPiProperties
-import ms.homemonitor.config.TadoProperties
+import ms.homemonitor.config.*
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
@@ -17,7 +14,9 @@ import org.springframework.scheduling.annotation.EnableScheduling
     ApplicationOutputProperties::class,
     HomeWizardProperties::class,
     TadoProperties::class,
-    RaspberryPiProperties::class)
+    RaspberryPiProperties::class,
+    WeerLiveProperties::class)
+
 class HomeMonitorApplication
 
 fun main(args: Array<String>) {

@@ -22,18 +22,16 @@ class Tado(
     private val restTemplate = RestTemplate()
 
     private inline fun <reified T : Any>getTadoObjectViaRest(endPoint: String): T  {
-        val accessToken = tadoAccessToken.getTadoAccessToken()
         val headers = HttpHeaders()
-        headers.setBearerAuth(accessToken)
+        headers.setBearerAuth(tadoAccessToken.getTadoAccessToken())
         var response = restTemplate.getForEntityWithHeader<T>(endPoint, HttpEntity<Any?>(headers))
         if (response.statusCode == HttpStatus.UNAUTHORIZED) {
-            val newAccessToken = tadoAccessToken.refreshedTadoAccessToken()
-            val newHeaders = HttpHeaders()
-            headers.setBearerAuth(newAccessToken)
-            response = restTemplate.getForEntityWithHeader<T>(endPoint, HttpEntity<Any?>(newHeaders))
+            headers.setBearerAuth(tadoAccessToken.refreshedTadoAccessToken())
+            response = restTemplate.getForEntityWithHeader<T>(endPoint, HttpEntity<Any?>(headers))
         }
         return response.body!!
     }
+
 
     private fun getTadoMe() : TadoMe {
         return getTadoObjectViaRest("${tadoProperties.baseRestUrl}/me")

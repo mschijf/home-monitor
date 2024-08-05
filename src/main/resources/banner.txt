@@ -1,2 +1,2 @@
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXX  START: spring boot                                 src/main/resources/banner.txt
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  START: spring boot -- src/main/resources/banner.txt  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
