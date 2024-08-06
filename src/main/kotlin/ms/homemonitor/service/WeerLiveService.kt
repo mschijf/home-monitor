@@ -17,7 +17,7 @@ class WeerLiveService(
 
     private val log = LoggerFactory.getLogger(WeerLiveService::class.java)
 
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "0 */10 * * * *")
     fun weerLiveMeasurement() {
         if (!weerLiveProperties.enabled)
             return
