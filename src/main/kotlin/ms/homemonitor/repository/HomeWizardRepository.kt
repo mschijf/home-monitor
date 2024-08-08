@@ -1,7 +1,7 @@
 package ms.homemonitor.repository
 
 import ms.homemonitor.config.ApplicationOutputProperties
-import ms.homemonitor.infra.homewizard.model.HomeWizardMeasurementData
+import ms.homemonitor.infra.homewizard.model.HomeWizardEnergyData
 import org.springframework.stereotype.Service
 import java.text.DecimalFormat
 import java.time.format.DateTimeFormatter
@@ -12,15 +12,15 @@ class HomeWizardRepository (
 
     private val baseFileName = "smartMeterOutput"
 
-    fun storeDetailedMeasurement(data: HomeWizardMeasurementData) {
+    fun storeDetailedMeasurement(data: HomeWizardEnergyData) {
         store(baseFileName, data.toCSV())
     }
 
-    fun storeHourlyMeasurement(data: HomeWizardMeasurementData) {
+    fun storeHourlyMeasurement(data: HomeWizardEnergyData) {
         store(baseFileName+"Hour", data.toCSV())
     }
 
-    fun storeDailyMeasurement(data: HomeWizardMeasurementData) {
+    fun storeDailyMeasurement(data: HomeWizardEnergyData) {
         store(baseFileName+"Day", data.toCSV())
     }
 
@@ -28,7 +28,7 @@ class HomeWizardRepository (
     private val timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     private val decimalFormat = DecimalFormat("#0.000")
 
-    fun HomeWizardMeasurementData.toCSV(): String {
+    fun HomeWizardEnergyData.toCSV(): String {
         return "${this.time.format(timeFormat)};" +
                 "${decimalFormat.format(this.totalPowerImportT1Kwh)};" +
                 "${decimalFormat.format(this.totalPowerImportT2Kwh)};\n"

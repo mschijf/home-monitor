@@ -4,7 +4,8 @@ spring:
 
 homewizard:
     enabled: true
-    baseRestUrl: http://192.168.2.40/api/v1
+    energyBaseRestUrl: http://192.168.2.40/api/v1
+    waterBaseRestUrl: http://192.168.2.42/api/v1
 
 tado:
   enabled: true

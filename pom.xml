@@ -10,9 +10,9 @@
     </parent>
     <groupId>ms</groupId>
     <artifactId>home-monitor</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0</version>
     <name>home-monitor</name>
-    <description>home-monitoring: power(electricity), tado (temperature), ...</description>
+    <description>home-monitoring: power(electricity), water, tado (temperature), ...</description>
     <url/>
     <licenses>
         <license/>

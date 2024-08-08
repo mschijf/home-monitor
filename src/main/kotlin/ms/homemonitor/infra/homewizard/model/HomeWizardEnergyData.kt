@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 
 // see https://api-documentation.homewizard.com/docs/endpoints/api-v1-data/
 
-data class HomeWizardMeasurementData(
+data class HomeWizardEnergyData(
     @JsonProperty("time")
     val time: LocalDateTime = LocalDateTime.now(),
 

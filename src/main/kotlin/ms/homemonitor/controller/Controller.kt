@@ -1,6 +1,7 @@
 package ms.homemonitor.controller
 
-import ms.homemonitor.infra.homewizard.model.HomeWizardMeasurementData
+import ms.homemonitor.infra.homewizard.model.HomeWizardEnergyData
+import ms.homemonitor.infra.homewizard.model.HomeWizardWaterData
 import ms.homemonitor.infra.homewizard.rest.HomeWizard
 import ms.homemonitor.infra.raspberrypi.RaspberryPiStats
 import ms.homemonitor.infra.raspberrypi.model.RaspberryPiStatsModel
@@ -19,10 +20,16 @@ class Controller(
     private val weerLive: WeerLive
 ) {
 
-    @GetMapping("/homewizard")
-    fun homeWizard(): HomeWizardMeasurementData {
-        return homeWizardDataProvider.getHomeWizardData()
+    @GetMapping("/homewizard_energy")
+    fun homeWizardEnergy(): HomeWizardEnergyData {
+        return homeWizardDataProvider.getHomeWizardEnergyData()
     }
+
+    @GetMapping("/homewizard_water")
+    fun homeWizardWater(): HomeWizardWaterData {
+        return homeWizardDataProvider.getHomeWizardWaterData()
+    }
+
 
     @GetMapping("/tado")
     fun tado(): TadoResponseModel {

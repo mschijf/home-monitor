@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 @ConfigurationProperties(prefix = "homewizard")
 data class HomeWizardProperties(
     val enabled: Boolean,
-    val baseRestUrl: String,
+    val energyBaseRestUrl: String,
+    val waterBaseRestUrl: String,
 )
 
