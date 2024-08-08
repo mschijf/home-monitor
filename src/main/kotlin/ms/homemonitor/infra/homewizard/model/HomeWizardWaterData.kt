@@ -22,7 +22,6 @@ data class HomeWizardWaterData(
     @JsonProperty(value = "total_liter_offset_m3")
     val totalLiterOffsetM3: BigDecimal,
 )
-
 //{
 //    "wifi_ssid": "MartinsKPN",
 //    "wifi_strength": 100,

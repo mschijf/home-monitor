@@ -1,8 +1,7 @@
 package ms.homemonitor.service
 
 import ms.homemonitor.config.HomeWizardProperties
-import ms.homemonitor.infra.homewizard.model.HomeWizardEnergyData
-import ms.homemonitor.infra.homewizard.model.HomeWizardWaterData
+import ms.homemonitor.infra.homewizard.model.HomeWizardData
 import ms.homemonitor.infra.homewizard.rest.HomeWizard
 import ms.homemonitor.monitor.MicroMeterMeasurement
 import ms.homemonitor.repository.HomeWizardRepository
@@ -18,11 +17,18 @@ class HomeWizardService(
     private val homeWizardProperties: HomeWizardProperties,
 ) {
 
+    fun getHomeWizardData(): HomeWizardData {
+        val homeWizardEnergyData = homeWizard.getHomeWizardEnergyData()
+        val homeWizardWaterData = homeWizard.getHomeWizardWaterData()
+        return HomeWizardData(homeWizardEnergyData, homeWizardWaterData)
+    }
+
     @Scheduled(fixedRate = 10_000)
     fun detailedPowerMeasurement() {
         if (!homeWizardProperties.enabled)
             return
-        val homeWizardData = homeWizard.getHomeWizardEnergyData()
+
+        val homeWizardData = getHomeWizardData()
         repository.storeDetailedMeasurement(homeWizardData)
         setMetrics(homeWizardData)
     }
@@ -31,7 +37,7 @@ class HomeWizardService(
     fun hourPowerMeasurement() {
         if (!homeWizardProperties.enabled)
             return
-        val homeWizardData = homeWizard.getHomeWizardEnergyData()
+        val homeWizardData = getHomeWizardData()
         repository.storeHourlyMeasurement(homeWizardData)
     }
 
@@ -39,32 +45,19 @@ class HomeWizardService(
     fun dayPowerMeasurement() {
         if (!homeWizardProperties.enabled)
             return
-        val homeWizardData = homeWizard.getHomeWizardEnergyData()
+        val homeWizardData = getHomeWizardData()
         repository.storeDailyMeasurement(homeWizardData)
     }
 
+    private fun setMetrics(data: HomeWizardData) {
+        measurement.setDoubleGauge("homewizardPowerT1Kwh", data.energy.totalPowerImportT1Kwh.toDouble())
+        measurement.setDoubleGauge("homewizardPowerT2Kwh", data.energy.totalPowerImportT2Kwh.toDouble())
 
-    @Scheduled(fixedRate = 10_000)
-    fun detailedWaterMeasurement() {
-        if (!homeWizardProperties.enabled)
-            return
-        val homeWizardWaterData = homeWizard.getHomeWizardWaterData()
-//        repository.storeDetailedMeasurement(homeWizardWaterData)
-        setMetricsWater(homeWizardWaterData)
+        measurement.setDoubleGauge("homewizardActivePowerL1Watt", data.energy.activePowerL1Watt.toDouble())
+        measurement.setDoubleGauge("homewizardActivePowerL2Watt", data.energy.activePowerL2Watt.toDouble())
+        measurement.setDoubleGauge("homewizardActivePowerL3Watt", data.energy.activePowerL3Watt.toDouble())
+
+        measurement.setDoubleGauge("homewizardWaterTotalM3", data.water.totalLiterM3.toDouble())
+        measurement.setDoubleGauge("homewizardWaterActiveLpm", data.water.activeLiterLpm.toDouble())
     }
-
-
-    private fun setMetrics(data: HomeWizardEnergyData) {
-        measurement.setDoubleGauge("homewizardPowerT1Kwh", data.totalPowerImportT1Kwh.toDouble())
-        measurement.setDoubleGauge("homewizardPowerT2Kwh", data.totalPowerImportT2Kwh.toDouble())
-
-        measurement.setDoubleGauge("homewizardActivePowerL1Watt", data.activePowerL1Watt.toDouble())
-        measurement.setDoubleGauge("homewizardActivePowerL2Watt", data.activePowerL2Watt.toDouble())
-        measurement.setDoubleGauge("homewizardActivePowerL3Watt", data.activePowerL3Watt.toDouble())
-    }
-    private fun setMetricsWater(data: HomeWizardWaterData) {
-        measurement.setDoubleGauge("homewizardWaterTotalM3", data.totalLiterM3.toDouble())
-        measurement.setDoubleGauge("homewizardWaterActiveLpm", data.activeLiterLpm.toDouble())
-    }
-
 }

@@ -128,6 +128,7 @@ data class HomeWizardEnergyData(
     val longPowerFailCount: Int,
 )
 
+
 //
 //{
 //    "wifi_ssid": "MartinsKPN",

@@ -15,8 +15,12 @@ abstract class CsvRepository(applicationOutputProperties: ApplicationOutputPrope
         }
     }
 
-    fun store(fileName: String, csvLine: String) {
-        File("$path/$fileName.csv").appendText(csvLine)
+    fun store(fileName: String, csvLine: String, csvHeader: String = "") {
+        val file = File("$path/$fileName.csv")
+        if (!file.exists() || file.length() == 0L) {
+            file.appendText(csvHeader)
+        }
+        file.appendText(csvLine)
     }
 
 }
