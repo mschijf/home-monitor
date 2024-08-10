@@ -16,7 +16,6 @@ class EnecoService(
 ) {
 
     private val initialDate = LocalDate.of(2024, 8, 1)
-    private val initialConsumptionValueGigaJoules = BigDecimal.valueOf(198.505)
 
     private fun getNewData(sourcePage: String, fromDate: LocalDate): List<EnecoDayConsumption> {
         val now = LocalDate.now()
@@ -32,9 +31,17 @@ class EnecoService(
             .sortedBy { it.date }
 
         val updatedList = enecoRepository.store(consumptionList.dropLast(1 ) + freshDataList)
-        val finalValue = initialConsumptionValueGigaJoules + updatedList.sumOf { it.totalUsedGigaJoule }
-        setMetrics(finalValue)
-        return finalValue
+        val finalConsumptionSinceInitalDate = updatedList.sumOf { it.totalUsedGigaJoule }
+        setMetrics(finalConsumptionSinceInitalDate)
+        return finalConsumptionSinceInitalDate
+    }
+
+    fun recalculatingTotal(): BigDecimal {
+        val consumptionList = enecoRepository.readAll()
+            .sortedBy { it.date }
+        val finalConsumptionSinceInitalDate = consumptionList.sumOf { it.totalUsedGigaJoule }
+        setMetrics(finalConsumptionSinceInitalDate)
+        return finalConsumptionSinceInitalDate
     }
 
     fun setMetrics(finalValue: BigDecimal) {

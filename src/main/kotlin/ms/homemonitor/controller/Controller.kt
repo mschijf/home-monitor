@@ -51,12 +51,12 @@ class Controller(
         return weerLive.getWeerLiveData()
     }
 
-//    @GetMapping("/eneco")
-//    fun eneco(): EnecoDataModel? {
-//        return eneco.getEnecoData()
-//    }
-//
-//
+    @PostMapping("/eneco-recalculate")
+    fun enecoRecalculate(): BigDecimal {
+        return enecoService.recalculatingTotal()
+    }
+
+
     @PostMapping("/eneco-source")
     fun enecoPost(@RequestBody payload: String): BigDecimal {
         return enecoService.updateEnecoStatistics(payload)
