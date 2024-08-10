@@ -16,7 +16,7 @@ class EnecoService(
 ) {
 
     private val initialDate = LocalDate.of(2024, 8, 1)
-    private val initialConsumptionValueGigaJoules = BigDecimal.valueOf(198.503)
+    private val initialConsumptionValueGigaJoules = BigDecimal.valueOf(198.505)
 
     private fun getNewData(sourcePage: String, fromDate: LocalDate): List<EnecoDayConsumption> {
         val now = LocalDate.now()
