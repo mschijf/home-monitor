@@ -9,15 +9,20 @@ import ms.homemonitor.infra.tado.model.TadoResponseModel
 import ms.homemonitor.infra.tado.rest.Tado
 import ms.homemonitor.infra.weerlive.model.WeerLiveModel
 import ms.homemonitor.infra.weerlive.rest.WeerLive
+import ms.homemonitor.service.EnecoService
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import java.math.BigDecimal
 
 @RestController
 class Controller(
     private val homeWizardDataProvider: HomeWizard,
     private val tadoDataProvider: Tado,
     private val raspberryPiStats: RaspberryPiStats,
-    private val weerLive: WeerLive
+    private val weerLive: WeerLive,
+    private val enecoService: EnecoService
 ) {
 
     @GetMapping("/homewizard_energy")
@@ -46,5 +51,15 @@ class Controller(
         return weerLive.getWeerLiveData()
     }
 
+//    @GetMapping("/eneco")
+//    fun eneco(): EnecoDataModel? {
+//        return eneco.getEnecoData()
+//    }
+//
+//
+    @PostMapping("/eneco-source")
+    fun enecoPost(@RequestBody payload: String): BigDecimal {
+        return enecoService.updateEnecoStatistics(payload)
+    }
 
 }
