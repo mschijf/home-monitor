@@ -7,8 +7,6 @@ import ms.homemonitor.infra.resttools.getForEntityWithHeader
 import org.openqa.selenium.By
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
-import org.openqa.selenium.support.ui.ExpectedConditions
-import org.openqa.selenium.support.ui.WebDriverWait
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -42,8 +40,18 @@ class Eneco(
         options.addArguments("--remote-allow-origins=*")
 
         options.addArguments("--disable-search-engine-choice-screen")
+//        options.addArguments("--start-maximized")
+
+        options.addArguments("--window-size=1920,1080")
+        options.addArguments("--disable-extensions")
+        options.addArguments("--proxy-server='direct://'")
+        options.addArguments("--proxy-bypass-list=*")
         options.addArguments("--start-maximized")
-//        options.addArguments("--headless=new")
+        options.addArguments("--disable-gpu")
+        options.addArguments("--disable-dev-shm-usage")
+        options.addArguments("--no-sandbox")
+        options.addArguments("--ignore-certificate-errors")
+        options.addArguments("--headless")
 
         val driver = ChromeDriver(options)
         val url = "https://inloggen.eneco.nl/"
@@ -54,8 +62,12 @@ class Eneco(
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(20_000))
 
         log.info("wait till identifier")
-        val inlog = WebDriverWait(driver, Duration.ofMillis(40_000))
-            .until (ExpectedConditions.presenceOfElementLocated (By.name("identifier")) )
+//        val inlog = WebDriverWait(driver, Duration.ofMillis(40_000))
+//            .until(ExpectedConditions.presenceOfElementLocated(By.name("identifier")))
+
+        log.info("Sleep 3 sec")
+        Thread.sleep(3_000)
+        val inlog = driver.findElement(By.name("identifier"))
 
         log.info("Sleep 1 sec")
         Thread.sleep(1_000)
@@ -63,8 +75,11 @@ class Eneco(
         inlog.submit()
 
         log.info("wait till passcode")
-        val pw = WebDriverWait(driver, Duration.ofMillis(40_000))
-            .until (ExpectedConditions.presenceOfElementLocated (By.name("credentials.passcode")) )
+        log.info("Sleep 3 sec")
+        Thread.sleep(3_000)
+//        val pw = WebDriverWait(driver, Duration.ofMillis(40_000))
+//            .until (ExpectedConditions.presenceOfElementLocated (By.name("credentials.passcode")) )
+        val pw = driver.findElement(By.name("credentials.passcode"))
 
         log.info("Sleep another 1 sec")
         Thread.sleep(1_000)
@@ -108,10 +123,27 @@ class Eneco(
         return headers
     }
 
-    fun getEnecoData(start: LocalDate = LocalDate.now().minusDays(30),
-                     end: LocalDate = LocalDate.now().plusDays(1)): EnecoDataModel? {
+    fun getEnecoDataByScraping(start: LocalDate = LocalDate.now().minusDays(30),
+                               end: LocalDate = LocalDate.now().plusDays(1)): EnecoDataModel? {
 
         val (apiKey, accessToken) = scrapeEnecoPage()
+        return getEnecoDataByScraping(apiKey, accessToken, start, end)
+    }
+
+    fun getEnecoDataBySourcePage(sourcePage: String,
+                                 start: LocalDate = LocalDate.now().minusDays(30),
+                                 end: LocalDate = LocalDate.now().plusDays(1)): EnecoDataModel? {
+        val apiKey = getValueForKey(sourcePage, "FE_DC_API_KEY")
+        val accessToken = getValueForKey(sourcePage, "accessToken")
+        return getEnecoDataByScraping(apiKey, accessToken, start, end)
+    }
+
+
+
+    private fun getEnecoDataByScraping(apiKey: String,
+                                       accessToken: String,
+                                       start: LocalDate = LocalDate.now().minusDays(30),
+                                       end: LocalDate = LocalDate.now().plusDays(1)): EnecoDataModel? {
         val headers = getHeaders(apiKey, accessToken)
         val url = "https://api-digital.enecogroup.com/dxpweb/nl/eneco/customers/54687058/accounts/1/usages" +
                 "?aggregation=Year" +
@@ -126,16 +158,6 @@ class Eneco(
         log.info("reading eneco data from $start to $end, with statuscode: " + response.statusCode)
         return response.body
     }
-
-//    fun getEnecoData(sourcePage: String,
-//                     start: LocalDate = LocalDate.now().minusDays(30),
-//                     end: LocalDate = LocalDate.now().plusDays(1)): EnecoDataModel? {
-//
-//        val page = sourcePage  //readPage()
-//        val apiKey = getValueForKey(page, "FE_DC_API_KEY")
-//        val accessToken = getValueForKey(page, "accessToken")
-//        return getEnecoData(apiKey, accessToken, start, end)
-//    }
 
 }
 

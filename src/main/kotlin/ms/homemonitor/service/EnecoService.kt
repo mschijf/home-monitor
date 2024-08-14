@@ -17,18 +17,13 @@ class EnecoService(
 
     private val initialDate = LocalDate.of(2024, 8, 1)
 
-    private fun getNewData(fromDate: LocalDate): List<EnecoDayConsumption> {
-        val now = LocalDate.now()
-        val response = eneco.getEnecoData(fromDate, now.plusDays(1))!!
-        return response.data.usages[0].entries
-            .map{ EnecoDayConsumption(it.actual.date.toLocalDate(), it.actual.warmth.high)}
-    }
-
-    fun updateEnecoStatistics(): BigDecimal {
+    fun updateEnecoStatistics(source: String? = null): BigDecimal {
         val consumptionList = enecoRepository.readAll()
             .sortedBy { it.date }
-        val freshDataList = getNewData(consumptionList.lastOrNull()?.date ?: initialDate)
-            .sortedBy { it.date }
+        val freshDataList = if (source == null)
+            getNewData(consumptionList.lastOrNull()?.date ?: initialDate).sortedBy { it.date }
+        else
+            getNewDataBySource(source,consumptionList.lastOrNull()?.date ?: initialDate).sortedBy { it.date }
 
         val updatedList = enecoRepository.store(consumptionList.dropLast(1 ) + freshDataList)
         val finalConsumptionSinceInitalDate = updatedList.sumOf { it.totalUsedGigaJoule }
@@ -43,6 +38,21 @@ class EnecoService(
         setMetrics(finalConsumptionSinceInitalDate)
         return finalConsumptionSinceInitalDate
     }
+
+    private fun getNewData(fromDate: LocalDate): List<EnecoDayConsumption> {
+        val now = LocalDate.now()
+        val response = eneco.getEnecoDataByScraping(fromDate, now.plusDays(1))!!
+        return response.data.usages[0].entries
+            .map{ EnecoDayConsumption(it.actual.date.toLocalDate(), it.actual.warmth.high)}
+    }
+
+    private fun getNewDataBySource(source: String, fromDate: LocalDate): List<EnecoDayConsumption> {
+        val now = LocalDate.now()
+        val response = eneco.getEnecoDataBySourcePage(source, fromDate, now.plusDays(1))!!
+        return response.data.usages[0].entries
+            .map{ EnecoDayConsumption(it.actual.date.toLocalDate(), it.actual.warmth.high)}
+    }
+
 
     private fun setMetrics(finalValue: BigDecimal) {
         measurement.setDoubleGauge("warmthStandingGJ", finalValue.toDouble())
