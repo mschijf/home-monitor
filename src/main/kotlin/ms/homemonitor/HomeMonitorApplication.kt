@@ -15,7 +15,8 @@ import org.springframework.scheduling.annotation.EnableScheduling
     HomeWizardProperties::class,
     TadoProperties::class,
     RaspberryPiProperties::class,
-    WeerLiveProperties::class)
+    WeerLiveProperties::class,
+    EnecoProperties::class)
 
 class HomeMonitorApplication
 

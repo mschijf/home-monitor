@@ -26,6 +26,10 @@ weerlive:
   locationCoordinateN: 52.0248
   locationCoordinateE: 5.0918
 
+eneco:
+  enabled: true
+  username: via application.yml on remote location
+  password: via application.yml on remote location
 
 output:
   path: ./data

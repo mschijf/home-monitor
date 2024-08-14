@@ -17,17 +17,17 @@ class EnecoService(
 
     private val initialDate = LocalDate.of(2024, 8, 1)
 
-    private fun getNewData(sourcePage: String, fromDate: LocalDate): List<EnecoDayConsumption> {
+    private fun getNewData(fromDate: LocalDate): List<EnecoDayConsumption> {
         val now = LocalDate.now()
-        val response = eneco.getEnecoData(sourcePage, fromDate, now.plusDays(1))!!
+        val response = eneco.getEnecoData(fromDate, now.plusDays(1))!!
         return response.data.usages[0].entries
             .map{ EnecoDayConsumption(it.actual.date.toLocalDate(), it.actual.warmth.high)}
     }
 
-    fun updateEnecoStatistics(sourcePage: String): BigDecimal {
+    fun updateEnecoStatistics(): BigDecimal {
         val consumptionList = enecoRepository.readAll()
             .sortedBy { it.date }
-        val freshDataList = getNewData(sourcePage, consumptionList.lastOrNull()?.date ?: initialDate)
+        val freshDataList = getNewData(consumptionList.lastOrNull()?.date ?: initialDate)
             .sortedBy { it.date }
 
         val updatedList = enecoRepository.store(consumptionList.dropLast(1 ) + freshDataList)
@@ -44,7 +44,7 @@ class EnecoService(
         return finalConsumptionSinceInitalDate
     }
 
-    fun setMetrics(finalValue: BigDecimal) {
+    private fun setMetrics(finalValue: BigDecimal) {
         measurement.setDoubleGauge("warmthStandingGJ", finalValue.toDouble())
     }
 }

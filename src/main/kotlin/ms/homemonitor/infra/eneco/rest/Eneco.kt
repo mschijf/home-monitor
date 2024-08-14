@@ -1,23 +1,90 @@
 package ms.homemonitor.infra.eneco.rest
 
+import io.github.bonigarcia.wdm.WebDriverManager
+import ms.homemonitor.config.EnecoProperties
 import ms.homemonitor.infra.eneco.model.EnecoDataModel
 import ms.homemonitor.infra.resttools.getForEntityWithHeader
+import org.openqa.selenium.By
+import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.support.ui.ExpectedConditions
+import org.openqa.selenium.support.ui.WebDriverWait
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
+import java.time.Duration
 import java.time.LocalDate
 
 
 @Service
-class Eneco {
+class Eneco(
+    private val enecoProperties: EnecoProperties) {
+
     private val restTemplate = RestTemplate()
     private val log = LoggerFactory.getLogger(Eneco::class.java)
 
     private fun getValueForKey(htmlPage: String, key: String): String {
-        val value = htmlPage.substringAfter("\"$key\":").substringBefore(",").trim()
-        return value.removeSurrounding("\"")
+        if (htmlPage.contains(key)) {
+            val value = htmlPage.substringAfter("\"$key\":").substringBefore(",").trim()
+            return value.removeSurrounding("\"")
+        } else {
+            log.error("cannot found $key on htmlPage")
+            return ""
+        }
+    }
+
+//    @Scheduled(fixedRate = 60_000)
+    fun scrapeEnecoPage(): Pair<String, String> {
+        WebDriverManager.chromedriver().setup()
+        val options = ChromeOptions()
+        options.addArguments("--remote-allow-origins=*")
+
+        options.addArguments("--disable-search-engine-choice-screen")
+        options.addArguments("--start-maximized")
+//        options.addArguments("--headless=new")
+
+        val driver = ChromeDriver(options)
+        val url = "https://inloggen.eneco.nl/"
+
+        log.info("start scraping page")
+        driver.get(url)
+        log.info("implicit wait 20 sec")
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(20_000))
+
+        log.info("wait till identifier")
+        val inlog = WebDriverWait(driver, Duration.ofMillis(40_000))
+            .until (ExpectedConditions.presenceOfElementLocated (By.name("identifier")) )
+
+        log.info("Sleep 1 sec")
+        Thread.sleep(1_000)
+        inlog.sendKeys(enecoProperties.username)
+        inlog.submit()
+
+        log.info("wait till passcode")
+        val pw = WebDriverWait(driver, Duration.ofMillis(40_000))
+            .until (ExpectedConditions.presenceOfElementLocated (By.name("credentials.passcode")) )
+
+        log.info("Sleep another 1 sec")
+        Thread.sleep(1_000)
+        pw.sendKeys(enecoProperties.password)
+        pw.submit()
+
+        log.info("Sleep one more time 1 sec")
+        Thread.sleep(1_000)
+
+
+        log.info("retrieve api and access token")
+        val page = driver.pageSource
+        val apiKey = getValueForKey(page, "FE_DC_API_KEY")
+        val accessToken = getValueForKey(page, "accessToken")
+
+        driver.close()
+        driver.quit()
+        log.info("done scraping page")
+
+        return Pair(apiKey, accessToken)
     }
 
     private fun getHeaders(apiKey: String, accessToken: String): HttpHeaders {
@@ -26,32 +93,26 @@ class Eneco {
         headers.set("authorization", accessToken)
         headers.set("accept", "application/json")
         headers.set("accept-language", "nl-NL")
-
 //        headers.set("request-id", "|b4399e4bb92e453883bb884cd3d4d90b.538724f27f7145ee")
-//        headers.set("origin", "https://www.eneco.nl")
-//        headers.set("priority", "u=1, i")
-//        headers.set("referer", "https://www.eneco.nl/mijn-eneco/verbruik/?product=total&unit=currency&interval=Day")
-//        headers.set("sec-ch-ua", "\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\"")
-//        headers.set("sec-ch-ua-mobile", "?0")
-//        headers.set("sec-ch-ua-platform", "\"macOS\"")
-//        headers.set("sec-fetch-dest", "empty")
-//        headers.set("sec-fetch-mode", "cors")
-//        headers.set("sec-fetch-site", "cross-site")
+        headers.set("origin", "https://www.eneco.nl")
+        headers.set("priority", "u=1, i")
+        headers.set("referer", "https://www.eneco.nl/mijn-eneco/verbruik/?product=total&unit=currency&interval=Day")
+        headers.set("sec-ch-ua", "\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\"")
+        headers.set("sec-ch-ua-mobile", "?0")
+        headers.set("sec-ch-ua-platform", "\"macOS\"")
+        headers.set("sec-fetch-dest", "empty")
+        headers.set("sec-fetch-mode", "cors")
+        headers.set("sec-fetch-site", "cross-site")
 //        headers.set("traceparent", "00-a698b1ec03024812ab1025d6beb8a23f-e7aa3de2aa5c496b-01")
-//        headers.set("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.")
+        headers.set("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.")
         return headers
     }
 
-    fun getEnecoData(sourcePage: String,
-                     start: LocalDate = LocalDate.now().minusDays(30),
+    fun getEnecoData(start: LocalDate = LocalDate.now().minusDays(30),
                      end: LocalDate = LocalDate.now().plusDays(1)): EnecoDataModel? {
 
-        val page = sourcePage  //readPage()
-        val apiKey = getValueForKey(page, "FE_DC_API_KEY")
-        val accessToken = getValueForKey(page, "accessToken")
-
+        val (apiKey, accessToken) = scrapeEnecoPage()
         val headers = getHeaders(apiKey, accessToken)
-
         val url = "https://api-digital.enecogroup.com/dxpweb/nl/eneco/customers/54687058/accounts/1/usages" +
                 "?aggregation=Year" +
                 "&interval=Day" +
@@ -60,10 +121,21 @@ class Eneco {
                 "&addBudget=false" +
                 "&addWeather=true" +
                 "&extrapolate=false"
+        log.info("start reading energy data" )
         val response = restTemplate.getForEntityWithHeader<EnecoDataModel>(url, HttpEntity<Any?>(headers))
         log.info("reading eneco data from $start to $end, with statuscode: " + response.statusCode)
         return response.body
     }
+
+//    fun getEnecoData(sourcePage: String,
+//                     start: LocalDate = LocalDate.now().minusDays(30),
+//                     end: LocalDate = LocalDate.now().plusDays(1)): EnecoDataModel? {
+//
+//        val page = sourcePage  //readPage()
+//        val apiKey = getValueForKey(page, "FE_DC_API_KEY")
+//        val accessToken = getValueForKey(page, "accessToken")
+//        return getEnecoData(apiKey, accessToken, start, end)
+//    }
 
 }
 
@@ -86,3 +158,9 @@ class Eneco {
 //-H 'sec-fetch-site: cross-site' \
 //-H 'traceparent: 00-b4399e4bb92e453883bb884cd3d4d90b-538724f27f7145ee-01' \
 //-H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36'
+
+//Per keer anders:
+//-H 'authorization: eyJraWQiOiJrZjB3dVlwRlYwYkoxU2tnaHJpTWo5aFZOSHZUaXhVbTNlRlN5NDRKZ2ZBIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwMHViZGtyODhpYVg5YVB1bjBpNyIsIm5hbWUiOiJtc2NoaWpmQGljbG91ZC5jb20iLCJlbWFpbCI6Im1zY2hpamZAaWNsb3VkLmNvbSIsInZlciI6MSwiaXNzIjoiaHR0cHM6Ly9pbmxvZ2dlbi5lbmVjby5ubC9vYXV0aDIvYXVzMjh5MnBocmRXNTh5SVowaTciLCJhdWQiOiIwb2E2cmw5dnJ6ZlpjZDhkTDBpNyIsImlhdCI6MTcyMzQzOTQyOSwiZXhwIjoxNzIzNDQzMDI5LCJqdGkiOiJJRC5ISEIzZmtwSEstSXRYbktMNWNjR1FkTkNEWmQwbE93dUNYcV9qN3oxRG5zIiwiYW1yIjpbInB3ZCJdLCJpZHAiOiIwMG82aDM2cjhma200SlZHcjBpNiIsIm5vbmNlIjoiLTlaS2ZQWWp1aDFmTkxRcGo0LWhDVmJfMWR1dXJBc1Jsc2ZRNEgzRy1BQSIsInByZWZlcnJlZF91c2VybmFtZSI6Im1zY2hpamZAaWNsb3VkLmNvbSIsImF1dGhfdGltZSI6MTcyMzQzOTQyOCwiYXRfaGFzaCI6IkJOZlFhTldSWG9OS3JyS3doNm14dnciLCJrbGFudG51bW1lciI6NTQ2ODcwNTgsImN1c3RvbWVySWQiOjU0Njg3MDU4fQ.inl3JKFx48WG1hiorByOIYt0-4BP4WW-5W1KN74mGou4LqEDQQEnh9vabrfGHotA2rXTN366TjmmMAbLg3D_FyFmPbYuto5-6aDXzWD94Vr3Xqtd_biv-xvBiQJj3JLH4ktJHjaIUJrBw8NibZFr-wFz0Ou2KJOoI8BG9Kxl8j0ujl_FbL3ZxXyv1hQtmU5zrglquLH8QVaTAwvf7rVqPoBRR0lBvQbJGoQYGtvs5ZAIISI814dPjoeBcVVk6irzXsINZtTZU5tI-v62Xsdv50B8z2hVYL1xiefhaoduoWC5hLqzJ93qNt4LFWf5kyCqkXqO_hLZVEngpu0XyJrcdw' \
+//-H 'request-id: |53bbb062d28e41768e5e4c79a9632617.0cf21c82811c4562' \
+//-H 'traceparent: 00-53bbb062d28e41768e5e4c79a9632617-0cf21c82811c4562-01' \
+
