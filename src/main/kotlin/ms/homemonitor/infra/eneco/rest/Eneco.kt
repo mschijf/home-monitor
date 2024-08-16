@@ -1,24 +1,18 @@
 package ms.homemonitor.infra.eneco.rest
 
-import io.github.bonigarcia.wdm.WebDriverManager
 import ms.homemonitor.config.EnecoProperties
 import ms.homemonitor.infra.eneco.model.EnecoDataModel
 import ms.homemonitor.infra.resttools.getForEntityWithHeader
-import org.openqa.selenium.By
-import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.chrome.ChromeOptions
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
-import java.time.Duration
 import java.time.LocalDate
 
 
 @Service
-class Eneco(
-    private val enecoProperties: EnecoProperties) {
+class Eneco() {
 
     private val restTemplate = RestTemplate()
     private val log = LoggerFactory.getLogger(Eneco::class.java)
@@ -31,75 +25,6 @@ class Eneco(
             log.error("cannot found $key on htmlPage")
             return ""
         }
-    }
-
-//    @Scheduled(fixedRate = 60_000)
-    fun scrapeEnecoPage(): Pair<String, String> {
-        WebDriverManager.chromedriver().setup()
-        val options = ChromeOptions()
-        options.addArguments("--remote-allow-origins=*")
-
-        options.addArguments("--disable-search-engine-choice-screen")
-//        options.addArguments("--start-maximized")
-
-        options.addArguments("--window-size=1920,1080")
-        options.addArguments("--disable-extensions")
-        options.addArguments("--proxy-server='direct://'")
-        options.addArguments("--proxy-bypass-list=*")
-        options.addArguments("--start-maximized")
-        options.addArguments("--disable-gpu")
-        options.addArguments("--disable-dev-shm-usage")
-        options.addArguments("--no-sandbox")
-        options.addArguments("--ignore-certificate-errors")
-//        options.addArguments("--headless")
-
-        val driver = ChromeDriver(options)
-        val url = "https://inloggen.eneco.nl/"
-
-        log.info("start scraping page")
-        driver.get(url)
-        log.info("implicit wait 20 sec")
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(20_000))
-
-        log.info("wait till identifier")
-//        val inlog = WebDriverWait(driver, Duration.ofMillis(40_000))
-//            .until(ExpectedConditions.presenceOfElementLocated(By.name("identifier")))
-
-        log.info("Sleep 3 sec")
-        Thread.sleep(3_000)
-        val inlog = driver.findElement(By.name("identifier"))
-
-        log.info("Sleep 1 sec")
-        Thread.sleep(1_000)
-        inlog.sendKeys(enecoProperties.username)
-        inlog.submit()
-
-        log.info("wait till passcode")
-        log.info("Sleep 3 sec")
-        Thread.sleep(3_000)
-//        val pw = WebDriverWait(driver, Duration.ofMillis(40_000))
-//            .until (ExpectedConditions.presenceOfElementLocated (By.name("credentials.passcode")) )
-        val pw = driver.findElement(By.name("credentials.passcode"))
-
-        log.info("Sleep another 1 sec")
-        Thread.sleep(1_000)
-        pw.sendKeys(enecoProperties.password)
-        pw.submit()
-
-        log.info("Sleep one more time 1 sec")
-        Thread.sleep(1_000)
-
-
-        log.info("retrieve api and access token")
-        val page = driver.pageSource
-        val apiKey = getValueForKey(page, "FE_DC_API_KEY")
-        val accessToken = getValueForKey(page, "accessToken")
-
-        driver.close()
-        driver.quit()
-        log.info("done scraping page")
-
-        return Pair(apiKey, accessToken)
     }
 
     private fun getHeaders(apiKey: String, accessToken: String): HttpHeaders {
@@ -123,27 +48,18 @@ class Eneco(
         return headers
     }
 
-    fun getEnecoDataByScraping(start: LocalDate = LocalDate.now().minusDays(30),
-                               end: LocalDate = LocalDate.now().plusDays(1)): EnecoDataModel? {
-
-        val (apiKey, accessToken) = scrapeEnecoPage()
-        return getEnecoDataByScraping(apiKey, accessToken, start, end)
-    }
-
     fun getEnecoDataBySourcePage(sourcePage: String,
                                  start: LocalDate = LocalDate.now().minusDays(30),
                                  end: LocalDate = LocalDate.now().plusDays(1)): EnecoDataModel? {
         val apiKey = getValueForKey(sourcePage, "FE_DC_API_KEY")
         val accessToken = getValueForKey(sourcePage, "accessToken")
-        return getEnecoDataByScraping(apiKey, accessToken, start, end)
+        return getEnecoDataByAccessToken(apiKey, accessToken, start, end)
     }
 
-
-
-    private fun getEnecoDataByScraping(apiKey: String,
-                                       accessToken: String,
-                                       start: LocalDate = LocalDate.now().minusDays(30),
-                                       end: LocalDate = LocalDate.now().plusDays(1)): EnecoDataModel? {
+    private fun getEnecoDataByAccessToken(apiKey: String,
+                                          accessToken: String,
+                                          start: LocalDate,
+                                          end: LocalDate): EnecoDataModel? {
         val headers = getHeaders(apiKey, accessToken)
         val url = "https://api-digital.enecogroup.com/dxpweb/nl/eneco/customers/54687058/accounts/1/usages" +
                 "?aggregation=Year" +
