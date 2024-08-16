@@ -3,12 +3,12 @@ spring:
     name: home-monitoring
 
 homewizard:
-    enabled: true
+    enabled: false
     energyBaseRestUrl: http://192.168.2.40/api/v1
     waterBaseRestUrl: http://192.168.2.42/api/v1
 
 tado:
-  enabled: true
+  enabled: false
   tokenUrl: https://auth.tado.com/oauth/token
   clientId: public-api-preview
   clientSecret: 4HJGRffVR8xb3XdEUQpjgZ1VplJi6Xgw
@@ -20,7 +20,7 @@ raspberrypi:
   enabled: false
 
 weerlive:
-  enabled: true
+  enabled: false
   baseRestUrl: https://weerlive.nl/api/weerlive_api_v2.php
   apiKey: via application.yml on remote location
   locationCoordinateN: 52.0248

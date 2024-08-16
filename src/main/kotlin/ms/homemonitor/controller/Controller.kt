@@ -9,6 +9,7 @@ import ms.homemonitor.infra.tado.model.TadoResponseModel
 import ms.homemonitor.infra.tado.rest.Tado
 import ms.homemonitor.infra.weerlive.model.WeerLiveModel
 import ms.homemonitor.infra.weerlive.rest.WeerLive
+import ms.homemonitor.repository.EnecoDayConsumption
 import ms.homemonitor.service.EnecoService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -57,13 +58,17 @@ class Controller(
     }
 
     @GetMapping("/eneco-data")
-    fun enecoDataGet(): BigDecimal {
+    fun enecoDataGet(): List<EnecoDayConsumption> {
         return enecoService.updateEnecoStatistics()
     }
 
     @PostMapping("/eneco-data-source")
-    fun enecoDataPost(@RequestBody source: String): BigDecimal {
+    fun enecoDataPost(@RequestBody source: String): List<EnecoDayConsumption> {
         return enecoService.updateEnecoStatistics(source)
     }
 
+    @PostMapping("/eneco-data-by-list")
+    fun enecoDataPost(@RequestBody list: List<EnecoDayConsumption>): List<EnecoDayConsumption> {
+        return enecoService.updateEnecoStatistics(list)
+    }
 }

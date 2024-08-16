@@ -51,7 +51,7 @@ class Eneco(
         options.addArguments("--disable-dev-shm-usage")
         options.addArguments("--no-sandbox")
         options.addArguments("--ignore-certificate-errors")
-        options.addArguments("--headless")
+//        options.addArguments("--headless")
 
         val driver = ChromeDriver(options)
         val url = "https://inloggen.eneco.nl/"
