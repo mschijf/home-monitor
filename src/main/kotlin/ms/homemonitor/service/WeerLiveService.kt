@@ -23,7 +23,8 @@ class WeerLiveService(
             return
         val weerLiveModel = weerLive.getWeerLiveData()
         setMetrics(weerLiveModel)
-        log.info("Retrieving weerlivemodel with time: ${weerLiveModel.currentWeather[0].time}, requests left: ${weerLiveModel.api[0].numberOfRequestsLeft}")
+        if (weerLiveModel.api[0].numberOfRequestsLeft == 10)
+            log.warn("Requests left smaller then 10: Retrieving weerlivemodel with time: ${weerLiveModel.currentWeather[0].time}, requests left: ${weerLiveModel.api[0].numberOfRequestsLeft}")
     }
 
     fun setMetrics(data: WeerLiveModel) {

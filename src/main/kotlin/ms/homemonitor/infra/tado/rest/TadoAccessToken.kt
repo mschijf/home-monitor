@@ -55,7 +55,7 @@ class TadoAccessToken(
             log.info("Refreshing access token - use username and password")
             getBodyMapUsingPasswordGrant()
         } else {
-            log.info("Refreshing access token - use refresh token")
+            log.debug("Refreshing access token - use refresh token")
             getBodyMapUsingRefreshTokenGrant()
         }
 
