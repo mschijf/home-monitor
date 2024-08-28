@@ -8,7 +8,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import org.springframework.stereotype.Repository
 import java.io.File
 import java.math.BigDecimal
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Repository
 class EnecoRepository {
@@ -37,9 +37,9 @@ class EnecoRepository {
 }
 
 data class EnecoDayConsumption(
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =  "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)//, pattern =  "yyyy-MM-ddTHH:mm:ssX")
     @JsonProperty("date")
-    val date: LocalDate,
+    val date: LocalDateTime,
     @JsonProperty("totalUsedGigaJoule")
     val totalUsedGigaJoule: BigDecimal
 )

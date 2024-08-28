@@ -71,9 +71,15 @@ class Controller(
     }
 
     @Tag(name="Eneco")
-    @GetMapping("/eneco/json")
-    fun enecoDataJSON(): List<EnecoDayConsumption> {
-        return enecoService.getEnecoAsJSON()
+    @GetMapping("/eneco/json/day_consumption")
+    fun enecoDataJSONDayConsumption(): List<EnecoDayConsumption> {
+        return enecoService.getEnecoDayConsumption()
+    }
+
+    @Tag(name="Eneco")
+    @GetMapping("/eneco/json/cumulative_day_consumption")
+    fun enecoDataJSONDayCumulativeConsumption(): List<EnecoDayConsumption> {
+        return enecoService.getEnecoCumulativeDayConsumption()
     }
 
 

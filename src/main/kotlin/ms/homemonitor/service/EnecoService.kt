@@ -7,6 +7,7 @@ import ms.homemonitor.repository.EnecoRepository
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Service
 class EnecoService(
@@ -15,7 +16,8 @@ class EnecoService(
     private val measurement: MicroMeterMeasurement,
 ) {
 
-    private val initialDate = LocalDate.of(2024, 8, 1)
+    private val initialDate = LocalDateTime.of(2024, 8, 1, 0, 0, 0)
+    private val initalStartValue = BigDecimal(198.505)
 
     fun updateEnecoStatistics(source: String): List<EnecoDayConsumption> {
         val consumptionList = enecoRepository.readAll().sortedBy { it.date }
@@ -40,11 +42,11 @@ class EnecoService(
         return finalConsumptionSinceInitalDate
     }
 
-    private fun getNewDataBySource(source: String, fromDate: LocalDate): List<EnecoDayConsumption> {
+    private fun getNewDataBySource(source: String, fromDate: LocalDateTime): List<EnecoDayConsumption> {
         val now = LocalDate.now()
-        val response = eneco.getEnecoDataBySourcePage(source, fromDate, now.plusDays(1))!!
+        val response = eneco.getEnecoDataBySourcePage(source, fromDate.toLocalDate(), now.plusDays(1))!!
         return response.data.usages[0].entries
-            .map{ EnecoDayConsumption(it.actual.date.toLocalDate(), it.actual.warmth.high)}
+            .map{ EnecoDayConsumption(it.actual.date, it.actual.warmth.high)}
     }
 
 
@@ -52,9 +54,18 @@ class EnecoService(
         measurement.setDoubleGauge("warmthStandingGJ", finalValue.toDouble())
     }
 
-    fun getEnecoAsJSON(): List<EnecoDayConsumption> {
-        val x = enecoRepository.readAll().sortedBy { it.date }
-        enecoRepository.store(x)
-        return x
+    fun getEnecoDayConsumption(): List<EnecoDayConsumption> {
+        return enecoRepository
+            .readAll()
+            .sortedBy { it.date }
     }
+
+    fun getEnecoCumulativeDayConsumption(): List<EnecoDayConsumption> {
+        return enecoRepository
+            .readAll()
+            .sortedBy { it.date }
+            .scan(EnecoDayConsumption(LocalDateTime.now(), initalStartValue)) {acc, elt -> EnecoDayConsumption(elt.date, acc.totalUsedGigaJoule+elt.totalUsedGigaJoule)}
+            .drop(1)
+    }
+
 }
