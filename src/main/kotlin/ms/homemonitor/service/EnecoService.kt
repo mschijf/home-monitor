@@ -51,4 +51,10 @@ class EnecoService(
     private fun setMetrics(finalValue: BigDecimal) {
         measurement.setDoubleGauge("warmthStandingGJ", finalValue.toDouble())
     }
+
+    fun getEnecoAsJSON(): List<EnecoDayConsumption> {
+        val x = enecoRepository.readAll().sortedBy { it.date }
+        enecoRepository.store(x)
+        return x
+    }
 }

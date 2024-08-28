@@ -1,6 +1,5 @@
 package ms.homemonitor.infra.eneco.rest
 
-import ms.homemonitor.config.EnecoProperties
 import ms.homemonitor.infra.eneco.model.EnecoDataModel
 import ms.homemonitor.infra.resttools.getForEntityWithHeader
 import org.slf4j.LoggerFactory

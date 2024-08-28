@@ -1,5 +1,6 @@
 package ms.homemonitor.repository
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -36,6 +37,7 @@ class EnecoRepository {
 }
 
 data class EnecoDayConsumption(
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =  "yyyy-MM-dd")
     @JsonProperty("date")
     val date: LocalDate,
     @JsonProperty("totalUsedGigaJoule")

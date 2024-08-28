@@ -70,4 +70,11 @@ class Controller(
         return enecoService.updateEnecoStatistics(source)
     }
 
+    @Tag(name="Eneco")
+    @GetMapping("/eneco/json")
+    fun enecoDataJSON(): List<EnecoDayConsumption> {
+        return enecoService.getEnecoAsJSON()
+    }
+
+
 }
