@@ -1,5 +1,8 @@
 package ms.homemonitor.service
 
+import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.ObjectMapper
 import ms.homemonitor.infra.eneco.rest.Eneco
 import ms.homemonitor.monitor.MicroMeterMeasurement
 import ms.homemonitor.repository.EnecoDayConsumption
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.util.EnumSet.range
 
 @Service
 class EnecoService(
@@ -54,18 +58,31 @@ class EnecoService(
         measurement.setDoubleGauge("warmthStandingGJ", finalValue.toDouble())
     }
 
-    fun getEnecoDayConsumption(): List<EnecoDayConsumption> {
-        return enecoRepository
+    fun getEnecoDayConsumption(from: LocalDateTime, to:LocalDateTime): List<EnecoDayConsumption> {
+        val storedList = enecoRepository
             .readAll()
+            .filter { it.date in from..to }
             .sortedBy { it.date }
+
+        if (storedList.isEmpty()) {
+            return emptyList()
+        }
+
+        val lastDate = if (to < LocalDateTime.now()) to else LocalDateTime.now()
+        val extraList = mutableListOf<EnecoDayConsumption>()
+        var start = storedList.last().date.plusDays(1)
+        while (start <= lastDate) {
+            extraList.add(EnecoDayConsumption(start, BigDecimal.ZERO))
+            start = start.plusDays(1)
+        }
+        return (storedList + extraList)
     }
 
     fun getEnecoCumulativeDayConsumption(): List<EnecoDayConsumption> {
         return enecoRepository
             .readAll()
             .sortedBy { it.date }
-            .scan(EnecoDayConsumption(LocalDateTime.now(), initalStartValue)) {acc, elt -> EnecoDayConsumption(elt.date, acc.totalUsedGigaJoule+elt.totalUsedGigaJoule)}
+            .runningFold(EnecoDayConsumption(initialDate, initalStartValue)) {acc, elt -> EnecoDayConsumption(elt.date, acc.totalUsedGigaJoule+elt.totalUsedGigaJoule)}
             .drop(1)
     }
-
 }

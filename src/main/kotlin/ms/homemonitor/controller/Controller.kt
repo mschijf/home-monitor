@@ -12,11 +12,15 @@ import ms.homemonitor.infra.weerlive.model.WeerLiveModel
 import ms.homemonitor.infra.weerlive.rest.WeerLive
 import ms.homemonitor.repository.EnecoDayConsumption
 import ms.homemonitor.service.EnecoService
+import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.math.BigDecimal
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 @RestController
@@ -27,6 +31,8 @@ class Controller(
     private val weerLive: WeerLive,
     private val enecoService: EnecoService
 ) {
+
+    private val log = LoggerFactory.getLogger(Controller::class.java)
 
     @Tag(name="Homewizard")
     @GetMapping("/homewizard/energy")
@@ -70,10 +76,30 @@ class Controller(
         return enecoService.updateEnecoStatistics(source)
     }
 
+    private fun stringToLocalDateTime(stringDate: String?, defaultValue: LocalDateTime, errorMessage: String): LocalDateTime {
+        return try {
+            LocalDateTime.parse(stringDate!!, DateTimeFormatter.ISO_DATE_TIME)
+        } catch (e: Exception) {
+            if (stringDate != null) {
+                log.warn(errorMessage)
+            }
+            defaultValue
+        }
+    }
+
     @Tag(name="Eneco")
     @GetMapping("/eneco/json/day_consumption")
-    fun enecoDataJSONDayConsumption(): List<EnecoDayConsumption> {
-        return enecoService.getEnecoDayConsumption()
+    fun enecoDataJSONDayConsumption(
+        @RequestParam from: String? = null,
+        @RequestParam to: String? = null): List<EnecoDayConsumption> {
+
+        log.info("Range value: $from - $to")
+
+        val fromDateTime = stringToLocalDateTime(from, LocalDateTime.MIN, "Problem with from request parameter: $from")
+        val toDateTime = stringToLocalDateTime(to, LocalDateTime.MAX, "Problem with to request parameter: $to")
+
+        log.info("Range value (parsed): $fromDateTime - $toDateTime")
+        return enecoService.getEnecoDayConsumption(fromDateTime, toDateTime)
     }
 
     @Tag(name="Eneco")
