@@ -1,20 +1,17 @@
 package ms.homemonitor.service
 
 import ms.homemonitor.infra.eneco.rest.Eneco
-import ms.homemonitor.monitor.MicroMeterMeasurement
 import ms.homemonitor.repository.EnecoDayConsumption
 import ms.homemonitor.repository.EnecoRepository
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 @Service
 class EnecoService(
     private val eneco: Eneco,
-    private val enecoRepository: EnecoRepository,
-    private val measurement: MicroMeterMeasurement,
+    private val enecoRepository: EnecoRepository
 ) {
 
     fun updateEnecoStatistics(source: String): List<EnecoDayConsumption> {
@@ -24,9 +21,6 @@ class EnecoService(
 
         val newList = consumptionList.filter { it.date.toLocalDate() != fromDate.toLocalDate() } + freshDataList
         enecoRepository.store(newList)
-
-        val finalConsumptionSinceInitalDate = newList.sumOf { it.totalUsedGigaJoule }
-        setMetrics(finalConsumptionSinceInitalDate)
 
         return freshDataList
     }
@@ -39,20 +33,8 @@ class EnecoService(
     }
 
 
-    private fun setMetrics(finalValue: BigDecimal) {
-        measurement.setDoubleGauge("warmthStandingGJ", finalValue.toDouble())
-    }
-
-    private fun hourToDay(): List<EnecoDayConsumption> {
-        return enecoRepository
-            .readAll()
-            .groupBy { it.date.toLocalDate() }
-            .mapValues { it.value.sumOf { e -> e.totalUsedGigaJoule } }
-            .map{EnecoDayConsumption(LocalDateTime.of(it.key, LocalTime.of(0,0,0)), it.value)}
-    }
-
     fun getEnecoDayConsumption(from: LocalDateTime, to:LocalDateTime): List<EnecoDayConsumption> {
-        val storedList = hourToDay()
+        val storedList = enecoRepository.getDayList()
             .filter { it.date in from..to }
 
         if (storedList.isEmpty()) {
@@ -70,7 +52,7 @@ class EnecoService(
     }
 
     fun getEnecoCumulativeDayConsumption(): List<EnecoDayConsumption> {
-        return hourToDay()
+        return enecoRepository.getDayList()
             .runningFold(EnecoDayConsumption(eneco.initialDate, eneco.initalStartValue)) {acc, elt -> EnecoDayConsumption(elt.date, acc.totalUsedGigaJoule+elt.totalUsedGigaJoule)}
             .drop(1)
      }

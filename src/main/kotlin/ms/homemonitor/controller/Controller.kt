@@ -82,12 +82,9 @@ class Controller(
         @RequestParam from: String? = null,
         @RequestParam to: String? = null): List<EnecoDayConsumption> {
 
-        log.info("Range value: $from - $to")
-
         val fromDateTime = stringToLocalDateTime(from, LocalDateTime.MIN, "Problem with from request parameter: $from")
         val toDateTime = stringToLocalDateTime(to, LocalDateTime.MAX, "Problem with to request parameter: $to")
 
-        log.info("Range value (parsed): $fromDateTime - $toDateTime")
         return enecoService.getEnecoDayConsumption(fromDateTime, toDateTime)
     }
 
