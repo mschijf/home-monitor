@@ -13,12 +13,7 @@ import ms.homemonitor.infra.weerlive.rest.WeerLive
 import ms.homemonitor.repository.EnecoDayConsumption
 import ms.homemonitor.service.EnecoService
 import org.slf4j.LoggerFactory
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
-import java.math.BigDecimal
+import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -65,13 +60,7 @@ class Controller(
     }
 
     @Tag(name="Eneco")
-    @PostMapping("/eneco/recalculate")
-    fun enecoRecalculate(): BigDecimal {
-        return enecoService.recalculatingTotal()
-    }
-
-    @Tag(name="Eneco")
-    @PostMapping("/eneco/data-source")
+    @PostMapping("/eneco/update")
     fun enecoDataPost(@RequestBody source: String): List<EnecoDayConsumption> {
         return enecoService.updateEnecoStatistics(source)
     }

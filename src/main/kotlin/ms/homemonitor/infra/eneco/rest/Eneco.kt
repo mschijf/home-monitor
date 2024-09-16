@@ -1,13 +1,16 @@
 package ms.homemonitor.infra.eneco.rest
 
 import ms.homemonitor.infra.eneco.model.EnecoDataModel
+import ms.homemonitor.infra.eneco.model.EnecoUsageEntry
 import ms.homemonitor.infra.resttools.getForEntityWithHeader
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
+import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 @Service
@@ -15,6 +18,9 @@ class Eneco() {
 
     private val restTemplate = RestTemplate()
     private val log = LoggerFactory.getLogger(Eneco::class.java)
+
+    val initialDate = LocalDateTime.of(2024, 8, 1, 0, 0, 0)
+    val initalStartValue = BigDecimal(198.505)
 
     private fun getValueForKey(htmlPage: String, key: String): String {
         if (htmlPage.contains(key)) {
@@ -47,32 +53,42 @@ class Eneco() {
         return headers
     }
 
-    fun getEnecoDataBySourcePage(sourcePage: String,
-                                 start: LocalDate = LocalDate.now().minusDays(30),
-                                 end: LocalDate = LocalDate.now().plusDays(1)): EnecoDataModel? {
+    fun getEnecoHourDataBySourcePage(sourcePage: String,
+                                 start: LocalDate = initialDate.toLocalDate(),
+                                 end: LocalDate = LocalDate.now().plusDays(1)): List<EnecoUsageEntry> {
         val apiKey = getValueForKey(sourcePage, "FE_DC_API_KEY")
         val accessToken = getValueForKey(sourcePage, "accessToken")
-        return getEnecoDataByAccessToken(apiKey, accessToken, start, end)
+
+        log.info("reading eneco hour data for $start to $end")
+        val result = mutableListOf<EnecoUsageEntry>()
+        var dayDate = start
+        while (dayDate != end) {
+            val response = getEnecoHourDataByAccessToken(apiKey, accessToken, dayDate)
+            if (response != null)
+                result.addAll(response.data.usages[0].entries)
+            dayDate = dayDate.plusDays(1)
+        }
+        log.info("eneco data read, in total ${result.size} hours ")
+
+        return result
     }
 
-    private fun getEnecoDataByAccessToken(apiKey: String,
+    private fun getEnecoHourDataByAccessToken(apiKey: String,
                                           accessToken: String,
-                                          start: LocalDate,
-                                          end: LocalDate): EnecoDataModel? {
+                                          dayDate: LocalDate): EnecoDataModel? {
         val headers = getHeaders(apiKey, accessToken)
         val url = "https://api-digital.enecogroup.com/dxpweb/nl/eneco/customers/54687058/accounts/1/usages" +
-                "?aggregation=Year" +
-                "&interval=Day" +
-                "&start=${start.toString()}" +
-                "&end=${end.toString()}" +
+                "?aggregation=Day" +
+                "&interval=Hour" +
+                "&start=${dayDate.toString()}" +
+                "&end=${dayDate.plusDays(1).toString()}" +
                 "&addBudget=false" +
                 "&addWeather=true" +
                 "&extrapolate=false"
-        log.info("start reading energy data" )
         val response = restTemplate.getForEntityWithHeader<EnecoDataModel>(url, HttpEntity<Any?>(headers))
-        log.info("reading eneco data from $start to $end, with statuscode: " + response.statusCode)
         return response.body
     }
+
 
 }
 
