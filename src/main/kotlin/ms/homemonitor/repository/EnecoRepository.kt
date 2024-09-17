@@ -16,17 +16,16 @@ class EnecoRepository {
     private val file = File("data/list.eneco.json")
     private val mapper = ObjectMapper()
 
-    private var hourList: List<EnecoDayConsumption> = emptyList()
-    private var dayList: List<EnecoDayConsumption>  = emptyList()
+    private val cache = mutableMapOf<String, List<EnecoDayConsumption>>()
 
     init {
         mapper.registerModule(JavaTimeModule())
-        resetCache()
+        reloadCache()
     }
 
     fun store(consumptionList: List<EnecoDayConsumption>): List<EnecoDayConsumption> {
         file.writeText(mapper.writeValueAsString(consumptionList))
-        resetCache()
+        reloadCache()
         return consumptionList
     }
 
@@ -41,20 +40,21 @@ class EnecoRepository {
     }
 
 
-    private fun resetCache() {
-        hourList = readAll()
-        dayList = hourList
-            .groupBy { it.date.toLocalDate() }
-            .mapValues { it.value.sumOf { e -> e.totalUsedGigaJoule } }
-            .map{ EnecoDayConsumption(LocalDateTime.of(it.key, LocalTime.of(0,0,0)), it.value) }
+    private fun reloadCache() {
+        cache.clear()
     }
 
     fun getHourList(): List<EnecoDayConsumption> {
-        return hourList
+        return cache.getOrPut("hour") { readAll() }
     }
 
     fun getDayList(): List<EnecoDayConsumption> {
-        return dayList
+        return cache.getOrPut("day") {
+            getHourList()
+                .groupBy { it.date.toLocalDate() }
+                .mapValues { it.value.sumOf { e -> e.totalUsedGigaJoule } }
+                .map{ EnecoDayConsumption(LocalDateTime.of(it.key, LocalTime.of(0,0,0)), it.value) }
+        }
     }
 }
 

@@ -32,6 +32,25 @@ class EnecoService(
             .map{ EnecoDayConsumption(it.actual.date, it.actual.warmth.high)}
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+
+    fun getEnecoHourConsumption(from: LocalDateTime, to:LocalDateTime): List<EnecoDayConsumption> {
+        val storedList = enecoRepository.getHourList()
+            .filter { it.date in from..to }
+
+        if (storedList.isEmpty()) {
+            return emptyList()
+        }
+
+        val lastDate = if (to < LocalDateTime.now()) to else LocalDateTime.now()
+        val extraList = mutableListOf<EnecoDayConsumption>()
+        var start = storedList.last().date.plusHours(1)
+        while (start <= lastDate) {
+            extraList.add(EnecoDayConsumption(start, BigDecimal.ZERO))
+            start = start.plusHours(1)
+        }
+        return (storedList + extraList)
+    }
 
     fun getEnecoDayConsumption(from: LocalDateTime, to:LocalDateTime): List<EnecoDayConsumption> {
         val storedList = enecoRepository.getDayList()
