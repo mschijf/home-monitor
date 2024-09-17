@@ -12,6 +12,7 @@ import ms.homemonitor.infra.weerlive.model.WeerLiveModel
 import ms.homemonitor.infra.weerlive.rest.WeerLive
 import ms.homemonitor.repository.EnecoDayConsumption
 import ms.homemonitor.service.EnecoService
+import ms.homemonitor.service.EnecoUpdateService
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
@@ -24,6 +25,7 @@ class Controller(
     private val tadoDataProvider: Tado,
     private val raspberryPiStats: RaspberryPiStats,
     private val weerLive: WeerLive,
+    private val enecoUpdateService: EnecoUpdateService,
     private val enecoService: EnecoService
 ) {
 
@@ -62,7 +64,7 @@ class Controller(
     @Tag(name="Eneco")
     @PostMapping("/eneco/update")
     fun enecoDataPost(@RequestBody source: String): List<EnecoDayConsumption> {
-        return enecoService.updateEnecoStatistics(source)
+        return enecoUpdateService.updateEnecoStatistics(source)
     }
 
     private fun stringToLocalDateTime(stringDate: String?, defaultValue: LocalDateTime, errorMessage: String): LocalDateTime {

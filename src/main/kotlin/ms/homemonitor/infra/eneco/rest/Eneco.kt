@@ -54,8 +54,8 @@ class Eneco() {
     }
 
     fun getEnecoHourDataBySourcePage(sourcePage: String,
-                                 start: LocalDate = initialDate.toLocalDate(),
-                                 end: LocalDate = LocalDate.now().plusDays(1)): List<EnecoUsageEntry> {
+                                 start: LocalDate,
+                                 end: LocalDate): List<EnecoUsageEntry> {
         val apiKey = getValueForKey(sourcePage, "FE_DC_API_KEY")
         val accessToken = getValueForKey(sourcePage, "accessToken")
 
