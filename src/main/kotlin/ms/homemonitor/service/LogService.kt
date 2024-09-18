@@ -61,7 +61,7 @@ data class LogLine(
                     all = logLine
                 )
             } catch (e: Exception) {
-                return LogLine(LocalDateTime.now(), "", -1, "", "", "", "", "", logLine)
+                return LogLine(LocalDateTime.MIN, "", -1, "", "", "", "", "", logLine)
             }
         }
 
