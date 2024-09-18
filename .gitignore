@@ -34,3 +34,4 @@ build/
 
 ### home-monitor ###
 /data/
+/log/

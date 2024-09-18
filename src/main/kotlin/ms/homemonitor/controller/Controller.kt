@@ -13,6 +13,8 @@ import ms.homemonitor.infra.weerlive.rest.WeerLive
 import ms.homemonitor.repository.EnecoDayConsumption
 import ms.homemonitor.service.EnecoService
 import ms.homemonitor.service.EnecoUpdateService
+import ms.homemonitor.service.LogLine
+import ms.homemonitor.service.LogService
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
@@ -26,7 +28,8 @@ class Controller(
     private val raspberryPiStats: RaspberryPiStats,
     private val weerLive: WeerLive,
     private val enecoUpdateService: EnecoUpdateService,
-    private val enecoService: EnecoService
+    private val enecoService: EnecoService,
+    private val logService: LogService
 ) {
 
     private val log = LoggerFactory.getLogger(Controller::class.java)
@@ -67,17 +70,6 @@ class Controller(
         return enecoUpdateService.updateEnecoStatistics(source)
     }
 
-    private fun stringToLocalDateTime(stringDate: String?, defaultValue: LocalDateTime, errorMessage: String): LocalDateTime {
-        return try {
-            LocalDateTime.parse(stringDate!!, DateTimeFormatter.ISO_DATE_TIME)
-        } catch (e: Exception) {
-            if (stringDate != null) {
-                log.warn(errorMessage)
-            }
-            defaultValue
-        }
-    }
-
     @Tag(name="Eneco")
     @GetMapping("/eneco/consumption/hour")
     fun enecoDataJSONHourConsumption(
@@ -88,6 +80,17 @@ class Controller(
         val toDateTime = stringToLocalDateTime(to, LocalDateTime.MAX, "Problem with to request parameter: $to")
 
         return enecoService.getEnecoHourConsumption(fromDateTime, toDateTime)
+    }
+
+    private fun stringToLocalDateTime(stringDate: String?, defaultValue: LocalDateTime, errorMessage: String): LocalDateTime {
+        return try {
+            LocalDateTime.parse(stringDate!!, DateTimeFormatter.ISO_DATE_TIME)
+        } catch (e: Exception) {
+            if (stringDate != null) {
+                log.warn(errorMessage)
+            }
+            defaultValue
+        }
     }
 
     @Tag(name="Eneco")
@@ -108,5 +111,10 @@ class Controller(
         return enecoService.getEnecoCumulativeDayConsumption()
     }
 
+    @Tag(name="Log")
+    @GetMapping("/logs")
+    fun getLogs(): List<LogLine> {
+        return logService.getLogs()
+    }
 
 }

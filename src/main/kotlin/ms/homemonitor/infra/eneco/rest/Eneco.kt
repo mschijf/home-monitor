@@ -27,7 +27,7 @@ class Eneco() {
             val value = htmlPage.substringAfter("\"$key\":").substringBefore(",").trim()
             return value.removeSurrounding("\"")
         } else {
-            log.error("cannot found $key on htmlPage")
+            log.error("cannot find $key on htmlPage")
             return ""
         }
     }
