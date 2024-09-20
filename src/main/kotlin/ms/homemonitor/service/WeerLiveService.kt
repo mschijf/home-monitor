@@ -22,9 +22,11 @@ class WeerLiveService(
         if (!weerLiveProperties.enabled)
             return
         val weerLiveModel = weerLive.getWeerLiveData()
-        setMetrics(weerLiveModel)
-        if (weerLiveModel.api[0].numberOfRequestsLeft == 10)
-            log.warn("Requests left smaller then 10: Retrieving weerlivemodel with time: ${weerLiveModel.currentWeather[0].time}, requests left: ${weerLiveModel.api[0].numberOfRequestsLeft}")
+        if (weerLiveModel != null) {
+            setMetrics(weerLiveModel)
+            if (weerLiveModel.api[0].numberOfRequestsLeft == 10)
+                log.warn("Requests left smaller then 10: Retrieving weerlivemodel with time: ${weerLiveModel.currentWeather[0].time}, requests left: ${weerLiveModel.api[0].numberOfRequestsLeft}")
+        }
     }
 
     fun setMetrics(data: WeerLiveModel) {

@@ -68,7 +68,7 @@ class Eneco() {
                 result.addAll(response.data.usages[0].entries)
             dayDate = dayDate.plusDays(1)
         }
-        log.info("eneco data read, in total ${result.size} hours ")
+        log.info("eneco data read, in total ${result.size} hours, for a total of ${result.sumOf { it.actual.warmth.high }} GJ")
 
         return result
     }

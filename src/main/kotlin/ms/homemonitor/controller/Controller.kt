@@ -60,7 +60,7 @@ class Controller(
 
     @Tag(name="Weerlive")
     @GetMapping("/weerlive/current")
-    fun weerlive(): WeerLiveModel {
+    fun weerlive(): WeerLiveModel? {
         return weerLive.getWeerLiveData()
     }
 
