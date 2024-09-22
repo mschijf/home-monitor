@@ -33,6 +33,6 @@ class TadoRepository(applicationOutputProperties: ApplicationOutputProperties) {
                 String.format("%.3f", this.tadoState.setting.temperature) + ";" +
                 String.format("%.3f", this.weather.outsideTemperature.celsius) + ";" +
                 String.format("%.3f", this.weather.solarIntensity.percentage) + ";" +
-                "${this.weather.weatherState.value}\n"
+                "${this.weather.weatherState.value}"
     }
 }

@@ -35,7 +35,7 @@ class HomeWizardRepository (
         return "${this.energy.time.format(timeFormat)};" +
                 "${decimalFormat.format(this.energy.totalPowerImportT1Kwh)};" +
                 "${decimalFormat.format(this.energy.totalPowerImportT2Kwh)};" +
-                "${decimalFormat.format(this.water.totalLiterM3)}\n"
+                "${decimalFormat.format(this.water.totalLiterM3)}"
     }
 
 }

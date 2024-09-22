@@ -19,7 +19,7 @@ class EnecoRepository(applicationOutputProperties: ApplicationOutputProperties) 
 
     private fun EnecoDayConsumption.toCSV(): String {
         return "${this.date};" +
-                "${this.totalUsedGigaJoule}\n"
+                "${this.totalUsedGigaJoule}"
     }
 
     fun storeEnecoData(consumptionList: List<EnecoDayConsumption>): List<EnecoDayConsumption> {
