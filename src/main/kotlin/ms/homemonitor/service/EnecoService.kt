@@ -13,6 +13,16 @@ class EnecoService(
     private val enecoRepository: EnecoRepository
 ) {
 
+    private fun emptyTimeList(fromTime: LocalDateTime, toTime: LocalDateTime, plusHours: Long): List<EnecoDayConsumption> {
+        val extraList = mutableListOf<EnecoDayConsumption>()
+        var start = fromTime
+        while (start <= toTime) {
+            extraList.add(EnecoDayConsumption(start, BigDecimal.ZERO))
+            start = start.plusHours(plusHours)
+        }
+        return extraList
+    }
+
     fun getEnecoHourConsumption(from: LocalDateTime, to:LocalDateTime): List<EnecoDayConsumption> {
         val storedList = enecoRepository.getHourList()
             .filter { it.date in from..to }
@@ -21,13 +31,10 @@ class EnecoService(
             return emptyList()
         }
 
-        val lastDate = if (to < LocalDateTime.now()) to else LocalDateTime.now()
-        val extraList = mutableListOf<EnecoDayConsumption>()
-        var start = storedList.last().date.plusHours(1)
-        while (start <= lastDate) {
-            extraList.add(EnecoDayConsumption(start, BigDecimal.ZERO))
-            start = start.plusHours(1)
-        }
+        val extraList = emptyTimeList(
+            fromTime=storedList.last().date.plusDays(1),
+            toTime=if (to < LocalDateTime.now()) to else LocalDateTime.now(),
+            plusHours = 1)
         return (storedList + extraList)
     }
 
@@ -39,13 +46,10 @@ class EnecoService(
             return emptyList()
         }
 
-        val lastDate = if (to < LocalDateTime.now()) to else LocalDateTime.now()
-        val extraList = mutableListOf<EnecoDayConsumption>()
-        var start = storedList.last().date.plusDays(1)
-        while (start <= lastDate) {
-            extraList.add(EnecoDayConsumption(start, BigDecimal.ZERO))
-            start = start.plusDays(1)
-        }
+        val extraList = emptyTimeList(
+            fromTime=storedList.last().date.plusDays(1),
+            toTime=if (to < LocalDateTime.now()) to else LocalDateTime.now(),
+            plusHours = 24)
         return (storedList + extraList)
     }
 
