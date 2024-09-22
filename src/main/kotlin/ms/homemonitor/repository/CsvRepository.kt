@@ -23,4 +23,13 @@ abstract class CsvRepository(applicationOutputProperties: ApplicationOutputPrope
         file.appendText(csvLine)
     }
 
+    fun readCsvLines(fileName: String): List<List<String>> {
+        val file = File("$path/$fileName.csv")
+        return if (file.exists()) {
+            file.readLines().map { line -> line.split(';') }
+        } else {
+            emptyList()
+        }
+    }
+
 }

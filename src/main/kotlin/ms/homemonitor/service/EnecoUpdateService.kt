@@ -1,7 +1,7 @@
 package ms.homemonitor.service
 
+import ms.homemonitor.infra.eneco.model.EnecoDayConsumption
 import ms.homemonitor.infra.eneco.rest.Eneco
-import ms.homemonitor.repository.EnecoDayConsumption
 import ms.homemonitor.repository.EnecoRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDate

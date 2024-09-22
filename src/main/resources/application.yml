@@ -30,8 +30,7 @@ weerlive:
 
 eneco:
   enabled: true
-  username: via application.yml on remote location
-  password: via application.yml on remote location
+
 
 output:
   path: ./data

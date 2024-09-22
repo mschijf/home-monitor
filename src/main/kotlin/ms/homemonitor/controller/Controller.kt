@@ -1,6 +1,7 @@
 package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
+import ms.homemonitor.infra.eneco.model.EnecoDayConsumption
 import ms.homemonitor.infra.homewizard.model.HomeWizardEnergyData
 import ms.homemonitor.infra.homewizard.model.HomeWizardWaterData
 import ms.homemonitor.infra.homewizard.rest.HomeWizard
@@ -10,7 +11,6 @@ import ms.homemonitor.infra.tado.model.TadoResponseModel
 import ms.homemonitor.infra.tado.rest.Tado
 import ms.homemonitor.infra.weerlive.model.WeerLiveModel
 import ms.homemonitor.infra.weerlive.rest.WeerLive
-import ms.homemonitor.repository.EnecoDayConsumption
 import ms.homemonitor.service.EnecoService
 import ms.homemonitor.service.EnecoUpdateService
 import ms.homemonitor.service.LogLine
