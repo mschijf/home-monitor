@@ -8,27 +8,28 @@ import java.time.format.DateTimeFormatter
 
 @Service
 class HomeWizardRepository (
-    applicationOutputProperties: ApplicationOutputProperties): CsvRepository(applicationOutputProperties) {
+    applicationOutputProperties: ApplicationOutputProperties) {
 
-    private val baseFileName = "homeWizardOutput"
+    private val csvHeader = "time;totalPowerImportT1Kwh;totalPowerImportT2Kwh;totalLiterM3\n"
+    private val detailedCsvFile = CsvFile(path = applicationOutputProperties.path, fileName = "homeWizardOutput.csv", header = csvHeader)
+    private val hourCsvFile = CsvFile(path = applicationOutputProperties.path, fileName = "homeWizardOutputHour.csv", header = csvHeader)
+    private val dayCsvFile = CsvFile(path = applicationOutputProperties.path, fileName = "homeWizardOutputDay.csv", header = csvHeader)
 
     fun storeDetailedMeasurement(data: HomeWizardData) {
-        store(baseFileName, data.toCSV(), csvHeader)
+        detailedCsvFile.append(data.toCSV())
     }
 
     fun storeHourlyMeasurement(data: HomeWizardData) {
-        store(baseFileName+"Hour", data.toCSV(), csvHeader)
+        hourCsvFile.append(data.toCSV())
     }
 
     fun storeDailyMeasurement(data: HomeWizardData) {
-        store(baseFileName+"Day", data.toCSV(), csvHeader)
+        dayCsvFile.append(data.toCSV())
     }
 
 
     private val timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     private val decimalFormat = DecimalFormat("#0.000")
-
-    private val csvHeader = "time;totalPowerImportT1Kwh;totalPowerImportT2Kwh;totalLiterM3\n"
 
     fun HomeWizardData.toCSV(): String {
         return "${this.energy.time.format(timeFormat)};" +

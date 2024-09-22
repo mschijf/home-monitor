@@ -19,7 +19,7 @@ class EnecoUpdateService(
         val freshDataList = getNewDataBySource(source,fromDate).sortedBy { it.date }
 
         val newList = consumptionList.filter { it.date.toLocalDate() != fromDate.toLocalDate() } + freshDataList
-        enecoRepository.store(newList)
+        enecoRepository.storeEnecoData(newList)
 
         return freshDataList
     }

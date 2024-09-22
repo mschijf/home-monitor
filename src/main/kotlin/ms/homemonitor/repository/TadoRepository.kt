@@ -7,22 +7,22 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Service
-class TadoRepository(
-    applicationOutputProperties: ApplicationOutputProperties
-) : CsvRepository(applicationOutputProperties) {
+class TadoRepository(applicationOutputProperties: ApplicationOutputProperties) {
 
-    private val baseFileName = "tadoTemperature"
+    private val tadoCsvFile = CsvFile(
+        path = applicationOutputProperties.path,
+        fileName = "tadoTemperature.csv",
+        header = "time;" +
+                "insideTemperature;humidity;heatingPower;" +
+                "settingPower;settingTemperature;" +
+                "outsideTemperature;solarIntensity;weatherState"
+    )
 
     fun storeTadoData(data: TadoResponseModel) {
-        store(baseFileName, data.toCSV(), csvHeader)
+        tadoCsvFile.append(data.toCSV())
     }
 
     private val timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-
-    private val csvHeader = "time;" +
-            "insideTemperature;humidity;heatingPower;" +
-            "settingPower;settingTemperature;" +
-            "outsideTemperature;solarIntensity;weatherState\n"
 
     fun TadoResponseModel.toCSV(): String {
         return "${LocalDateTime.now().format(timeFormat)};" +
