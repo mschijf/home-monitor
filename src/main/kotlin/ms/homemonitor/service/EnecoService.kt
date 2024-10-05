@@ -1,6 +1,6 @@
 package ms.homemonitor.service
 
-import ms.homemonitor.infra.eneco.model.EnecoDayConsumption
+import ms.homemonitor.infra.eneco.model.EnecoConsumption
 import ms.homemonitor.infra.eneco.rest.Eneco
 import ms.homemonitor.repository.EnecoRepository
 import org.springframework.stereotype.Service
@@ -13,17 +13,17 @@ class EnecoService(
     private val enecoRepository: EnecoRepository
 ) {
 
-    private fun emptyTimeList(fromTime: LocalDateTime, toTime: LocalDateTime, plusHours: Long): List<EnecoDayConsumption> {
-        val extraList = mutableListOf<EnecoDayConsumption>()
+    private fun emptyTimeList(fromTime: LocalDateTime, toTime: LocalDateTime, plusHours: Long): List<EnecoConsumption> {
+        val extraList = mutableListOf<EnecoConsumption>()
         var start = fromTime
         while (start <= toTime) {
-            extraList.add(EnecoDayConsumption(start, BigDecimal.ZERO))
+            extraList.add(EnecoConsumption(start, BigDecimal.ZERO))
             start = start.plusHours(plusHours)
         }
         return extraList
     }
 
-    fun getEnecoHourConsumption(from: LocalDateTime, to:LocalDateTime): List<EnecoDayConsumption> {
+    fun getEnecoHourConsumption(from: LocalDateTime, to:LocalDateTime): List<EnecoConsumption> {
         val storedList = enecoRepository.getHourList()
             .filter { it.date in from..to }
 
@@ -38,7 +38,7 @@ class EnecoService(
         return (storedList + extraList)
     }
 
-    fun getEnecoDayConsumption(from: LocalDateTime, to:LocalDateTime): List<EnecoDayConsumption> {
+    fun getEnecoDayConsumption(from: LocalDateTime, to:LocalDateTime): List<EnecoConsumption> {
         val storedList = enecoRepository.getDayList()
             .filter { it.date in from..to }
 
@@ -53,9 +53,9 @@ class EnecoService(
         return (storedList + extraList)
     }
 
-    fun getEnecoCumulativeDayConsumption(): List<EnecoDayConsumption> {
+    fun getEnecoCumulativeDayConsumption(): List<EnecoConsumption> {
         return enecoRepository.getDayList()
-            .runningFold(EnecoDayConsumption(eneco.initialDate, eneco.initalStartValue)) {acc, elt -> EnecoDayConsumption(elt.date, acc.totalUsedGigaJoule+elt.totalUsedGigaJoule)}
+            .runningFold(EnecoConsumption(eneco.initialDate, eneco.initalStartValue)) { acc, elt -> EnecoConsumption(elt.date, acc.totalUsedGigaJoule+elt.totalUsedGigaJoule)}
             .drop(1)
      }
 }

@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
-class RaspberyyPiService(
+class RaspberryPiService(
     private val raspberryPiStats: RaspberryPiStats,
     private val measurement: MicroMeterMeasurement,
     private val raspberryPiProperties: RaspberryPiProperties

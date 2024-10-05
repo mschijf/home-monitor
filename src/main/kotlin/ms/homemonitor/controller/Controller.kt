@@ -1,7 +1,7 @@
 package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
-import ms.homemonitor.infra.eneco.model.EnecoDayConsumption
+import ms.homemonitor.infra.eneco.model.EnecoConsumption
 import ms.homemonitor.infra.homewizard.model.HomeWizardEnergyData
 import ms.homemonitor.infra.homewizard.model.HomeWizardWaterData
 import ms.homemonitor.infra.homewizard.rest.HomeWizard
@@ -66,7 +66,7 @@ class Controller(
 
     @Tag(name="Eneco")
     @PostMapping("/eneco/update")
-    fun enecoDataPost(@RequestBody source: String): List<EnecoDayConsumption> {
+    fun enecoDataPost(@RequestBody source: String): List<EnecoConsumption> {
         return enecoUpdateService.updateEnecoStatistics(source)
     }
 
@@ -74,7 +74,7 @@ class Controller(
     @GetMapping("/eneco/consumption/hour")
     fun enecoDataJSONHourConsumption(
         @RequestParam from: String? = null,
-        @RequestParam to: String? = null): List<EnecoDayConsumption> {
+        @RequestParam to: String? = null): List<EnecoConsumption> {
 
         val fromDateTime = stringToLocalDateTime(from, LocalDateTime.MIN, "Problem with from request parameter: $from")
         val toDateTime = stringToLocalDateTime(to, LocalDateTime.MAX, "Problem with to request parameter: $to")
@@ -97,7 +97,7 @@ class Controller(
     @GetMapping("/eneco/consumption/day")
     fun enecoDataJSONDayConsumption(
         @RequestParam from: String? = null,
-        @RequestParam to: String? = null): List<EnecoDayConsumption> {
+        @RequestParam to: String? = null): List<EnecoConsumption> {
 
         val fromDateTime = stringToLocalDateTime(from, LocalDateTime.MIN, "Problem with from request parameter: $from")
         val toDateTime = stringToLocalDateTime(to, LocalDateTime.MAX, "Problem with to request parameter: $to")
@@ -107,7 +107,7 @@ class Controller(
 
     @Tag(name="Eneco")
     @GetMapping("/eneco/consumption/cumulative/day")
-    fun enecoDataJSONDayCumulativeConsumption(): List<EnecoDayConsumption> {
+    fun enecoDataJSONDayCumulativeConsumption(): List<EnecoConsumption> {
         return enecoService.getEnecoCumulativeDayConsumption()
     }
 

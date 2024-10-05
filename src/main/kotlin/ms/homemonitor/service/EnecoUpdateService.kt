@@ -1,6 +1,6 @@
 package ms.homemonitor.service
 
-import ms.homemonitor.infra.eneco.model.EnecoDayConsumption
+import ms.homemonitor.infra.eneco.model.EnecoConsumption
 import ms.homemonitor.infra.eneco.rest.Eneco
 import ms.homemonitor.repository.EnecoRepository
 import org.springframework.stereotype.Service
@@ -13,7 +13,7 @@ class EnecoUpdateService(
     private val enecoRepository: EnecoRepository
 ) {
 
-    fun updateEnecoStatistics(source: String): List<EnecoDayConsumption> {
+    fun updateEnecoStatistics(source: String): List<EnecoConsumption> {
         val consumptionList = enecoRepository.readAll()
         val fromDate = consumptionList.lastOrNull()?.date ?: eneco.initialDate
         val freshDataList = getNewDataBySource(source,fromDate).sortedBy { it.date }
@@ -24,11 +24,10 @@ class EnecoUpdateService(
         return freshDataList
     }
 
-    private fun getNewDataBySource(source: String, fromDate: LocalDateTime): List<EnecoDayConsumption> {
+    private fun getNewDataBySource(source: String, fromDate: LocalDateTime): List<EnecoConsumption> {
         val now = LocalDate.now()
         val response = eneco.getEnecoHourDataBySourcePage(source, fromDate.toLocalDate(), now.plusDays(1))
         return response
-            .map{ EnecoDayConsumption(it.actual.date, it.actual.warmth.high) }
+            .map{ EnecoConsumption(it.actual.date, it.actual.warmth.high) }
     }
-
 }

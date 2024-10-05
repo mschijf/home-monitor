@@ -59,7 +59,6 @@ class Eneco() {
         val apiKey = getValueForKey(sourcePage, "FE_DC_API_KEY")
         val accessToken = getValueForKey(sourcePage, "accessToken")
 
-        log.info("reading eneco hour data for $start to $end")
         val result = mutableListOf<EnecoUsageEntry>()
         var dayDate = start
         while (dayDate != end) {
@@ -68,7 +67,7 @@ class Eneco() {
                 result.addAll(response.data.usages[0].entries)
             dayDate = dayDate.plusDays(1)
         }
-        log.info("eneco data read, in total ${result.size} hours, for a total of ${result.sumOf { it.actual.warmth.high }} GJ")
+        log.info("eneco data read  from $start to $end, ${result.size} hours, ${result.sumOf { it.actual.warmth.high }} GJ")
 
         return result
     }
