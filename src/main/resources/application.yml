@@ -31,8 +31,7 @@ weerlive:
 eneco:
   enabled: true
 
-
-output:
+data-output:
   path: ./data
 
 management:
