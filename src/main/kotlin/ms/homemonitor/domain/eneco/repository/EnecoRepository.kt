@@ -1,7 +1,7 @@
 package ms.homemonitor.domain.eneco.repository
 
 import ms.homemonitor.tools.CsvFile
-import ms.homemonitor.DataOutputProperties
+import ms.homemonitor.application.DataOutputProperties
 import ms.homemonitor.domain.eneco.model.EnecoConsumption
 import org.springframework.stereotype.Repository
 import java.math.BigDecimal

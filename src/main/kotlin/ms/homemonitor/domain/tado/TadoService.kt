@@ -1,5 +1,6 @@
 package ms.homemonitor.domain.tado
 
+import ms.homemonitor.application.HomeMonitorException
 import ms.homemonitor.domain.tado.model.TadoResponseModel
 import ms.homemonitor.domain.tado.repository.TadoRepository
 import ms.homemonitor.domain.tado.rest.Tado
@@ -19,9 +20,14 @@ class TadoService(
     fun tadoMeasurement() {
         if (!tadoProperties.enabled)
             return
-        val tadoResponse = tado.getTadoResponse()
-        repository.storeTadoData(tadoResponse)
-        setMetrics(tadoResponse)
+        try {
+            val tadoResponse = tado.getTadoResponse()
+            repository.storeTadoData(tadoResponse)
+            setMetrics(tadoResponse)
+        } catch (e: Exception) {
+            throw HomeMonitorException("Error while processing Tado data", e)
+        }
+
     }
 
     fun setMetrics(data: TadoResponseModel) {

@@ -1,6 +1,6 @@
 package ms.homemonitor.domain.tado.repository
 
-import ms.homemonitor.DataOutputProperties
+import ms.homemonitor.application.DataOutputProperties
 import ms.homemonitor.tools.CsvFile
 import ms.homemonitor.domain.tado.model.TadoResponseModel
 import org.springframework.stereotype.Service

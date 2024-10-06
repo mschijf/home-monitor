@@ -1,5 +1,6 @@
 package ms.homemonitor
 
+import ms.homemonitor.application.DataOutputProperties
 import ms.homemonitor.domain.eneco.EnecoProperties
 import ms.homemonitor.domain.homewizard.HomeWizardProperties
 import ms.homemonitor.domain.raspberrypi.RaspberryPiProperties

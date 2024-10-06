@@ -1,6 +1,6 @@
 package ms.homemonitor.domain.homewizard.repository
 
-import ms.homemonitor.DataOutputProperties
+import ms.homemonitor.application.DataOutputProperties
 import ms.homemonitor.domain.homewizard.model.HomeWizardData
 import ms.homemonitor.tools.CsvFile
 import org.springframework.stereotype.Service
