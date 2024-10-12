@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.2</version>
+        <version>3.3.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ms</groupId>
     <artifactId>home-monitor</artifactId>
-    <version>4.7.3</version>
+    <version>4.8.1</version>
     <name>home-monitor</name>
     <description>home-monitoring: power(electricity), water, tado (temperature), ...</description>
     <url/>
@@ -31,6 +31,7 @@
         <kotlin.version>1.9.24</kotlin.version>
     </properties>
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

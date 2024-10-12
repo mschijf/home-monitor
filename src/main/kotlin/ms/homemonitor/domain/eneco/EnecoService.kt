@@ -53,9 +53,10 @@ class EnecoService(
         return (storedList + extraList)
     }
 
-    fun getEnecoCumulativeDayConsumption(): List<EnecoConsumption> {
+    fun getEnecoCumulativeDayConsumption(from: LocalDateTime, to:LocalDateTime): List<EnecoConsumption> {
         return enecoRepository.getDayList()
             .runningFold(EnecoConsumption(eneco.initialDate, eneco.initalStartValue)) { acc, elt -> EnecoConsumption(elt.date, acc.totalUsedGigaJoule+elt.totalUsedGigaJoule)}
             .drop(1)
+            .filter { it.date in from..to  }
      }
 }

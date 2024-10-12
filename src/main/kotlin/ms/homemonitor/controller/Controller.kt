@@ -107,8 +107,13 @@ class Controller(
 
     @Tag(name="Eneco")
     @GetMapping("/eneco/consumption/cumulative/day")
-    fun enecoDataJSONDayCumulativeConsumption(): List<EnecoConsumption> {
-        return enecoService.getEnecoCumulativeDayConsumption()
+    fun enecoDataJSONDayCumulativeConsumption(
+        @RequestParam from: String? = null,
+        @RequestParam to: String? = null): List<EnecoConsumption> {
+
+        val fromDateTime = stringToLocalDateTime(from, LocalDateTime.MIN, "Problem with from request parameter: $from")
+        val toDateTime = stringToLocalDateTime(to, LocalDateTime.MAX, "Problem with to request parameter: $to")
+        return enecoService.getEnecoCumulativeDayConsumption(fromDateTime, toDateTime)
     }
 
     @Tag(name="Log")

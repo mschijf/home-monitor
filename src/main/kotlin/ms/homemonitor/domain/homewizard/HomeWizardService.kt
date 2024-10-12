@@ -1,5 +1,6 @@
 package ms.homemonitor.domain.homewizard
 
+import ms.homemonitor.application.HomeMonitorException
 import ms.homemonitor.domain.homewizard.model.HomeWizardData
 import ms.homemonitor.domain.homewizard.repository.HomeWizardRepository
 import ms.homemonitor.domain.homewizard.rest.HomeWizard
@@ -27,25 +28,25 @@ class HomeWizardService(
         if (!homeWizardProperties.enabled)
             return
 
-        val homeWizardData = getHomeWizardData()
-        repository.storeDetailedMeasurement(homeWizardData)
-        setMetrics(homeWizardData)
+        try {
+            val homeWizardData = getHomeWizardData()
+            repository.storeDetailedMeasurement(homeWizardData)
+            setMetrics(homeWizardData)
+        } catch (e: Exception) {
+            throw HomeMonitorException("Error while processing detailed HomeWizard data", e)
+        }
     }
 
     @Scheduled(cron = "0 0 * * * *")
     fun hourPowerMeasurement() {
         if (!homeWizardProperties.enabled)
             return
-        val homeWizardData = getHomeWizardData()
-        repository.storeHourlyMeasurement(homeWizardData)
-    }
-
-    @Scheduled(cron = "0 0 0 * * *")
-    fun dayPowerMeasurement() {
-        if (!homeWizardProperties.enabled)
-            return
-        val homeWizardData = getHomeWizardData()
-        repository.storeDailyMeasurement(homeWizardData)
+        try {
+            val homeWizardData = getHomeWizardData()
+            repository.storeHourlyMeasurement(homeWizardData)
+        } catch (e: Exception) {
+            throw HomeMonitorException("Error while processing hour HomeWizard data", e)
+        }
     }
 
     private fun setMetrics(data: HomeWizardData) {

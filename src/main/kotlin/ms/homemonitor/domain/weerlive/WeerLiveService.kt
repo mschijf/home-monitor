@@ -1,5 +1,6 @@
 package ms.homemonitor.domain.weerlive
 
+import ms.homemonitor.application.HomeMonitorException
 import ms.homemonitor.domain.weerlive.model.WeerLiveModel
 import ms.homemonitor.domain.weerlive.rest.WeerLive
 import ms.homemonitor.micrometer.MicroMeterMeasurement
@@ -20,11 +21,16 @@ class WeerLiveService(
     fun weerLiveMeasurement() {
         if (!weerLiveProperties.enabled)
             return
-        val weerLiveModel = weerLive.getWeerLiveData()
-        if (weerLiveModel != null) {
-            setMetrics(weerLiveModel)
-            if (weerLiveModel.api[0].numberOfRequestsLeft == 10)
-                log.warn("Requests left smaller then 10: Retrieving weerlivemodel with time: ${weerLiveModel.currentWeather[0].time}, requests left: ${weerLiveModel.api[0].numberOfRequestsLeft}")
+
+        try {
+            val weerLiveModel = weerLive.getWeerLiveData()
+            if (weerLiveModel != null) {
+                setMetrics(weerLiveModel)
+                if (weerLiveModel.api[0].numberOfRequestsLeft == 10)
+                    log.warn("Requests left smaller then 10: Retrieving weerlivemodel with time: ${weerLiveModel.currentWeather[0].time}, requests left: ${weerLiveModel.api[0].numberOfRequestsLeft}")
+            }
+        } catch (e: Exception) {
+            throw HomeMonitorException("Error while processing WeerLive data", e)
         }
     }
 
