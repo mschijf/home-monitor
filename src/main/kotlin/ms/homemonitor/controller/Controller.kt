@@ -34,6 +34,12 @@ class Controller(
 
     private val log = LoggerFactory.getLogger(Controller::class.java)
 
+    @Tag(name="Admin")
+    @GetMapping("/ping")
+    fun ping() {
+        return
+    }
+
     @Tag(name="Homewizard")
     @GetMapping("/homewizard/energy/current")
     fun homeWizardEnergy(): HomeWizardEnergyData {
