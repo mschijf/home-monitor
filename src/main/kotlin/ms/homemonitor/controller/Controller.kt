@@ -13,8 +13,8 @@ import ms.homemonitor.domain.tado.model.TadoResponseModel
 import ms.homemonitor.domain.tado.rest.Tado
 import ms.homemonitor.domain.weerlive.model.WeerLiveModel
 import ms.homemonitor.domain.weerlive.rest.WeerLive
-import ms.homemonitor.domain.log.LogLine
 import ms.homemonitor.domain.log.LogService
+import ms.homemonitor.domain.log.model.LogLine
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
