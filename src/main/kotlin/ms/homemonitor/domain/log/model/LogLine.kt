@@ -45,7 +45,7 @@ data class LogLine(
         }
 
         private fun formatTime(time: LocalDateTime): String {
-            return time.format(DateTimeFormatter.ofPattern("d MMM, uuuu @ HH:mm:ss.SSS"))
+            return time.format(DateTimeFormatter.ofPattern("d MMM, uuuu @ HH:mm:ss"))
         }
     }
 
