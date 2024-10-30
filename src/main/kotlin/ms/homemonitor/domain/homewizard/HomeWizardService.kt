@@ -3,10 +3,13 @@ package ms.homemonitor.domain.homewizard
 import ms.homemonitor.application.HomeMonitorException
 import ms.homemonitor.domain.homewizard.model.HomeWizardData
 import ms.homemonitor.domain.homewizard.repository.HomeWizardRepository
+import ms.homemonitor.domain.homewizard.repository.StandingsEntity
+import ms.homemonitor.domain.homewizard.repository.StandingsRepository
 import ms.homemonitor.domain.homewizard.rest.HomeWizard
 import ms.homemonitor.micrometer.MicroMeterMeasurement
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 
 @Service
@@ -15,6 +18,7 @@ class HomeWizardService(
     private val repository: HomeWizardRepository,
     private val measurement: MicroMeterMeasurement,
     private val homeWizardProperties: HomeWizardProperties,
+    private val standingsRepository: StandingsRepository,
 ) {
 
     fun getHomeWizardData(): HomeWizardData {
@@ -44,6 +48,26 @@ class HomeWizardService(
         try {
             val homeWizardData = getHomeWizardData()
             repository.storeHourlyMeasurement(homeWizardData)
+        } catch (e: Exception) {
+            throw HomeMonitorException("Error while processing hour HomeWizard data", e)
+        }
+    }
+
+    @Scheduled(cron = "0 * * * * *")
+    fun minuteMeasurement() {
+        if (!homeWizardProperties.enabled)
+            return
+        try {
+            val homeWizardData = getHomeWizardData()
+            standingsRepository.saveAndFlush(
+                StandingsEntity(
+                    time=LocalDateTime.now(),
+                    waterM3 = homeWizardData.water.totalLiterM3,
+                    powerNormalKwh = homeWizardData.energy.totalPowerImportT2Kwh,
+                    powerOffpeakKwh = homeWizardData.energy.totalPowerImportT1Kwh,
+                    warmthGJ = null
+                )
+            )
         } catch (e: Exception) {
             throw HomeMonitorException("Error while processing hour HomeWizard data", e)
         }

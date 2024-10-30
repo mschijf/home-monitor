@@ -3,6 +3,15 @@ spring:
     name: home-monitoring
   main:
     banner-mode: "off"
+  datasource:
+    url: jdbc:mariadb://localhost:3306/home-monitor
+    username: home-monitor
+    password: home-monitor
+    driver-class-name: org.mariadb.jdbc.Driver
+#  jpa:
+#    database-platform: org.hibernate.dialect.MariaDBDialect
+#    show-sql: true
+#    generate-ddl: true
 
 homewizard:
     enabled: false
