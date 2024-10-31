@@ -8,18 +8,12 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "standings")
-class StandingsEntity(
+@Table(name = "heath")
+class HeathEntity(
     @Id
     @Column(name = "time", nullable = false, unique = true)
     val time: LocalDateTime = LocalDateTime.MIN,
 
-    @Column(name = "water_m3", nullable = true)
-    var waterM3: BigDecimal? = null,
-
-    @Column(name = "power_normal_kwh", nullable = true)
-    var powerNormalKwh: BigDecimal? =  null,
-
-    @Column(name = "power_offpeak_kwh", nullable = true)
-    var powerOffpeakKwh: BigDecimal? =  null,
+    @Column(name = "heath_gj", nullable = true)
+    var heathGJ: BigDecimal? =  null
 )

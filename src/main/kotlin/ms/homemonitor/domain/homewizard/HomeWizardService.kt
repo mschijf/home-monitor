@@ -64,8 +64,7 @@ class HomeWizardService(
                     time=LocalDateTime.now(),
                     waterM3 = homeWizardData.water.totalLiterM3,
                     powerNormalKwh = homeWizardData.energy.totalPowerImportT2Kwh,
-                    powerOffpeakKwh = homeWizardData.energy.totalPowerImportT1Kwh,
-                    warmthGJ = null
+                    powerOffpeakKwh = homeWizardData.energy.totalPowerImportT1Kwh
                 )
             )
         } catch (e: Exception) {
