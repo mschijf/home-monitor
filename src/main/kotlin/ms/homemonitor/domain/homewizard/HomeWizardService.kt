@@ -2,7 +2,6 @@ package ms.homemonitor.domain.homewizard
 
 import ms.homemonitor.application.HomeMonitorException
 import ms.homemonitor.domain.homewizard.model.HomeWizardData
-import ms.homemonitor.domain.homewizard.repository.HomeWizardRepository
 import ms.homemonitor.repository.StandingsEntity
 import ms.homemonitor.repository.StandingsRepository
 import ms.homemonitor.domain.homewizard.rest.HomeWizard
@@ -15,7 +14,6 @@ import java.time.LocalDateTime
 @Service
 class HomeWizardService(
     private val homeWizard: HomeWizard,
-    private val repository: HomeWizardRepository,
     private val measurement: MicroMeterMeasurement,
     private val homeWizardProperties: HomeWizardProperties,
     private val standingsRepository: StandingsRepository,
@@ -34,22 +32,9 @@ class HomeWizardService(
 
         try {
             val homeWizardData = getHomeWizardData()
-            repository.storeDetailedMeasurement(homeWizardData)
             setMetrics(homeWizardData)
         } catch (e: Exception) {
             throw HomeMonitorException("Error while processing detailed HomeWizard data", e)
-        }
-    }
-
-    @Scheduled(cron = "0 0 * * * *")
-    fun hourPowerMeasurement() {
-        if (!homeWizardProperties.enabled)
-            return
-        try {
-            val homeWizardData = getHomeWizardData()
-            repository.storeHourlyMeasurement(homeWizardData)
-        } catch (e: Exception) {
-            throw HomeMonitorException("Error while processing hour HomeWizard data", e)
         }
     }
 
@@ -68,7 +53,7 @@ class HomeWizardService(
                 )
             )
         } catch (e: Exception) {
-            throw HomeMonitorException("Error while processing hour HomeWizard data", e)
+            throw HomeMonitorException("Error while processing and storing HomeWizard data", e)
         }
     }
 
