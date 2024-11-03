@@ -3,8 +3,8 @@ package ms.homemonitor.domain.homewizard
 import ms.homemonitor.application.HomeMonitorException
 import ms.homemonitor.domain.homewizard.model.HomeWizardData
 import ms.homemonitor.domain.homewizard.repository.HomeWizardRepository
-import ms.homemonitor.domain.homewizard.repository.StandingsEntity
-import ms.homemonitor.domain.homewizard.repository.StandingsRepository
+import ms.homemonitor.repository.StandingsEntity
+import ms.homemonitor.repository.StandingsRepository
 import ms.homemonitor.domain.homewizard.rest.HomeWizard
 import ms.homemonitor.micrometer.MicroMeterMeasurement
 import org.springframework.scheduling.annotation.Scheduled

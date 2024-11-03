@@ -1,4 +1,4 @@
-package ms.homemonitor.domain.homewizard.repository
+package ms.homemonitor.repository
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

@@ -14,7 +14,7 @@ spring:
 #    generate-ddl: true
 
 homewizard:
-    enabled: true
+    enabled: false
     energyBaseRestUrl: http://192.168.2.40/api/v1
     waterBaseRestUrl: http://192.168.2.42/api/v1
     initialWaterValue: 799.017
