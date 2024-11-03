@@ -10,7 +10,7 @@
     </parent>
     <groupId>ms</groupId>
     <artifactId>home-monitor</artifactId>
-    <version>5.0.4-alpha</version>
+    <version>5.1.0</version>
     <name>home-monitor</name>
     <description>home-monitoring: power(electricity), water, tado (temperature), ...</description>
     <url/>

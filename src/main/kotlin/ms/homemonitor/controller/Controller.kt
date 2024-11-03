@@ -1,24 +1,24 @@
 package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
-import ms.homemonitor.domain.eneco.model.EnecoConsumption
-import ms.homemonitor.domain.eneco.EnecoService
 import ms.homemonitor.domain.eneco.EnecoUpdateService
+import ms.homemonitor.domain.eneco.model.EnecoConsumption
 import ms.homemonitor.domain.homewizard.model.HomeWizardEnergyData
 import ms.homemonitor.domain.homewizard.model.HomeWizardWaterData
 import ms.homemonitor.domain.homewizard.rest.HomeWizard
-import ms.homemonitor.domain.raspberrypi.rest.RaspberryPiStats
+import ms.homemonitor.domain.log.LogService
+import ms.homemonitor.domain.log.model.LogLine
 import ms.homemonitor.domain.raspberrypi.model.RaspberryPiStatsModel
+import ms.homemonitor.domain.raspberrypi.rest.RaspberryPiStats
 import ms.homemonitor.domain.tado.model.TadoResponseModel
 import ms.homemonitor.domain.tado.rest.Tado
 import ms.homemonitor.domain.weerlive.model.WeerLiveModel
 import ms.homemonitor.domain.weerlive.rest.WeerLive
-import ms.homemonitor.domain.log.LogService
-import ms.homemonitor.domain.log.model.LogLine
 import org.slf4j.LoggerFactory
-import org.springframework.web.bind.annotation.*
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
@@ -28,7 +28,6 @@ class Controller(
     private val raspberryPiStats: RaspberryPiStats,
     private val weerLive: WeerLive,
     private val enecoUpdateService: EnecoUpdateService,
-    private val enecoService: EnecoService,
     private val logService: LogService
 ) {
 
@@ -74,52 +73,6 @@ class Controller(
     @PostMapping("/eneco/update")
     fun enecoDataPost(@RequestBody source: String): List<EnecoConsumption> {
         return enecoUpdateService.updateEnecoStatistics(source)
-    }
-
-    @Tag(name="Eneco")
-    @GetMapping("/eneco/consumption/hour")
-    fun enecoDataJSONHourConsumption(
-        @RequestParam from: String? = null,
-        @RequestParam to: String? = null): List<EnecoConsumption> {
-
-        val fromDateTime = stringToLocalDateTime(from, LocalDateTime.MIN, "Problem with from request parameter: $from")
-        val toDateTime = stringToLocalDateTime(to, LocalDateTime.MAX, "Problem with to request parameter: $to")
-
-        return enecoService.getEnecoHourConsumption(fromDateTime, toDateTime)
-    }
-
-    private fun stringToLocalDateTime(stringDate: String?, defaultValue: LocalDateTime, errorMessage: String): LocalDateTime {
-        return try {
-            LocalDateTime.parse(stringDate!!, DateTimeFormatter.ISO_DATE_TIME)
-        } catch (e: Exception) {
-            if (stringDate != null) {
-                log.warn(errorMessage)
-            }
-            defaultValue
-        }
-    }
-
-    @Tag(name="Eneco")
-    @GetMapping("/eneco/consumption/day")
-    fun enecoDataJSONDayConsumption(
-        @RequestParam from: String? = null,
-        @RequestParam to: String? = null): List<EnecoConsumption> {
-
-        val fromDateTime = stringToLocalDateTime(from, LocalDateTime.MIN, "Problem with from request parameter: $from")
-        val toDateTime = stringToLocalDateTime(to, LocalDateTime.MAX, "Problem with to request parameter: $to")
-
-        return enecoService.getEnecoDayConsumption(fromDateTime, toDateTime)
-    }
-
-    @Tag(name="Eneco")
-    @GetMapping("/eneco/consumption/cumulative/day")
-    fun enecoDataJSONDayCumulativeConsumption(
-        @RequestParam from: String? = null,
-        @RequestParam to: String? = null): List<EnecoConsumption> {
-
-        val fromDateTime = stringToLocalDateTime(from, LocalDateTime.MIN, "Problem with from request parameter: $from")
-        val toDateTime = stringToLocalDateTime(to, LocalDateTime.MAX, "Problem with to request parameter: $to")
-        return enecoService.getEnecoCumulativeDayConsumption(fromDateTime, toDateTime)
     }
 
     @Tag(name="Log")
