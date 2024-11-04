@@ -8,10 +8,6 @@ spring:
     username: home-monitor
     password: home-monitor
     driver-class-name: org.mariadb.jdbc.Driver
-#  jpa:
-#    database-platform: org.hibernate.dialect.MariaDBDialect
-#    show-sql: true
-#    generate-ddl: true
 
 homewizard:
     enabled: false
@@ -39,7 +35,7 @@ weerlive:
   locationCoordinateE: 5.0918
 
 eneco:
-  enabled: true
+  enabled: false
 
 data-output:
   path: ./data
