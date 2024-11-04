@@ -1,3 +1,2 @@
 @reboot ~/home-monitor/script/start.sh
-0 0 * * * ~/home-monitor/script/archiveHomeWizardOutput.sh 2>> ~/home-monitor/log/archiveHomeWizardOutput_logerr
 0 0 * * * ~/home-monitor/script/backup.sh >> ~/home-monitor/log/backup_log 2>> ~/home-monitor/log/backup_log
