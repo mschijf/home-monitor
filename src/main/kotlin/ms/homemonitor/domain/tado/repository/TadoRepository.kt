@@ -31,7 +31,7 @@ class TadoRepository(dataOutputProperties: DataOutputProperties) {
                 String.format("%.3f", this.tadoState.sensorDataPoints.humidity.percentage) + ";" +
                 String.format("%.3f", this.tadoState.activityDataPoints.heatingPower.percentage) + ";" +
                 this.tadoState.setting.power + ";" +
-                String.format("%.3f", this.tadoState.setting.temperature) + ";" +
+                String.format("%.3f", this.tadoState.setting.temperature?.celsius?:0.0) + ";" +
                 String.format("%.3f", this.weather.outsideTemperature.celsius) + ";" +
                 String.format("%.3f", this.weather.solarIntensity.percentage) + ";" +
                 "${this.weather.weatherState.value}"
