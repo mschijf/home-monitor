@@ -43,10 +43,11 @@ class HomeWizardService(
         if (!homeWizardProperties.enabled)
             return
         try {
+            val now = LocalDateTime.now()
             val homeWizardData = getHomeWizardData()
             standingsRepository.saveAndFlush(
                 StandingsEntity(
-                    time=LocalDateTime.now(),
+                    time=now,
                     waterM3 = homeWizardData.water.totalLiterM3 + homeWizardProperties.initialWaterValue,
                     powerNormalKwh = homeWizardData.energy.totalPowerImportT2Kwh,
                     powerOffpeakKwh = homeWizardData.energy.totalPowerImportT1Kwh

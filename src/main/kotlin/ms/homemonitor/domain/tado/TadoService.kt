@@ -2,16 +2,18 @@ package ms.homemonitor.domain.tado
 
 import ms.homemonitor.application.HomeMonitorException
 import ms.homemonitor.domain.tado.model.TadoResponseModel
-import ms.homemonitor.domain.tado.repository.TadoRepository
 import ms.homemonitor.domain.tado.rest.Tado
 import ms.homemonitor.micrometer.MicroMeterMeasurement
+import ms.homemonitor.repository.TadoEntity
+import ms.homemonitor.repository.TadoRepository
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class TadoService(
     private val tado: Tado,
-    private val repository: TadoRepository,
+    private val tadoRepository: TadoRepository,
     private val measurement: MicroMeterMeasurement,
     private val tadoProperties: TadoProperties,
 ) {
@@ -21,13 +23,25 @@ class TadoService(
         if (!tadoProperties.enabled)
             return
         try {
+            val now = LocalDateTime.now()
             val tadoResponse = tado.getTadoResponse()
-            repository.storeTadoData(tadoResponse)
+            tadoRepository.saveAndFlush(
+                TadoEntity(
+                    time= now,
+                    insideTemperature = tadoResponse.tadoState.sensorDataPoints.insideTemperature.celsius,
+                    humidityPercentage = tadoResponse.tadoState.sensorDataPoints.humidity.percentage,
+                    heatingPowerPercentage = tadoResponse.tadoState.activityDataPoints.heatingPower.percentage,
+                    settingPowerOn = tadoResponse.tadoState.setting.power == "ON",
+                    settingTemperature = tadoResponse.tadoState.setting.temperature?.celsius?:0.0,
+                    outsideTemperature = tadoResponse.weather.outsideTemperature.celsius,
+                    solarIntensityPercentage = tadoResponse.weather.solarIntensity.percentage,
+                    weatherState = tadoResponse.weather.weatherState.value
+                )
+            )
             setMetrics(tadoResponse)
         } catch (e: Exception) {
             throw HomeMonitorException("Error while processing Tado data", e)
         }
-
     }
 
     fun setMetrics(data: TadoResponseModel) {
