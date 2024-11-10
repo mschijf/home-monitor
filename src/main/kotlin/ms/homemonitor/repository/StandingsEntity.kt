@@ -14,9 +14,6 @@ class StandingsEntity(
     @Column(name = "time", nullable = false, unique = true)
     val time: LocalDateTime = LocalDateTime.MIN,
 
-    @Column(name = "water_m3", nullable = true)
-    var waterM3: BigDecimal? = null,
-
     @Column(name = "power_normal_kwh", nullable = true)
     var powerNormalKwh: BigDecimal? =  null,
 

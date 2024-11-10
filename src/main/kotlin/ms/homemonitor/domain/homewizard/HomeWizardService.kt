@@ -51,7 +51,6 @@ class HomeWizardService(
             standingsRepository.saveAndFlush(
                 StandingsEntity(
                     time=now,
-                    waterM3 = homeWizardData.water.totalLiterM3 + homeWizardProperties.initialWaterValue,
                     powerNormalKwh = homeWizardData.energy.totalPowerImportT2Kwh,
                     powerOffpeakKwh = homeWizardData.energy.totalPowerImportT1Kwh
                 )

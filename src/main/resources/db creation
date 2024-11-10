@@ -46,12 +46,19 @@ CREATE TABLE IF NOT EXISTS tado
 
 create or replace view standings_hour_usage as
 select standings.time,
-       standings.water_m3 - prevstandings.water_m3 as water_m3,
        standings.power_offpeak_kwh - prevstandings.power_offpeak_kwh as power_offpeak_kwh,
        standings.power_normal_kwh - prevstandings.power_normal_kwh as power_normal_kwh
 from standings inner join standings as prevstandings
                           on date_sub(standings.time, interval '0 1:0:0' day_second) = prevstandings.time
 where minute(standings.time) = 0 and second(standings.time) = 0;
+
+create or replace view water_hour_usage as
+select water.time,
+       water.water_m3 - prevwater.water_m3 as water_m3
+from water inner join water as prevwater
+                      on date_sub(water.time, interval '0 1:0:0' day_second) = prevwater.time
+where minute(water.time) = 0 and second(water.time) = 0;
+
 
 #####################################################################################
 
