@@ -3,6 +3,8 @@ package ms.homemonitor.domain.eneco
 import jakarta.transaction.Transactional
 import ms.homemonitor.domain.eneco.model.EnecoConsumption
 import ms.homemonitor.domain.eneco.rest.Eneco
+import ms.homemonitor.repository.AdminEntity
+import ms.homemonitor.repository.AdminRepository
 import ms.homemonitor.repository.HeathEntity
 import ms.homemonitor.repository.HeathRepository
 import org.slf4j.LoggerFactory
@@ -15,7 +17,8 @@ import java.time.LocalTime
 @Service
 class EnecoUpdateService(
     private val eneco: Eneco,
-    private val heathRepository: HeathRepository
+    private val heathRepository: HeathRepository,
+    private val adminRepository: AdminRepository
 ) {
 
     private val log = LoggerFactory.getLogger(EnecoUpdateService::class.java)
@@ -35,6 +38,8 @@ class EnecoUpdateService(
             .drop(1)
 
         heathRepository.saveAllAndFlush(newHeathRecordList)
+
+        adminRepository.saveAndFlush(AdminEntity(id=0, lastEnecoImport = LocalDateTime.now()))
 
         return freshDataList
     }

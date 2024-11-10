@@ -3,6 +3,8 @@ spring:
     name: home-monitoring
   main:
     banner-mode: "off"
+  jpa:
+    open-in-view: false
   datasource:
     url: jdbc:mariadb://localhost:3306/home-monitor
     username: home-monitor

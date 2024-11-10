@@ -40,6 +40,14 @@ CREATE TABLE IF NOT EXISTS tado
     PRIMARY KEY (time)
 );
 
+CREATE TABLE IF NOT EXISTS admin
+(
+    id                  INT,
+    last_eneco_import   DATETIME,
+
+    PRIMARY KEY (id)
+);
+
 #####################################################################################
 #####################################################################################
 
