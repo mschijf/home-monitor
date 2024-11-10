@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS standings
 (
     time                DATETIME,
-    water_m3            DECIMAL(14,4),
     power_normal_kwh    DECIMAL(14,4),
     power_offpeak_kwh   DECIMAL(14,4),
 
