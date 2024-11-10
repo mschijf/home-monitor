@@ -8,8 +8,10 @@ import ms.homemonitor.domain.homewizard.rest.HomeWizard
 import ms.homemonitor.micrometer.MicroMeterMeasurement
 import ms.homemonitor.repository.WaterEntity
 import ms.homemonitor.repository.WaterRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 
@@ -17,9 +19,10 @@ import java.time.LocalDateTime
 class HomeWizardService(
     private val homeWizard: HomeWizard,
     private val measurement: MicroMeterMeasurement,
-    private val homeWizardProperties: HomeWizardProperties,
     private val powerRepository: PowerRepository,
     private val waterRepository: WaterRepository,
+    @Value("\${homewizard.enabled}") private val enabled: Boolean,
+    @Value("\${homewizard.initialWaterValue}") private val initialWaterValue: BigDecimal,
 ) {
 
     fun getHomeWizardData(): HomeWizardData {
@@ -30,7 +33,7 @@ class HomeWizardService(
 
     @Scheduled(fixedRate = 10_000)
     fun detailedPowerMeasurement() {
-        if (!homeWizardProperties.enabled)
+        if (!enabled)
             return
 
         try {
@@ -43,8 +46,9 @@ class HomeWizardService(
 
     @Scheduled(cron = "0 * * * * *")
     fun minuteMeasurement() {
-        if (!homeWizardProperties.enabled)
+        if (!enabled)
             return
+
         try {
             val now = LocalDateTime.now()
             val homeWizardData = getHomeWizardData()
@@ -59,7 +63,7 @@ class HomeWizardService(
             waterRepository.saveAndFlush(
                 WaterEntity(
                     time=now,
-                    waterM3 = homeWizardData.water.totalLiterM3 + homeWizardProperties.initialWaterValue,
+                    waterM3 = homeWizardData.water.totalLiterM3 + initialWaterValue,
                 )
             )
 

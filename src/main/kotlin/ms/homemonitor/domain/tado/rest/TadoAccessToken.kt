@@ -1,8 +1,8 @@
 package ms.homemonitor.domain.tado.rest
 
-import ms.homemonitor.domain.tado.TadoProperties
 import ms.homemonitor.domain.tado.model.TadoOAuth
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -14,7 +14,12 @@ import org.springframework.web.client.RestTemplate
 
 @Service
 class TadoAccessToken(
-    private val tadoProperties: TadoProperties) {
+    @Value("\${tado.tokenUrl}") private val tokenUrl: String,
+    @Value("\${tado.clientSecret}") private val clientSecret: String,
+    @Value("\${tado.clientId}") private val clientId: String,
+    @Value("\${tado.username}") private val username: String,
+    @Value("\${tado.password}") private val password: String,
+    ) {
 
     private val restTemplate = RestTemplate()
     private val log = LoggerFactory.getLogger(TadoAccessToken::class.java)
@@ -22,15 +27,15 @@ class TadoAccessToken(
     private var accessTokenObject: TadoOAuth? = null
 
     private fun getUsernamePassword(): Pair<String, String> {
-        return Pair(tadoProperties.username, tadoProperties.password)
+        return Pair(username, password)
     }
 
     private fun getBodyMapUsingPasswordGrant(): MultiValueMap<String, String> {
         val (username, password) = getUsernamePassword()
 
         val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
-        bodyMap.add("client_id", tadoProperties.clientId)
-        bodyMap.add("client_secret", tadoProperties.clientSecret)
+        bodyMap.add("client_id", clientId)
+        bodyMap.add("client_secret", clientSecret)
         bodyMap.add("username", username)
         bodyMap.add("password", password)
         bodyMap.add("grant_type", "password")
@@ -39,8 +44,8 @@ class TadoAccessToken(
 
     private fun getBodyMapUsingRefreshTokenGrant(): MultiValueMap<String, String> {
         val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
-        bodyMap.add("client_id", tadoProperties.clientId)
-        bodyMap.add("client_secret", tadoProperties.clientSecret)
+        bodyMap.add("client_id", clientId)
+        bodyMap.add("client_secret", clientSecret)
         bodyMap.add("grant_type", "refresh_token")
         bodyMap.add("refresh_token", accessTokenObject!!.refreshToken)
         return bodyMap
@@ -60,11 +65,11 @@ class TadoAccessToken(
         }
 
         try {
-            accessTokenObject = restTemplate.postForObject(tadoProperties.tokenUrl, HttpEntity(bodyMap, headers), TadoOAuth::class.java)
+            accessTokenObject = restTemplate.postForObject(tokenUrl, HttpEntity(bodyMap, headers), TadoOAuth::class.java)
         } catch (e: HttpClientErrorException) {
             log.info("Refreshing with refresh token did not work. Get access token - use username and password")
             val newBodyMap = getBodyMapUsingPasswordGrant()
-            accessTokenObject = restTemplate.postForObject(tadoProperties.tokenUrl, HttpEntity(newBodyMap, headers), TadoOAuth::class.java)
+            accessTokenObject = restTemplate.postForObject(tokenUrl, HttpEntity(newBodyMap, headers), TadoOAuth::class.java)
         }
     }
 

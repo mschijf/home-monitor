@@ -5,6 +5,7 @@ import ms.homemonitor.domain.weerlive.model.WeerLiveModel
 import ms.homemonitor.domain.weerlive.rest.WeerLive
 import ms.homemonitor.micrometer.MicroMeterMeasurement
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
@@ -12,14 +13,14 @@ import org.springframework.stereotype.Service
 class WeerLiveService(
     private val weerLive: WeerLive,
     private val measurement: MicroMeterMeasurement,
-    private val weerLiveProperties: WeerLiveProperties
+    @Value("\${weerlive.enabled}") private val enabled: Boolean,
 ) {
 
     private val log = LoggerFactory.getLogger(WeerLiveService::class.java)
 
     @Scheduled(cron = "0 */10 * * * *")
     fun weerLiveMeasurement() {
-        if (!weerLiveProperties.enabled)
+        if (!enabled)
             return
 
         try {

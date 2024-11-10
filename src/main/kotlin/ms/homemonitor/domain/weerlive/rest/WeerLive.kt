@@ -1,23 +1,25 @@
 package ms.homemonitor.domain.weerlive.rest
 
-import ms.homemonitor.domain.weerlive.WeerLiveProperties
 import ms.homemonitor.domain.weerlive.model.WeerLiveModel
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 
-
 @Service
 class WeerLive(
-    private val weerLiveProperties: WeerLiveProperties) {
+    @Value("\${weerlive.baseRestUrl}") private val baseRestUrl: String,
+    @Value("\${weerlive.apiKey}") private val apiKey: String,
+    @Value("\${weerlive.locationCoordinateN}") private val locationCoordinateN: Double,
+    @Value("\${weerlive.locationCoordinateE}") private val locationCoordinateE: Double) {
 
     private val restTemplate = RestTemplate()
     private val log = LoggerFactory.getLogger(WeerLive::class.java)
 
     fun getWeerLiveData(): WeerLiveModel? {
-        val uri = "${weerLiveProperties.baseRestUrl}?" +
-                "key=${weerLiveProperties.apiKey}" +
-                "&locatie=${weerLiveProperties.locationCoordinateN},${weerLiveProperties.locationCoordinateE}"
+        val uri = "${baseRestUrl}?" +
+                "key=${apiKey}" +
+                "&locatie=${locationCoordinateN},${locationCoordinateE}"
 
         try {
             val response = restTemplate

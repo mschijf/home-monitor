@@ -36,12 +36,6 @@ weerlive:
   locationCoordinateN: 52.0248
   locationCoordinateE: 5.0918
 
-eneco:
-  enabled: false
-
-data-output:
-  path: ./data
-
 management:
   endpoints:
     web:

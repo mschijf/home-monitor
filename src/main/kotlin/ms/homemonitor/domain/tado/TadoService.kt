@@ -6,6 +6,7 @@ import ms.homemonitor.domain.tado.rest.Tado
 import ms.homemonitor.micrometer.MicroMeterMeasurement
 import ms.homemonitor.repository.TadoEntity
 import ms.homemonitor.repository.TadoRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -15,12 +16,12 @@ class TadoService(
     private val tado: Tado,
     private val tadoRepository: TadoRepository,
     private val measurement: MicroMeterMeasurement,
-    private val tadoProperties: TadoProperties,
-) {
+    @Value("\${tado.enabled}") private val enabled: Boolean) {
+
 
     @Scheduled(cron = "0 * * * * *")
     fun tadoMeasurement() {
-        if (!tadoProperties.enabled)
+        if (!enabled)
             return
         try {
             val now = LocalDateTime.now()

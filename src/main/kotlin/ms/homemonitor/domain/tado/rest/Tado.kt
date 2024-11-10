@@ -1,15 +1,13 @@
 package ms.homemonitor.domain.tado.rest
 
-import ms.homemonitor.domain.tado.TadoProperties
 import ms.homemonitor.domain.tado.model.*
 import ms.homemonitor.tools.getForEntityWithHeader
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 
 // More information     : https://blog.scphillips.com/posts/2017/01/the-tado-api-v2/
@@ -19,7 +17,7 @@ import java.time.LocalDateTime
 @Service
 class Tado(
     private val tadoAccessToken: TadoAccessToken,
-    private val tadoProperties: TadoProperties) {
+    @Value("\${tado.baseRestUrl}") private val baseRestUrl: String) {
 
     private val restTemplate = RestTemplate()
 
@@ -36,23 +34,23 @@ class Tado(
 
 
     private fun getTadoMe() : TadoMe {
-        return getTadoObjectViaRest("${tadoProperties.baseRestUrl}/me")
+        return getTadoObjectViaRest("${baseRestUrl}/me")
     }
 
     private fun getTadoZonesForHome(homeId: Int) : List<TadoZone> {
-        return getTadoObjectViaRest("${tadoProperties.baseRestUrl}/homes/$homeId/zones")
+        return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/zones")
     }
 
     private fun getTadoStateForZone(homeId: Int, zoneId: Int) : TadoState {
-        return getTadoObjectViaRest("${tadoProperties.baseRestUrl}/homes/$homeId/zones/$zoneId/state")
+        return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/state")
     }
 
     private fun getTadoOutsideWeather(homeId: Int): TadoWeather {
-        return getTadoObjectViaRest("${tadoProperties.baseRestUrl}/homes/$homeId/weather")
+        return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/weather")
     }
 
 //    private fun getTadoHistory(homeId: Int, zoneId: Int, dateStr: String) : String {
-//        return getTadoObjectViaRest("${tadoProperties.baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=$dateStr")
+//        return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=$dateStr")
 //    }
 //
     fun getTadoResponse(): TadoResponseModel {
