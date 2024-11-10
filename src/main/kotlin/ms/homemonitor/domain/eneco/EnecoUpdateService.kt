@@ -39,7 +39,10 @@ class EnecoUpdateService(
 
         heathRepository.saveAllAndFlush(newHeathRecordList)
 
-        adminRepository.saveAndFlush(AdminEntity(id=0, lastEnecoImport = LocalDateTime.now()))
+        val lastUpdate = adminRepository.findById(0).orElse(AdminEntity(id=0, lastEnecoImport = LocalDateTime.now()))
+        lastUpdate.lastEnecoImport = LocalDateTime.now()
+        adminRepository.saveAndFlush(lastUpdate)
+
 
         return freshDataList
     }
