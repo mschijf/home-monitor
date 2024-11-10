@@ -8,6 +8,8 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 // More information     : https://blog.scphillips.com/posts/2017/01/the-tado-api-v2/
@@ -49,9 +51,20 @@ class Tado(
         return getTadoObjectViaRest("${tadoProperties.baseRestUrl}/homes/$homeId/weather")
     }
 
+//    private fun getTadoHistory(homeId: Int, zoneId: Int, dateStr: String) : String {
+//        return getTadoObjectViaRest("${tadoProperties.baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=$dateStr")
+//    }
+//
     fun getTadoResponse(): TadoResponseModel {
         val homeId = getTadoMe().homes[0].id
         val zoneId = getTadoZonesForHome(homeId)[0].id
         return TadoResponseModel(getTadoStateForZone(homeId, zoneId), getTadoOutsideWeather(homeId))
     }
+//
+//    fun getTadoResponseDate(date: String ): String {
+//        val homeId = getTadoMe().homes[0].id
+//        val zoneId = getTadoZonesForHome(homeId)[0].id
+//        return getTadoHistory(homeId, zoneId, date.toString())
+//    }
+//
 }

@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 
@@ -57,6 +58,13 @@ class Controller(
         return tadoDataProvider.getTadoResponse()
     }
 
+//    @Tag(name="Tado")
+//    @GetMapping("/tado/history")
+//    fun tadoHistory(@RequestParam date: String): String {
+//        return tadoDataProvider.getTadoResponseDate(date)
+//    }
+//
+//
     @Tag(name="Raspberry Pi")
     @GetMapping("/raspberrypi/current")
     fun raspberrypi(): RaspberryPiStatsModel {

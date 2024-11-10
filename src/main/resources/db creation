@@ -1,0 +1,64 @@
+CREATE TABLE IF NOT EXISTS standings
+(
+    time                DATETIME,
+    water_m3            DECIMAL(14,4),
+    power_normal_kwh    DECIMAL(14,4),
+    power_offpeak_kwh   DECIMAL(14,4),
+
+    PRIMARY KEY (time)
+);
+
+CREATE TABLE IF NOT EXISTS water
+(
+    time                DATETIME,
+    water_m3            DECIMAL(14,4),
+
+    PRIMARY KEY (time)
+);
+
+
+CREATE TABLE IF NOT EXISTS heath
+(
+    time               DATETIME,
+    delta_gj           DECIMAL(28,18),
+    heath_gj           DECIMAL(28,18),
+
+    PRIMARY KEY (time)
+);
+
+CREATE TABLE IF NOT EXISTS tado
+(
+    time                           DATETIME,
+    inside_temperature             DECIMAL(5,2),
+    outside_temperature            DECIMAL(5,2),
+    humidity_percentage            DECIMAL(5,2),
+    heating_power_percentage       DECIMAL(5,2),
+    setting_power_on               BOOLEAN,
+    setting_temperature            DECIMAL(5,2),
+    solar_intensity_percentage     DECIMAL(5,2),
+    weather_state                  VARCHAR(16),
+
+    PRIMARY KEY (time)
+);
+
+#####################################################################################
+#####################################################################################
+
+create or replace view standings_hour_usage as
+select standings.time,
+       standings.water_m3 - prevstandings.water_m3 as water_m3,
+       standings.power_offpeak_kwh - prevstandings.power_offpeak_kwh as power_offpeak_kwh,
+       standings.power_normal_kwh - prevstandings.power_normal_kwh as power_normal_kwh
+from standings inner join standings as prevstandings
+                          on date_sub(standings.time, interval '0 1:0:0' day_second) = prevstandings.time
+where minute(standings.time) = 0 and second(standings.time) = 0;
+
+#####################################################################################
+
+create or replace view heath_hour_usage as
+select heath.time,
+       heath.heath_gj - prevheath.heath_gj as delta_heath_gj
+from heath inner join heath as prevheath
+                      on date_sub(heath.time, interval '0 1:0:0' day_second) = prevheath.time
+where minute(heath.time) = 0 and second(heath.time) = 0;
+

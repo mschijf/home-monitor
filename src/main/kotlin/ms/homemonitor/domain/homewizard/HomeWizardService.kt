@@ -6,6 +6,8 @@ import ms.homemonitor.repository.StandingsEntity
 import ms.homemonitor.repository.StandingsRepository
 import ms.homemonitor.domain.homewizard.rest.HomeWizard
 import ms.homemonitor.micrometer.MicroMeterMeasurement
+import ms.homemonitor.repository.WaterEntity
+import ms.homemonitor.repository.WaterRepository
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -17,6 +19,7 @@ class HomeWizardService(
     private val measurement: MicroMeterMeasurement,
     private val homeWizardProperties: HomeWizardProperties,
     private val standingsRepository: StandingsRepository,
+    private val waterRepository: WaterRepository,
 ) {
 
     fun getHomeWizardData(): HomeWizardData {
@@ -53,6 +56,14 @@ class HomeWizardService(
                     powerOffpeakKwh = homeWizardData.energy.totalPowerImportT1Kwh
                 )
             )
+
+            waterRepository.saveAndFlush(
+                WaterEntity(
+                    time=now,
+                    waterM3 = homeWizardData.water.totalLiterM3 + homeWizardProperties.initialWaterValue,
+                )
+            )
+
         } catch (e: Exception) {
             throw HomeMonitorException("Error while processing and storing HomeWizard data", e)
         }
