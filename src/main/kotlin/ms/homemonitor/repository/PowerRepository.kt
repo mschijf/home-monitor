@@ -5,4 +5,4 @@ import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
 @Repository
-interface StandingsRepository: JpaRepository<StandingsEntity, LocalDateTime>
+interface PowerRepository: JpaRepository<PowerEntity, LocalDateTime>

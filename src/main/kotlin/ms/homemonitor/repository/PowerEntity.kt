@@ -8,8 +8,8 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "standings")
-class StandingsEntity(
+@Table(name = "power")
+class PowerEntity(
     @Id
     @Column(name = "time", nullable = false, unique = true)
     val time: LocalDateTime = LocalDateTime.MIN,

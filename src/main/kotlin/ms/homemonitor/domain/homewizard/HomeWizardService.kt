@@ -2,8 +2,8 @@ package ms.homemonitor.domain.homewizard
 
 import ms.homemonitor.application.HomeMonitorException
 import ms.homemonitor.domain.homewizard.model.HomeWizardData
-import ms.homemonitor.repository.StandingsEntity
-import ms.homemonitor.repository.StandingsRepository
+import ms.homemonitor.repository.PowerEntity
+import ms.homemonitor.repository.PowerRepository
 import ms.homemonitor.domain.homewizard.rest.HomeWizard
 import ms.homemonitor.micrometer.MicroMeterMeasurement
 import ms.homemonitor.repository.WaterEntity
@@ -18,7 +18,7 @@ class HomeWizardService(
     private val homeWizard: HomeWizard,
     private val measurement: MicroMeterMeasurement,
     private val homeWizardProperties: HomeWizardProperties,
-    private val standingsRepository: StandingsRepository,
+    private val powerRepository: PowerRepository,
     private val waterRepository: WaterRepository,
 ) {
 
@@ -48,8 +48,8 @@ class HomeWizardService(
         try {
             val now = LocalDateTime.now()
             val homeWizardData = getHomeWizardData()
-            standingsRepository.saveAndFlush(
-                StandingsEntity(
+            powerRepository.saveAndFlush(
+                PowerEntity(
                     time=now,
                     powerNormalKwh = homeWizardData.energy.totalPowerImportT2Kwh,
                     powerOffpeakKwh = homeWizardData.energy.totalPowerImportT1Kwh

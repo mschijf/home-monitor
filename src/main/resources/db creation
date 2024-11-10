@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS standings
+CREATE TABLE IF NOT EXISTS power
 (
     time                DATETIME,
     power_normal_kwh    DECIMAL(14,4),
@@ -43,13 +43,15 @@ CREATE TABLE IF NOT EXISTS tado
 #####################################################################################
 #####################################################################################
 
-create or replace view standings_hour_usage as
-select standings.time,
-       standings.power_offpeak_kwh - prevstandings.power_offpeak_kwh as power_offpeak_kwh,
-       standings.power_normal_kwh - prevstandings.power_normal_kwh as power_normal_kwh
-from standings inner join standings as prevstandings
-                          on date_sub(standings.time, interval '0 1:0:0' day_second) = prevstandings.time
-where minute(standings.time) = 0 and second(standings.time) = 0;
+create or replace view power_hour_usage as
+select power.time,
+       power.power_offpeak_kwh - prevpower.power_offpeak_kwh as power_offpeak_kwh,
+       power.power_normal_kwh - prevpower.power_normal_kwh as power_normal_kwh
+from power inner join power as prevpower
+                          on date_sub(power.time, interval '0 1:0:0' day_second) = prevpower.time
+where minute(power.time) = 0 and second(power.time) = 0;
+
+
 
 create or replace view water_hour_usage as
 select water.time,
@@ -59,7 +61,6 @@ from water inner join water as prevwater
 where minute(water.time) = 0 and second(water.time) = 0;
 
 
-#####################################################################################
 
 create or replace view heath_hour_usage as
 select heath.time,
