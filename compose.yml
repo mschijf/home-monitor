@@ -1,4 +1,3 @@
-version: '3'
 services:
   mariadb:
     image: "mariadb:latest"
@@ -9,3 +8,12 @@ services:
       - MARIADB_ROOT_PASSWORD=home-monitor
     ports:
       - "3306:3306"
+
+  postgres:
+    image: "postgres"
+    environment:
+      - POSTGRES_USER=home-monitor
+      - POSTGRES_PASSWORD=home-monitor
+      - POSTGRES_DB=home-monitor
+    ports:
+      - "5432:5432"
