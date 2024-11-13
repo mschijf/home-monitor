@@ -6,10 +6,11 @@ spring:
   jpa:
     open-in-view: false
   datasource:
-    url: jdbc:mariadb://localhost:3306/home-monitor
+    url: jdbc:postgresql://localhost:5432/home-monitor
     username: home-monitor
     password: home-monitor
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
+
 
 homewizard:
     enabled: false
