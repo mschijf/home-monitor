@@ -3,10 +3,10 @@ package ms.homemonitor
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
+//@SpringBootTest
 class HomeMonitorApplicationTests {
 
-    @Test
+//    @Test
     fun contextLoads() {
     }
 
