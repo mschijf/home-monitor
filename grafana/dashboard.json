@@ -61,8 +61,9 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "ddsu29x1258g0e"
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "fe3nem033oetce"
       },
       "description": "",
       "fieldConfig": {
@@ -134,6 +135,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "outside_temperature"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -143,7 +159,7 @@
         "x": 0,
         "y": 1
       },
-      "id": 19,
+      "id": 74,
       "options": {
         "legend": {
           "calcs": [],
@@ -159,56 +175,90 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "ddsu29x1258g0e"
+            "type": "grafana-postgresql-datasource",
+            "uid": "fe3nem033oetce"
           },
-          "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "tadoInsideTemperature",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "interval": "1m",
-          "legendFormat": "Binnen",
-          "range": true,
+          "format": "table",
+          "rawSql": "SELECT \"time\", inside_temperature, outside_temperature FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
           "refId": "A",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddsu29x1258g0e"
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "\"time\"",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "inside_temperature",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "outside_temperature",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": null,
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "ASC",
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "aa99a8a8-89ab-4cde-b012-31932709cba4",
+                  "properties": {
+                    "field": "\"time\"",
+                    "fieldSrc": "field",
+                    "operator": "macros",
+                    "value": [
+                      "timeFilter"
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "datetime"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "89aabaa8-0123-4456-b89a-b19326fb0adb",
+              "type": "group"
+            },
+            "whereString": "$__timeFilter(\"time\")"
           },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "tadoOutsideTemperature",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "interval": "1m",
-          "legendFormat": "Buiten (Tado)",
-          "range": true,
-          "refId": "B",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddsu29x1258g0e"
-          },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "weerLiveOutsideTemperature",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "Buiten (Weerlive)",
-          "range": true,
-          "refId": "C",
-          "useBackend": false
+          "table": "tado"
         }
       ],
       "title": "Temperatuur",
@@ -294,8 +344,9 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "ddsu29x1258g0e"
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "fe3nem033oetce"
       },
       "description": "",
       "fieldConfig": {
@@ -315,7 +366,7 @@
               }
             ]
           },
-          "unit": "celsius"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -326,7 +377,7 @@
         "y": 4
       },
       "hideTimeOverride": true,
-      "id": 20,
+      "id": 72,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -335,7 +386,7 @@
         "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "firstNotNull"
           ],
           "fields": "",
           "values": false
@@ -351,29 +402,55 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "ddsu29x1258g0e"
+            "type": "grafana-postgresql-datasource",
+            "uid": "fe3nem033oetce"
           },
-          "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "tadoOutsideTemperature",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
+          "format": "table",
+          "rawSql": "SELECT heating_power_percentage FROM tado ORDER BY \"time\" DESC LIMIT 1 ",
           "refId": "A",
-          "useBackend": false
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "heating_power_percentage",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 1,
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "DESC"
+          },
+          "table": "tado"
         }
       ],
       "timeFrom": "1h",
-      "title": "Tado buiten",
+      "title": "heating power",
       "type": "stat"
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "ddsu29x1258g0e"
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "fe3nem033oetce"
       },
       "description": "",
       "fieldConfig": {
@@ -404,7 +481,7 @@
         "y": 7
       },
       "hideTimeOverride": true,
-      "id": 30,
+      "id": 20,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -413,7 +490,7 @@
         "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "firstNotNull"
           ],
           "fields": "",
           "values": false
@@ -429,29 +506,83 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "ddsu29x1258g0e"
+            "type": "grafana-postgresql-datasource",
+            "uid": "fe3nem033oetce"
           },
-          "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "weerLiveOutsideTemperature",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
+          "format": "table",
+          "rawSql": "SELECT outside_temperature FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" DESC LIMIT 1 ",
           "refId": "A",
-          "useBackend": false
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "outside_temperature",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 1,
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "DESC",
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "888b8a88-4567-489a-bcde-f193270bfc09",
+                  "properties": {
+                    "field": "\"time\"",
+                    "fieldSrc": "field",
+                    "operator": "macros",
+                    "value": [
+                      "timeFilter"
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "datetime"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "89aabaa8-0123-4456-b89a-b19326fb0adb",
+              "type": "group"
+            },
+            "whereString": "$__timeFilter(\"time\")"
+          },
+          "table": "tado"
         }
       ],
       "timeFrom": "1h",
-      "title": "Weerlive buiten",
+      "title": "Tado buiten",
       "type": "stat"
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "ddsu29x1258g0e"
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "fe3nem033oetce"
       },
       "description": "",
       "fieldConfig": {
@@ -538,6 +669,51 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "heating_power_percentage"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "humidity_percentage"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "solar_intensity_percentage"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -547,7 +723,7 @@
         "x": 0,
         "y": 10
       },
-      "id": 49,
+      "id": 73,
       "options": {
         "legend": {
           "calcs": [],
@@ -563,47 +739,111 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "ddsu29x1258g0e"
+            "type": "grafana-postgresql-datasource",
+            "uid": "fe3nem033oetce"
           },
-          "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "tadoSolarPercentage",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "interval": "1m",
-          "legendFormat": "Zonintensity %",
-          "range": true,
+          "format": "table",
+          "rawSql": "SELECT \"time\", solar_intensity_percentage, humidity_percentage, heating_power_percentage FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
           "refId": "A",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddsu29x1258g0e"
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "\"time\"",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "solar_intensity_percentage",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "humidity_percentage",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "heating_power_percentage",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": null,
+            "orderBy": {
+              "property": {
+                "name": [
+                  "\"time\""
+                ],
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "ASC",
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "baa9b8bb-cdef-4012-b456-719327076b50",
+                  "properties": {
+                    "field": "\"time\"",
+                    "fieldSrc": "field",
+                    "operator": "macros",
+                    "value": [
+                      "timeFilter"
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "datetime"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "89aabaa8-0123-4456-b89a-b19326fb0adb",
+              "type": "group"
+            },
+            "whereString": "$__timeFilter(\"time\")"
           },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "tadoHumidityPercentage",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "interval": "1m",
-          "legendFormat": "Humidity %",
-          "range": true,
-          "refId": "B",
-          "useBackend": false
+          "table": "tado"
         }
       ],
-      "title": "Zon intensiteit",
+      "title": "Percentages",
       "type": "timeseries"
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "ddsu29x1258g0e"
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "fe3nem033oetce"
       },
       "description": "",
       "fieldConfig": {
@@ -659,19 +899,72 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "ddsu29x1258g0e"
+            "type": "grafana-postgresql-datasource",
+            "uid": "fe3nem033oetce"
           },
-          "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "tadoSolarPercentage",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
+          "format": "table",
+          "rawSql": "SELECT solar_intensity_percentage FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" DESC LIMIT 1 ",
           "refId": "A",
-          "useBackend": false
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "solar_intensity_percentage",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 1,
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "DESC",
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "8aab888a-4567-489a-bcde-f193270e0683",
+                  "properties": {
+                    "field": "\"time\"",
+                    "fieldSrc": "field",
+                    "operator": "macros",
+                    "value": [
+                      "timeFilter"
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "datetime"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "89aabaa8-0123-4456-b89a-b19326fb0adb",
+              "type": "group"
+            },
+            "whereString": "$__timeFilter(\"time\")"
+          },
+          "table": "tado"
         }
       ],
       "timeFrom": "1h",
@@ -680,8 +973,9 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "ddsu29x1258g0e"
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "fe3nem033oetce"
       },
       "description": "",
       "fieldConfig": {
@@ -737,19 +1031,72 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "ddsu29x1258g0e"
+            "type": "grafana-postgresql-datasource",
+            "uid": "fe3nem033oetce"
           },
-          "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "tadoHumidityPercentage",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
+          "format": "table",
+          "rawSql": "SELECT humidity_percentage FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC LIMIT 1 ",
           "refId": "A",
-          "useBackend": false
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "humidity_percentage",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 1,
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "ASC",
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "a89b98aa-0123-4456-b89a-b193270ed6ea",
+                  "properties": {
+                    "field": "\"time\"",
+                    "fieldSrc": "field",
+                    "operator": "macros",
+                    "value": [
+                      "timeFilter"
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "datetime"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "89aabaa8-0123-4456-b89a-b19326fb0adb",
+              "type": "group"
+            },
+            "whereString": "$__timeFilter(\"time\")"
+          },
+          "table": "tado"
         }
       ],
       "timeFrom": "1h",
@@ -1771,7 +2118,6 @@
                 "type": "groupBy"
               }
             ],
-            "limit": null,
             "orderBy": {
               "property": {
                 "name": "\"time\"",
@@ -1989,7 +2335,6 @@
                 "type": "groupBy"
               }
             ],
-            "limit": null,
             "orderBy": {
               "property": {
                 "name": "\"time\"",
@@ -3988,6 +4333,6 @@
   "timezone": "browser",
   "title": "Home-monitor",
   "uid": "bdsucvo44sy68b",
-  "version": 192,
+  "version": 194,
   "weekStart": ""
 }
