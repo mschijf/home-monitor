@@ -23,12 +23,15 @@ class EnecoUpdateService(
 
     private val log = LoggerFactory.getLogger(EnecoUpdateService::class.java)
 
+    private val initialDate = LocalDateTime.of(2024, 1, 1, 0, 0)
+    private val initialValue = BigDecimal.valueOf(196.196)
+
     @Transactional
     fun updateEnecoStatistics(source: String): List<EnecoConsumption> {
-        val lastRecord = heathRepository.getLastHeathEntity()
+        val lastRecord = heathRepository.getLastHeathEntity() ?: HeathEntity(initialDate, BigDecimal.ZERO, initialValue)
         val beginningOfLastDay = LocalDateTime.of(lastRecord.time.toLocalDate(), LocalTime.MIDNIGHT)
         heathRepository.deleteHeathEntitiesByTimeGreaterThanEqual(beginningOfLastDay)
-        val newLastRecord = heathRepository.getLastHeathEntity()
+        val newLastRecord = heathRepository.getLastHeathEntity()?: HeathEntity(initialDate, BigDecimal.ZERO, BigDecimal.valueOf(196.196))
 
         val freshDataList = getNewDataBySource(source,beginningOfLastDay.toLocalDate()).sortedBy { it.date }
 

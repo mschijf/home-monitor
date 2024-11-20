@@ -1,0 +1,124 @@
+* install ubuntu 24.10 server
+** (pre-edit on raspberry pi imager: install ssh, wifi, etc)
+* after installing and chip back in raspberry pi, start pi
+
+check na opstarten ip-adres: hostname -I
+
+* sudo apt update
+* sudo apt upgrade
+
+TIME
+check time:
+
+$> date
+
+if it is not correct, correct it as described on:
+see: https://www.digitalocean.com/community/tutorials/how-to-set-up-time-synchronization-on-ubuntu-20-04
+
+I did:
+sudo timedatectl set-timezone Europe/Amsterdam
+sudo timedatectl set-ntp no
+sudo apt install ntp
+
+
+SSH
+ssh works now, but you need to enter your password continuously.
+to prevent that, do:
+on laptop:
+cat ~/.ssh/id_ed25519.pub
+copy the line (something like ssh-ed25519 AAA)
+then on raspberry pi  
+vi ~/.ssh/authorized_keys
+paste the copied line
+save the file
+
+
+JAVA
+sudo apt install default-jre
+
+
+HOME-MONITOR
+copy home-monitor programs
+mkdir home-monitor
+mkdir home-monitor/script
+mkdir home-monitor/log
+mkdir home-monitor/backup
+cp target/home-monitor-*.jar  naar pi:~/home-monitor
+cp script/remote/*  naar pi:~/home-monitor/script
+
+
+DOCKER
+docker: see for info: https://mariadb.com/ja/resources/blog/building-a-portable-database-server/
+* sudo apt install docker.io -y 
+
+-- make docker available with sudo in front of it
+see https://docs.docker.com/engine/install/linux-postinstall/
+
+sudo groupadd docker
+sudo usermod -aG docker $USER
+--> logout and login again
+
+
+* sudo apt install docker-compose
+(altijd handig)
+
+
+
+
+POSTGRES
+see https://www.optimadata.nl/en/blogs/how-to-run-postgres-on-docker-part-1/
+
+docker run --name home-monitor -p 5432:5432 --restart unless-stopped -e POSTGRES_PASSWORD=horatio-spell-momentum-longest -d postgres
+
+doe: docker ps, to see that it is running:
+
+CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS         PORTS                                       NAMES
+04e001fe6769   postgres   "docker-entrypoint.s…"   5 minutes ago   Up 5 minutes   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   home-monitor
+
+==> go into container and initialize the database
+
+docker exec -it home-monitor bash
+su postgres
+
+--install database user (with superuser privilige)
+see: https://phoenixnap.com/kb/postgres-create-user
+CREATE ROLE "home-monitor-app" WITH PASSWORD 'billiard-loves-relief-east' SUPERUSER LOGIN;
+
+
+-- install database
+see https://www.postgresql.org/docs/current/sql-createdatabase.html
+CREATE DATABASE "home-monitor";
+
+
+
+TIME FOR A RESTART
+$> sudo reboot now
+doe ping 192.168.2.39 om te zien of hij weer up is.
+
+- ssh werkt nog steeds
+- date is nog steeds goed
+- docker ps ==> geen runnende database
+
+
+
+
+
+
+
+GRAFANA AND PROMETHEUS
+prometheus (https://signoz.io/guides/how-to-install-prometheus-and-grafana-on-docker/)
+grafana (https://signoz.io/guides/how-to-install-prometheus-and-grafana-on-docker/
+
+compose file:
+add "restart: unless-stopped" bij beide services (grafana and proetheus)
+
+
+  
+ 
+BASHRC
+copy and overwrite into ~/.bashrc to have another prompt (nice to have)
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]>'
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
