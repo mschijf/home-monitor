@@ -1,2 +1,0 @@
-@reboot ~/home-monitor/script/start.sh
-0 0 * * * ~/home-monitor/script/backup.sh >> ~/home-monitor/log/backup_log 2>> ~/home-monitor/log/backup_log

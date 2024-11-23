@@ -142,7 +142,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <executable>${project.basedir}/script/deploy.sh</executable>
+                    <executable>${project.basedir}/deploy/deploy.sh</executable>
                 </configuration>
             </plugin>
         </plugins>
