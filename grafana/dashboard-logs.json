@@ -27,7 +27,7 @@
       "keepTime": false,
       "tags": [],
       "targetBlank": false,
-      "title": "Monitoring",
+      "title": "home-monitor",
       "tooltip": "",
       "type": "dashboards",
       "url": ""
@@ -35,8 +35,10 @@
   ],
   "panels": [
     {
-      "datasource": {},
-      "description": "",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "ce4u9spkopxxce"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -49,8 +51,7 @@
               "wrapText": false
             },
             "filterable": true,
-            "inspect": true,
-            "minWidth": 50
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -71,24 +72,24 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "throwable"
+              "options": "type"
             },
             "properties": [
               {
                 "id": "custom.width",
-                "value": 361
+                "value": 127
               }
             ]
           },
           {
             "matcher": {
               "id": "byName",
-              "options": "process"
+              "options": "timeStr"
             },
             "properties": [
               {
                 "id": "custom.width",
-                "value": 151
+                "value": 230
               }
             ]
           },
@@ -100,19 +101,19 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 844
+                "value": 627
               }
             ]
           },
           {
             "matcher": {
               "id": "byName",
-              "options": "pid"
+              "options": "throwable"
             },
             "properties": [
               {
                 "id": "custom.width",
-                "value": 96
+                "value": 520
               }
             ]
           },
@@ -125,66 +126,6 @@
               {
                 "id": "custom.width",
                 "value": 249
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "application"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 139
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "time"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 200
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "type"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 81
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "timeStr"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 189
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "throwable"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 300
               }
             ]
           }
@@ -215,35 +156,34 @@
           }
         ]
       },
-      "pluginVersion": "11.2.0",
+      "pluginVersion": "11.3.0+security-01",
       "targets": [
         {
           "columns": [],
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
-            "uid": "cdw7j4mt91rswa"
+            "uid": "ce4u9spkopxxce"
           },
           "filters": [],
           "format": "table",
           "global_query_id": "",
-          "parser": "simple",
           "refId": "A",
           "root_selector": "",
           "source": "url",
           "type": "json",
-          "url": "http://localhost:8080/logs",
+          "url": "http://192.168.2.39:8080/logs",
           "url_options": {
             "data": "",
             "method": "GET"
           }
         }
       ],
+      "title": "",
       "transformations": [
         {
           "id": "organize",
           "options": {
             "excludeByName": {
-              "all": true,
               "application": true,
               "pid": true,
               "process": true,
@@ -268,20 +208,20 @@
       "type": "table"
     }
   ],
-  "refresh": "",
-  "schemaVersion": 39,
+  "preload": false,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-7d",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Logs",
-  "uid": "cdy5u2johmn7ke",
-  "version": 15,
+  "title": "home-monitor-logs",
+  "uid": "fe4ua4kk0dvcwa",
+  "version": 12,
   "weekStart": ""
 }
