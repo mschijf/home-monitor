@@ -52,27 +52,27 @@ CREATE TABLE IF NOT EXISTS admin
 
 ------------------------------------------------------------------------------------------
 
-create or replace view power_hour_usage as
-select power.time,
-       power.power_offpeak_kwh - prevpower.power_offpeak_kwh as power_offpeak_kwh,
-       power.power_normal_kwh - prevpower.power_normal_kwh as power_normal_kwh
-from power inner join power as prevpower
-                      on power.time - interval '1 hour' = prevpower.time
-where extract(minute from power.time) = 0 and extract(second from power.time) = 0;
-
-
-create or replace view water_hour_usage as
-select water.time,
-       water.water_m3 - prevwater.water_m3 as water_m3
-from water inner join water as prevwater
-                      on water.time - interval '1 hour'  = prevwater.time
-where extract(minute from water.time) = 0 and extract(second from water.time) = 0;
-
-
-
-create or replace view heath_hour_usage as
-select heath.time,
-       heath.heath_gj - prevheath.heath_gj as delta_heath_gj
-from heath inner join heath as prevheath
-                      on heath.time - interval '1 hour'  = prevheath.time
-where extract(minute from heath.time) = 0 and extract(second from heath.time) = 0;
+-- create or replace view power_hour_usage as
+-- select power.time,
+--        power.power_offpeak_kwh - prevpower.power_offpeak_kwh as power_offpeak_kwh,
+--        power.power_normal_kwh - prevpower.power_normal_kwh as power_normal_kwh
+-- from power inner join power as prevpower
+--                       on power.time - interval '1 hour' = prevpower.time
+-- where extract(minute from power.time) = 0 and extract(second from power.time) = 0;
+--
+--
+-- create or replace view water_hour_usage as
+-- SELECT min(time) as "time_begin",
+--        max(water_m3) - min(water_m3) as water_m3
+-- FROM water
+-- group by extract(year from time), extract(month from time),extract(day from time), extract(hour from time);
+--
+--
+--
+--
+-- create or replace view heath_hour_usage as
+-- select heath.time,
+--        heath.heath_gj - prevheath.heath_gj as delta_heath_gj
+-- from heath inner join heath as prevheath
+--                       on heath.time - interval '1 hour'  = prevheath.time
+-- where extract(minute from heath.time) = 0 and extract(second from heath.time) = 0;
