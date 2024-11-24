@@ -828,8 +828,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1018,8 +1017,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -1158,8 +1156,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -1171,7 +1168,7 @@
             "h": 3,
             "w": 4,
             "x": 20,
-            "y": 31
+            "y": 9
           },
           "hideTimeOverride": true,
           "id": 72,
@@ -1204,7 +1201,7 @@
               },
               "editorMode": "builder",
               "format": "table",
-              "rawSql": "SELECT heating_power_percentage FROM tado WHERE $__timeFilter(\"time\") ORDER BY heating_power_percentage DESC LIMIT 1 ",
+              "rawSql": "SELECT heating_power_percentage FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" DESC LIMIT 1 ",
               "refId": "A",
               "sql": {
                 "columns": [
@@ -1229,9 +1226,7 @@
                 "limit": 1,
                 "orderBy": {
                   "property": {
-                    "name": [
-                      "heating_power_percentage"
-                    ],
+                    "name": "\"time\"",
                     "type": "string"
                   },
                   "type": "property"
@@ -1291,8 +1286,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -1304,7 +1298,7 @@
             "h": 3,
             "w": 4,
             "x": 20,
-            "y": 34
+            "y": 49
           },
           "hideTimeOverride": true,
           "id": 20,
@@ -1425,8 +1419,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1518,7 +1511,7 @@
             "h": 7,
             "w": 20,
             "x": 0,
-            "y": 36
+            "y": 51
           },
           "id": 73,
           "options": {
@@ -1643,8 +1636,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -1656,7 +1648,7 @@
             "h": 3,
             "w": 4,
             "x": 20,
-            "y": 37
+            "y": 52
           },
           "hideTimeOverride": true,
           "id": 21,
@@ -1774,8 +1766,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -1787,7 +1778,7 @@
             "h": 3,
             "w": 4,
             "x": 20,
-            "y": 40
+            "y": 55
           },
           "hideTimeOverride": true,
           "id": 17,
@@ -1899,437 +1890,243 @@
         "x": 0,
         "y": 6
       },
-      "id": 37,
+      "id": 86,
       "panels": [
         {
           "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae4vstngitkowe"
+            "type": "prometheus",
+            "uid": "fe4vtjrld1r0gc"
           },
-          "description": "",
           "fieldConfig": {
             "defaults": {
               "color": {
-                "fixedColor": "semi-dark-green",
-                "mode": "fixed"
+                "mode": "palette-classic"
               },
-              "decimals": 3,
-              "fieldMinMax": false,
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
                   }
                 ]
               }
             },
-            "overrides": []
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "water"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "blue",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "gridPos": {
-            "h": 4,
-            "w": 6,
+            "h": 8,
+            "w": 12,
             "x": 0,
-            "y": 7
+            "y": 60
           },
-          "hideTimeOverride": true,
-          "id": 62,
+          "id": 87,
           "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "percentChangeColorMode": "standard",
-            "reduceOptions": {
-              "calcs": [
-                "firstNotNull"
-              ],
-              "fields": "",
-              "values": false
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
             },
-            "showPercentChange": false,
-            "text": {
-              "titleSize": 4
-            },
-            "textMode": "auto",
-            "wideLayout": true
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
           },
           "pluginVersion": "11.3.0+security-01",
           "targets": [
             {
               "datasource": {
-                "type": "grafana-postgresql-datasource",
-                "uid": "ae47yxjg85kowb"
+                "type": "prometheus",
+                "uid": "fe4vtjrld1r0gc"
               },
+              "disableTextWrap": false,
               "editorMode": "builder",
-              "format": "table",
-              "rawSql": "SELECT power_normal_kwh FROM power ORDER BY \"time\" DESC LIMIT 1 ",
+              "expr": "homewizardWaterActiveLpm",
+              "fullMetaSearch": false,
+              "includeNullMetadata": true,
+              "instant": false,
+              "legendFormat": "water",
+              "range": true,
               "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [
-                      {
-                        "name": "power_normal_kwh",
-                        "type": "functionParameter"
-                      }
-                    ],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 1,
-                "orderBy": {
-                  "property": {
-                    "name": "\"time\"",
-                    "type": "string"
-                  },
-                  "type": "property"
-                },
-                "orderByDirection": "DESC"
-              },
-              "table": "power"
+              "useBackend": false
             }
           ],
-          "timeFrom": "1d",
-          "title": "Hoog DB (kwh)",
-          "type": "stat"
+          "title": "Water (Lpm)",
+          "type": "timeseries"
         },
         {
           "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae4vstngitkowe"
+            "type": "prometheus",
+            "uid": "fe4vtjrld1r0gc"
           },
-          "description": "",
           "fieldConfig": {
             "defaults": {
               "color": {
-                "fixedColor": "light-green",
-                "mode": "fixed"
+                "mode": "palette-classic"
               },
-              "decimals": 3,
-              "fieldMinMax": false,
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 4,
-            "w": 6,
-            "x": 6,
-            "y": 7
-          },
-          "hideTimeOverride": true,
-          "id": 61,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "percentChangeColorMode": "standard",
-            "reduceOptions": {
-              "calcs": [
-                "firstNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "text": {
-              "titleSize": 4
-            },
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "11.3.0+security-01",
-          "targets": [
-            {
-              "datasource": {
-                "type": "grafana-postgresql-datasource",
-                "uid": "ae47yxjg85kowb"
-              },
-              "editorMode": "builder",
-              "format": "table",
-              "rawSql": "SELECT power_offpeak_kwh FROM power ORDER BY \"time\" DESC LIMIT 1 ",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [
-                      {
-                        "name": "power_offpeak_kwh",
-                        "type": "functionParameter"
-                      }
-                    ],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 1,
-                "orderBy": {
-                  "property": {
-                    "name": "\"time\"",
-                    "type": "string"
+                    "color": "green"
                   },
-                  "type": "property"
-                },
-                "orderByDirection": "DESC"
-              },
-              "table": "power"
-            }
-          ],
-          "timeFrom": "1d",
-          "title": "Laag DB (kwh)",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae4vstngitkowe"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "fixedColor": "blue",
-                "mode": "fixed"
-              },
-              "decimals": 3,
-              "fieldMinMax": false,
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "red",
+                    "value": 80
                   }
                 ]
               }
             },
-            "overrides": []
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "power"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "green",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "gridPos": {
-            "h": 4,
-            "w": 6,
+            "h": 8,
+            "w": 12,
             "x": 12,
-            "y": 7
+            "y": 60
           },
-          "hideTimeOverride": true,
-          "id": 36,
+          "id": 88,
           "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "percentChangeColorMode": "standard",
-            "reduceOptions": {
-              "calcs": [
-                "firstNotNull"
-              ],
-              "fields": "",
-              "values": false
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
             },
-            "showPercentChange": false,
-            "text": {
-              "titleSize": 4
-            },
-            "textMode": "auto",
-            "wideLayout": true
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
           },
           "pluginVersion": "11.3.0+security-01",
           "targets": [
             {
               "datasource": {
-                "type": "grafana-postgresql-datasource",
-                "uid": "ae47yxjg85kowb"
+                "type": "prometheus",
+                "uid": "fe4vtjrld1r0gc"
               },
-              "editorMode": "builder",
-              "format": "table",
-              "rawSql": "SELECT \"time\", water_m3 FROM water ORDER BY \"time\" DESC LIMIT 1 ",
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "expr": "homewizardActivePowerL1Watt + homewizardActivePowerL2Watt + homewizardActivePowerL3Watt",
+              "fullMetaSearch": false,
+              "includeNullMetadata": true,
+              "instant": false,
+              "legendFormat": "power",
+              "range": true,
               "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [
-                      {
-                        "name": "\"time\"",
-                        "type": "functionParameter"
-                      }
-                    ],
-                    "type": "function"
-                  },
-                  {
-                    "parameters": [
-                      {
-                        "name": "water_m3",
-                        "type": "functionParameter"
-                      }
-                    ],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 1,
-                "orderBy": {
-                  "property": {
-                    "name": "\"time\"",
-                    "type": "string"
-                  },
-                  "type": "property"
-                },
-                "orderByDirection": "DESC"
-              },
-              "table": "water"
+              "useBackend": false
             }
           ],
-          "timeFrom": "1d",
-          "title": "WaterStand DB (M3)",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae4vstngitkowe"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "fixedColor": "orange",
-                "mode": "fixed"
-              },
-              "decimals": 3,
-              "mappings": [],
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 4,
-            "w": 6,
-            "x": 18,
-            "y": 7
-          },
-          "id": 58,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "percentChangeColorMode": "standard",
-            "reduceOptions": {
-              "calcs": [
-                "firstNotNull"
-              ],
-              "fields": "/^heath_gj$/",
-              "values": false
-            },
-            "showPercentChange": false,
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "11.3.0+security-01",
-          "targets": [
-            {
-              "datasource": {
-                "type": "grafana-postgresql-datasource",
-                "uid": "ae47yxjg85kowb"
-              },
-              "editorMode": "builder",
-              "format": "table",
-              "rawSql": "SELECT \"time\", heath_gj FROM heath ORDER BY \"time\" DESC LIMIT 1 ",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [
-                      {
-                        "name": "\"time\"",
-                        "type": "functionParameter"
-                      }
-                    ],
-                    "type": "function"
-                  },
-                  {
-                    "parameters": [
-                      {
-                        "name": "heath_gj",
-                        "type": "functionParameter"
-                      }
-                    ],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 1,
-                "orderBy": {
-                  "property": {
-                    "name": [
-                      "\"time\""
-                    ],
-                    "type": "string"
-                  },
-                  "type": "property"
-                },
-                "orderByDirection": "DESC"
-              },
-              "table": "heath"
-            }
-          ],
-          "title": "Energy Consumption Stand DB (GJ)",
-          "type": "stat"
+          "title": "Power",
+          "type": "timeseries"
         }
       ],
-      "title": "Meterkast",
+      "repeat": "query0",
+      "title": "Nu",
       "type": "row"
     },
     {
@@ -2380,8 +2177,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -2424,7 +2220,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 346
+            "y": 73
           },
           "id": 85,
           "options": {
@@ -2581,8 +2377,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -2649,7 +2444,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 438
+            "y": 115
           },
           "id": 82,
           "options": {
@@ -2795,8 +2590,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -2823,7 +2617,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 445
+            "y": 122
           },
           "id": 83,
           "options": {
@@ -2933,8 +2727,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -2977,7 +2770,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 347
+            "y": 803
           },
           "id": 71,
           "options": {
@@ -3074,8 +2867,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -3118,7 +2910,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 414
+            "y": 870
           },
           "id": 66,
           "options": {
@@ -3215,8 +3007,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -3258,7 +3049,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 422
+            "y": 878
           },
           "id": 80,
           "options": {
@@ -3377,8 +3168,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -3436,7 +3226,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 348
+            "y": 804
           },
           "id": 79,
           "options": {
@@ -3533,8 +3323,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -3607,7 +3396,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 390
+            "y": 846
           },
           "id": 75,
           "options": {
@@ -3704,8 +3493,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -3732,7 +3520,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 399
+            "y": 855
           },
           "id": 81,
           "options": {
@@ -3814,6 +3602,429 @@
           "fieldConfig": {
             "defaults": {
               "color": {
+                "fixedColor": "semi-dark-green",
+                "mode": "fixed"
+              },
+              "decimals": 3,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 0,
+            "y": 12
+          },
+          "hideTimeOverride": true,
+          "id": 62,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "firstNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.0+security-01",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "builder",
+              "format": "table",
+              "rawSql": "SELECT power_normal_kwh FROM power ORDER BY \"time\" DESC LIMIT 1 ",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [
+                      {
+                        "name": "power_normal_kwh",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 1,
+                "orderBy": {
+                  "property": {
+                    "name": "\"time\"",
+                    "type": "string"
+                  },
+                  "type": "property"
+                },
+                "orderByDirection": "DESC"
+              },
+              "table": "power"
+            }
+          ],
+          "timeFrom": "1d",
+          "title": "Hoog DB (kwh)",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae4vstngitkowe"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "light-green",
+                "mode": "fixed"
+              },
+              "decimals": 3,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 6,
+            "y": 12
+          },
+          "hideTimeOverride": true,
+          "id": 61,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "firstNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.0+security-01",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "builder",
+              "format": "table",
+              "rawSql": "SELECT power_offpeak_kwh FROM power ORDER BY \"time\" DESC LIMIT 1 ",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [
+                      {
+                        "name": "power_offpeak_kwh",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 1,
+                "orderBy": {
+                  "property": {
+                    "name": "\"time\"",
+                    "type": "string"
+                  },
+                  "type": "property"
+                },
+                "orderByDirection": "DESC"
+              },
+              "table": "power"
+            }
+          ],
+          "timeFrom": "1d",
+          "title": "Laag DB (kwh)",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae4vstngitkowe"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "blue",
+                "mode": "fixed"
+              },
+              "decimals": 3,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 12,
+            "y": 12
+          },
+          "hideTimeOverride": true,
+          "id": 36,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "firstNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.0+security-01",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "builder",
+              "format": "table",
+              "rawSql": "SELECT \"time\", water_m3 FROM water ORDER BY \"time\" DESC LIMIT 1 ",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [
+                      {
+                        "name": "\"time\"",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "water_m3",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 1,
+                "orderBy": {
+                  "property": {
+                    "name": "\"time\"",
+                    "type": "string"
+                  },
+                  "type": "property"
+                },
+                "orderByDirection": "DESC"
+              },
+              "table": "water"
+            }
+          ],
+          "timeFrom": "1d",
+          "title": "WaterStand DB (M3)",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae4vstngitkowe"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "orange",
+                "mode": "fixed"
+              },
+              "decimals": 3,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 18,
+            "y": 12
+          },
+          "id": 58,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "firstNotNull"
+              ],
+              "fields": "/^heath_gj$/",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.0+security-01",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "builder",
+              "format": "table",
+              "rawSql": "SELECT \"time\", heath_gj FROM heath ORDER BY \"time\" DESC LIMIT 1 ",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [
+                      {
+                        "name": "\"time\"",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "heath_gj",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 1,
+                "orderBy": {
+                  "property": {
+                    "name": [
+                      "\"time\""
+                    ],
+                    "type": "string"
+                  },
+                  "type": "property"
+                },
+                "orderByDirection": "DESC"
+              },
+              "table": "heath"
+            }
+          ],
+          "title": "Energy Consumption Stand DB (GJ)",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae4vstngitkowe"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
                 "mode": "thresholds"
               },
               "custom": {
@@ -3845,8 +4056,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -3871,9 +4081,9 @@
           },
           "gridPos": {
             "h": 9,
-            "w": 22,
+            "w": 24,
             "x": 0,
-            "y": 349
+            "y": 16
           },
           "id": 67,
           "options": {
@@ -3972,8 +4182,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -4013,9 +4222,9 @@
           },
           "gridPos": {
             "h": 9,
-            "w": 22,
+            "w": 24,
             "x": 0,
-            "y": 358
+            "y": 25
           },
           "id": 68,
           "options": {
@@ -4114,8 +4323,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -4140,10 +4348,10 @@
             ]
           },
           "gridPos": {
-            "h": 7,
-            "w": 22,
+            "h": 8,
+            "w": 24,
             "x": 0,
-            "y": 367
+            "y": 34
           },
           "id": 69,
           "options": {
@@ -4241,8 +4449,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -4282,9 +4489,9 @@
           },
           "gridPos": {
             "h": 8,
-            "w": 22,
+            "w": 24,
             "x": 0,
-            "y": 374
+            "y": 42
           },
           "id": 59,
           "options": {
@@ -4344,12 +4551,12 @@
           "type": "barchart"
         }
       ],
-      "title": "Standen",
+      "title": "Meterkast",
       "type": "row"
     }
   ],
   "preload": false,
-  "refresh": "5s",
+  "refresh": "15s",
   "schemaVersion": 40,
   "tags": [],
   "templating": {
@@ -4361,8 +4568,6 @@
   },
   "timepicker": {
     "refresh_intervals": [
-      "5s",
-      "10s",
       "15s",
       "30s",
       "1m",
@@ -4377,6 +4582,6 @@
   "timezone": "browser",
   "title": "Home-monitor",
   "uid": "bdsucvo44sy68b",
-  "version": 11,
+  "version": 25,
   "weekStart": ""
 }

@@ -49,20 +49,9 @@ class Tado(
         return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/weather")
     }
 
-//    private fun getTadoHistory(homeId: Int, zoneId: Int, dateStr: String) : String {
-//        return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=$dateStr")
-//    }
-//
     fun getTadoResponse(): TadoResponseModel {
         val homeId = getTadoMe().homes[0].id
         val zoneId = getTadoZonesForHome(homeId)[0].id
         return TadoResponseModel(getTadoStateForZone(homeId, zoneId), getTadoOutsideWeather(homeId))
     }
-//
-//    fun getTadoResponseDate(date: String ): String {
-//        val homeId = getTadoMe().homes[0].id
-//        val zoneId = getTadoZonesForHome(homeId)[0].id
-//        return getTadoHistory(homeId, zoneId, date.toString())
-//    }
-//
 }

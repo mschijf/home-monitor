@@ -122,3 +122,13 @@ if [ "$color_prompt" = yes ]; then
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
+
+MONOTOR RASPBERRY PI
+deze stap kan je overslaan als je geen gebruik maakt van de data en m niet aan prometheus koppelt.
+see https://theawesomegarage.com/blog/monitor-your-raspberry-pi-with-prometheus-and-grafana
+
+doe:
+sudo apt-get install prometheus-node-exporter
+check: http://192.168.2.39:9100/metrics ==> should exists after install
+je kan dit aan prometheus koppelen, maar dat heb ik niet gedaan.
+

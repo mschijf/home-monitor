@@ -54,13 +54,6 @@ class Controller(
         return tadoDataProvider.getTadoResponse()
     }
 
-//    @Tag(name="Tado")
-//    @GetMapping("/tado/history")
-//    fun tadoHistory(@RequestParam date: String): String {
-//        return tadoDataProvider.getTadoResponseDate(date)
-//    }
-//
-//
     @Tag(name="Raspberry Pi")
     @GetMapping("/raspberrypi/current")
     fun raspberrypi(): RaspberryPiStatsModel {
