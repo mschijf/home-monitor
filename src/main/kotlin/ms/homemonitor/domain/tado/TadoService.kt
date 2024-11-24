@@ -1,9 +1,7 @@
 package ms.homemonitor.domain.tado
 
 import ms.homemonitor.application.HomeMonitorException
-import ms.homemonitor.domain.tado.model.TadoResponseModel
 import ms.homemonitor.domain.tado.rest.Tado
-import ms.homemonitor.micrometer.MicroMeterMeasurement
 import ms.homemonitor.repository.TadoEntity
 import ms.homemonitor.repository.TadoRepository
 import org.springframework.beans.factory.annotation.Value
@@ -15,7 +13,6 @@ import java.time.LocalDateTime
 class TadoService(
     private val tado: Tado,
     private val tadoRepository: TadoRepository,
-    private val measurement: MicroMeterMeasurement,
     @Value("\${tado.enabled}") private val enabled: Boolean) {
 
 
@@ -39,18 +36,8 @@ class TadoService(
                     weatherState = tadoResponse.weather.weatherState.value
                 )
             )
-            setMetrics(tadoResponse)
         } catch (e: Exception) {
             throw HomeMonitorException("Error while processing Tado data", e)
         }
-    }
-
-    fun setMetrics(data: TadoResponseModel) {
-        measurement.setDoubleGauge("tadoInsideTemperature", data.tadoState.sensorDataPoints.insideTemperature.celsius)
-        measurement.setDoubleGauge("tadoHumidityPercentage", data.tadoState.sensorDataPoints.humidity.percentage)
-        measurement.setDoubleGauge("tadoHeatingPowerPercentage", data.tadoState.activityDataPoints.heatingPower.percentage)
-
-        measurement.setDoubleGauge("tadoOutsideTemperature", data.weather.outsideTemperature.celsius)
-        measurement.setDoubleGauge("tadoSolarPercentage", data.weather.solarIntensity.percentage)
     }
 }

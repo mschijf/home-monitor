@@ -12,13 +12,10 @@ import ms.homemonitor.domain.raspberrypi.model.RaspberryPiStatsModel
 import ms.homemonitor.domain.raspberrypi.rest.RaspberryPiStats
 import ms.homemonitor.domain.tado.model.TadoResponseModel
 import ms.homemonitor.domain.tado.rest.Tado
-import ms.homemonitor.domain.weerlive.model.WeerLiveModel
-import ms.homemonitor.domain.weerlive.rest.WeerLive
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 
@@ -27,7 +24,6 @@ class Controller(
     private val homeWizardDataProvider: HomeWizard,
     private val tadoDataProvider: Tado,
     private val raspberryPiStats: RaspberryPiStats,
-    private val weerLive: WeerLive,
     private val enecoUpdateService: EnecoUpdateService,
     private val logService: LogService
 ) {
@@ -69,12 +65,6 @@ class Controller(
     @GetMapping("/raspberrypi/current")
     fun raspberrypi(): RaspberryPiStatsModel {
         return raspberryPiStats.getRaspberryPiStats()
-    }
-
-    @Tag(name="Weerlive")
-    @GetMapping("/weerlive/current")
-    fun weerlive(): WeerLiveModel? {
-        return weerLive.getWeerLiveData()
     }
 
     @Tag(name="Eneco")

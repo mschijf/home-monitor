@@ -73,14 +73,9 @@ class HomeWizardService(
     }
 
     private fun setMetrics(data: HomeWizardData) {
-        measurement.setDoubleGauge("homewizardPowerT1Kwh", data.energy.totalPowerImportT1Kwh.toDouble())
-        measurement.setDoubleGauge("homewizardPowerT2Kwh", data.energy.totalPowerImportT2Kwh.toDouble())
-
         measurement.setDoubleGauge("homewizardActivePowerL1Watt", data.energy.activePowerL1Watt.toDouble())
         measurement.setDoubleGauge("homewizardActivePowerL2Watt", data.energy.activePowerL2Watt.toDouble())
         measurement.setDoubleGauge("homewizardActivePowerL3Watt", data.energy.activePowerL3Watt.toDouble())
-
-        measurement.setDoubleGauge("homewizardWaterTotalM3", data.water.totalLiterM3.toDouble())
         measurement.setDoubleGauge("homewizardWaterActiveLpm", data.water.activeLiterLpm.toDouble())
     }
 }
