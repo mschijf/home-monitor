@@ -79,11 +79,11 @@ CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS       
 
 docker exec -it home-monitor bash
 su postgres
+psql
 
 --install database user (with superuser privilige)
 see: https://phoenixnap.com/kb/postgres-create-user
 CREATE ROLE "home-monitor-app" WITH PASSWORD 'billiard-loves-relief-east' SUPERUSER LOGIN;
-
 
 -- install database
 see https://www.postgresql.org/docs/current/sql-createdatabase.html
@@ -97,12 +97,7 @@ doe ping 192.168.2.39 om te zien of hij weer up is.
 
 - ssh werkt nog steeds
 - date is nog steeds goed
-- docker ps ==> geen runnende database
-
-
-
-
-
+- docker ps ==> een runnende database
 
 
 GRAFANA AND PROMETHEUS
