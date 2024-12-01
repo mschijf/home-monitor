@@ -1,4 +1,4 @@
-package ms.homemonitor.domain.raspberrypi
+package ms.homemonitor.domain.raspberrypi.rest
 
 import org.springframework.stereotype.Service
 import java.io.BufferedReader

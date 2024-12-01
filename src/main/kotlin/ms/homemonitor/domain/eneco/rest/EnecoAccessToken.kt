@@ -1,6 +1,7 @@
 package ms.homemonitor.domain.eneco.rest
 
 import io.github.bonigarcia.wdm.WebDriverManager
+import ms.homemonitor.domain.eneco.model.EnecoOAuth
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.firefox.FirefoxDriver
@@ -11,15 +12,15 @@ import org.springframework.stereotype.Service
 import java.time.Duration
 
 @Service
-class EnecoSecretsService(
+class EnecoAccessToken(
     @Value("\${eneco.userName}") private val userName: String,
     @Value("\${eneco.password}") private val password: String) {
 
-    private val log = LoggerFactory.getLogger(EnecoSecretsService::class.java)
+    private val log = LoggerFactory.getLogger(EnecoAccessToken::class.java)
 
-    fun getEnecoSecretsOrNull(): EnecoSecrets? {
+    fun getEnecoSecretsOrNull(): EnecoOAuth? {
         val sourcePage = scrapeEnecoPage()
-        return EnecoSecrets.of(sourcePage)
+        return EnecoOAuth.of(sourcePage)
     }
 
     private fun scrapeEnecoPage():String {
@@ -66,35 +67,6 @@ class EnecoSecretsService(
         } catch (e: Exception) {
             log.error("Some error occurred", e)
             return ""
-        }
-    }
-}
-
-data class EnecoSecrets(val apiKey: String, val accessToken: String) {
-
-    companion object {
-        private val log = LoggerFactory.getLogger(EnecoSecrets::class.java)
-
-        fun of(htmlPage: String): EnecoSecrets? {
-            val apiKey = getValueForKey(htmlPage, "FE_DC_API_KEY")
-            val accessToken = getValueForKey(htmlPage, "accessToken")
-            return if (apiKey.isEmpty() || accessToken.isEmpty())
-                null
-            else
-                EnecoSecrets(apiKey= apiKey, accessToken = accessToken)
-        }
-
-        private fun getValueForKey(htmlPage: String, key: String): String {
-            return if (htmlPage.contains(key)) {
-                htmlPage
-                    .substringAfter("\"$key\":")
-                    .substringBefore(",")
-                    .trim()
-                    .removeSurrounding("\"")
-            } else {
-                log.error("cannot find $key on htmlPage")
-                ""
-            }
         }
     }
 }

@@ -13,7 +13,7 @@ import java.time.LocalDate
 
 @Service
 class Eneco(
-    private val enecoSecretsService: EnecoSecretsService) {
+    private val enecoAccessToken: EnecoAccessToken) {
 
     private val restTemplate = RestTemplate()
     private val log = LoggerFactory.getLogger(Eneco::class.java)
@@ -47,7 +47,7 @@ class Eneco(
     }
 
     private fun getEnecoHourDataFromEneco(start: LocalDate, end: LocalDate): List<EnecoUsageEntry> {
-        val secrets = enecoSecretsService.getEnecoSecretsOrNull()
+        val secrets = enecoAccessToken.getEnecoSecretsOrNull()
         if (secrets == null) {
             log.error("Could not retrieve the secrets from Eneco")
             return emptyList()

@@ -1,7 +1,6 @@
 package ms.homemonitor.domain.raspberrypi.rest
 
 import ms.homemonitor.domain.raspberrypi.model.RaspberryPiStatsModel
-import ms.homemonitor.domain.raspberrypi.CommandExecutor
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
