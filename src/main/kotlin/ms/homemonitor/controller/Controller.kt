@@ -1,8 +1,8 @@
 package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
-import ms.homemonitor.domain.eneco.EnecoUpdateService
-import ms.homemonitor.domain.eneco.model.EnecoConsumption
+import jakarta.transaction.Transactional
+import ms.homemonitor.domain.eneco.EnecoService
 import ms.homemonitor.domain.homewizard.model.HomeWizardEnergyData
 import ms.homemonitor.domain.homewizard.model.HomeWizardWaterData
 import ms.homemonitor.domain.homewizard.rest.HomeWizard
@@ -14,8 +14,6 @@ import ms.homemonitor.domain.tado.model.TadoResponseModel
 import ms.homemonitor.domain.tado.rest.Tado
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 
@@ -24,7 +22,7 @@ class Controller(
     private val homeWizardDataProvider: HomeWizard,
     private val tadoDataProvider: Tado,
     private val raspberryPiStats: RaspberryPiStats,
-    private val enecoUpdateService: EnecoUpdateService,
+    private val enecoService: EnecoService,
     private val logService: LogService
 ) {
 
@@ -61,9 +59,10 @@ class Controller(
     }
 
     @Tag(name="Eneco")
-    @PostMapping("/eneco/update")
-    fun enecoDataPost(@RequestBody source: String): List<EnecoConsumption> {
-        return enecoUpdateService.updateEnecoStatistics(source)
+    @GetMapping("/updateEnecoStatistics")
+    @Transactional
+    fun updateEnecoStatistics() {
+        enecoService.updateEnecoStatistics()
     }
 
     @Tag(name="Log")
@@ -71,5 +70,4 @@ class Controller(
     fun getLogs(): List<LogLine> {
         return logService.getLogs()
     }
-
 }

@@ -7,9 +7,9 @@ spring:
     open-in-view: false
   datasource:
     url: jdbc:postgresql://localhost:5432/home-monitor
+    driver-class-name: org.postgresql.Driver
     username: home-monitor
     password: home-monitor
-    driver-class-name: org.postgresql.Driver
 
 homewizard:
     enabled: false
@@ -17,14 +17,21 @@ homewizard:
     waterBaseRestUrl: http://192.168.2.42/api/v1
     initialWaterValue: 799.017
 
+eneco:
+  enabled: true
+  initialDate: 2024-01-01T00:00:00
+  initialHeathValue: 196.196
+  userName: via application.yml on remote location
+  password: via application.yml on remote location
+
 tado:
   enabled: false
   tokenUrl: https://auth.tado.com/oauth/token
   clientId: public-api-preview
   clientSecret: 4HJGRffVR8xb3XdEUQpjgZ1VplJi6Xgw
+  baseRestUrl: https://my.tado.com/api/v2
   username: via application.yml on remote location
   password: via application.yml on remote location
-  baseRestUrl: https://my.tado.com/api/v2
 
 raspberrypi:
   enabled: false

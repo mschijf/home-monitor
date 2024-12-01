@@ -1,5 +1,6 @@
 package ms.homemonitor.domain.eneco.rest
 
+import ms.homemonitor.domain.eneco.model.EnecoConsumption
 import ms.homemonitor.domain.eneco.model.EnecoDataModel
 import ms.homemonitor.domain.eneco.model.EnecoUsageEntry
 import ms.homemonitor.tools.getForEntityWithHeader
@@ -8,29 +9,14 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
-import java.math.BigDecimal
 import java.time.LocalDate
-import java.time.LocalDateTime
-
 
 @Service
-class Eneco() {
+class Eneco(
+    private val enecoSecretsService: EnecoSecretsService) {
 
     private val restTemplate = RestTemplate()
     private val log = LoggerFactory.getLogger(Eneco::class.java)
-
-    val initialDate = LocalDateTime.of(2024, 8, 1, 0, 0, 0)
-    val initalStartValue = BigDecimal(198.505)
-
-    private fun getValueForKey(htmlPage: String, key: String): String {
-        if (htmlPage.contains(key)) {
-            val value = htmlPage.substringAfter("\"$key\":").substringBefore(",").trim()
-            return value.removeSurrounding("\"")
-        } else {
-            log.error("cannot find $key on htmlPage")
-            return ""
-        }
-    }
 
     private fun getHeaders(apiKey: String, accessToken: String): HttpHeaders {
         val headers = HttpHeaders()
@@ -53,23 +39,30 @@ class Eneco() {
         return headers
     }
 
-    fun getEnecoHourDataBySourcePage(sourcePage: String,
-                                 start: LocalDate,
-                                 end: LocalDate): List<EnecoUsageEntry> {
-        val apiKey = getValueForKey(sourcePage, "FE_DC_API_KEY")
-        val accessToken = getValueForKey(sourcePage, "accessToken")
+    fun getNewDataFromEneco(fromDate: LocalDate): List<EnecoConsumption> {
+        val now = LocalDate.now()
+        val response = getEnecoHourDataFromEneco(fromDate, now.plusDays(1))
+        return response
+            .map{ EnecoConsumption(it.actual.date, it.actual.warmth.high) }
+    }
 
-        val result = mutableListOf<EnecoUsageEntry>()
-        var dayDate = start
-        while (dayDate != end) {
-            val response = getEnecoHourDataByAccessToken(apiKey, accessToken, dayDate)
-            if (response != null)
-                result.addAll(response.data.usages[0].entries)
-            dayDate = dayDate.plusDays(1)
+    private fun getEnecoHourDataFromEneco(start: LocalDate, end: LocalDate): List<EnecoUsageEntry> {
+        val secrets = enecoSecretsService.getEnecoSecretsOrNull()
+        if (secrets == null) {
+            log.error("Could not retrieve the secrets from Eneco")
+            return emptyList()
+        } else {
+            val result = mutableListOf<EnecoUsageEntry>()
+            var dayDate = start
+            while (dayDate != end) {
+                val response = getEnecoHourDataByAccessToken(secrets.apiKey, secrets.accessToken, dayDate)
+                if (response != null)
+                    result.addAll(response.data.usages[0].entries)
+                dayDate = dayDate.plusDays(1)
+            }
+            log.info("eneco data read  from $start to $end, ${result.size} hours, ${result.sumOf { it.actual.warmth.high }} GJ")
+            return result
         }
-        log.info("eneco data read  from $start to $end, ${result.size} hours, ${result.sumOf { it.actual.warmth.high }} GJ")
-
-        return result
     }
 
     private fun getEnecoHourDataByAccessToken(apiKey: String,
@@ -79,8 +72,8 @@ class Eneco() {
         val url = "https://api-digital.enecogroup.com/dxpweb/nl/eneco/customers/54687058/accounts/1/usages" +
                 "?aggregation=Day" +
                 "&interval=Hour" +
-                "&start=${dayDate.toString()}" +
-                "&end=${dayDate.plusDays(1).toString()}" +
+                "&start=${dayDate}" +
+                "&end=${dayDate.plusDays(1)}" +
                 "&addBudget=false" +
                 "&addWeather=true" +
                 "&extrapolate=false"
