@@ -1,0 +1,37 @@
+services:
+  prometheus:
+    image: prom/prometheus
+    restart: unless-stopped
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #    networks:
+  #      - monitoring
+
+  grafana:
+    image: grafana/grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD={{zie 1password}}
+  #    networks:
+  #      - monitoring
+
+  postgres:
+    image: postgres:14-alpine
+    container_name: home-monitor
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/docker/data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD={{zie 1password}}
+#    networks:
+#      - monitoring
+
+#networks:
+#  monitoring:
+#    external: true

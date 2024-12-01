@@ -1,14 +1,22 @@
+START (FLASh to sd card)
+========================
 * install ubuntu 24.10 server
+* or instal rapsberry-pi desktop
 ** (pre-edit on raspberry pi imager: install ssh, wifi, etc)
-* after installing and chip back in raspberry pi, start pi
+** after installing and chip back in raspberry pi, start pi
 
+** find out ip adres (werkt via monitor and keyboard)
 check na opstarten ip-adres: hostname -I
 
-* sudo apt update
-* sudo apt upgrade
+ssh moet nu al werken!!
+maar onderstaand kan ook nog via keyboard + monitor
+
+sudo apt update
+sudo apt upgrade
 
 TIME
-check time:
+====
+check time (on ubuntu, this might be wrong):
 
 $> date
 
@@ -22,6 +30,7 @@ sudo apt install ntp
 
 
 SSH
+===
 ssh works now, but you need to enter your password continuously.
 to prevent that, do:
 on laptop:
@@ -32,24 +41,28 @@ vi ~/.ssh/authorized_keys
 paste the copied line
 save the file
 
+(on pi-os - see https://pimylifeup.com/raspberry-pi-java/
+   same, but first:
+   mkdir ~/.ssh
+)
 
 JAVA
+====
 sudo apt install default-jre
 
-
-HOME-MONITOR
-copy home-monitor programs
-mkdir home-monitor
-mkdir home-monitor/script
-mkdir home-monitor/log
-mkdir home-monitor/backup
-cp target/home-monitor-*.jar  naar pi:~/home-monitor
-cp script/remote/*  naar pi:~/home-monitor/script
+(on pi-os - see https://pimylifeup.com/raspberry-pi-java/
+   curl -s https://repos.azul.com/azul-repo.key | sudo gpg --dearmor -o /usr/share/keyrings/azul.gpg
+   echo "deb [arch=arm64 signed-by=/usr/share/keyrings/azul.gpg] https://repos.azul.com/zulu/deb stable main" | sudo tee /etc/apt/sources.list.d/zulu.list
+   sudo apt update
+   sudo apt install zulu21-jre
+)
 
 
 DOCKER
-docker: see for info: https://mariadb.com/ja/resources/blog/building-a-portable-database-server/
-* sudo apt install docker.io -y 
+======
+* docker: see for info: https://mariadb.com/ja/resources/blog/building-a-portable-database-server/
+
+sudo apt install docker.io -y
 
 -- make docker available with sudo in front of it
 see https://docs.docker.com/engine/install/linux-postinstall/
@@ -59,21 +72,31 @@ sudo usermod -aG docker $USER
 --> logout and login again
 
 
-* sudo apt install docker-compose
-(altijd handig)
+DOCKER-COMPOSE:
+===============
+sudo apt install docker-compose
 
+cd ~
+mkdir docker
+cd docker
 
+scp vanuit home-monitor/docker/*.yml 192.168.2.46:~/docker
+(dit is inclusief prometheus.yml)
 
-
-POSTGRES
-see https://www.optimadata.nl/en/blogs/how-to-run-postgres-on-docker-part-1/
-
-docker run --name home-monitor -p 5432:5432 --restart unless-stopped -e POSTGRES_PASSWORD=horatio-spell-momentum-longest -d postgres
+docker network create monitoring
+docker-compose up -d
 
 doe: docker ps, to see that it is running:
 
-CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS         PORTS                                       NAMES
-04e001fe6769   postgres   "docker-entrypoint.s…"   5 minutes ago   Up 5 minutes   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   home-monitor
+CONTAINER ID   IMAGE                COMMAND                  CREATED         STATUS         PORTS                                       NAMES
+e6d928c7ed02   grafana/grafana      "/run.sh"                3 minutes ago   Up 3 seconds   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   docker_grafana_1
+8c77b56c8f37   postgres:14-alpine   "docker-entrypoint.s…"   3 minutes ago   Up 3 seconds   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   home-monitor
+bba1edeb0f07   prom/prometheus      "/bin/prometheus --c…"   3 minutes ago   Up 3 seconds   0.0.0.0:9090->9090/tcp, :::9090->9090/tcp   docker_prometheus_1
+
+========
+
+POSTGRES
+see https://www.optimadata.nl/en/blogs/how-to-run-postgres-on-docker-part-1/
 
 ==> go into container and initialize the database
 
@@ -83,42 +106,72 @@ psql
 
 --install database user (with superuser privilige)
 see: https://phoenixnap.com/kb/postgres-create-user
-CREATE ROLE "home-monitor-app" WITH PASSWORD 'billiard-loves-relief-east' SUPERUSER LOGIN;
+CREATE ROLE "home-monitor-app" WITH PASSWORD '{{zie 1password}}' SUPERUSER LOGIN;
 
 -- install database
 see https://www.postgresql.org/docs/current/sql-createdatabase.html
 CREATE DATABASE "home-monitor";
 
+*** copy backup tables ****
+
+HOME-MONITOR
+============
+copy home-monitor programs
+
+mkdir home-monitor
+mkdir home-monitor/script
+mkdir home-monitor/log
+mkdir home-monitor/backup
+scp target/home-monitor-*.jar  naar pi:~/home-monitor
+scp script/*  naar pi:~/home-monitor/script
+
+application.yml!!!
 
 
 TIME FOR A RESTART
+==================
 $> sudo reboot now
 doe ping 192.168.2.39 om te zien of hij weer up is.
 
 - ssh werkt nog steeds
 - date is nog steeds goed
-- docker ps ==> een runnende database
+- docker ps ==> een runnende database en runnende grafana en prometheus
 
 
-GRAFANA AND PROMETHEUS
-prometheus (https://signoz.io/guides/how-to-install-prometheus-and-grafana-on-docker/)
-grafana (https://signoz.io/guides/how-to-install-prometheus-and-grafana-on-docker/
-
-compose file:
-add "restart: unless-stopped" bij beide services (grafana and proetheus)
-
-
-  
- 
 BASHRC
-copy and overwrite into ~/.bashrc to have another prompt (nice to have)
+======
+* copy and overwrite into ~/.bashrc to have another prompt (nice to have)
+
 if [ "$color_prompt" = yes ]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]>'
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 
-MONOTOR RASPBERRY PI
+
+CRONTAB
+=======
+* copy the crontab data (staat in home-monitor/script/crontab-remote):
+
+crontab ~/home-monitor/script/crontab_remote
+
+
+DROPBOX-BACKUP
+==============
+* copy dropbox_uploader voor het maken van backup naar dropbox
+
+mkdir ~/dropbox-uploader
+cd ~/Prive/Sources/shell/Dropbox-Uploader
+scp dropbox_uploader.sh pi:~/dropbox-uploader
+backup.sh
+
+* voer op pi uit:
+~/dropbox-uploader/dropbox_uploader list
+* en volg de aanwijzingen.
+
+
+MONITOR RASPBERRY PI
+====================
 deze stap kan je overslaan als je geen gebruik maakt van de data en m niet aan prometheus koppelt.
 see https://theawesomegarage.com/blog/monitor-your-raspberry-pi-with-prometheus-and-grafana
 
