@@ -22,7 +22,7 @@ class RaspberryPiService(
         setMetrics(stats)
     }
 
-    fun setMetrics(data: RaspberryPiStatsModel) {
+    private fun setMetrics(data: RaspberryPiStatsModel) {
         measurement.setDoubleGauge("systemCpuTemperature", data.cpuTemperature)
         measurement.setDoubleGauge("systemGpuTemperature", data.gpuTemperature)
     }

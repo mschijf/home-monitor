@@ -1,6 +1,8 @@
 package ms.homemonitor.domain.dbstats
 
+import ms.homemonitor.domain.dbstats.model.BackupStats
 import ms.homemonitor.domain.dbstats.rest.DbStats
+import ms.homemonitor.micrometer.MicroMeterMeasurement
 import ms.homemonitor.repository.AdminEntity
 import ms.homemonitor.repository.AdminKey
 import ms.homemonitor.repository.AdminRepository
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service
 @Service
 class DbStatsService(
     private val adminRepository: AdminRepository,
+    private val measurement: MicroMeterMeasurement,
     private val dbStats: DbStats,
     @Value("\${dbstats.enabled}") private val enabled: Boolean) {
 
@@ -22,6 +25,7 @@ class DbStatsService(
         if (stats != null) {
             updateAdminRecord(AdminKey.LAST_BACKUP_TIME.toString(), stats.dateTime.toString())
             updateAdminRecord(AdminKey.LAST_BACKUP_SIZE.toString(), stats.fileSize.toString())
+            setMetrics(stats)
         }
     }
 
@@ -33,5 +37,10 @@ class DbStatsService(
         lastUpdate.value = value
         adminRepository.saveAndFlush(lastUpdate)
     }
+
+    private fun setMetrics(stats: BackupStats) {
+        measurement.setDoubleGauge("backupSize", stats.fileSize.toDouble())
+    }
+
 
 }
