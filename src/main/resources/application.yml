@@ -18,7 +18,7 @@ homewizard:
     initialWaterValue: 799.017
 
 eneco:
-  enabled: true
+  enabled: false
   initialDate: 2024-01-01T00:00:00
   initialHeathValue: 196.196
   userName: via application.yml on remote location
@@ -35,6 +35,10 @@ tado:
 
 raspberrypi:
   enabled: false
+
+dbstats:
+  enabled: true
+  backupListFileName: /Users/martinschijf/Prive/Sources/Kotlin/home-monitor/data/list_data
 
 management:
   endpoints:

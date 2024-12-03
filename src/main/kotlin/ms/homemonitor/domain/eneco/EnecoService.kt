@@ -2,10 +2,7 @@ package ms.homemonitor.domain.eneco
 
 import jakarta.transaction.Transactional
 import ms.homemonitor.domain.eneco.rest.Eneco
-import ms.homemonitor.repository.AdminEntity
-import ms.homemonitor.repository.AdminRepository
-import ms.homemonitor.repository.HeathEntity
-import ms.homemonitor.repository.HeathRepository
+import ms.homemonitor.repository.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
@@ -65,8 +62,11 @@ class EnecoService(
     }
 
     private fun updateAdminRecord() {
-        val lastUpdate = adminRepository.findById(0).orElse(AdminEntity(id=0, lastEnecoImport = LocalDateTime.now()))
-        lastUpdate.lastEnecoImport = LocalDateTime.now()
+        val lastUpdate = adminRepository
+            .findById(AdminKey.LAST_ENECO_UPDATE.toString())
+            .orElse(AdminEntity(key= AdminKey.LAST_ENECO_UPDATE.toString(), value = LocalDateTime.now().toString()))
+
+        lastUpdate.value = LocalDateTime.now().toString()
         adminRepository.saveAndFlush(lastUpdate)
     }
 }

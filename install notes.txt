@@ -46,6 +46,12 @@ save the file
    mkdir ~/.ssh
 )
 
+VI (for raspberry pi os)
+======
+* vi on debian does not work friendly, so install vim:
+sudo apt install vim
+
+
 JAVA
 ====
 sudo apt install default-jre

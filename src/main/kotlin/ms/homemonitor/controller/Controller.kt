@@ -8,6 +8,8 @@ import ms.homemonitor.domain.homewizard.model.HomeWizardWaterData
 import ms.homemonitor.domain.homewizard.rest.HomeWizard
 import ms.homemonitor.domain.log.LogService
 import ms.homemonitor.domain.log.model.LogLine
+import ms.homemonitor.domain.dbstats.model.BackupStats
+import ms.homemonitor.domain.dbstats.rest.DbStats
 import ms.homemonitor.domain.raspberrypi.model.RaspberryPiStatsModel
 import ms.homemonitor.domain.raspberrypi.rest.RaspberryPiStats
 import ms.homemonitor.domain.tado.model.TadoResponseModel
@@ -23,7 +25,8 @@ class Controller(
     private val tadoDataProvider: Tado,
     private val raspberryPiStats: RaspberryPiStats,
     private val enecoService: EnecoService,
-    private val logService: LogService
+    private val logService: LogService,
+    private val dbStats: DbStats
 ) {
 
     private val log = LoggerFactory.getLogger(Controller::class.java)
@@ -56,6 +59,12 @@ class Controller(
     @GetMapping("/raspberrypi/current")
     fun raspberrypi(): RaspberryPiStatsModel {
         return raspberryPiStats.getRaspberryPiStats()
+    }
+
+    @Tag(name="Raspberry Pi")
+    @GetMapping("/backup/stats")
+    fun backup(): BackupStats? {
+        return dbStats.getBackupStatsOrNull()
     }
 
     @Tag(name="Eneco")

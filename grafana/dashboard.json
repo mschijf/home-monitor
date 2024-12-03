@@ -62,7 +62,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ee5lhq2j2c7pcc"
+        "uid": "ce5mpc55vhptse"
       },
       "fieldConfig": {
         "defaults": {
@@ -119,7 +119,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ee5lhq2j2c7pcc"
+            "uid": "ce5mpc55vhptse"
           },
           "editorMode": "code",
           "expr": "disk_free_bytes",
@@ -135,7 +135,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ee5lhq2j2c7pcc"
+        "uid": "ce5mpc55vhptse"
       },
       "fieldConfig": {
         "defaults": {
@@ -193,7 +193,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ee5lhq2j2c7pcc"
+            "uid": "ce5mpc55vhptse"
           },
           "editorMode": "code",
           "expr": "systemCpuTemperature",
@@ -209,7 +209,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ee5lhq2j2c7pcc"
+        "uid": "ce5mpc55vhptse"
       },
       "description": "",
       "fieldConfig": {
@@ -268,7 +268,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ee5lhq2j2c7pcc"
+            "uid": "ce5mpc55vhptse"
           },
           "editorMode": "code",
           "expr": "systemGpuTemperature",
@@ -284,7 +284,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ee5lhq2j2c7pcc"
+        "uid": "ce5mpc55vhptse"
       },
       "fieldConfig": {
         "defaults": {
@@ -371,7 +371,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ee5lhq2j2c7pcc"
+            "uid": "ce5mpc55vhptse"
           },
           "disableTextWrap": false,
           "editorMode": "code",
@@ -392,7 +392,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ee5lhq2j2c7pcc"
+        "uid": "ce5mpc55vhptse"
       },
       "description": "",
       "fieldConfig": {
@@ -447,7 +447,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ee5lhq2j2c7pcc"
+            "uid": "ce5mpc55vhptse"
           },
           "editorMode": "code",
           "expr": "sum(logback_events_total{level=\"error\"})",
@@ -463,7 +463,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ee5lhq2j2c7pcc"
+        "uid": "ce5mpc55vhptse"
       },
       "description": "",
       "fieldConfig": {
@@ -518,7 +518,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ee5lhq2j2c7pcc"
+            "uid": "ce5mpc55vhptse"
           },
           "editorMode": "code",
           "expr": "sum(logback_events_total{level=\"warn\"})",
@@ -534,7 +534,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -639,7 +639,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -768,7 +768,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -989,7 +989,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -1129,7 +1129,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -1260,7 +1260,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -1363,7 +1363,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -1612,7 +1612,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -1743,7 +1743,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -1888,7 +1888,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ee5lhq2j2c7pcc"
+        "uid": "ce5mpc55vhptse"
       },
       "fieldConfig": {
         "defaults": {
@@ -1985,7 +1985,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ee5lhq2j2c7pcc"
+            "uid": "ce5mpc55vhptse"
           },
           "disableTextWrap": false,
           "editorMode": "builder",
@@ -2005,7 +2005,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ee5lhq2j2c7pcc"
+        "uid": "ce5mpc55vhptse"
       },
       "fieldConfig": {
         "defaults": {
@@ -2102,7 +2102,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "ee5lhq2j2c7pcc"
+            "uid": "ce5mpc55vhptse"
           },
           "disableTextWrap": false,
           "editorMode": "code",
@@ -2135,7 +2135,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -2336,7 +2336,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -2550,7 +2550,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -2585,7 +2585,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -2686,7 +2687,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -2721,7 +2722,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -2826,7 +2828,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -2861,7 +2863,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -2966,7 +2969,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -3001,7 +3004,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -3126,7 +3130,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -3161,7 +3165,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -3281,7 +3286,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -3316,7 +3321,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -3451,7 +3457,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -3486,7 +3492,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -3588,7 +3595,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -3604,7 +3611,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -3690,7 +3698,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -3706,7 +3714,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -3792,7 +3801,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -3808,7 +3817,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -3903,7 +3913,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -3919,7 +3929,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -4011,7 +4022,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -4048,7 +4059,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -4137,7 +4149,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -4174,7 +4186,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -4278,7 +4291,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -4315,7 +4328,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -4405,7 +4419,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "fe5lif1wlplvke"
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
@@ -4441,7 +4455,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -4570,6 +4585,6 @@
   "timezone": "browser",
   "title": "Home-monitor",
   "uid": "bdsucvo44sy68b",
-  "version": 7,
+  "version": 3,
   "weekStart": ""
 }
