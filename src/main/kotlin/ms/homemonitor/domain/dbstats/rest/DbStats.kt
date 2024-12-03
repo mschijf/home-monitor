@@ -28,7 +28,7 @@ class DbStats(
                     val second = fields[3].substring(13, 15).toInt()
                     BackupStats(fields[2].toLong(), LocalDateTime.of(year, month, day, hour, minute, second))
                 }
-                .minByOrNull { it.dateTime }!!
+                .maxByOrNull { it.dateTime }!!
         } catch (e: Exception) {
             log.error("Couldn't retrieve backup list, caused by ${e.message}")
             null
