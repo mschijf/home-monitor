@@ -63,8 +63,8 @@ class Controller(
 
     @Tag(name="Raspberry Pi")
     @GetMapping("/backup/stats")
-    fun backup(): BackupStats? {
-        return dbStats.getBackupStatsOrNull()
+    fun backup(): List<BackupStats> {
+        return dbStats.getBackupStats()
     }
 
     @Tag(name="Eneco")

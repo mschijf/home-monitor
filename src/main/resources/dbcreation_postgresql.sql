@@ -43,10 +43,10 @@ CREATE TABLE IF NOT EXISTS tado
 
 CREATE TABLE IF NOT EXISTS admin
 (
-    id                  INT,
-    last_eneco_import   TIMESTAMP(0) WITH TIME ZONE,
+    key         VARCHAR(64),
+    value       VARCHAR(1024),
 
-    PRIMARY KEY (id)
+    PRIMARY KEY (key)
 );
 
 

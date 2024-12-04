@@ -21,11 +21,13 @@ class DbStatsService(
     fun backUpStats() {
         if (!enabled)
             return
-        val stats = dbStats.getBackupStatsOrNull()
-        if (stats != null) {
-            updateAdminRecord(AdminKey.LAST_BACKUP_TIME.toString(), stats.dateTime.toString())
-            updateAdminRecord(AdminKey.LAST_BACKUP_SIZE.toString(), stats.fileSize.toString())
-            setMetrics(stats)
+        val stats = dbStats.getBackupStats()
+        if (stats.isNotEmpty()) {
+            updateAdminRecord(AdminKey.LAST_BACKUP_TIME.toString(), stats.last().dateTime.toString())
+            updateAdminRecord(AdminKey.LAST_BACKUP_SIZE.toString(), stats.last().fileSize.toString())
+            setMetrics(stats.last())
+
+            updateAdminRecord(AdminKey.OLDEST_BACKUP_TIME.toString(), stats.first().dateTime.toString())
         }
     }
 

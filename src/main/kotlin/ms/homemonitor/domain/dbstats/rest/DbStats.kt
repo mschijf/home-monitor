@@ -14,7 +14,7 @@ class DbStats(
 
     private val log = LoggerFactory.getLogger(DbStats::class.java)
 
-    fun getBackupStatsOrNull() : BackupStats? {
+    fun getBackupStats() : List<BackupStats> {
         return try {
             commandExecutor.execCommand("cat", arrayListOf(backupListFileName))
                 .filter { it.endsWith("postgres") }
@@ -28,10 +28,10 @@ class DbStats(
                     val second = fields[3].substring(13, 15).toInt()
                     BackupStats(fields[2].toLong(), LocalDateTime.of(year, month, day, hour, minute, second))
                 }
-                .maxByOrNull { it.dateTime }!!
+                .sortedBy { it.dateTime }
         } catch (e: Exception) {
             log.error("Couldn't retrieve backup list, caused by ${e.message}")
-            null
+            emptyList()
         }
     }
 }
