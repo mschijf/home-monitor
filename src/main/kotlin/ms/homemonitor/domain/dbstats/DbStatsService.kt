@@ -1,6 +1,5 @@
 package ms.homemonitor.domain.dbstats
 
-import ms.homemonitor.domain.dbstats.model.BackupStats
 import ms.homemonitor.domain.dbstats.rest.DbStats
 import ms.homemonitor.micrometer.MicroMeterMeasurement
 import ms.homemonitor.repository.AdminEntity
@@ -15,20 +14,22 @@ class DbStatsService(
     private val adminRepository: AdminRepository,
     private val measurement: MicroMeterMeasurement,
     private val dbStats: DbStats,
-    @Value("\${dbstats.enabled}") private val enabled: Boolean) {
+    @Value("\${dbstats.enabled}") private val enabled: Boolean,
+) {
 
     @Scheduled(cron = "0 * * * * *")
-    fun backUpStats() {
+    fun dbStats() {
         if (!enabled)
             return
         val stats = dbStats.getBackupStats()
         if (stats.isNotEmpty()) {
             updateAdminRecord(AdminKey.LAST_BACKUP_TIME.toString(), stats.last().dateTime.toString())
             updateAdminRecord(AdminKey.LAST_BACKUP_SIZE.toString(), stats.last().fileSize.toString())
-            setMetrics(stats.last())
-
             updateAdminRecord(AdminKey.OLDEST_BACKUP_TIME.toString(), stats.first().dateTime.toString())
+            measurement.setDoubleGauge("homeMonitorBackupSize", stats.last().fileSize.toDouble())
         }
+        val dbSize = adminRepository.getDatabaseSize("home-monitor")
+        measurement.setDoubleGauge("homeMonitorDbSize", dbSize.toDouble())
     }
 
     private fun updateAdminRecord(key: String, value: String) {
@@ -39,10 +40,5 @@ class DbStatsService(
         lastUpdate.value = value
         adminRepository.saveAndFlush(lastUpdate)
     }
-
-    private fun setMetrics(stats: BackupStats) {
-        measurement.setDoubleGauge("backupSize", stats.fileSize.toDouble())
-    }
-
 
 }
