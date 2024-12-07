@@ -21,6 +21,16 @@ class DbStatsService(
     fun dbStats() {
         if (!enabled)
             return
+        measureDbStats()
+        measureBackupStats()
+    }
+
+    private fun measureDbStats() {
+        val dbSize = adminRepository.getDatabaseSize("home-monitor")
+        measurement.setDoubleGauge("homeMonitorDbSize", dbSize.toDouble())
+    }
+
+    private fun measureBackupStats() {
         val stats = dbStats.getBackupStats()
         if (stats.isNotEmpty()) {
             updateAdminRecord(AdminKey.LAST_BACKUP_TIME.toString(), stats.last().dateTime.toString())
@@ -28,8 +38,6 @@ class DbStatsService(
             updateAdminRecord(AdminKey.OLDEST_BACKUP_TIME.toString(), stats.first().dateTime.toString())
             measurement.setDoubleGauge("homeMonitorBackupSize", stats.last().fileSize.toDouble())
         }
-        val dbSize = adminRepository.getDatabaseSize("home-monitor")
-        measurement.setDoubleGauge("homeMonitorDbSize", dbSize.toDouble())
     }
 
     private fun updateAdminRecord(key: String, value: String) {
@@ -40,5 +48,4 @@ class DbStatsService(
         lastUpdate.value = value
         adminRepository.saveAndFlush(lastUpdate)
     }
-
 }
