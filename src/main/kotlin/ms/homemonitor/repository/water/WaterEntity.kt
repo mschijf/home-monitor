@@ -1,4 +1,4 @@
-package ms.homemonitor.repository
+package ms.homemonitor.repository.water
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

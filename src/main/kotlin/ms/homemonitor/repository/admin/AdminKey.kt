@@ -1,4 +1,4 @@
-package ms.homemonitor.repository
+package ms.homemonitor.repository.admin
 
 enum class AdminKey {
     LAST_ENECO_UPDATE,

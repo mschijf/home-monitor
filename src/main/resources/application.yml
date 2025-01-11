@@ -37,7 +37,7 @@ raspberrypi:
   enabled: false
 
 dbstats:
-  enabled: true
+  enabled: false
   backupListFileName: /Users/martinschijf/Prive/Sources/Kotlin/home-monitor/data/list_data
 
 management:

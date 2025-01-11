@@ -2,8 +2,8 @@ package ms.homemonitor.domain.tado
 
 import ms.homemonitor.application.HomeMonitorException
 import ms.homemonitor.domain.tado.rest.Tado
-import ms.homemonitor.repository.TadoEntity
-import ms.homemonitor.repository.TadoRepository
+import ms.homemonitor.repository.tado.TadoEntity
+import ms.homemonitor.repository.tado.TadoRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service

@@ -10,8 +10,10 @@ import ms.homemonitor.domain.log.LogService
 import ms.homemonitor.domain.log.model.LogLine
 import ms.homemonitor.domain.dbstats.model.BackupStats
 import ms.homemonitor.domain.dbstats.rest.DbStats
+import ms.homemonitor.domain.homewizard.HomeWizardService
 import ms.homemonitor.domain.raspberrypi.model.RaspberryPiStatsModel
 import ms.homemonitor.domain.raspberrypi.rest.RaspberryPiStats
+import ms.homemonitor.domain.summary.model.YearSummary
 import ms.homemonitor.domain.tado.model.TadoResponseModel
 import ms.homemonitor.domain.tado.rest.Tado
 import org.slf4j.LoggerFactory
@@ -22,11 +24,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class Controller(
     private val homeWizardDataProvider: HomeWizard,
+    private val homeWizardService: HomeWizardService,
     private val tadoDataProvider: Tado,
     private val raspberryPiStats: RaspberryPiStats,
     private val enecoService: EnecoService,
     private val logService: LogService,
-    private val dbStats: DbStats
+    private val dbStats: DbStats,
 ) {
 
     private val log = LoggerFactory.getLogger(Controller::class.java)
@@ -49,6 +52,19 @@ class Controller(
         return homeWizardDataProvider.getHomeWizardWaterData()
     }
 
+    @Tag(name="Homewizard")
+    @GetMapping("/homewizard/energy/summary")
+    fun getPowerSummary(): YearSummary {
+        return homeWizardService.getPowerYearSummary()
+    }
+
+    @Tag(name="Homewizard")
+    @GetMapping("/homewizard/water/summary")
+    fun getWaterSummary(): YearSummary {
+        return homeWizardService.getWaterYearSummary()
+    }
+
+
     @Tag(name="Tado")
     @GetMapping("/tado/current")
     fun tado(): TadoResponseModel {
@@ -63,7 +79,7 @@ class Controller(
 
     @Tag(name="Raspberry Pi")
     @GetMapping("/backup/stats")
-    fun backup(): List<BackupStats> {
+    fun getBackupStats(): List<BackupStats> {
         return dbStats.getBackupStats()
     }
 
@@ -74,9 +90,23 @@ class Controller(
         enecoService.updateEnecoStatistics()
     }
 
+    @Tag(name="Eneco")
+    @GetMapping("/eneco/summary")
+    fun getHeathSummary(): YearSummary {
+        return enecoService.getYearSummary()
+    }
+
     @Tag(name="Log")
     @GetMapping("/logs")
     fun getLogs(): List<LogLine> {
         return logService.getLogs()
     }
+
+
+    @Tag(name="Test")
+    @GetMapping("/test")
+    fun someTest(): Any {
+        return "hello test"
+    }
+
 }

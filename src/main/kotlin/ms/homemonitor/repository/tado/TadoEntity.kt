@@ -1,4 +1,4 @@
-package ms.homemonitor.repository
+package ms.homemonitor.repository.tado
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

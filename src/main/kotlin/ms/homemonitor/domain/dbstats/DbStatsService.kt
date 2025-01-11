@@ -2,9 +2,9 @@ package ms.homemonitor.domain.dbstats
 
 import ms.homemonitor.domain.dbstats.rest.DbStats
 import ms.homemonitor.micrometer.MicroMeterMeasurement
-import ms.homemonitor.repository.AdminEntity
-import ms.homemonitor.repository.AdminKey
-import ms.homemonitor.repository.AdminRepository
+import ms.homemonitor.repository.admin.AdminEntity
+import ms.homemonitor.repository.admin.AdminKey
+import ms.homemonitor.repository.admin.AdminRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service

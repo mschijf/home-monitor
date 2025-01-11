@@ -2,12 +2,14 @@ package ms.homemonitor.domain.homewizard
 
 import ms.homemonitor.application.HomeMonitorException
 import ms.homemonitor.domain.homewizard.model.HomeWizardData
-import ms.homemonitor.repository.PowerEntity
-import ms.homemonitor.repository.PowerRepository
+import ms.homemonitor.repository.power.PowerEntity
+import ms.homemonitor.repository.power.PowerRepository
 import ms.homemonitor.domain.homewizard.rest.HomeWizard
+import ms.homemonitor.domain.summary.SummaryService
+import ms.homemonitor.domain.summary.model.YearSummary
 import ms.homemonitor.micrometer.MicroMeterMeasurement
-import ms.homemonitor.repository.WaterEntity
-import ms.homemonitor.repository.WaterRepository
+import ms.homemonitor.repository.water.WaterEntity
+import ms.homemonitor.repository.water.WaterRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
@@ -21,6 +23,7 @@ class HomeWizardService(
     private val measurement: MicroMeterMeasurement,
     private val powerRepository: PowerRepository,
     private val waterRepository: WaterRepository,
+    private val summary: SummaryService,
     @Value("\${homewizard.enabled}") private val enabled: Boolean,
     @Value("\${homewizard.initialWaterValue}") private val initialWaterValue: BigDecimal,
 ) {
@@ -71,6 +74,15 @@ class HomeWizardService(
             throw HomeMonitorException("Error while processing and storing HomeWizard data", e)
         }
     }
+
+    fun getPowerYearSummary(): YearSummary {
+        return summary.getSummary(powerRepository)
+    }
+
+    fun getWaterYearSummary(): YearSummary {
+        return summary.getSummary(waterRepository)
+    }
+
 
     private fun setMetrics(data: HomeWizardData) {
         measurement.setDoubleGauge("homewizardActivePowerL1Watt", data.energy.activePowerL1Watt.toDouble())

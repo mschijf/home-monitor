@@ -2,7 +2,13 @@ package ms.homemonitor.domain.eneco
 
 import jakarta.transaction.Transactional
 import ms.homemonitor.domain.eneco.rest.Eneco
-import ms.homemonitor.repository.*
+import ms.homemonitor.domain.summary.SummaryService
+import ms.homemonitor.domain.summary.model.YearSummary
+import ms.homemonitor.repository.admin.AdminEntity
+import ms.homemonitor.repository.admin.AdminKey
+import ms.homemonitor.repository.admin.AdminRepository
+import ms.homemonitor.repository.heath.HeathEntity
+import ms.homemonitor.repository.heath.HeathRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
@@ -17,14 +23,12 @@ class EnecoService(
     private val eneco: Eneco,
     private val heathRepository: HeathRepository,
     private val adminRepository: AdminRepository,
+    private val summary: SummaryService,
     @Value("\${eneco.enabled}") private val enabled: Boolean,
     @Value("\${eneco.initialDate}") private val initialDate: LocalDateTime,
     @Value("\${eneco.initialHeathValue}") private val initialHeathValue: BigDecimal,
 ) {
     private val log = LoggerFactory.getLogger(EnecoService::class.java)
-
-//    private val initialDate = LocalDateTime.of(2024, 1, 1, 0, 0)
-//    private val initialValue = BigDecimal.valueOf(196.196)
 
     @Transactional
     @Scheduled(cron = "0 0 0/2 * * *")
@@ -68,5 +72,9 @@ class EnecoService(
 
         lastUpdate.value = LocalDateTime.now().toString()
         adminRepository.saveAndFlush(lastUpdate)
+    }
+
+    fun getYearSummary(): YearSummary {
+        return summary.getSummary(heathRepository)
     }
 }
