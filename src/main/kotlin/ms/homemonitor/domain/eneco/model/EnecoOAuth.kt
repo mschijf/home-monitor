@@ -33,7 +33,7 @@ data class EnecoOAuth(
                     .trim()
                     .removeSurrounding("\"")
             } else {
-                log.error("cannot find $key on htmlPage")
+                log.info("cannot find $key on htmlPage")
                 ""
             }
         }
