@@ -10,7 +10,8 @@ import java.time.LocalDateTime
 @Service
 class DbStats(
     private val commandExecutor: CommandExecutor,
-    @Value("\${dbstats.backupListFileName}") private val backupListFileName: String) {
+    @Value("\${dbstats.backupListFileName}") private val backupListFileName: String,
+    @Value("\${dbstats.dropbox_uploader}") private val dropboxUploader: String) {
 
     private val log = LoggerFactory.getLogger(DbStats::class.java)
 
@@ -37,22 +38,13 @@ class DbStats(
 
     fun getFreeBackupSpace(): Long {
         val output = try {
-            commandExecutor.execCommand("./dropbox_uploader.sh", arrayListOf("space"))
+            commandExecutor.execCommand(dropboxUploader, arrayListOf("space"))
         } catch (e: Exception) {
             log.error("Couldn't retrieve backup space, caused by ${e.message}")
-            listOf(
-                "Dropbox Uploader v1.0",
-                "",
-                "",
-                "",
-                "Quota:\t8576 Mb",
-                "Used:\t158 Mb",
-                "Free:\t-0 Mb"
-            )
+            listOf("Free: -1 MB")
         }
         return output
-            .filter { it.contains("Free:") }
-            .first()
+            .first { it.contains("Free:") }
             .split("\\s+".toRegex())[1]
             .toLong()
     }

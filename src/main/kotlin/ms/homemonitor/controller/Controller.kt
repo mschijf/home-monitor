@@ -106,7 +106,7 @@ class Controller(
     @Tag(name="Test")
     @GetMapping("/test")
     fun someTest(): Any {
-        return "hello test"
+        return dbStats.getFreeBackupSpace()
     }
 
 }
