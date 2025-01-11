@@ -25,6 +25,14 @@ class DbStatsService(
         measureBackupStats()
     }
 
+    @Scheduled(cron = "0 0 * * * *")
+    fun dropboxFreeSpace() {
+        if (!enabled)
+            return
+        updateAdminRecord(AdminKey.FREE_SPACE_FOR_BACKUP.toString(), dbStats.getFreeBackupSpace().toString())
+    }
+
+
     private fun measureDbStats() {
         val dbSize = adminRepository.getDatabaseSize("home-monitor")
         measurement.setDoubleGauge("homeMonitorDbSize", dbSize.toDouble())

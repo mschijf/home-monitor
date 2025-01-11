@@ -34,4 +34,26 @@ class DbStats(
             emptyList()
         }
     }
+
+    fun getFreeBackupSpace(): Long {
+        val output = try {
+            commandExecutor.execCommand("./dropbox_uploader.sh", arrayListOf("space"))
+        } catch (e: Exception) {
+            log.error("Couldn't retrieve backup space, caused by ${e.message}")
+            listOf(
+                "Dropbox Uploader v1.0",
+                "",
+                "",
+                "",
+                "Quota:\t8576 Mb",
+                "Used:\t158 Mb",
+                "Free:\t-0 Mb"
+            )
+        }
+        return output
+            .filter { it.contains("Free:") }
+            .first()
+            .split("\\s+".toRegex())[1]
+            .toLong()
+    }
 }
