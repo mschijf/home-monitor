@@ -2,7 +2,7 @@ package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.transaction.Transactional
-import ms.homemonitor.domain.eneco.EnecoService
+import ms.homemonitor.domain.eneco.domain.service.EnecoService
 import ms.homemonitor.domain.homewizard.model.HomeWizardEnergyData
 import ms.homemonitor.domain.homewizard.model.HomeWizardWaterData
 import ms.homemonitor.domain.homewizard.rest.HomeWizard
@@ -106,7 +106,7 @@ class Controller(
     @Tag(name="Test")
     @GetMapping("/test")
     fun someTest(): Any {
-        return dbStats.getFreeBackupSpace()
+        return tadoDataProvider.getTadoTest()
     }
 
 }
