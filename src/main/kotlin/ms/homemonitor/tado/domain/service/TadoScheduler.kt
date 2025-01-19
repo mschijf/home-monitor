@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
-class TadoService(
+class TadoScheduler(
     private val tado: TadoClient,
     private val tadoRepository: TadoRepository,
     @Value("\${tado.enabled}") private val enabled: Boolean) {
@@ -40,17 +40,4 @@ class TadoService(
             throw HomeMonitorException("Error while processing Tado data", e)
         }
     }
-
-//    fun processTadoHistoricalData() {
-//        val startDate = LocalDate.of(2024, 1, 1)
-//        val endDate = LocalDate.of(2024, 11, 17)
-//        dateRangeByDay(startDate, endDate).forEach { day ->
-//            println("processing $day")
-//            val entityList = tado.processHistoricalDay(day)
-//            tadoRepository.saveAll(entityList)
-//            tadoRepository.flush()
-//        }
-//        println("Done")
-//    }
-//
 }

@@ -16,52 +16,11 @@ import java.time.LocalDateTime
 
 @Service
 class HomeWizardWaterService(
-    private val homeWizardWaterClient: HomeWizardWaterClient,
-    private val measurement: MicroMeterMeasurement,
     private val waterRepository: WaterRepository,
     private val summary: SummaryService,
-    @Value("\${homewizard.enabled}") private val enabled: Boolean,
-    @Value("\${homewizard.initialWaterValue}") private val initialWaterValue: BigDecimal,
 ) {
-
-    @Scheduled(fixedRate = 10_000)
-    fun detailedWaterMeasurement() {
-        if (!enabled)
-            return
-
-        try {
-            val homeWizardWaterData = homeWizardWaterClient.getHomeWizardWaterData()
-            setMetrics(homeWizardWaterData)
-        } catch (e: Exception) {
-            throw HomeMonitorException("Error while processing detailed HomeWizard Water data", e)
-        }
-    }
-
-    @Scheduled(cron = "0 * * * * *")
-    fun minuteMeasurement() {
-        if (!enabled)
-            return
-
-        try {
-            val now = LocalDateTime.now()
-            val homeWizardWaterData = homeWizardWaterClient.getHomeWizardWaterData()
-            waterRepository.saveAndFlush(
-                WaterEntity(
-                    time = now,
-                    waterM3 = homeWizardWaterData.totalLiterM3 + initialWaterValue,
-                )
-            )
-
-        } catch (e: Exception) {
-            throw HomeMonitorException("Error while processing and storing HomeWizard data", e)
-        }
-    }
-
     fun getWaterYearSummary(): YearSummary {
         return summary.getSummary(waterRepository)
     }
 
-    private fun setMetrics(data: HomeWizardWaterData) {
-        measurement.setDoubleGauge("homewizardWaterActiveLpm", data.activeLiterLpm.toDouble())
-    }
 }

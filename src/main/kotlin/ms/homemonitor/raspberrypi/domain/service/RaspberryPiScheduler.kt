@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
-class RaspberryPiService(
+class RaspberryPiScheduler(
     private val raspberryPiStats: RaspberryPiStats,
     private val measurement: MicroMeterMeasurement,
     @Value("\${raspberrypi.enabled}") private val enabled: Boolean,

@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
-class DbStatsService(
+class DbStatsScheduler(
     private val dbStatsRepository: DBStatsRepository,
     private val adminRepository: AdminRepository,
     private val measurement: MicroMeterMeasurement,
