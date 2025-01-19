@@ -7,8 +7,8 @@ import ms.homemonitor.shared.summary.domain.model.YearSummary
 import ms.homemonitor.eneco.data.model.HeathEntity
 import ms.homemonitor.shared.admin.data.model.AdminEntity
 import ms.homemonitor.shared.admin.data.model.AdminKey
-import ms.homemonitor.shared.admin.data.repository.AdminRepository
 import ms.homemonitor.eneco.data.repository.HeathRepository
+import ms.homemonitor.shared.admin.data.repository.AdminRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled

@@ -1,4 +1,4 @@
-package ms.homemonitor.dbstats.rest
+package ms.homemonitor.dbstats.commandline
 
 import ms.homemonitor.dbstats.domain.model.BackupStats
 import ms.homemonitor.shared.tools.commandline.CommandExecutor

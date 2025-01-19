@@ -3,7 +3,7 @@ package ms.homemonitor.controller
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.transaction.Transactional
 import ms.homemonitor.dbstats.domain.model.BackupStats
-import ms.homemonitor.dbstats.rest.DbStats
+import ms.homemonitor.dbstats.commandline.DbStats
 import ms.homemonitor.eneco.domain.service.EnecoService
 import ms.homemonitor.power.domain.service.HomeWizardPowerService
 import ms.homemonitor.power.domain.model.HomeWizardEnergyData
@@ -12,7 +12,7 @@ import ms.homemonitor.power.domain.rest.HomeWizard
 import ms.homemonitor.log.domain.service.LogService
 import ms.homemonitor.log.domain.model.LogLine
 import ms.homemonitor.raspberrypi.domain.model.RaspberryPiStatsModel
-import ms.homemonitor.raspberrypi.rest.RaspberryPiStats
+import ms.homemonitor.raspberrypi.domain.commandline.RaspberryPiStats
 import ms.homemonitor.shared.summary.domain.model.YearSummary
 import ms.homemonitor.tado.domain.model.TadoResponseModel
 import ms.homemonitor.tado.domain.rest.TadoClient

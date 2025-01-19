@@ -1,8 +1,9 @@
 package ms.homemonitor.dbstats.domain.service
 
-import ms.homemonitor.dbstats.rest.DbStats
+import ms.homemonitor.dbstats.commandline.DbStats
 import ms.homemonitor.shared.admin.data.model.AdminEntity
 import ms.homemonitor.shared.admin.data.model.AdminKey
+import ms.homemonitor.dbstats.data.repository.DBStatsRepository
 import ms.homemonitor.shared.admin.data.repository.AdminRepository
 import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
 import org.springframework.beans.factory.annotation.Value
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class DbStatsService(
+    private val dbStatsRepository: DBStatsRepository,
     private val adminRepository: AdminRepository,
     private val measurement: MicroMeterMeasurement,
     private val dbStats: DbStats,
@@ -34,7 +36,7 @@ class DbStatsService(
 
 
     private fun measureDbStats() {
-        val dbSize = adminRepository.getDatabaseSize("home-monitor")
+        val dbSize = dbStatsRepository.getDatabaseSize("home-monitor")
         measurement.setDoubleGauge("homeMonitorDbSize", dbSize.toDouble())
     }
 

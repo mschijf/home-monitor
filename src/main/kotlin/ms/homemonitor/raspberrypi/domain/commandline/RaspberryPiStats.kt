@@ -1,4 +1,4 @@
-package ms.homemonitor.raspberrypi.rest
+package ms.homemonitor.raspberrypi.domain.commandline
 
 import ms.homemonitor.raspberrypi.domain.model.RaspberryPiStatsModel
 import ms.homemonitor.shared.tools.commandline.CommandExecutor
