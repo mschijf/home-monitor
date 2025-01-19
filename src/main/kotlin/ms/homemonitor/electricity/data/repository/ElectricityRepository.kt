@@ -11,12 +11,7 @@ import java.time.LocalDateTime
 @Repository
 interface ElectricityRepository: JpaRepository<ElectricityEntity, LocalDateTime>, WithTotals {
 
-    @Query(value = "SELECT max(power_normal_kwh)-min(power_normal_kwh) from power where time >= :from and time <= :end", nativeQuery = true)
-    fun getTotalNormalPowerBetweenDates(@Param("from")from: LocalDateTime, @Param("end")end: LocalDateTime): Double
-
-    @Query(value = "SELECT max(power_offpeak_kwh)-min(power_offpeak_kwh) from power where time >= :from and time <= :end", nativeQuery = true)
-    fun getTotalOffpeakPowerBetweenDates(@Param("from")from: LocalDateTime, @Param("end")end: LocalDateTime): Double
-
-    @Query(value = "SELECT max(power_offpeak_kwh)-min(power_offpeak_kwh) + max(power_normal_kwh)-min(power_normal_kwh) from power where time >= :from and time <= :end", nativeQuery = true)
+    @Query(value = "SELECT max(power_offpeak_kwh)-min(power_offpeak_kwh) + max(power_normal_kwh)-min(power_normal_kwh) from electricity where time >= :from and time <= :end", nativeQuery = true)
     override fun getTotalBetweenDates(@Param("from")from: LocalDateTime, @Param("end")end: LocalDateTime): Double
+
 }

@@ -8,7 +8,7 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "power")
+@Table(name = "electricity")
 class ElectricityEntity(
     @Id
     @Column(name = "time", nullable = false, unique = true)
