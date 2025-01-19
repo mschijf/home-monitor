@@ -1,11 +1,11 @@
-package ms.homemonitor.power.restclient.model
+package ms.homemonitor.electricity.restclient.model
 
 import com.fasterxml.jackson.annotation.JsonAlias
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-data class HomeWizardEnergyData(
+data class HomeWizardElectricityData(
     @JsonProperty("time")
     val time: LocalDateTime = LocalDateTime.now(),
 

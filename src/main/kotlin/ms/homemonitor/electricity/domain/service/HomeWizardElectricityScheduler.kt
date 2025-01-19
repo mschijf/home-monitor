@@ -1,9 +1,9 @@
-package ms.homemonitor.power.domain.service
+package ms.homemonitor.electricity.domain.service
 
-import ms.homemonitor.power.data.model.PowerEntity
-import ms.homemonitor.power.data.repository.PowerRepository
-import ms.homemonitor.power.restclient.HomeWizardEnergyClient
-import ms.homemonitor.power.restclient.model.HomeWizardEnergyData
+import ms.homemonitor.electricity.data.model.ElectricityEntity
+import ms.homemonitor.electricity.data.repository.ElectricityRepository
+import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
+import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
 import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
 import org.springframework.beans.factory.annotation.Value
@@ -12,21 +12,21 @@ import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
-class HomeWizardPowerScheduler(
-    private val homeWizardEnergyClient: HomeWizardEnergyClient,
+class HomeWizardElectricityScheduler(
+    private val homeWizardElectricityClient: HomeWizardElectricityClient,
     private val measurement: MicroMeterMeasurement,
-    private val powerRepository: PowerRepository,
+    private val electricityRepository: ElectricityRepository,
     @Value("\${homewizard.enabled}") private val enabled: Boolean,
 ) {
 
     @Scheduled(fixedRate = 10_000)
-    fun detailedPowerMeasurement() {
+    fun detailedElectricityMeasurement() {
         if (!enabled)
             return
 
         try {
-            val homeWizardEnergyData = homeWizardEnergyClient.getHomeWizardEnergyData()
-            setMetrics(homeWizardEnergyData)
+            val homeWizardElectricityData = homeWizardElectricityClient.getHomeWizardElectricityData()
+            setMetrics(homeWizardElectricityData)
         } catch (e: Exception) {
             throw HomeMonitorException("Error while processing detailed HomeWizard data", e)
         }
@@ -39,12 +39,12 @@ class HomeWizardPowerScheduler(
 
         try {
             val now = LocalDateTime.now()
-            val homeWizardEnergyData = homeWizardEnergyClient.getHomeWizardEnergyData()
-            powerRepository.saveAndFlush(
-                PowerEntity(
+            val homeWizardElectricityData = homeWizardElectricityClient.getHomeWizardElectricityData()
+            electricityRepository.saveAndFlush(
+                ElectricityEntity(
                     time = now,
-                    powerNormalKwh = homeWizardEnergyData.totalPowerImportT2Kwh,
-                    powerOffpeakKwh = homeWizardEnergyData.totalPowerImportT1Kwh
+                    powerNormalKwh = homeWizardElectricityData.totalPowerImportT2Kwh,
+                    powerOffpeakKwh = homeWizardElectricityData.totalPowerImportT1Kwh
                 )
             )
 
@@ -53,7 +53,7 @@ class HomeWizardPowerScheduler(
         }
     }
 
-    private fun setMetrics(data: HomeWizardEnergyData) {
+    private fun setMetrics(data: HomeWizardElectricityData) {
         measurement.setDoubleGauge("homewizardActivePowerL1Watt", data.activePowerL1Watt.toDouble())
         measurement.setDoubleGauge("homewizardActivePowerL2Watt", data.activePowerL2Watt.toDouble())
         measurement.setDoubleGauge("homewizardActivePowerL3Watt", data.activePowerL3Watt.toDouble())

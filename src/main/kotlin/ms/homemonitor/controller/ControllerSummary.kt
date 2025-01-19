@@ -3,8 +3,8 @@ package ms.homemonitor.controller
 import io.swagger.v3.oas.annotations.tags.Tag
 import ms.homemonitor.dbstats.cliclient.DbStats
 import ms.homemonitor.eneco.domain.service.EnecoService
-import ms.homemonitor.power.domain.service.HomeWizardPowerService
-import ms.homemonitor.power.restclient.HomeWizardEnergyClient
+import ms.homemonitor.electricity.domain.service.HomeWizardElectricityService
+import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.log.domain.service.LogService
 import ms.homemonitor.raspberrypi.cliclient.RaspberryPiStats
 import ms.homemonitor.shared.summary.domain.model.YearSummary
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ControllerSummary(
-    private val homeWizardEnergyClient: HomeWizardEnergyClient,
+    private val homeWizardElectricityClient: HomeWizardElectricityClient,
     private val homeWizardWaterClient: HomeWizardWaterClient,
-    private val homeWizardPowerService: HomeWizardPowerService,
+    private val homeWizardElectricityService: HomeWizardElectricityService,
     private val homeWizardWaterService: HomeWizardWaterService,
     private val tadoDataProvider: TadoClient,
     private val raspberryPiStats: RaspberryPiStats,
@@ -32,9 +32,9 @@ class ControllerSummary(
     private val log = LoggerFactory.getLogger(ControllerSummary::class.java)
 
     @Tag(name="Homewizard")
-    @GetMapping("/homewizard/energy/summary")
-    fun getPowerSummary(): YearSummary {
-        return homeWizardPowerService.getPowerYearSummary()
+    @GetMapping("/homewizard/electricity/summary")
+    fun getElectricitySummary(): YearSummary {
+        return homeWizardElectricityService.getElectricityYearSummary()
     }
 
     @Tag(name="Homewizard")

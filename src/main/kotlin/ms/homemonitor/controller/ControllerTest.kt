@@ -6,8 +6,8 @@ import ms.homemonitor.dbstats.cliclient.DbStats
 import ms.homemonitor.dbstats.cliclient.model.BackupStats
 import ms.homemonitor.eneco.restclient.EnecoRestClient
 import ms.homemonitor.eneco.restclient.model.EnecoConsumption
-import ms.homemonitor.power.restclient.HomeWizardEnergyClient
-import ms.homemonitor.power.restclient.model.HomeWizardEnergyData
+import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
+import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
 import ms.homemonitor.raspberrypi.cliclient.RaspberryPiStats
 import ms.homemonitor.raspberrypi.domain.model.RaspberryPiStatsModel
 import ms.homemonitor.tado.restclient.TadoClient
@@ -22,7 +22,7 @@ import java.time.LocalDate
 
 @RestController
 class ControllerTest(
-    private val homeWizardEnergyClient: HomeWizardEnergyClient,
+    private val homeWizardElectricityClient: HomeWizardElectricityClient,
     private val homeWizardWaterClient: HomeWizardWaterClient,
     private val tadoRestClient: TadoClient,
     private val enecoRestClient: EnecoRestClient,
@@ -33,9 +33,9 @@ class ControllerTest(
     private val log = LoggerFactory.getLogger(ControllerTest::class.java)
 
     @Tag(name="Homewizard")
-    @GetMapping("/test/homewizard/energy/current")
-    fun homeWizardEnergy(): HomeWizardEnergyData {
-        return homeWizardEnergyClient.getHomeWizardEnergyData()
+    @GetMapping("/test/homewizard/electricity/current")
+    fun homeWizardElectricity(): HomeWizardElectricityData {
+        return homeWizardElectricityClient.getHomeWizardElectricityData()
     }
 
     @Tag(name="Homewizard")

@@ -1,6 +1,5 @@
 package ms.homemonitor.water.restclient
 
-import ms.homemonitor.power.restclient.model.HomeWizardEnergyData
 import ms.homemonitor.water.restclient.model.HomeWizardWaterData
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service

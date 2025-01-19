@@ -1,4 +1,4 @@
-package ms.homemonitor.power.data.model
+package ms.homemonitor.electricity.data.model
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "power")
-class PowerEntity(
+class ElectricityEntity(
     @Id
     @Column(name = "time", nullable = false, unique = true)
     val time: LocalDateTime = LocalDateTime.MIN,
