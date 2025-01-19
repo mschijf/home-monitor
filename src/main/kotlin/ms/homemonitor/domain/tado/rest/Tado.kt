@@ -8,7 +8,6 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
-import java.io.File
 import java.time.LocalDate
 
 
@@ -34,7 +33,7 @@ class Tado(
         return response.body!!
     }
 
-    private fun getStringViaRest(endPoint: String): String  {
+    private fun getTadoResponseAsStringViaRest(endPoint: String): String  {
         val headers = HttpHeaders()
         headers.setBearerAuth(tadoAccessToken.getTadoAccessToken())
         var response = restTemplate.getForEntityWithHeader<String>(endPoint, HttpEntity<Any?>(headers))
@@ -44,8 +43,6 @@ class Tado(
         }
         return response.body!!
     }
-
-
 
     private fun getTadoMe() : TadoMe {
         return getTadoObjectViaRest("${baseRestUrl}/me")
@@ -69,20 +66,18 @@ class Tado(
         return TadoResponseModel(getTadoStateForZone(homeId, zoneId), getTadoOutsideWeather(homeId))
     }
 
-    fun getTadoTest() : String {
+    fun getTadoHistoricalInfo(day: LocalDate) : TadoDayReport {
         val homeId = getTadoMe().homes[0].id
         val zoneId = getTadoZonesForHome(homeId)[0].id
-
-//        var dayDate = LocalDate.of(2024, 1, 1)
-//        val end  = LocalDate.of(2025, 1, 1)
-//        while (dayDate != end) {
-//            val response = getStringViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=${dayDate}")
-//            val f = File("data/tado/dayreport_$dayDate")
-//            f.writeText(response)
-//            dayDate = dayDate.plusDays(1)
-//        }
-
-        val dayDate = LocalDate.now()
-        return getStringViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=${dayDate}")
+        return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=${day}")
     }
+
+    fun getTadoHistoricalInfoAsString(day: LocalDate) : String {
+        val homeId = getTadoMe().homes[0].id
+        val zoneId = getTadoZonesForHome(homeId)[0].id
+        return getTadoResponseAsStringViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=${day}")
+    }
+
+
 }
+

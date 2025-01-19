@@ -40,4 +40,17 @@ class TadoService(
             throw HomeMonitorException("Error while processing Tado data", e)
         }
     }
+
+//    fun processTadoHistoricalData() {
+//        val startDate = LocalDate.of(2024, 1, 1)
+//        val endDate = LocalDate.of(2024, 11, 17)
+//        dateRangeByDay(startDate, endDate).forEach { day ->
+//            println("processing $day")
+//            val entityList = tado.processHistoricalDay(day)
+//            tadoRepository.saveAll(entityList)
+//            tadoRepository.flush()
+//        }
+//        println("Done")
+//    }
+//
 }
