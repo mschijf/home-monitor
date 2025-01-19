@@ -1,6 +1,6 @@
 package ms.homemonitor.dbstats.domain.service
 
-import ms.homemonitor.dbstats.commandline.DbStats
+import ms.homemonitor.dbstats.cliclient.DbStats
 import ms.homemonitor.shared.admin.data.model.AdminEntity
 import ms.homemonitor.shared.admin.data.model.AdminKey
 import ms.homemonitor.dbstats.data.repository.DBStatsRepository

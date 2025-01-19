@@ -1,7 +1,7 @@
 package ms.homemonitor.eneco.domain.service
 
 import jakarta.transaction.Transactional
-import ms.homemonitor.eneco.domain.rest.Eneco
+import ms.homemonitor.eneco.restclient.EnecoRestClient
 import ms.homemonitor.shared.summary.domain.service.SummaryService
 import ms.homemonitor.shared.summary.domain.model.YearSummary
 import ms.homemonitor.eneco.data.model.HeathEntity
@@ -20,7 +20,7 @@ import java.time.LocalTime
 
 @Service
 class EnecoService(
-    private val eneco: Eneco,
+    private val enecoRestClient: EnecoRestClient,
     private val heathRepository: HeathRepository,
     private val adminRepository: AdminRepository,
     private val summary: SummaryService,
@@ -57,7 +57,7 @@ class EnecoService(
     }
 
     private fun getNewDataFromDate(beginningOfLastDay: LocalDate): List<HeathEntity> {
-        val freshDataList = eneco.getNewDataFromEneco(beginningOfLastDay).sortedBy { it.date }
+        val freshDataList = enecoRestClient.getNewDataFromEneco(beginningOfLastDay).sortedBy { it.date }
         val newHeathRecordList = freshDataList
             .map{fresh ->
                 HeathEntity(

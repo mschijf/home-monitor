@@ -1,7 +1,7 @@
 package ms.homemonitor.tado.domain.service
 
 import ms.homemonitor.shared.HomeMonitorException
-import ms.homemonitor.tado.domain.rest.TadoClient
+import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.data.model.TadoEntity
 import ms.homemonitor.tado.data.repository.TadoRepository
 import org.springframework.beans.factory.annotation.Value

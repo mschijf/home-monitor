@@ -4,10 +4,10 @@ import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.shared.summary.domain.service.SummaryService
 import ms.homemonitor.shared.summary.domain.model.YearSummary
 import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
-import ms.homemonitor.power.domain.rest.HomeWizard
 import ms.homemonitor.water.data.model.WaterEntity
 import ms.homemonitor.water.data.repository.WaterRepository
-import ms.homemonitor.water.domain.model.HomeWizardWaterData
+import ms.homemonitor.water.restclient.HomeWizardWaterClient
+import ms.homemonitor.water.restclient.model.HomeWizardWaterData
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 
 @Service
 class HomeWizardWaterService(
-    private val homeWizard: HomeWizard,
+    private val homeWizardWaterClient: HomeWizardWaterClient,
     private val measurement: MicroMeterMeasurement,
     private val waterRepository: WaterRepository,
     private val summary: SummaryService,
@@ -30,7 +30,7 @@ class HomeWizardWaterService(
             return
 
         try {
-            val homeWizardWaterData = homeWizard.getHomeWizardWaterData()
+            val homeWizardWaterData = homeWizardWaterClient.getHomeWizardWaterData()
             setMetrics(homeWizardWaterData)
         } catch (e: Exception) {
             throw HomeMonitorException("Error while processing detailed HomeWizard Water data", e)
@@ -44,7 +44,7 @@ class HomeWizardWaterService(
 
         try {
             val now = LocalDateTime.now()
-            val homeWizardWaterData = homeWizard.getHomeWizardWaterData()
+            val homeWizardWaterData = homeWizardWaterClient.getHomeWizardWaterData()
             waterRepository.saveAndFlush(
                 WaterEntity(
                     time = now,

@@ -6,8 +6,8 @@ import ms.homemonitor.shared.summary.domain.model.YearSummary
 import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
 import ms.homemonitor.power.data.model.PowerEntity
 import ms.homemonitor.power.data.repository.PowerRepository
-import ms.homemonitor.power.domain.model.HomeWizardEnergyData
-import ms.homemonitor.power.domain.rest.HomeWizard
+import ms.homemonitor.power.restclient.model.HomeWizardEnergyData
+import ms.homemonitor.power.restclient.HomeWizardEnergyClient
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 
 @Service
 class HomeWizardPowerService(
-    private val homeWizard: HomeWizard,
+    private val homeWizardEnergyClient: HomeWizardEnergyClient,
     private val measurement: MicroMeterMeasurement,
     private val powerRepository: PowerRepository,
     private val summary: SummaryService,
@@ -28,7 +28,7 @@ class HomeWizardPowerService(
             return
 
         try {
-            val homeWizardEnergyData = homeWizard.getHomeWizardEnergyData()
+            val homeWizardEnergyData = homeWizardEnergyClient.getHomeWizardEnergyData()
             setMetrics(homeWizardEnergyData)
         } catch (e: Exception) {
             throw HomeMonitorException("Error while processing detailed HomeWizard data", e)
@@ -42,7 +42,7 @@ class HomeWizardPowerService(
 
         try {
             val now = LocalDateTime.now()
-            val homeWizardEnergyData = homeWizard.getHomeWizardEnergyData()
+            val homeWizardEnergyData = homeWizardEnergyClient.getHomeWizardEnergyData()
             powerRepository.saveAndFlush(
                 PowerEntity(
                     time = now,

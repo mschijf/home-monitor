@@ -2,21 +2,22 @@ package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.transaction.Transactional
-import ms.homemonitor.dbstats.domain.model.BackupStats
-import ms.homemonitor.dbstats.commandline.DbStats
+import ms.homemonitor.dbstats.cliclient.model.BackupStats
+import ms.homemonitor.dbstats.cliclient.DbStats
 import ms.homemonitor.eneco.domain.service.EnecoService
 import ms.homemonitor.power.domain.service.HomeWizardPowerService
-import ms.homemonitor.power.domain.model.HomeWizardEnergyData
-import ms.homemonitor.water.domain.model.HomeWizardWaterData
-import ms.homemonitor.power.domain.rest.HomeWizard
+import ms.homemonitor.power.restclient.model.HomeWizardEnergyData
+import ms.homemonitor.water.restclient.model.HomeWizardWaterData
+import ms.homemonitor.power.restclient.HomeWizardEnergyClient
 import ms.homemonitor.log.domain.service.LogService
 import ms.homemonitor.log.domain.model.LogLine
 import ms.homemonitor.raspberrypi.domain.model.RaspberryPiStatsModel
-import ms.homemonitor.raspberrypi.domain.commandline.RaspberryPiStats
+import ms.homemonitor.raspberrypi.cliclient.RaspberryPiStats
 import ms.homemonitor.shared.summary.domain.model.YearSummary
-import ms.homemonitor.tado.domain.model.TadoResponseModel
-import ms.homemonitor.tado.domain.rest.TadoClient
+import ms.homemonitor.tado.restclient.model.TadoResponseModel
+import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.water.domain.service.HomeWizardWaterService
+import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -24,7 +25,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class Controller(
-    private val homeWizardDataProvider: HomeWizard,
+    private val homeWizardEnergyClient: HomeWizardEnergyClient,
+    private val homeWizardWaterClient: HomeWizardWaterClient,
     private val homeWizardPowerService: HomeWizardPowerService,
     private val homeWizardWaterService: HomeWizardWaterService,
     private val tadoDataProvider: TadoClient,
@@ -45,13 +47,13 @@ class Controller(
     @Tag(name="Homewizard")
     @GetMapping("/homewizard/energy/current")
     fun homeWizardEnergy(): HomeWizardEnergyData {
-        return homeWizardDataProvider.getHomeWizardEnergyData()
+        return homeWizardEnergyClient.getHomeWizardEnergyData()
     }
 
     @Tag(name="Homewizard")
     @GetMapping("/homewizard/water/current")
     fun homeWizardWater(): HomeWizardWaterData {
-        return homeWizardDataProvider.getHomeWizardWaterData()
+        return homeWizardWaterClient.getHomeWizardWaterData()
     }
 
     @Tag(name="Homewizard")
