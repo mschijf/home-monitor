@@ -2,20 +2,21 @@ package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.transaction.Transactional
-import ms.homemonitor.domain.dbstats.model.BackupStats
-import ms.homemonitor.domain.dbstats.rest.DbStats
-import ms.homemonitor.domain.eneco.EnecoService
-import ms.homemonitor.domain.homewizard.HomeWizardService
-import ms.homemonitor.domain.homewizard.model.HomeWizardEnergyData
-import ms.homemonitor.domain.homewizard.model.HomeWizardWaterData
-import ms.homemonitor.domain.homewizard.rest.HomeWizard
-import ms.homemonitor.domain.log.LogService
-import ms.homemonitor.domain.log.model.LogLine
-import ms.homemonitor.domain.raspberrypi.model.RaspberryPiStatsModel
-import ms.homemonitor.domain.raspberrypi.rest.RaspberryPiStats
-import ms.homemonitor.domain.summary.model.YearSummary
-import ms.homemonitor.domain.tado.model.TadoResponseModel
-import ms.homemonitor.domain.tado.rest.Tado
+import ms.homemonitor.dbstats.domain.model.BackupStats
+import ms.homemonitor.dbstats.rest.DbStats
+import ms.homemonitor.eneco.domain.service.EnecoService
+import ms.homemonitor.power.domain.service.HomeWizardPowerService
+import ms.homemonitor.power.domain.model.HomeWizardEnergyData
+import ms.homemonitor.water.domain.model.HomeWizardWaterData
+import ms.homemonitor.power.domain.rest.HomeWizard
+import ms.homemonitor.log.domain.service.LogService
+import ms.homemonitor.log.domain.model.LogLine
+import ms.homemonitor.raspberrypi.domain.model.RaspberryPiStatsModel
+import ms.homemonitor.raspberrypi.rest.RaspberryPiStats
+import ms.homemonitor.shared.summary.domain.model.YearSummary
+import ms.homemonitor.tado.domain.model.TadoResponseModel
+import ms.homemonitor.tado.domain.rest.TadoClient
+import ms.homemonitor.water.domain.service.HomeWizardWaterService
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -24,8 +25,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class Controller(
     private val homeWizardDataProvider: HomeWizard,
-    private val homeWizardService: HomeWizardService,
-    private val tadoDataProvider: Tado,
+    private val homeWizardPowerService: HomeWizardPowerService,
+    private val homeWizardWaterService: HomeWizardWaterService,
+    private val tadoDataProvider: TadoClient,
     private val raspberryPiStats: RaspberryPiStats,
     private val enecoService: EnecoService,
     private val logService: LogService,
@@ -55,13 +57,13 @@ class Controller(
     @Tag(name="Homewizard")
     @GetMapping("/homewizard/energy/summary")
     fun getPowerSummary(): YearSummary {
-        return homeWizardService.getPowerYearSummary()
+        return homeWizardPowerService.getPowerYearSummary()
     }
 
     @Tag(name="Homewizard")
     @GetMapping("/homewizard/water/summary")
     fun getWaterSummary(): YearSummary {
-        return homeWizardService.getWaterYearSummary()
+        return homeWizardWaterService.getWaterYearSummary()
     }
 
 
