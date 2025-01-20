@@ -1,6 +1,6 @@
 package ms.homemonitor.raspberrypi.cliclient
 
-import ms.homemonitor.raspberrypi.domain.model.RaspberryPiStatsModel
+import ms.homemonitor.raspberrypi.cliclient.model.RaspberryPiStatsModel
 import ms.homemonitor.shared.tools.commandline.CommandExecutor
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service

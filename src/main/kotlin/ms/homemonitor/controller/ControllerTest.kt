@@ -9,7 +9,7 @@ import ms.homemonitor.heath.restclient.model.EnecoConsumption
 import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
 import ms.homemonitor.raspberrypi.cliclient.RaspberryPiStats
-import ms.homemonitor.raspberrypi.domain.model.RaspberryPiStatsModel
+import ms.homemonitor.raspberrypi.cliclient.model.RaspberryPiStatsModel
 import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoResponseModel
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
