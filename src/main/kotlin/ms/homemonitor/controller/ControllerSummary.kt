@@ -1,16 +1,10 @@
 package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
-import ms.homemonitor.dbstats.cliclient.DbStats
-import ms.homemonitor.eneco.domain.service.EnecoService
 import ms.homemonitor.electricity.domain.service.HomeWizardElectricityService
-import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
-import ms.homemonitor.log.domain.service.LogService
-import ms.homemonitor.raspberrypi.cliclient.RaspberryPiStats
+import ms.homemonitor.heath.domain.service.HeathService
 import ms.homemonitor.shared.summary.domain.model.YearSummary
-import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.water.domain.service.HomeWizardWaterService
-import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -18,15 +12,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ControllerSummary(
-    private val homeWizardElectricityClient: HomeWizardElectricityClient,
-    private val homeWizardWaterClient: HomeWizardWaterClient,
     private val homeWizardElectricityService: HomeWizardElectricityService,
     private val homeWizardWaterService: HomeWizardWaterService,
-    private val tadoDataProvider: TadoClient,
-    private val raspberryPiStats: RaspberryPiStats,
-    private val enecoService: EnecoService,
-    private val logService: LogService,
-    private val dbStats: DbStats,
+    private val heathService: HeathService,
 ) {
 
     private val log = LoggerFactory.getLogger(ControllerSummary::class.java)
@@ -45,7 +33,7 @@ class ControllerSummary(
     @Tag(name="Eneco")
     @GetMapping("/eneco/summary")
     fun getHeathSummary(): YearSummary {
-        return enecoService.getYearSummary()
+        return heathService.getYearSummary()
     }
 
 }

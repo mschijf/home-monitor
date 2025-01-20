@@ -1,4 +1,4 @@
-package ms.homemonitor.eneco.data.model
+package ms.homemonitor.heath.data.model
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

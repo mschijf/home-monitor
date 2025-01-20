@@ -1,4 +1,4 @@
-package ms.homemonitor.eneco.restclient.model
+package ms.homemonitor.heath.restclient.model
 
 import org.slf4j.LoggerFactory
 

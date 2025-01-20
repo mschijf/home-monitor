@@ -1,9 +1,9 @@
-package ms.homemonitor.eneco.domain.service
+package ms.homemonitor.heath.domain.service
 
 import jakarta.transaction.Transactional
-import ms.homemonitor.eneco.data.model.HeathEntity
-import ms.homemonitor.eneco.data.repository.HeathRepository
-import ms.homemonitor.eneco.restclient.EnecoRestClient
+import ms.homemonitor.heath.data.model.HeathEntity
+import ms.homemonitor.heath.data.repository.HeathRepository
+import ms.homemonitor.heath.restclient.EnecoRestClient
 import ms.homemonitor.shared.admin.data.model.AdminEntity
 import ms.homemonitor.shared.admin.data.model.AdminKey
 import ms.homemonitor.shared.admin.data.repository.AdminRepository
@@ -17,7 +17,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Service
-class EnecoService(
+class HeathService(
     private val heathRepository: HeathRepository,
     private val enecoRestClient: EnecoRestClient,
     private val adminRepository: AdminRepository,

@@ -1,7 +1,7 @@
-package ms.homemonitor.eneco.data.repository
+package ms.homemonitor.heath.data.repository
 
 import ms.homemonitor.shared.summary.domain.service.RepositoryWithTotals
-import ms.homemonitor.eneco.data.model.HeathEntity
+import ms.homemonitor.heath.data.model.HeathEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param

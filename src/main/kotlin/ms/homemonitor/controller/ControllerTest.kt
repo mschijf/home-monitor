@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import ms.homemonitor.dbstats.cliclient.DbStats
 import ms.homemonitor.dbstats.cliclient.model.BackupStats
-import ms.homemonitor.eneco.restclient.EnecoRestClient
-import ms.homemonitor.eneco.restclient.model.EnecoConsumption
+import ms.homemonitor.heath.restclient.EnecoRestClient
+import ms.homemonitor.heath.restclient.model.EnecoConsumption
 import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
 import ms.homemonitor.raspberrypi.cliclient.RaspberryPiStats
