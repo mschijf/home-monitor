@@ -6,14 +6,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class SummaryService {
-    private val cache = mutableMapOf<WithTotals, YearSummary>()
+    private val cache = mutableMapOf<RepositoryWithTotals, YearSummary>()
 
     @Scheduled(cron = "0 1 0 * * *")
     private fun clearCache() {
         cache.clear()
     }
 
-    fun getSummary(withTotals: WithTotals): YearSummary {
-        return cache.getOrPut(withTotals) { YearSummary.Companion.of(withTotals)}
+    fun getSummary(repositoryWithTotals: RepositoryWithTotals): YearSummary {
+        return cache.getOrPut(repositoryWithTotals) { YearSummary.Companion.of(repositoryWithTotals)}
     }
 }

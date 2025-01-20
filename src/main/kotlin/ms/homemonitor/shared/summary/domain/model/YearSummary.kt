@@ -1,6 +1,6 @@
 package ms.homemonitor.shared.summary.domain.model
 
-import ms.homemonitor.shared.summary.domain.service.WithTotals
+import ms.homemonitor.shared.summary.domain.service.RepositoryWithTotals
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -13,7 +13,7 @@ data class YearSummary(
     val yearExpectationComparedWithLastYear: Double) {
 
     companion object {
-        fun of(repository: WithTotals): YearSummary {
+        fun of(repository: RepositoryWithTotals): YearSummary {
             val today = LocalDate.now()
             val thisYear = today.year
             val yearStart = LocalDate.of(thisYear, 1, 1)
