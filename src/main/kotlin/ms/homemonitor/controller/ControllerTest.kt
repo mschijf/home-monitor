@@ -4,13 +4,14 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import ms.homemonitor.dbstats.cliclient.DbStats
 import ms.homemonitor.dbstats.cliclient.model.BackupStats
-import ms.homemonitor.heath.restclient.EnecoRestClient
-import ms.homemonitor.heath.restclient.model.EnecoConsumption
 import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
+import ms.homemonitor.heath.restclient.EnecoRestClient
+import ms.homemonitor.heath.restclient.model.EnecoConsumption
 import ms.homemonitor.raspberrypi.cliclient.RaspberryPiStats
 import ms.homemonitor.raspberrypi.cliclient.model.RaspberryPiStatsModel
 import ms.homemonitor.tado.restclient.TadoClient
+import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoResponseModel
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import ms.homemonitor.water.restclient.model.HomeWizardWaterData
@@ -57,6 +58,12 @@ class ControllerTest(
     @GetMapping("/test/tado/current")
     fun tado(): TadoResponseModel {
         return tadoRestClient.getTadoResponse()
+    }
+
+    @Tag(name="Tado")
+    @GetMapping("/test/tado/dayreport")
+    fun tadoHistorical(): TadoDayReport {
+        return tadoRestClient.getTadoHistoricalInfo(LocalDate.now().minusDays(1))
     }
 
     @Tag(name="Raspberry Pi")

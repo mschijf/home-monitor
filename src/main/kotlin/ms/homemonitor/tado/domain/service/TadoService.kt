@@ -4,7 +4,9 @@ import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.data.model.TadoEntity
 import ms.homemonitor.tado.data.repository.TadoRepository
+import ms.homemonitor.tado.domain.model.callForHeatToInt
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
@@ -32,5 +34,19 @@ class TadoService(
         } catch (e: Exception) {
             throw HomeMonitorException("Error while processing Tado data", e)
         }
+    }
+
+    fun processDayReport() {
+        val today = LocalDate.now()
+        val yesterday = today.minusDays(1)
+        val dayReport = tadoClient.getTadoHistoricalInfo(yesterday)
+        val measuredList = tadoRepository.findBetweenDates(yesterday.atStartOfDay(), today.atStartOfDay())
+        val tadoDayDetails = TadoDayReportDetails(dayReport)
+        measuredList.forEach { currentEntity ->
+            val dataReportEntity = tadoDayDetails.getTadoReportTimeUnit(currentEntity.time)
+            currentEntity.callForHeat = callForHeatToInt(dataReportEntity.callForHeat)
+            tadoRepository.save(currentEntity)
+        }
+        tadoRepository.flush()
     }
 }
