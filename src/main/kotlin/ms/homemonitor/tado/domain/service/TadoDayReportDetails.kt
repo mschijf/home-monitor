@@ -1,6 +1,7 @@
 package ms.homemonitor.tado.domain.service
 
 import ms.homemonitor.tado.domain.model.TadoReportTimeUnit
+import ms.homemonitor.tado.domain.model.callForHeatToInt
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import java.time.LocalDateTime
 
@@ -31,7 +32,7 @@ data class TadoDayReportDetails(val tadoDayReport: TadoDayReport) {
         return TadoReportTimeUnit(
             localTime,
             insideTemperature, humidityPercentage?.times(100.0),
-            settingPowerOn, callForHeat, settingTemperature,
+            settingPowerOn, callForHeatToInt(callForHeat), settingTemperature,
             outsideTemperature, isSunny, weatherState,
         )
     }

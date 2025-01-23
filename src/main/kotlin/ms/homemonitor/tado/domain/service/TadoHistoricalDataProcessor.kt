@@ -7,7 +7,6 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import ms.homemonitor.shared.tools.dateTimeRangeByMinute
 import ms.homemonitor.tado.domain.model.TadoReportTimeUnit
-import ms.homemonitor.tado.domain.model.callForHeatToInt
 import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import org.springframework.stereotype.Service
@@ -57,17 +56,11 @@ class TadoHistoricalDataProcessor(
         val lastTime = lastTado.time
         val aggregate = TadoReportTimeUnit(
             time = LocalDateTime.of(lastTime.year, lastTime.month, lastTime.dayOfMonth, lastTime.hour, 0, 0).plusHours(1),
-            insideTemperature = lastTado.insideTemperature,
-            outsideTemperature = lastTado.outsideTemperature,
-            humidityPercentage = lastTado.humidityPercentage,
+            insideTemperature = tadoMinuteList.sumOf { it.insideTemperature ?: 0.0 } / tadoMinuteList.size,
+            outsideTemperature = tadoMinuteList.sumOf { it.outsideTemperature ?: 0.0 } / tadoMinuteList.size,
+            humidityPercentage = tadoMinuteList.sumOf { it.humidityPercentage ?: 0.0 } / tadoMinuteList.size,
             isSunny = tadoMinuteList.count { it.isSunny == true } > (tadoMinuteList.size / 2),
-            callForHeat = when((1.0 * tadoMinuteList.sumOf { callForHeatToInt( it.callForHeat )} / tadoMinuteList.size ).roundToInt()) {
-                in 0..4 -> "NONE"
-                in 5..14 -> "LOW"
-                in 15..24 -> "MEDIUM"
-                in 25 .. 999999 -> "HIGH"
-                else -> "NONE"
-            },
+            callForHeat = tadoMinuteList.map { it.callForHeat ?: 0 }.average().roundToInt(),
             settingTemperature = tadoMinuteList.sumOf { it.settingTemperature ?: 0.0 } / tadoMinuteList.size,
             settingPowerOn = tadoMinuteList.any { it.settingPowerOn == true },
             weatherState = lastTado.weatherState

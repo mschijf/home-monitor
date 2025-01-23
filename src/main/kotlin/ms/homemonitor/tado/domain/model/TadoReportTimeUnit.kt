@@ -7,7 +7,7 @@ data class TadoReportTimeUnit(
     val insideTemperature: Double?,
     val humidityPercentage: Double?,
     val settingPowerOn: Boolean?,
-    val callForHeat: String?,
+    val callForHeat: Int?,
     val settingTemperature: Double?,
     val outsideTemperature: Double?,
     val isSunny: Boolean?,
