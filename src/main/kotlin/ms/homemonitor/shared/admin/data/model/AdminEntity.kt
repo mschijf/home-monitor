@@ -12,6 +12,10 @@ class AdminEntity(
     @Column(name = "key", nullable = false, unique = true)
     val key: String = "UNKNOWN",
 
+    @Column(name = "type", nullable = true, unique = false)
+    var type: String? = null,
+
     @Column(name = "value", nullable = true, unique = false)
     var value: String? = null,
+
 )

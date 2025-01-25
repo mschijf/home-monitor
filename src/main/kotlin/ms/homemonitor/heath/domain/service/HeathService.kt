@@ -4,9 +4,8 @@ import jakarta.transaction.Transactional
 import ms.homemonitor.heath.data.model.HeathEntity
 import ms.homemonitor.heath.data.repository.HeathRepository
 import ms.homemonitor.heath.restclient.EnecoRestClient
-import ms.homemonitor.shared.admin.data.model.AdminEntity
 import ms.homemonitor.shared.admin.data.model.AdminKey
-import ms.homemonitor.shared.admin.data.repository.AdminRepository
+import ms.homemonitor.shared.admin.data.repository.AdminRepositoryTool
 import ms.homemonitor.shared.summary.domain.model.YearSummary
 import ms.homemonitor.shared.summary.domain.service.SummaryService
 import org.slf4j.LoggerFactory
@@ -22,7 +21,7 @@ import java.time.temporal.ChronoUnit
 class HeathService(
     private val heathRepository: HeathRepository,
     private val enecoRestClient: EnecoRestClient,
-    private val adminRepository: AdminRepository,
+    private val adminRepositoryTool: AdminRepositoryTool,
     private val summary: SummaryService,
     @Value("\${eneco.initialDate}") private val initialDate: LocalDateTime,
     @Value("\${eneco.initialHeathValue}") private val initialHeathValue: BigDecimal,
@@ -88,18 +87,12 @@ class HeathService(
     }
 
     private fun updateAdminRecord() {
-        val lastUpdate = getLastUpdate()
-        lastUpdate.value = LocalDateTime.now().toString()
-        adminRepository.saveAndFlush(lastUpdate)
+        adminRepositoryTool.updateAdminRecord(AdminKey.LAST_ENECO_UPDATE, LocalDateTime.now())
     }
 
-    private fun getLastUpdate(): AdminEntity {
-        return adminRepository
-            .findById(AdminKey.LAST_ENECO_UPDATE.toString())
-            .orElse(AdminEntity(key = AdminKey.LAST_ENECO_UPDATE.toString(), value = LocalDateTime.now().toString()))
-    }
     private fun getLastUpdateTimestamp(): LocalDateTime {
-        return LocalDateTime.parse(getLastUpdate().value!!)
+        val value = adminRepositoryTool.getAdminValue(AdminKey.LAST_ENECO_UPDATE) as LocalDateTime?
+        return value ?: LocalDateTime.MIN
     }
 
 }

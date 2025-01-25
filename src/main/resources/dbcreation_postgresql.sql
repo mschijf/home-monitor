@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS tado
     setting_temperature            DECIMAL(5,2),
     solar_intensity_percentage     DECIMAL(5,2),
     weather_state                  VARCHAR(16),
-
+    call_for_heat                  INTEGER,
     PRIMARY KEY (time)
 );
 
@@ -44,7 +44,8 @@ CREATE TABLE IF NOT EXISTS tado
 CREATE TABLE IF NOT EXISTS admin
 (
     key         VARCHAR(64),
-    value       VARCHAR(1024),
+    type        VARCHAR(16),
+    value        VARCHAR(1024),
 
     PRIMARY KEY (key)
 );
