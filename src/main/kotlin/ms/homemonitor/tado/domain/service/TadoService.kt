@@ -38,8 +38,8 @@ class TadoService(
         }
     }
 
-    fun processDayReport() {
-        val today = LocalDate.now()
+    fun processDayReport(day: LocalDate = LocalDate.now()) {
+        val today = day
         val yesterday = today.minusDays(1)
         val dayReport = tadoClient.getTadoHistoricalInfo(yesterday)
         val measuredList = tadoRepository.findBetweenDates(yesterday.atStartOfDay(), today.atStartOfDay())
@@ -74,4 +74,14 @@ class TadoService(
             list.forEach { tadoRepository.saveAndFlush(it) }
         }
     }
+
+    fun processDayReports2() {
+        val start = LocalDate.of(2024, 12, 2)
+        val end = LocalDate.of(2025, 1, 22)
+        dateRangeByDay(start, end).forEach { day ->
+            println(day)
+            processDayReport(day)
+        }
+    }
+
 }
