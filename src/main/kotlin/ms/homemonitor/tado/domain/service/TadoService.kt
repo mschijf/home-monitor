@@ -45,6 +45,7 @@ class TadoService(
         val measuredList = tadoRepository.findBetweenDates(yesterday.atStartOfDay(), today.atStartOfDay())
         val tadoDayDetails = TadoDayReportDetails(dayReport)
         measuredList.forEach { currentEntity ->
+            print(currentEntity.time)
             val dataReportEntity = tadoDayDetails.getTadoReportTimeUnit(currentEntity.time)
             currentEntity.callForHeat = dataReportEntity.callForHeat
             tadoRepository.save(currentEntity)
@@ -74,14 +75,4 @@ class TadoService(
             list.forEach { tadoRepository.saveAndFlush(it) }
         }
     }
-
-    fun processDayReports2() {
-        val start = LocalDate.of(2024, 12, 2)
-        val end = LocalDate.of(2025, 1, 22)
-        dateRangeByDay(start, end).forEach { day ->
-            println(day)
-            processDayReport(day)
-        }
-    }
-
 }
