@@ -59,7 +59,7 @@ class TadoHistoricalDataProcessor(
             insideTemperature = tadoMinuteList.sumOf { it.insideTemperature ?: 0.0 } / tadoMinuteList.size,
             outsideTemperature = tadoMinuteList.sumOf { it.outsideTemperature ?: 0.0 } / tadoMinuteList.size,
             humidityPercentage = tadoMinuteList.sumOf { it.humidityPercentage ?: 0.0 } / tadoMinuteList.size,
-            isSunny = tadoMinuteList.count { it.isSunny == true } > (tadoMinuteList.size / 2),
+            sunnyMinutes = tadoMinuteList.sumOf { it.sunnyMinutes ?: 0 },
             callForHeat = tadoMinuteList.map { it.callForHeat ?: 0 }.average().roundToInt(),
             settingTemperature = tadoMinuteList.sumOf { it.settingTemperature ?: 0.0 } / tadoMinuteList.size,
             settingPowerOn = tadoMinuteList.any { it.settingPowerOn == true },

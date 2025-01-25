@@ -1,7 +1,6 @@
 package ms.homemonitor.tado.domain.service
 
 import ms.homemonitor.tado.domain.model.TadoReportTimeUnit
-import ms.homemonitor.tado.domain.model.callForHeatToInt
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import java.time.LocalDateTime
 
@@ -33,7 +32,18 @@ data class TadoDayReportDetails(val tadoDayReport: TadoDayReport) {
             localTime,
             insideTemperature, humidityPercentage?.times(100.0),
             settingPowerOn, callForHeatToInt(callForHeat), settingTemperature,
-            outsideTemperature, isSunny, weatherState,
+            outsideTemperature, if (isSunny) 1 else 0, weatherState,
         )
+    }
+
+    private fun callForHeatToInt(cfh: String?): Int {
+        return when (cfh) {
+            "HIGH" -> 30
+            "MEDIUM" -> 20
+            "LOW" -> 10
+            "NONE" -> 0
+            null -> 0
+            else -> throw Exception("$cfh is an unknown call for-heat-value")
+        }
     }
 }

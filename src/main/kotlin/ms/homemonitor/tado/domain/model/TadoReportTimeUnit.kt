@@ -10,18 +10,6 @@ data class TadoReportTimeUnit(
     val callForHeat: Int?,
     val settingTemperature: Double?,
     val outsideTemperature: Double?,
-    val isSunny: Boolean?,
+    val sunnyMinutes: Int?,
     val weatherState: String?
 )
-
-fun callForHeatToInt(cfh: String?): Int {
-    return when (cfh) {
-        "HIGH" -> 30
-        "MEDIUM" -> 20
-        "LOW" -> 10
-        "NONE" -> 0
-        null -> 0
-        else -> throw Exception("$cfh is an unknown call for-heat-value")
-    }
-}
-
