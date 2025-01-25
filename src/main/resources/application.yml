@@ -11,6 +11,10 @@ spring:
     username: home-monitor
     password: home-monitor
 
+springdoc:
+  swagger-ui:
+    tagsSorter: alpha
+
 homewizard:
     enabled: false
     electricityBaseRestUrl: http://192.168.2.40/api/v1
@@ -30,8 +34,10 @@ tado:
   clientId: public-api-preview
   clientSecret: 4HJGRffVR8xb3XdEUQpjgZ1VplJi6Xgw
   baseRestUrl: https://my.tado.com/api/v2
-  username: via application.yml on remote location
-  password: via application.yml on remote location
+#  username: via application.yml on remote location
+#  password: via application.yml on remote location
+  username: mschijf@icloud.com
+  password: MEpe6sM9P2UPe4mZJGRw
 
 raspberrypi:
   enabled: false

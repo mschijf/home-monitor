@@ -27,18 +27,18 @@ class ApiDefinitions {
     }
 
     @Bean
-    fun testGroup(): GroupedOpenApi? {
+    fun verifyGroup(): GroupedOpenApi? {
         return GroupedOpenApi.builder()
-            .group("test")
-            .displayName("Test")
+            .group("verify")
+            .displayName("Verify")
             .addOpenApiCustomizer(OpenApiCustomizer { openApi: OpenAPI? ->
                 openApi!!.info = Info()
-                    .title("Test API")
-                    .description("test out retrieving current data from several data providers")
+                    .title("Verify (Rest)Clients APIs")
+                    .description("verify the working of retrieving current data from several data providers")
                     .version("1.0")
             }
             )
-            .pathsToMatch("/test/**")
+            .pathsToMatch("/verify/**")
             .build()
     }
 
@@ -55,6 +55,22 @@ class ApiDefinitions {
             }
             )
             .pathsToMatch("/log/**")
+            .build()
+    }
+
+    @Bean
+    fun testGroup(): GroupedOpenApi? {
+        return GroupedOpenApi.builder()
+            .group("test")
+            .displayName("Test")
+            .addOpenApiCustomizer(OpenApiCustomizer { openApi: OpenAPI? ->
+                openApi!!.info = Info()
+                    .title("Test API")
+                    .description("test out new functionality")
+                    .version("1.0")
+            }
+            )
+            .pathsToMatch("/test/**")
             .build()
     }
 }
