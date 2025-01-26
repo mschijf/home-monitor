@@ -87,12 +87,13 @@ class HeathService(
     }
 
     private fun updateAdminRecord() {
-        adminRepositoryTool.updateAdminRecord(AdminKey.LAST_ENECO_UPDATE, LocalDateTime.now())
+        adminRepositoryTool
+            .updateAdminTimestampRecord(AdminKey.LAST_ENECO_UPDATE, LocalDateTime.now())
     }
 
     private fun getLastUpdateTimestamp(): LocalDateTime {
-        val value = adminRepositoryTool.getAdminValue(AdminKey.LAST_ENECO_UPDATE) as LocalDateTime?
-        return value ?: LocalDateTime.MIN
+        return adminRepositoryTool
+            .getAdminTimestamp(AdminKey.LAST_ENECO_UPDATE) ?: LocalDateTime.MIN
     }
 
 }

@@ -13,7 +13,8 @@ class AfterInit(
 ): ApplicationListener<ContextRefreshedEvent>  {
 
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
-        adminRepositoryTool.updateAdminRecord(AdminKey.LAST_STARTUP_TIME, LocalDateTime.now())
+        adminRepositoryTool
+            .updateAdminTimestampRecord(AdminKey.LAST_STARTUP_TIME, LocalDateTime.now())
     }
 
 }

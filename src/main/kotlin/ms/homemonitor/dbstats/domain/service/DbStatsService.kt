@@ -14,19 +14,11 @@ class DbStatsService(
 ) {
 
     fun processDbStats() {
-        measureDbStats()
-    }
-
-    fun processBackupStats() {
-        measureBackupStats()
-    }
-
-    private fun measureDbStats() {
         val dbSize = dbStatsRepository.getDatabaseSize("home-monitor")
         measurement.setDoubleGauge("homeMonitorDbSize", dbSize.toDouble())
     }
 
-    private fun measureBackupStats() {
+    fun processBackupStats() {
         val stats = dbStats.getBackupStats()
         val freeSpace = dbStats.getFreeBackupSpace()
         if (stats.isNotEmpty()) {
@@ -36,6 +28,7 @@ class DbStatsService(
             entity.last = stats.last().dateTime
             entity.size = stats.last().fileSize
             entity.freeSpace = freeSpace
+            dbStatsRepository.saveAndFlush(entity)
 
             measurement.setDoubleGauge("homeMonitorBackupSize", stats.last().fileSize.toDouble())
         }
