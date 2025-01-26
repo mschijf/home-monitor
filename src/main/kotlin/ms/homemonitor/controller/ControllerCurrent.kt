@@ -46,7 +46,7 @@ class ControllerCurrent(
     @GetMapping("/verify/eneco/current")
     @Operation(summary = "Be careful using this one." +
             "It uses Selenium to log in to 'mijneneco'. " +
-            "Using it many times after each other can causes my account  to be blocked")
+            "Using it many times after each other might lead to 'my account'  to be blocked")
     fun getEnecoData(): List<EnecoConsumption> {
         return enecoRestClient.getNewDataFromEneco(LocalDate.now())
     }

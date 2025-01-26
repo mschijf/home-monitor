@@ -62,7 +62,7 @@ class EnecoAccessToken(
             driver.quit()
 
             log.info("Finish reading new Eneco data")
-            return pageSource
+            return pageSource ?: ""
 
         } catch (e: Exception) {
             log.error("Some error occurred", e)
