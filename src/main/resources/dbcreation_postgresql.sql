@@ -50,5 +50,22 @@ CREATE TABLE IF NOT EXISTS admin
     PRIMARY KEY (key)
 );
 
+CREATE TABLE IF NOT EXISTS admin_timestamp
+(
+    key         VARCHAR(64),
+    time        TIMESTAMP(0) WITH TIME ZONE,
 
-------------------------------------------------------------------------------------------
+    PRIMARY KEY (key)
+);
+
+
+CREATE TABLE IF NOT EXISTS backup_stats
+(
+    id         INTEGER,
+    oldest     TIMESTAMP(0) WITH TIME ZONE,
+    last       TIMESTAMP(0) WITH TIME ZONE,
+    size       DECIMAL(20),
+    free_space DECIMAL(20),
+
+    PRIMARY KEY (id)
+);
