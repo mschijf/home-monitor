@@ -41,15 +41,6 @@ CREATE TABLE IF NOT EXISTS tado
 );
 
 
-CREATE TABLE IF NOT EXISTS admin
-(
-    key         VARCHAR(64),
-    type        VARCHAR(16),
-    value        VARCHAR(1024),
-
-    PRIMARY KEY (key)
-);
-
 CREATE TABLE IF NOT EXISTS admin_timestamp
 (
     key         VARCHAR(64),
@@ -57,7 +48,6 @@ CREATE TABLE IF NOT EXISTS admin_timestamp
 
     PRIMARY KEY (key)
 );
-
 
 CREATE TABLE IF NOT EXISTS backup_stats
 (
