@@ -15,8 +15,11 @@ import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoResponseModel
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import ms.homemonitor.water.restclient.model.HomeWizardWaterData
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 import java.time.LocalDate
 
 
@@ -59,8 +62,13 @@ class ControllerCurrent(
 
     @Tag(name="3. Tado")
     @GetMapping("/verify/tado/dayreport")
-    fun tadoHistorical(): TadoDayReport {
-        return tadoRestClient.getTadoHistoricalInfo(LocalDate.now().minusDays(1))
+    fun tadoHistorical(@RequestParam(name="day", required = false) inputDay: String = LocalDate.now().toString()): TadoDayReport {
+        try {
+            val dayTime = LocalDate.parse(inputDay)
+            return tadoRestClient.getTadoHistoricalInfo(dayTime)
+        } catch (e: Exception) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message, e)
+        }
     }
 
     @Tag(name="4. Raspberry Pi")
