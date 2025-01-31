@@ -34,10 +34,8 @@ tado:
   clientId: public-api-preview
   clientSecret: 4HJGRffVR8xb3XdEUQpjgZ1VplJi6Xgw
   baseRestUrl: https://my.tado.com/api/v2
-#  username: via application.yml on remote location
-#  password: via application.yml on remote location
-  username: mschijf@icloud.com
-  password: MEpe6sM9P2UPe4mZJGRw
+  username: via application.yml on remote location
+  password: via application.yml on remote location
 
 raspberrypi:
   enabled: false
@@ -52,3 +50,13 @@ management:
     web:
       exposure:
         include: prometheus,health,info,metric
+
+
+
+
+
+
+
+
+
+
