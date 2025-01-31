@@ -16,7 +16,7 @@ class DbStatsScheduler(
             dbStatsService.processDbStats()
     }
 
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 10 * * * *")
     fun dropboxFreeSpace() {
         if (enabled)
             dbStatsService.processBackupStats()
