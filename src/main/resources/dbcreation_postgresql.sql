@@ -59,3 +59,13 @@ CREATE TABLE IF NOT EXISTS backup_stats
 
     PRIMARY KEY (id)
 );
+
+CREATE TABLE IF NOT EXISTS eneco_stats
+(
+    day         DATE,
+    success     INTEGER,
+    failed      INTEGER,
+    last        TIMESTAMP(0) WITH TIME ZONE,
+
+    PRIMARY KEY (day)
+);

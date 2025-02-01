@@ -1,7 +1,9 @@
 package ms.homemonitor.heath.domain.service
 
 import jakarta.transaction.Transactional
+import ms.homemonitor.heath.data.model.EnecoStatsEntity
 import ms.homemonitor.heath.data.model.HeathEntity
+import ms.homemonitor.heath.data.repository.EnecoStatsRepository
 import ms.homemonitor.heath.data.repository.HeathRepository
 import ms.homemonitor.heath.restclient.EnecoRestClient
 import ms.homemonitor.shared.admin.data.model.AdminKey
@@ -22,6 +24,7 @@ class HeathService(
     private val heathRepository: HeathRepository,
     private val enecoRestClient: EnecoRestClient,
     private val adminRepositoryTool: AdminRepositoryTool,
+    private val enecoStatsRepository: EnecoStatsRepository,
     private val summary: SummaryService,
     @Value("\${eneco.initialDate}") private val initialDate: LocalDateTime,
     @Value("\${eneco.initialHeathValue}") private val initialHeathValue: BigDecimal,
@@ -36,15 +39,11 @@ class HeathService(
     @Transactional
     fun processMeaurement() {
         val success = updateEnecoData()
+        updateEnecoStats(success)
         if (success) {
             updateAdminRecord()
         } else {
-            val lastUpdateTime = getLastUpdateTimestamp()
-            val now = LocalDateTime.now()
-            val diff = ChronoUnit.HOURS.between(lastUpdateTime, now)
-            if (diff > 5) {
-                log.error("Last succesfull update more than $diff hours ago. Last succesfull one was at $lastUpdateTime")
-            }
+            processFailedUpdate()
         }
     }
 
@@ -86,6 +85,27 @@ class HeathService(
         return newHeathRecordList
     }
 
+    private fun updateEnecoStats(success: Boolean) {
+        val record = enecoStatsRepository
+            .findById(LocalDate.now())
+            .orElse(EnecoStatsEntity(day=LocalDate.now(), success = 0, failed = 0))
+        if (success) {
+            record.success++
+            record.last = LocalDateTime.now()
+        } else {
+            record.failed++
+        }
+        enecoStatsRepository.saveAndFlush(record)
+    }
+
+    private fun processFailedUpdate() {
+        val lastUpdateTime = getLastUpdateTimestamp()
+        val now = LocalDateTime.now()
+        val diff = ChronoUnit.HOURS.between(lastUpdateTime, now)
+        if (diff > 5) {
+            log.error("Last succesfull update more than $diff hours ago. Last succesfull one was at $lastUpdateTime")
+        }
+    }
     private fun updateAdminRecord() {
         adminRepositoryTool
             .updateAdminTimestampRecord(AdminKey.LAST_ENECO_UPDATE, LocalDateTime.now())
