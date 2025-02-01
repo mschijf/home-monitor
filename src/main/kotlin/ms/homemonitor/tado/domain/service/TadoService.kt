@@ -45,7 +45,6 @@ class TadoService(
         val measuredList = tadoRepository.findBetweenDates(yesterday.atStartOfDay(), today.atStartOfDay())
         val tadoDayDetails = TadoDayReportDetails(dayReport)
         measuredList.forEach { currentEntity ->
-            print(currentEntity.time)
             val dataReportEntity = tadoDayDetails.getTadoReportTimeUnit(currentEntity.time)
             currentEntity.callForHeat = dataReportEntity.callForHeat
             tadoRepository.save(currentEntity)
