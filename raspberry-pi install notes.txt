@@ -51,6 +51,11 @@ VI (for raspberry pi os)
 * vi on debian does not work friendly, so install vim:
 sudo apt install vim
 
+after that create ~/.vimrc (if it does not exist yet)
+and add the line  :set mouse=v
+or do: echo ":set mouse=v" > ~/.vimrc
+
+(This makes cmd+c possible whiel in vi)
 
 JAVA
 ====
