@@ -28,16 +28,15 @@ class DbStats(
     }
 
     fun getFreeBackupSpace(): Long {
-        val output = try {
+        return try {
             commandExecutor.execCommand(dropboxUploader, arrayListOf("space"))
+                .first { it.contains("Free:") }
+                .split("\\s+".toRegex())[1]
+                .toLong()
         } catch (e: Exception) {
             log.error("Couldn't retrieve backup space, caused by ${e.message}")
-            listOf("Free: -1 MB")
+            -1L
         }
-        return output
-            .first { it.contains("Free:") }
-            .split("\\s+".toRegex())[1]
-            .toLong()
     }
 
     private fun String.toBackupStats(): BackupStats {
