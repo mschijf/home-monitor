@@ -148,25 +148,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <executable>${project.basedir}/deploy/deploy.sh</executable>
+                    <executable>${project.basedir}/deploy/deploy.sh ${project.version}</executable>
                 </configuration>
             </plugin>
         </plugins>
-
-<!--        <extensions>-->
-<!--            &lt;!&ndash; Enabling the use of SSH &ndash;&gt;-->
-<!--            <extension>-->
-<!--                <groupId>org.apache.maven.wagon</groupId>-->
-<!--                <artifactId>wagon-ssh-external</artifactId>-->
-<!--                <version>3.0.0</version>-->
-<!--            </extension>-->
-<!--        </extensions>-->
-
     </build>
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--            <id>ssh-repository</id>-->
-<!--            <url>scpexe://martinschijf@pi/home/martinschijf/</url>-->
-<!--        </repository>-->
-<!--    </distributionManagement>-->
 </project>
