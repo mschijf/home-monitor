@@ -9,6 +9,6 @@ import java.time.LocalDate
 @Repository
 interface EnecoStatsRepository: JpaRepository<EnecoStatsEntity, LocalDate> {
 
-    @Query(value = "select stats from EnecoStatsEntity stats where stats.last != null order by stats.day desc ")
+    @Query(value = "select stats from EnecoStatsEntity stats where stats.last != null order by stats.day desc limit 1")
     fun getLastSuccessfull(): EnecoStatsEntity?
 }
