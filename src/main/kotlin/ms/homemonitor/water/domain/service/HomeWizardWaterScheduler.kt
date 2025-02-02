@@ -10,7 +10,7 @@ class HomeWizardWaterScheduler(
     @Value("\${homewizard.enabled}") private val enabled: Boolean,
 ) {
 
-    @Scheduled(fixedRate = 10_000)
+    @Scheduled(cron = "0/10 * * * * *")
     fun detailedWaterMeasurement() {
         if (enabled)
             homeWizardWaterService.processMeasurement(persistentStore = false)

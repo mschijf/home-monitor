@@ -10,7 +10,7 @@ class HomeWizardElectricityScheduler(
     @Value("\${homewizard.enabled}") private val enabled: Boolean,
 ) {
 
-    @Scheduled(fixedRate = 10_000)
+    @Scheduled(cron = "0/10 * * * * *")
     fun detailedElectricityMeasurement() {
         if (enabled)
             homeWizardElectricityService.processMeasurement(persistentStore = false)

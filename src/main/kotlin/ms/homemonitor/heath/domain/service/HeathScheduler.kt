@@ -10,7 +10,7 @@ class HeathScheduler(
     @Value("\${eneco.enabled}") private val enabled: Boolean,
 ) {
 
-    @Scheduled(cron = "0 0 0/2 * * *")
+    @Scheduled(cron = "0 0 1-23/2 * * *")
     fun updateEnecoStatistics() {
         if (enabled)
             heathService.processMeaurement()
