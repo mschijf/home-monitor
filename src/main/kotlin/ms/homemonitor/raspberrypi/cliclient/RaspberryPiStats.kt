@@ -19,7 +19,9 @@ class RaspberryPiStats(private val commandExecutor: CommandExecutor) {
     private fun getCPUTemperature(): Double {
         return try {
             commandExecutor
-                .execCommand("cat", arrayListOf("/sys/class/thermal/thermal_zone0/temp"))[0].toDouble() / 1000.0
+                .execCommand("cat", arrayListOf("/sys/class/thermal/thermal_zone0/temp"))
+                .first()
+                .toDouble() / 1000.0
         } catch (e: Exception) {
             log.error("Couldn't retrieve cpu temperature, caused by ${e.message}")
             -1.0
