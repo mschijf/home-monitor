@@ -111,10 +111,12 @@
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
@@ -137,20 +139,35 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>my-exec</id>
-                        <phase>pre-integration-test</phase>
+                        <phase>install</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <executable>${project.basedir}/deploy/deploy.sh ${project.version}</executable>
+                    <executable>${project.basedir}/deploy/deploy.sh</executable>
                 </configuration>
             </plugin>
         </plugins>
+<!--        <extensions>-->
+<!--            &lt;!&ndash; Enabling the use of SSH &ndash;&gt;-->
+<!--            <extension>-->
+<!--                <groupId>org.apache.maven.wagon</groupId>-->
+<!--                <artifactId>wagon-ssh-external</artifactId>-->
+<!--                <version>3.0.0</version>-->
+<!--            </extension>-->
+<!--        </extensions>-->
     </build>
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>ssh-repository</id>-->
+<!--            <url>scpexe://martinschijf@pi/home/martinschijf/home-monitor</url>-->
+<!--        </repository>-->
+<!--    </distributionManagement>-->
+
 </project>
