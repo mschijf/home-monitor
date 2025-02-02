@@ -42,7 +42,6 @@ raspberrypi:
 
 dbstats:
   enabled: false
-  backupListFileName: /Users/martinschijf/Prive/Sources/Kotlin/home-monitor/data/list_data
   dropbox_uploader: /Users/martinschijf/Prive/Sources/Kotlin/home-monitor/deploy/mock_dropbox_uploader.sh
 
 management:

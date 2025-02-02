@@ -6,7 +6,7 @@
 
     <groupId>ms</groupId>
     <artifactId>home-monitor</artifactId>
-    <version>8.1.7</version>
+    <version>8.1.8</version>
     <name>home-monitor</name>
     <description>home-monitoring: electricity, water, tado (temperature), heath (eneco), ...</description>
     <!--    <url/>-->
@@ -152,6 +152,21 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
 
+<!--        <extensions>-->
+<!--            &lt;!&ndash; Enabling the use of SSH &ndash;&gt;-->
+<!--            <extension>-->
+<!--                <groupId>org.apache.maven.wagon</groupId>-->
+<!--                <artifactId>wagon-ssh-external</artifactId>-->
+<!--                <version>3.0.0</version>-->
+<!--            </extension>-->
+<!--        </extensions>-->
+
+    </build>
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>ssh-repository</id>-->
+<!--            <url>scpexe://martinschijf@pi/home/martinschijf/</url>-->
+<!--        </repository>-->
+<!--    </distributionManagement>-->
 </project>

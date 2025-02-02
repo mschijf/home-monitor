@@ -24,7 +24,7 @@ import java.time.LocalDate
 
 
 @RestController
-class ControllerCurrent(
+class ControllerVerify(
     private val homeWizardElectricityClient: HomeWizardElectricityClient,
     private val homeWizardWaterClient: HomeWizardWaterClient,
     private val tadoRestClient: TadoClient,
@@ -82,4 +82,11 @@ class ControllerCurrent(
     fun getBackupStats(): List<BackupStats> {
         return dbStats.getBackupStats()
     }
+
+    @Tag(name="4. Raspberry Pi")
+    @GetMapping("/verify/backupprocess/space")
+    fun getFreeBackupSpace(): Long {
+        return dbStats.getFreeBackupSpace()
+    }
+
 }

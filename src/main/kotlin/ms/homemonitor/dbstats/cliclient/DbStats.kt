@@ -10,25 +10,16 @@ import java.time.LocalDateTime
 @Service
 class DbStats(
     private val commandExecutor: CommandExecutor,
-    @Value("\${dbstats.backupListFileName}") private val backupListFileName: String,
-    @Value("\${dbstats.dropbox_uploader}") private val dropboxUploader: String) {
+    @Value("\${dbstats.dropbox_uploader}") private val dropboxUploader: String
+) {
 
     private val log = LoggerFactory.getLogger(DbStats::class.java)
 
-    fun getBackupStats() : List<BackupStats> {
+    fun getBackupStats(): List<BackupStats> {
         return try {
-            commandExecutor.execCommand("cat", arrayListOf(backupListFileName))
+            commandExecutor.execCommand(dropboxUploader, arrayListOf("list", "Backup/home-monitor/"))
                 .filter { it.endsWith("postgres") }
-                .map {
-                    val fields = it.split("\\s+".toRegex())
-                    val year = fields[3].substring(0, 4).toInt()
-                    val month = fields[3].substring(4, 6).toInt()
-                    val day = fields[3].substring(6, 8).toInt()
-                    val hour = fields[3].substring(9, 11).toInt()
-                    val minute = fields[3].substring(11, 13).toInt()
-                    val second = fields[3].substring(13, 15).toInt()
-                    BackupStats(fields[2].toLong(), LocalDateTime.of(year, month, day, hour, minute, second))
-                }
+                .map { it.toBackupStats() }
                 .sortedBy { it.dateTime }
         } catch (e: Exception) {
             log.error("Couldn't retrieve backup list, caused by ${e.message}")
@@ -48,4 +39,16 @@ class DbStats(
             .split("\\s+".toRegex())[1]
             .toLong()
     }
+
+    private fun String.toBackupStats(): BackupStats {
+        val fields = this.split("\\s+".toRegex())
+        val year = fields[3].substring(0, 4).toInt()
+        val month = fields[3].substring(4, 6).toInt()
+        val day = fields[3].substring(6, 8).toInt()
+        val hour = fields[3].substring(9, 11).toInt()
+        val minute = fields[3].substring(11, 13).toInt()
+        val second = fields[3].substring(13, 15).toInt()
+        return BackupStats(fields[2].toLong(), LocalDateTime.of(year, month, day, hour, minute, second))
+    }
+
 }
