@@ -1,7 +1,7 @@
 package ms.homemonitor.controller
 
-import ms.homemonitor.shared.admin.data.model.AdminKey
-import ms.homemonitor.shared.admin.data.repository.AdminRepositoryTool
+import ms.homemonitor.shared.admin.repository.model.AdminKey
+import ms.homemonitor.shared.admin.repository.AdminRepositoryTool
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.stereotype.Component
