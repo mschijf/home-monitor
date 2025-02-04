@@ -1,9 +1,7 @@
 package ms.homemonitor.heath.domain.service
 
 import jakarta.transaction.Transactional
-import ms.homemonitor.heath.data.model.EnecoStatsEntity
 import ms.homemonitor.heath.data.model.HeathEntity
-import ms.homemonitor.heath.data.repository.EnecoStatsRepository
 import ms.homemonitor.heath.data.repository.HeathRepository
 import ms.homemonitor.heath.restclient.EnecoRestClient
 import ms.homemonitor.shared.summary.domain.model.YearSummary
@@ -21,7 +19,7 @@ import java.time.temporal.ChronoUnit
 class HeathService(
     private val heathRepository: HeathRepository,
     private val enecoRestClient: EnecoRestClient,
-    private val enecoStatsRepository: EnecoStatsRepository,
+    private val enecoStatsService: EnecoStatsService,
     private val summary: SummaryService,
     @Value("\${eneco.initialDate}") private val initialDate: LocalDateTime,
     @Value("\${eneco.initialHeathValue}") private val initialHeathValue: BigDecimal,
@@ -36,7 +34,7 @@ class HeathService(
     @Transactional
     fun processMeaurement() {
         val success = updateEnecoData()
-        updateEnecoStats(success)
+        enecoStatsService.updateEnecoStats(success)
         if (!success) {
             processFailedUpdate()
         }
@@ -80,29 +78,12 @@ class HeathService(
         return newHeathRecordList
     }
 
-    private fun updateEnecoStats(success: Boolean) {
-        val record = enecoStatsRepository
-            .findById(LocalDate.now())
-            .orElse(EnecoStatsEntity(day=LocalDate.now(), success = 0, failed = 0, last=null))
-        if (success) {
-            record.success++
-            record.last = LocalDateTime.now()
-        } else {
-            record.failed++
-        }
-        enecoStatsRepository.saveAndFlush(record)
-    }
-
     private fun processFailedUpdate() {
-        val lastUpdateTime = getLastSuccessfullUpdate()
+        val lastUpdateTime = enecoStatsService.getLastSuccessfullUpdate()
         val now = LocalDateTime.now()
         val diff = ChronoUnit.HOURS.between(lastUpdateTime, now)
         if (diff > 5) {
             log.error("Last succesfull update more than $diff hours ago. Last succesfull one was at $lastUpdateTime")
         }
-    }
-
-    private fun getLastSuccessfullUpdate(): LocalDateTime {
-        return enecoStatsRepository.getLastSuccessfull()?.last ?: LocalDateTime.MIN
     }
 }
