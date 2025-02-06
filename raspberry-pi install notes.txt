@@ -127,16 +127,16 @@ CREATE DATABASE "home-monitor";
 
 HOME-MONITOR
 ============
-copy home-monitor programs
 
 mkdir home-monitor
-mkdir home-monitor/script
 mkdir home-monitor/log
-mkdir home-monitor/backup
-scp target/home-monitor-*.jar  naar pi:~/home-monitor
-scp script/*  naar pi:~/home-monitor/script
+add application.yml in home-monitor with right credentials
 
-application.yml!!!
+mkdir deployables
+git clone {deploy_scripts}
+
+git clone {home-monitor} on laptop and do mvn clean deploy
+==> dit installeert de laatste versie in deployables en start op pi de applicatie op
 
 
 TIME FOR A RESTART
