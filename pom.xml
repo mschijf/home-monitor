@@ -24,6 +24,11 @@
     <properties>
         <java.version>21</java.version>
         <kotlin.version>2.1.0</kotlin.version>
+        <deployable.ssh.run>deployables/deploy_scripts/run.sh</deployable.ssh.run>
+        <deployable.ssh.folder>deployables</deployable.ssh.folder>
+        <deployable.ssh.user>martinschijf</deployable.ssh.user>
+        <deployable.ssh.host>pi</deployable.ssh.host>
+        <deployable.ssh.base_folder>/home/martinschijf</deployable.ssh.base_folder>
     </properties>
 
     <dependencies>
@@ -103,8 +108,6 @@
             <artifactId>webdrivermanager</artifactId>
             <version>5.9.2</version>
         </dependency>
-
-
     </dependencies>
 
     <build>
@@ -154,7 +157,7 @@
                     <arguments>
                         <argument>pi</argument>
                         <argument>bash</argument>
-                        <argument>deployables/deploy_scripts/run.sh</argument>
+                        <argument>${deployable.ssh.run}</argument>
                         <argument>${project.groupId} ${project.artifactId} ${project.version}</argument>
                     </arguments>
                 </configuration>
@@ -172,7 +175,7 @@
     <distributionManagement>
         <repository>
             <id>ssh-repository</id>
-            <url>scpexe://martinschijf@pi/home/martinschijf/deployables</url>
+            <url>scpexe://${deployable.ssh.user}@${deployable.ssh.host}${deployable.ssh.base_folder}/${deployable.ssh.folder}</url>
         </repository>
     </distributionManagement>
 
