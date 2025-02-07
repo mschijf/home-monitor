@@ -129,7 +129,6 @@ HOME-MONITOR
 ============
 
 mkdir home-monitor
-mkdir home-monitor/log
 add application.yml in home-monitor with right credentials
 
 mkdir deployables
@@ -137,6 +136,9 @@ git clone {deploy_scripts}
 
 git clone {home-monitor} on laptop and do mvn clean deploy
 ==> dit installeert de laatste versie in deployables en start op pi de applicatie op
+=> creeert ook de log file in ~/home-monitor
+
+
 
 
 TIME FOR A RESTART
@@ -162,9 +164,11 @@ fi
 
 CRONTAB
 =======
-* copy the crontab data (staat in home-monitor/script/crontab-remote):
 
-crontab ~/home-monitor/script/crontab_remote
+$ cd ~/home-monitor
+$ git clone {home-monitor-script}
+mv home-monitor-script backup_script
+crontab ~/home-monitor/backup_script/crontab_pi
 
 
 DROPBOX-BACKUP
