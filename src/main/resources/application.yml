@@ -2,7 +2,7 @@ spring:
   application:
     name: home-monitoring
   main:
-    banner-mode: "off"
+    banner-mode: off
   jpa:
     open-in-view: false
   datasource:
@@ -25,8 +25,8 @@ eneco:
   enabled: false
   initialDate: 2024-01-01T00:00:00
   initialHeathValue: 196.196
-  userName: via application.yml on remote location
-  password: via application.yml on remote location
+  username: not_for_dev_define_in_override
+  password: not_for_dev_define_in_override
 
 tado:
   enabled: false
@@ -34,8 +34,8 @@ tado:
   clientId: public-api-preview
   clientSecret: 4HJGRffVR8xb3XdEUQpjgZ1VplJi6Xgw
   baseRestUrl: https://my.tado.com/api/v2
-  username: via application.yml on remote location
-  password: via application.yml on remote location
+  username: not_for_dev_define_in_override
+  password: not_for_dev_define_in_override
 
 raspberrypi:
   enabled: false

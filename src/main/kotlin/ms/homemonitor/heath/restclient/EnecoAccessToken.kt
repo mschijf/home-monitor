@@ -13,7 +13,7 @@ import java.time.Duration
 
 @Service
 class EnecoAccessToken(
-    @Value("\${eneco.userName}") private val userName: String,
+    @Value("\${eneco.username}") private val username: String,
     @Value("\${eneco.password}") private val password: String) {
 
     private val log = LoggerFactory.getLogger(EnecoAccessToken::class.java)
@@ -45,7 +45,7 @@ class EnecoAccessToken(
             val inlog = driver.findElement(By.name("identifier"))
 
             Thread.sleep(1_000)
-            inlog.sendKeys(userName)
+            inlog.sendKeys(username)
             inlog.submit()
 
             Thread.sleep(3_000)

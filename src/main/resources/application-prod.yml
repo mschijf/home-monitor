@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.2.39:5432/home-monitor
+    driver-class-name: org.postgresql.Driver
+
+homewizard:
+  enabled: true
+
+tado:
+  enabled: true
+
+eneco:
+  enabled: true
+
+raspberrypi:
+  enabled: true
+
+dbstats:
+  enabled: true
+  dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
