@@ -6,7 +6,7 @@
 
     <groupId>ms</groupId>
     <artifactId>home-monitor</artifactId>
-    <version>8.1.11</version>
+    <version>8.1.12</version>
     <name>home-monitor</name>
     <description>home-monitoring: electricity, water, tado (temperature), heath (eneco), ...</description>
     <!--    <url/>-->
@@ -24,11 +24,12 @@
     <properties>
         <java.version>21</java.version>
         <kotlin.version>2.1.0</kotlin.version>
-        <deployable.ssh.run>deployables/deploy_scripts/run.sh</deployable.ssh.run>
-        <deployable.ssh.folder>deployables</deployable.ssh.folder>
-        <deployable.ssh.user>martinschijf</deployable.ssh.user>
-        <deployable.ssh.host>pi</deployable.ssh.host>
-        <deployable.ssh.base_folder>/home/martinschijf</deployable.ssh.base_folder>
+
+        <ms.ssh.user>martinschijf</ms.ssh.user>
+        <ms.ssh.host>pi</ms.ssh.host>
+        <ms.ssh.run>/home/martinschijf/repository/repository-run-scripts/run.sh</ms.ssh.run>
+        <ms.ssh.repository>/home/martinschijf/repository</ms.ssh.repository>
+
     </properties>
 
     <dependencies>
@@ -155,9 +156,9 @@
                 <configuration>
                     <executable>ssh</executable>
                     <arguments>
-                        <argument>pi</argument>
+                        <argument>${ms.ssh.user}@${ms.ssh.host}</argument>
                         <argument>bash</argument>
-                        <argument>${deployable.ssh.run}</argument>
+                        <argument>${ms.ssh.run}</argument>
                         <argument>${project.groupId} ${project.artifactId} ${project.version}</argument>
                     </arguments>
                 </configuration>
@@ -175,7 +176,7 @@
     <distributionManagement>
         <repository>
             <id>ssh-repository</id>
-            <url>scpexe://${deployable.ssh.user}@${deployable.ssh.host}${deployable.ssh.base_folder}/${deployable.ssh.folder}</url>
+            <url>scpexe://${ms.ssh.user}@${ms.ssh.host}/${ms.ssh.repository}</url>
         </repository>
     </distributionManagement>
 
