@@ -1,7 +1,7 @@
-package ms.homemonitor.controller
+package ms.homemonitor
 
-import ms.homemonitor.shared.admin.repository.model.AdminKey
 import ms.homemonitor.shared.admin.repository.AdminRepositoryTool
+import ms.homemonitor.shared.admin.repository.model.AdminKey
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.stereotype.Component
@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 @Component
 class AfterInit(
     private val adminRepositoryTool: AdminRepositoryTool
-): ApplicationListener<ContextRefreshedEvent>  {
+): ApplicationListener<ContextRefreshedEvent> {
 
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
         adminRepositoryTool

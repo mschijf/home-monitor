@@ -6,7 +6,7 @@
 
     <groupId>ms</groupId>
     <artifactId>home-monitor</artifactId>
-    <version>8.1.14</version>
+    <version>8.2.0</version>
     <name>home-monitor</name>
     <description>home-monitoring: electricity, water, tado (temperature), heath (eneco), ...</description>
     <!--    <url/>-->
