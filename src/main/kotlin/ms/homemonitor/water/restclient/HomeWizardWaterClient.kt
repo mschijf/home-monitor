@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate
 
 @Service
 class HomeWizardWaterClient(
-    @Value("\${homewizard.waterBaseRestUrl}") private val waterBaseRestUrl: String,
+    @Value("\${home-monitor.homewizard.waterBaseRestUrl}") private val waterBaseRestUrl: String,
     ) {
 
     private val restTemplate = RestTemplate()

@@ -6,8 +6,8 @@ spring:
   jpa:
     open-in-view: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/home-monitor
     driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/home-monitor
     username: home-monitor
     password: home-monitor
 
@@ -15,40 +15,44 @@ springdoc:
   swagger-ui:
     tagsSorter: alpha
 
-homewizard:
+home-monitor:
+  homewizard:
+      enabled: false
+      electricityBaseRestUrl: http://192.168.2.40/api/v1
+      waterBaseRestUrl: http://192.168.2.42/api/v1
+      initialWaterValue: 799.017
+
+  eneco:
     enabled: false
-    electricityBaseRestUrl: http://192.168.2.40/api/v1
-    waterBaseRestUrl: http://192.168.2.42/api/v1
-    initialWaterValue: 799.017
+    initialDate: 2024-01-01T00:00:00
+    initialHeathValue: 196.196
+    username: not_for_dev
+    password: not_for_dev
 
-eneco:
-  enabled: false
-  initialDate: 2024-01-01T00:00:00
-  initialHeathValue: 196.196
-  username: not_for_dev_define_in_override
-  password: not_for_dev_define_in_override
+  tado:
+    enabled: false
+    tokenUrl: https://auth.tado.com/oauth/token
+    clientId: public-api-preview
+    clientSecret: 4HJGRffVR8xb3XdEUQpjgZ1VplJi6Xgw
+    baseRestUrl: https://my.tado.com/api/v2
+    username: not_for_dev
+    password: not_for_dev
 
-tado:
-  enabled: false
-  tokenUrl: https://auth.tado.com/oauth/token
-  clientId: public-api-preview
-  clientSecret: 4HJGRffVR8xb3XdEUQpjgZ1VplJi6Xgw
-  baseRestUrl: https://my.tado.com/api/v2
-  username: not_for_dev_define_in_override
-  password: not_for_dev_define_in_override
+  raspberrypi:
+    enabled: false
 
-raspberrypi:
-  enabled: false
-
-dbstats:
-  enabled: false
-  dropbox_uploader: /Users/martinschijf/Prive/Sources/Kotlin/home-monitor/mock/dropbox_uploader.sh
+  dbstats:
+    enabled: false
+    dropbox_uploader: /Users/martinschijf/Prive/Sources/Kotlin/home-monitor/mock/dropbox_uploader.sh
 
 management:
   endpoints:
     web:
       exposure:
-        include: prometheus,health,info,metric
+        include: prometheus,health,info,metric,env
+#  endpoint:
+#    env:
+#      show-values: ALWAYS
 
 
 

@@ -13,8 +13,8 @@ import java.time.Duration
 
 @Service
 class EnecoAccessToken(
-    @Value("\${eneco.username}") private val username: String,
-    @Value("\${eneco.password}") private val password: String) {
+    @Value("\${home-monitor.eneco.username}") private val username: String,
+    @Value("\${home-monitor.eneco.password}") private val password: String) {
 
     private val log = LoggerFactory.getLogger(EnecoAccessToken::class.java)
 

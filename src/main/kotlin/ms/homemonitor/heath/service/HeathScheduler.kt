@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class HeathScheduler(
     private val heathService: HeathService,
-    @Value("\${eneco.enabled}") private val enabled: Boolean,
+    @Value("\${home-monitor.eneco.enabled}") private val enabled: Boolean,
 ) {
 
     @Scheduled(cron = "0 0 1-23/2 * * *")

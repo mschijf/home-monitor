@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class RaspberryPiScheduler(
     private val raspberryPiService: RaspberryPiService,
-    @Value("\${raspberrypi.enabled}") private val enabled: Boolean
+    @Value("\${home-monitor.raspberrypi.enabled}") private val enabled: Boolean
 ) {
 
     @Scheduled(cron = "0 * * * * *")

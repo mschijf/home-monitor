@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class HomeWizardElectricityScheduler(
     private val homeWizardElectricityService: HomeWizardElectricityService,
-    @Value("\${homewizard.enabled}") private val enabled: Boolean,
+    @Value("\${home-monitor.homewizard.enabled}") private val enabled: Boolean,
 ) {
 
     @Scheduled(cron = "0/10 * * * * *")

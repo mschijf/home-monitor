@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate
 
 @Service
 class HomeWizardElectricityClient(
-    @Value("\${homewizard.electricityBaseRestUrl}") private val electricityBaseRestUrl: String,
+    @Value("\${home-monitor.homewizard.electricityBaseRestUrl}") private val electricityBaseRestUrl: String,
     ) {
 
     private val restTemplate = RestTemplate()

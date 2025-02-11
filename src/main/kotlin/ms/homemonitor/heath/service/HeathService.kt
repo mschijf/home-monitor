@@ -21,8 +21,8 @@ class HeathService(
     private val enecoRestClient: EnecoRestClient,
     private val enecoStatsService: EnecoStatsService,
     private val summary: SummaryService,
-    @Value("\${eneco.initialDate}") private val initialDate: LocalDateTime,
-    @Value("\${eneco.initialHeathValue}") private val initialHeathValue: BigDecimal,
+    @Value("\${home-monitor.eneco.initialDate}") private val initialDate: LocalDateTime,
+    @Value("\${home-monitor.eneco.initialHeathValue}") private val initialHeathValue: BigDecimal,
 ) {
 
     private val log = LoggerFactory.getLogger(HeathService::class.java)

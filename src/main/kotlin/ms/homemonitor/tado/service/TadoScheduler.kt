@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class TadoScheduler(
     private val tadoService: TadoService,
-    @Value("\${tado.enabled}") private val enabled: Boolean
+    @Value("\${home-monitor.tado.enabled}") private val enabled: Boolean
 ) {
 
     @Scheduled(cron = "0 * * * * *")

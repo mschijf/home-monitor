@@ -14,11 +14,11 @@ import org.springframework.web.client.RestTemplate
 
 @Service
 class TadoAccessToken(
-    @Value("\${tado.tokenUrl}") private val tokenUrl: String,
-    @Value("\${tado.clientSecret}") private val clientSecret: String,
-    @Value("\${tado.clientId}") private val clientId: String,
-    @Value("\${tado.username}") private val username: String,
-    @Value("\${tado.password}") private val password: String,
+    @Value("\${home-monitor.tado.tokenUrl}") private val tokenUrl: String,
+    @Value("\${home-monitor.tado.clientSecret}") private val clientSecret: String,
+    @Value("\${home-monitor.tado.clientId}") private val clientId: String,
+    @Value("\${home-monitor.tado.username}") private val username: String,
+    @Value("\${home-monitor.tado.password}") private val password: String,
     ) {
 
     private val restTemplate = RestTemplate()
@@ -66,7 +66,7 @@ class TadoAccessToken(
 
         try {
             accessTokenObject = restTemplate.postForObject(tokenUrl, HttpEntity(bodyMap, headers), TadoOAuth::class.java)
-        } catch (e: HttpClientErrorException) {
+        } catch (_: HttpClientErrorException) {
             log.info("Refreshing with refresh token did not work. Get access token - use username and password")
             val newBodyMap = getBodyMapUsingPasswordGrant()
             accessTokenObject = restTemplate.postForObject(tokenUrl, HttpEntity(newBodyMap, headers), TadoOAuth::class.java)

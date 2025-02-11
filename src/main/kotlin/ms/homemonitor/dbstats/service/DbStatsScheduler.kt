@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class DbStatsScheduler(
     private val dbStatsService: DbStatsService,
-    @Value("\${dbstats.enabled}") private val enabled: Boolean,
+    @Value("\${home-monitor.dbstats.enabled}") private val enabled: Boolean,
 ) {
 
     @Scheduled(cron = "0 * * * * *")

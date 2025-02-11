@@ -19,7 +19,7 @@ class HomeWizardWaterService(
     private val homeWizardWaterClient: HomeWizardWaterClient,
     private val measurement: MicroMeterMeasurement,
     private val summary: SummaryService,
-    @Value("\${homewizard.initialWaterValue}") private val initialWaterValue: BigDecimal,
+    @Value("\${home-monitor.homewizard.initialWaterValue}") private val initialWaterValue: BigDecimal,
 ) {
 
     fun getWaterYearSummary(): YearSummary {

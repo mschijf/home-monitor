@@ -23,7 +23,7 @@ import java.time.LocalDate
 @Service
 class TadoClient(
     private val tadoAccessToken: TadoAccessToken,
-    @Value("\${tado.baseRestUrl}") private val baseRestUrl: String) {
+    @Value("\${home-monitor.tado.baseRestUrl}") private val baseRestUrl: String) {
 
     private val restTemplate = RestTemplate()
 

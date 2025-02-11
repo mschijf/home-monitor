@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 @Service
 class DbStats(
     private val commandExecutor: CommandExecutor,
-    @Value("\${dbstats.dropbox_uploader}") private val dropboxUploader: String
+    @Value("\${home-monitor.dbstats.dropbox_uploader}") private val dropboxUploader: String
 ) {
 
     private val log = LoggerFactory.getLogger(DbStats::class.java)

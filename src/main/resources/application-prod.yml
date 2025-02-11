@@ -1,28 +1,30 @@
 spring:
+  config:
+    import: "optional:~/application/config/secrets.yml"
   datasource:
     url: jdbc:postgresql://192.168.2.39:5432/home-monitor
-    driver-class-name: org.postgresql.Driver
-    username: define_in_override
-    password: define_in_override
+    username: ${home-monitor.datasource.username}
+    password: ${home-monitor.datasource.password}
 
-homewizard:
-  enabled: true
-  username: define_in_override
-  password: define_in_override
+home-monitor:
+  homewizard:
+    enabled: true
+#    username: defined_in_secrets
+#    password: defined_in_secrets
 
-tado:
-  enabled: true
-  username: define_in_override
-  password: define_in_override
+  tado:
+    enabled: true
+#    username: defined_in_secrets
+#    password: defined_in_secrets
 
-eneco:
-  enabled: true
-  username: define_in_override
-  password: define_in_override
+  eneco:
+    enabled: true
+#    username: defined_in_secrets
+#    password: defined_in_secrets
 
-raspberrypi:
-  enabled: true
+  raspberrypi:
+    enabled: true
 
-dbstats:
-  enabled: true
-  dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
+  dbstats:
+    enabled: true
+    dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
