@@ -10,6 +10,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/home-monitor
     username: home-monitor
     password: home-monitor
+  flyway:
+    user: home-monitor
+    password: home-monitor
+    enablede: true
+    baselineOnMigrate: true
+    baseline-version: 0
 
 springdoc:
   swagger-ui:

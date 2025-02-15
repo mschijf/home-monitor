@@ -62,10 +62,8 @@ CREATE TABLE IF NOT EXISTS backup_stats
 
 CREATE TABLE IF NOT EXISTS eneco_stats
 (
-    day         DATE,
-    success     INTEGER,
-    failed      INTEGER,
-    last        TIMESTAMP(0) WITH TIME ZONE,
+    time        TIMESTAMP(0) WITH TIME ZONE,
+    success     BOOLEAN,
 
-    PRIMARY KEY (day)
+    PRIMARY KEY (time)
 );

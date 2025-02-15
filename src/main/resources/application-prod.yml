@@ -5,6 +5,9 @@ spring:
     url: jdbc:postgresql://192.168.2.39:5432/home-monitor
     username: ${home-monitor.datasource.username}
     password: ${home-monitor.datasource.password}
+  flyway:
+    user: ${home-monitor.datasource.username}
+    password: ${home-monitor.datasource.password}
 
 home-monitor:
   homewizard:
