@@ -15,11 +15,4 @@ class TadoScheduler(
         if (enabled)
             tadoService.processMeasurement()
     }
-
-    @Scheduled(cron = "0 0 1 * * *")
-    fun tadoDayUpdate() {
-        if (enabled)
-            tadoService.processDayReport()
-    }
-
 }
