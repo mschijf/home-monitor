@@ -6,13 +6,14 @@ import ms.homemonitor.tado.repository.model.TadoEntity
 import ms.homemonitor.tado.restclient.TadoClient
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import java.util.concurrent.TimeUnit
 
 @Service
 class TadoService(
     private val tadoClient: TadoClient,
     private val tadoRepository: TadoRepository) {
 
-    fun processMeasurement() {
+    fun processMeasurement(timeUnit: TimeUnit) {
         try {
             val now = LocalDateTime.now()
             val tadoResponse = tadoClient.getTadoResponse()
@@ -27,7 +28,8 @@ class TadoService(
                     outsideTemperature = tadoResponse.weather.outsideTemperature.celsius,
                     solarIntensityPercentage = tadoResponse.weather.solarIntensity.percentage,
                     weatherState = tadoResponse.weather.weatherState.value,
-                    callForHeat = callForHeatValue(tadoResponse.tadoState.activityDataPoints.heatingPower.percentage)
+                    callForHeat = callForHeatValue(tadoResponse.tadoState.activityDataPoints.heatingPower.percentage),
+                    density = if (timeUnit == TimeUnit.MINUTES) "m" else "h"
                 )
             )
         } catch (e: Exception) {
@@ -84,7 +86,8 @@ class TadoService(
 //                    outsideTemperature = dayUnit.outsideTemperature,
 //                    solarIntensityPercentage = null,
 //                    weatherState = dayUnit.weatherState,
-//                    callForHeat = dayUnit.callForHeat
+//                    callForHeat = dayUnit.callForHeat,
+//                    density = "h"
 //                ) }
 //            list.forEach { tadoRepository.saveAndFlush(it) }
 //        }

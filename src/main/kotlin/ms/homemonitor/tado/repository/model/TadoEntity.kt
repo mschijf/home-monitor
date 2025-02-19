@@ -39,4 +39,7 @@ class TadoEntity(
 
     @Column(name = "call_for_heat", nullable = true)
     var callForHeat: Int? =  null,
+
+    @Column(name = "density", nullable = true)
+    var density: String? =  null,
 )
