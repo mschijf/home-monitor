@@ -51,6 +51,9 @@ home-monitor:
     enabled: false
     dropbox_uploader: /Users/martinschijf/Prive/Sources/Kotlin/home-monitor/mock/dropbox_uploader.sh
 
+  log:
+    location: /Users/martinschijf/Prive/Sources/Kotlin/home-monitor/mock/log
+
 management:
   endpoints:
     web:

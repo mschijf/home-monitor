@@ -2,16 +2,17 @@ package ms.homemonitor.log.service
 
 import ms.homemonitor.log.service.model.LogLine
 import ms.homemonitor.shared.tools.splitByCondition
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Service
-class LogService {
+class LogService(@Value("\${home-monitor.log.location}") private val logFile: String) {
 
     fun getLogs(): List<LogLine> {
-        val file = File("log/home-monitor-log")
+        val file = File(logFile)
         val list = if (file.exists() && file.length() > 0) {
             file
                 .readLines()

@@ -30,4 +30,7 @@ home-monitor:
 
   dbstats:
     enabled: true
-    dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
+    dropbox_uploader: ~/dropbox-uploader/dropbox_uploader.sh
+
+  log:
+    location: ~/application/home-monitor/log
