@@ -1,6 +1,6 @@
 spring:
   config:
-    import: "optional:~/application/config/secrets.yml"
+    import: "optional:/home/martinschijf/application/config/secrets.yml"
   datasource:
     url: jdbc:postgresql://192.168.2.39:5432/home-monitor
     username: ${home-monitor.datasource.username}
@@ -30,7 +30,7 @@ home-monitor:
 
   dbstats:
     enabled: true
-    dropbox_uploader: ~/dropbox-uploader/dropbox_uploader.sh
+    dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
 
   log:
-    location: ~/application/home-monitor/log
+    location: /home/martinschijf/application/home-monitor/log

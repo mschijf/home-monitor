@@ -2,6 +2,7 @@ package ms.homemonitor.log.service
 
 import ms.homemonitor.log.service.model.LogLine
 import ms.homemonitor.shared.tools.splitByCondition
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.File
@@ -10,6 +11,8 @@ import java.time.format.DateTimeFormatter
 
 @Service
 class LogService(@Value("\${home-monitor.log.location}") private val logFile: String) {
+
+    private val log = LoggerFactory.getLogger(LogService::class.java)
 
     fun getLogs(): List<LogLine> {
         val file = File(logFile)
@@ -20,6 +23,7 @@ class LogService(@Value("\${home-monitor.log.location}") private val logFile: St
                 .filter { it.isNotEmpty() }
                 .map { LogLine.Companion.of(it.joinToString("\n")) }
         } else {
+            log.info("Cannot read from $logFile")
             emptyList()
         }
         return list
