@@ -2,8 +2,8 @@ package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import ms.homemonitor.dbstats.cliclient.DbStats
-import ms.homemonitor.dbstats.cliclient.model.BackupStats
+import ms.homemonitor.dbstats.cliclient.BackupStats
+import ms.homemonitor.dbstats.cliclient.model.BackupStatsModel
 import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
 import ms.homemonitor.heath.restclient.EnecoRestClient
@@ -30,7 +30,7 @@ class ControllerVerify(
     private val tadoRestClient: TadoClient,
     private val enecoRestClient: EnecoRestClient,
     private val raspberryPiStats: RaspberryPiStats,
-    private val dbStats: DbStats,
+    private val backupStats: BackupStats,
 ) {
 
     @Tag(name="1. Homewizard")
@@ -79,14 +79,14 @@ class ControllerVerify(
 
     @Tag(name="4. Raspberry Pi")
     @GetMapping("/verify/backupprocess/current")
-    fun getBackupStats(): List<BackupStats> {
-        return dbStats.getBackupStats()
+    fun getBackupStats(): List<BackupStatsModel> {
+        return backupStats.getBackupStats()
     }
 
     @Tag(name="4. Raspberry Pi")
     @GetMapping("/verify/backupprocess/space")
     fun getFreeBackupSpace(): Long {
-        return dbStats.getFreeBackupSpace()
+        return backupStats.getFreeBackupSpace()
     }
 
 }
