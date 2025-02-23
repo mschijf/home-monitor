@@ -8,6 +8,7 @@ import ms.homemonitor.system.repository.BackupStatsEntity
 import ms.homemonitor.system.repository.BackupStatsRepository
 import ms.homemonitor.system.repository.DatabaseAdminRepository
 import org.springframework.stereotype.Service
+import kotlin.math.max
 
 @Service
 class SystemService(
@@ -31,18 +32,23 @@ class SystemService(
     }
 
     fun executeBackup(keep: Int) {
-        val data = backupClient.executeBackup(keep)
+        val data = backupClient.executeBackup("_postgres", keep)
         measurement.setDoubleGauge("homeMonitorBackupSize", data.fileSize.toDouble())
-        val backupList = dropboxClient.getBackupStats()
+        cleanUp(keep)
+    }
+
+    private fun cleanUp(keep: Int) {
+        val backupList = dropboxClient.getBackupStats(filter = "_postgres")
         if (backupList.size > keep) {
             backupList.take(backupList.size - keep).forEach { dropboxRecord ->
                 dropboxClient.deleteFile(dropboxRecord.fileName)
             }
         }
+        measurement.setDoubleGauge("homeMonitorBackupCount", max(keep, backupList.size).toDouble())
     }
 
     fun processBackupStats() {
-        val stats = dropboxClient.getBackupStats()
+        val stats = dropboxClient.getBackupStats(filter = "_postgres")
         val freeSpace = dropboxClient.getFreeBackupSpace()
         if (stats.isNotEmpty()) {
             val entity = backupStatsRepository.findById(1).orElse(BackupStatsEntity(1))

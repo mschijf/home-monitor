@@ -15,11 +15,11 @@ class BackupClient(
 
     private val log = LoggerFactory.getLogger(BackupClient::class.java)
 
-    fun executeBackup(keep: Int): BackupDataModel {
+    fun executeBackup(postFix: String, keep: Int): BackupDataModel {
         val backupTime = LocalDateTime.now()
         try {
             log.info("Starting backup")
-            val backupOutput = commandExecutor.execCommand(backupScript, arrayListOf("_postgres", keep.toString()))
+            val backupOutput = commandExecutor.execCommand(backupScript, arrayListOf(postFix, keep.toString()))
             val backupSize = backupOutput[1].split("\\s+".toRegex())[2].trim()
             val backupFileName = backupOutput[2].trim().split("\\s+".toRegex())[4]
             log.info("Backup succeeded. Backup size: $backupSize kB. Backup file name: $backupFileName")

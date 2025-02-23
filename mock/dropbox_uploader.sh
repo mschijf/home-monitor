@@ -12,4 +12,6 @@ elif [ $1 = "list" ]; then
    echo " [F] 946089  20250105_080001_postgres"
    echo " [F] 946804  20250105_090001_postgres"
    echo " [F] 947577  20250105_100001_postgres"
+elif [ $1 = "delete" ]; then
+  echo " > Deleting \"$2\"... DONE"
 fi
