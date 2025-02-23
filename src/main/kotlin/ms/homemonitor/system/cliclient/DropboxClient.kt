@@ -13,12 +13,12 @@ class DropboxClient(
     @Value("\${home-monitor.system.dropbox_uploader}") private val dropboxUploader: String
 ) {
 
+    private val dropboxRoot = "Backup/home-monitor/"
     private val log = LoggerFactory.getLogger(DropboxClient::class.java)
 
     fun getBackupStats(): List<BackupDataModel> {
         return try {
-            commandExecutor.execCommand(dropboxUploader, arrayListOf("list", "Backup/home-monitor/"))
-                .filter { it.endsWith("postgres") }
+            commandExecutor.execCommand(dropboxUploader, arrayListOf("list", dropboxRoot))
                 .map { it.toBackupDataModel() }
                 .sortedBy { it.dateTime }
         } catch (e: Exception) {
@@ -47,7 +47,15 @@ class DropboxClient(
         val hour = fields[3].substring(9, 11).toInt()
         val minute = fields[3].substring(11, 13).toInt()
         val second = fields[3].substring(13, 15).toInt()
-        return BackupDataModel(fields[2].toLong(), LocalDateTime.of(year, month, day, hour, minute, second))
+        return BackupDataModel(fields[2].toLong(), LocalDateTime.of(year, month, day, hour, minute, second), fields[3])
+    }
+
+    fun deleteFile(fileName: String) {
+        try {
+            commandExecutor.execCommand(dropboxUploader, arrayListOf("delete", "$dropboxRoot/$fileName"))
+        } catch (e: Exception) {
+            log.error("Couldn't remove file with filename $fileName, caused by ${e.message}")
+        }
     }
 
 }

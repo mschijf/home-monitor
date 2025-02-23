@@ -33,6 +33,12 @@ class SystemService(
     fun executeBackup(keep: Int) {
         val data = backupClient.executeBackup(keep)
         measurement.setDoubleGauge("homeMonitorBackupSize", data.fileSize.toDouble())
+        val backupList = dropboxClient.getBackupStats()
+        if (backupList.size > keep) {
+            backupList.take(backupList.size - keep).forEach { dropboxRecord ->
+                dropboxClient.deleteFile(dropboxRecord.fileName)
+            }
+        }
     }
 
     fun processBackupStats() {
