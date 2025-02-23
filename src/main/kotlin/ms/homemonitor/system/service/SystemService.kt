@@ -31,13 +31,12 @@ class SystemService(
         measurement.setDoubleGauge("homeMonitorDbSize", dbSize.toDouble())
     }
 
-    fun executeBackup(keep: Int) {
-        val data = backupClient.executeBackup("_postgres", keep)
+    fun executeBackup() {
+        val data = backupClient.executeBackup("_postgres")
         measurement.setDoubleGauge("homeMonitorBackupSize", data.fileSize.toDouble())
-        cleanUp(keep)
     }
 
-    private fun cleanUp(keep: Int) {
+    fun cleanUp(keep: Int) {
         val backupList = dropboxClient.getBackupStats(filter = "_postgres")
         if (backupList.size > keep) {
             backupList.take(backupList.size - keep).forEach { dropboxRecord ->

@@ -2,23 +2,22 @@ package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import ms.homemonitor.system.cliclient.DropboxClient
-import ms.homemonitor.system.cliclient.model.BackupDataModel
 import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
 import ms.homemonitor.heath.restclient.EnecoRestClient
 import ms.homemonitor.heath.restclient.model.EnecoConsumption
+import ms.homemonitor.system.cliclient.DropboxClient
 import ms.homemonitor.system.cliclient.SystemTemperatureClient
+import ms.homemonitor.system.cliclient.model.BackupDataModel
 import ms.homemonitor.system.cliclient.model.SystemTemperatureModel
+import ms.homemonitor.system.service.SystemService
 import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoResponseModel
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import ms.homemonitor.water.restclient.model.HomeWizardWaterData
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import java.time.LocalDate
 
@@ -31,6 +30,7 @@ class ControllerVerify(
     private val enecoRestClient: EnecoRestClient,
     private val systemTemperatureClient: SystemTemperatureClient,
     private val dropboxClient: DropboxClient,
+    private val systemService: SystemService
 ) {
 
     @Tag(name="1. Homewizard")
@@ -89,4 +89,15 @@ class ControllerVerify(
         return dropboxClient.getFreeBackupSpace()
     }
 
+    @Tag(name="4. System")
+    @PostMapping("/verify/backup")
+    fun executeBackup() {
+        systemService.executeBackup()
+    }
+
+    @Tag(name="4. System")
+    @DeleteMapping("/verify/backup/cleanup")
+    fun cleanupBackup() {
+        systemService.cleanUp(672)
+    }
 }
