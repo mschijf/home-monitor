@@ -39,14 +39,14 @@ class SystemService(
         measurement.setDoubleGauge("homeMonitorBackupSize", data.fileSize.toDouble())
     }
 
-    fun cleanUp() {
+    fun cleanUp(keep: Int = keepNumberOfBackupFiles) {
         val backupList = dropboxClient.getBackupStats(filter = backupPostfix)
-        if (backupList.size > keepNumberOfBackupFiles) {
-            backupList.take(backupList.size - keepNumberOfBackupFiles).forEach { dropboxRecord ->
+        if (backupList.size > keep) {
+            backupList.take(backupList.size - keep).forEach { dropboxRecord ->
                 dropboxClient.deleteFile(dropboxRecord.fileName)
             }
         }
-        measurement.setDoubleGauge("homeMonitorBackupCount", max(keepNumberOfBackupFiles, backupList.size).toDouble())
+        measurement.setDoubleGauge("homeMonitorBackupCount", max(keep, backupList.size).toDouble())
     }
 
     fun processBackupStats() {

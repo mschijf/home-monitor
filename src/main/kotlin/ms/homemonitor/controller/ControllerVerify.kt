@@ -97,7 +97,7 @@ class ControllerVerify(
 
     @Tag(name="4. System")
     @DeleteMapping("/verify/backup/cleanup")
-    fun cleanupBackup() {
-        systemService.cleanUp()
+    fun cleanupBackup(@RequestParam keep: Int) {
+        systemService.cleanUp(keep)
     }
 }
