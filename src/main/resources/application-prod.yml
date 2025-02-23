@@ -27,7 +27,7 @@ home-monitor:
 
   system:
     enabled: true
-    cpuTemperatureFile: /sys/class/thermal/thermal/zone0/temp
+    cpuTemperatureFile: /sys/class/thermal/thermal_zone0/temp
     gpuTemperatureCmd: vcgencmd
     dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
 
