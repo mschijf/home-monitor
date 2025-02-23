@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class SystemScheduler(
     private val dbStatsService: DbStatsService,
-    private val raspberryPiService: RaspberryPiService,
+    private val systemTemperatureService: SystemTemperatureService,
     @Value("\${home-monitor.system.enabled}") private val enabled: Boolean,
 ) {
 
@@ -24,8 +24,8 @@ class SystemScheduler(
     }
 
     @Scheduled(cron = "0 * * * * *")
-    fun raspberryPiMeasurement() {
+    fun systemTemperatureMeasurement() {
         if (enabled)
-            raspberryPiService.processMeasurement()
+            systemTemperatureService.processMeasurement()
     }
 }

@@ -8,8 +8,8 @@ import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
 import ms.homemonitor.heath.restclient.EnecoRestClient
 import ms.homemonitor.heath.restclient.model.EnecoConsumption
-import ms.homemonitor.system.cliclient.RaspberryPiStats
-import ms.homemonitor.system.cliclient.model.RaspberryPiStatsModel
+import ms.homemonitor.system.cliclient.SystemTemperature
+import ms.homemonitor.system.cliclient.model.SystemTemperatureModel
 import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoResponseModel
@@ -29,7 +29,7 @@ class ControllerVerify(
     private val homeWizardWaterClient: HomeWizardWaterClient,
     private val tadoRestClient: TadoClient,
     private val enecoRestClient: EnecoRestClient,
-    private val raspberryPiStats: RaspberryPiStats,
+    private val systemTemperature: SystemTemperature,
     private val backupStats: BackupStats,
 ) {
 
@@ -71,19 +71,19 @@ class ControllerVerify(
         }
     }
 
-    @Tag(name="4. Raspberry Pi")
-    @GetMapping("/verify/raspberrypi/current")
-    fun raspberrypi(): RaspberryPiStatsModel {
-        return raspberryPiStats.getRaspberryPiStats()
+    @Tag(name="4. System")
+    @GetMapping("/verify/system/temperature/current")
+    fun raspberrypi(): SystemTemperatureModel {
+        return systemTemperature.getSystemTemperature()
     }
 
-    @Tag(name="4. Raspberry Pi")
+    @Tag(name="4. System")
     @GetMapping("/verify/backupprocess/current")
     fun getBackupStats(): List<BackupStatsModel> {
         return backupStats.getBackupStats()
     }
 
-    @Tag(name="4. Raspberry Pi")
+    @Tag(name="4. System")
     @GetMapping("/verify/backupprocess/space")
     fun getFreeBackupSpace(): Long {
         return backupStats.getFreeBackupSpace()

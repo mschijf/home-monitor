@@ -1,22 +1,22 @@
 package ms.homemonitor.system.cliclient
 
-import ms.homemonitor.system.cliclient.model.RaspberryPiStatsModel
+import ms.homemonitor.system.cliclient.model.SystemTemperatureModel
 import ms.homemonitor.shared.tools.commandline.CommandExecutor
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
-class RaspberryPiStats(
+class SystemTemperature(
     private val commandExecutor: CommandExecutor,
     @Value("\${home-monitor.system.cpuTemperatureFile}") private val cpuTemperatureFile: String,
     @Value("\${home-monitor.system.gpuTemperatureCmd}") private val gpuTemperatureCmd: String,
     ) {
 
-    private val log = LoggerFactory.getLogger(RaspberryPiStats::class.java)
+    private val log = LoggerFactory.getLogger(SystemTemperature::class.java)
 
-    fun getRaspberryPiStats(): RaspberryPiStatsModel {
-        return RaspberryPiStatsModel(
+    fun getSystemTemperature(): SystemTemperatureModel {
+        return SystemTemperatureModel(
             cpuTemperature = getCPUTemperature(),
             gpuTemperature = getGPUTemperature()
         )

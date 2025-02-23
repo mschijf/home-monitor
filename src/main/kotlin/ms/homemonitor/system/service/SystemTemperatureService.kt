@@ -1,22 +1,22 @@
 package ms.homemonitor.system.service
 
-import ms.homemonitor.system.cliclient.RaspberryPiStats
-import ms.homemonitor.system.cliclient.model.RaspberryPiStatsModel
+import ms.homemonitor.system.cliclient.SystemTemperature
+import ms.homemonitor.system.cliclient.model.SystemTemperatureModel
 import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
 import org.springframework.stereotype.Service
 
 @Service
-class RaspberryPiService(
-    private val raspberryPiStats: RaspberryPiStats,
+class SystemTemperatureService(
+    private val systemTemperature: SystemTemperature,
     private val measurement: MicroMeterMeasurement,
     ) {
 
     fun processMeasurement() {
-        val stats = raspberryPiStats.getRaspberryPiStats()
+        val stats = systemTemperature.getSystemTemperature()
         setMetrics(stats)
     }
 
-    private fun setMetrics(data: RaspberryPiStatsModel) {
+    private fun setMetrics(data: SystemTemperatureModel) {
         measurement.setDoubleGauge("systemCpuTemperature", data.cpuTemperature)
         measurement.setDoubleGauge("systemGpuTemperature", data.gpuTemperature)
     }
