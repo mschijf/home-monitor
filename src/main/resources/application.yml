@@ -25,10 +25,10 @@ home-monitor:
   mock-location: /Users/martinschijf/Prive/Sources/Kotlin/home-monitor/mock
 
   homewizard:
-      enabled: false
-      electricityBaseRestUrl: http://192.168.2.40/api/v1
-      waterBaseRestUrl: http://192.168.2.42/api/v1
-      initialWaterValue: 799.017
+    enabled: false
+    electricityBaseRestUrl: http://192.168.2.40/api/v1
+    waterBaseRestUrl: http://192.168.2.42/api/v1
+    initialWaterValue: 799.017
 
   eneco:
     enabled: false
@@ -51,6 +51,11 @@ home-monitor:
     cpuTemperatureFile: ${home-monitor.mock-location}/sys_class_thermal_thermal_zone0_temp
     gpuTemperatureCmd: ${home-monitor.mock-location}/vcgencmd.sh
     dropbox_uploader: ${home-monitor.mock-location}/dropbox_uploader.sh
+    backup:
+      enabled: false
+      script: ${home-monitor.mock-location}/backup.sh
+
+
 
   log:
     location: ${home-monitor.mock-location}/log

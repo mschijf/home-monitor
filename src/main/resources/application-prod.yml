@@ -30,6 +30,10 @@ home-monitor:
     cpuTemperatureFile: /sys/class/thermal/thermal_zone0/temp
     gpuTemperatureCmd: vcgencmd
     dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
+    backup:
+      enabled: true
+      script: /home/martinschijf/home-monitor-backup-script/backup.sh
+
 
   log:
     location: /home/martinschijf/application/home-monitor/log
