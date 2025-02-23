@@ -1,6 +1,6 @@
-package ms.homemonitor.dbstats.cliclient
+package ms.homemonitor.system.cliclient
 
-import ms.homemonitor.dbstats.cliclient.model.BackupStatsModel
+import ms.homemonitor.system.cliclient.model.BackupStatsModel
 import ms.homemonitor.shared.tools.commandline.CommandExecutor
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 @Service
 class BackupStats(
     private val commandExecutor: CommandExecutor,
-    @Value("\${home-monitor.dbstats.dropbox_uploader}") private val dropboxUploader: String
+    @Value("\${home-monitor.system.dropbox_uploader}") private val dropboxUploader: String
 ) {
 
     private val log = LoggerFactory.getLogger(BackupStats::class.java)

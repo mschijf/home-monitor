@@ -1,4 +1,4 @@
-package ms.homemonitor.dbstats.cliclient.model
+package ms.homemonitor.system.cliclient.model
 
 import java.time.LocalDateTime
 

@@ -1,4 +1,4 @@
-package ms.homemonitor.dbstats.repository
+package ms.homemonitor.system.repository
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id

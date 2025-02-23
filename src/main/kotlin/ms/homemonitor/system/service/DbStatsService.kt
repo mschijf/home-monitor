@@ -1,9 +1,9 @@
-package ms.homemonitor.dbstats.service
+package ms.homemonitor.system.service
 
-import ms.homemonitor.dbstats.cliclient.BackupStats
-import ms.homemonitor.dbstats.repository.BackupStatsRepository
-import ms.homemonitor.dbstats.repository.BackupStatsEntity
-import ms.homemonitor.dbstats.repository.DatabaseAdminRepository
+import ms.homemonitor.system.cliclient.BackupStats
+import ms.homemonitor.system.repository.BackupStatsRepository
+import ms.homemonitor.system.repository.BackupStatsEntity
+import ms.homemonitor.system.repository.DatabaseAdminRepository
 import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
 import org.springframework.stereotype.Service
 

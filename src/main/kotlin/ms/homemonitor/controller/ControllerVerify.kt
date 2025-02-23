@@ -2,14 +2,14 @@ package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import ms.homemonitor.dbstats.cliclient.BackupStats
-import ms.homemonitor.dbstats.cliclient.model.BackupStatsModel
+import ms.homemonitor.system.cliclient.BackupStats
+import ms.homemonitor.system.cliclient.model.BackupStatsModel
 import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
 import ms.homemonitor.heath.restclient.EnecoRestClient
 import ms.homemonitor.heath.restclient.model.EnecoConsumption
-import ms.homemonitor.raspberrypi.cliclient.RaspberryPiStats
-import ms.homemonitor.raspberrypi.cliclient.model.RaspberryPiStatsModel
+import ms.homemonitor.system.cliclient.RaspberryPiStats
+import ms.homemonitor.system.cliclient.model.RaspberryPiStatsModel
 import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoResponseModel

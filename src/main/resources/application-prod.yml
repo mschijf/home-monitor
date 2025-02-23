@@ -25,11 +25,10 @@ home-monitor:
 #    username: defined_in_secrets
 #    password: defined_in_secrets
 
-  raspberrypi:
+  system:
     enabled: true
-
-  dbstats:
-    enabled: true
+    cpuTemperatureFile: /sys/class/thermal/thermal/zone0/temp
+    gpuTemperatureCmd: vcgencmd
     dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
 
   log:

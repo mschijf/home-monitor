@@ -22,6 +22,8 @@ springdoc:
     tagsSorter: alpha
 
 home-monitor:
+  mock-location: /Users/martinschijf/Prive/Sources/Kotlin/home-monitor/mock
+
   homewizard:
       enabled: false
       electricityBaseRestUrl: http://192.168.2.40/api/v1
@@ -44,15 +46,14 @@ home-monitor:
     username: not_for_dev
     password: not_for_dev
 
-  raspberrypi:
+  system:
     enabled: false
-
-  dbstats:
-    enabled: false
-    dropbox_uploader: /Users/martinschijf/Prive/Sources/Kotlin/home-monitor/mock/dropbox_uploader.sh
+    cpuTemperatureFile: ${home-monitor.mock-location}/sys_class_thermal_thermal_zone0_temp
+    gpuTemperatureCmd: ${home-monitor.mock-location}/vcgencmd.sh
+    dropbox_uploader: ${home-monitor.mock-location}/dropbox_uploader.sh
 
   log:
-    location: /Users/martinschijf/Prive/Sources/Kotlin/home-monitor/mock/log
+    location: ${home-monitor.mock-location}/log
 
 management:
   endpoints:

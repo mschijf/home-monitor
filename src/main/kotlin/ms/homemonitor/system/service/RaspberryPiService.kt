@@ -1,7 +1,7 @@
-package ms.homemonitor.raspberrypi.service
+package ms.homemonitor.system.service
 
-import ms.homemonitor.raspberrypi.cliclient.RaspberryPiStats
-import ms.homemonitor.raspberrypi.cliclient.model.RaspberryPiStatsModel
+import ms.homemonitor.system.cliclient.RaspberryPiStats
+import ms.homemonitor.system.cliclient.model.RaspberryPiStatsModel
 import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
 import org.springframework.stereotype.Service
 

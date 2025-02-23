@@ -1,13 +1,14 @@
-package ms.homemonitor.dbstats.service
+package ms.homemonitor.system.service
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
-class DbStatsScheduler(
+class SystemScheduler(
     private val dbStatsService: DbStatsService,
-    @Value("\${home-monitor.dbstats.enabled}") private val enabled: Boolean,
+    private val raspberryPiService: RaspberryPiService,
+    @Value("\${home-monitor.system.enabled}") private val enabled: Boolean,
 ) {
 
     @Scheduled(cron = "0 * * * * *")
@@ -22,4 +23,9 @@ class DbStatsScheduler(
             dbStatsService.processBackupStats()
     }
 
+    @Scheduled(cron = "0 * * * * *")
+    fun raspberryPiMeasurement() {
+        if (enabled)
+            raspberryPiService.processMeasurement()
+    }
 }

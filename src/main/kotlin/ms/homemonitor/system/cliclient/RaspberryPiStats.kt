@@ -1,25 +1,31 @@
-package ms.homemonitor.raspberrypi.cliclient
+package ms.homemonitor.system.cliclient
 
-import ms.homemonitor.raspberrypi.cliclient.model.RaspberryPiStatsModel
+import ms.homemonitor.system.cliclient.model.RaspberryPiStatsModel
 import ms.homemonitor.shared.tools.commandline.CommandExecutor
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
-class RaspberryPiStats(private val commandExecutor: CommandExecutor) {
+class RaspberryPiStats(
+    private val commandExecutor: CommandExecutor,
+    @Value("\${home-monitor.system.cpuTemperatureFile}") private val cpuTemperatureFile: String,
+    @Value("\${home-monitor.system.gpuTemperatureCmd}") private val gpuTemperatureCmd: String,
+    ) {
 
     private val log = LoggerFactory.getLogger(RaspberryPiStats::class.java)
 
     fun getRaspberryPiStats(): RaspberryPiStatsModel {
         return RaspberryPiStatsModel(
             cpuTemperature = getCPUTemperature(),
-            gpuTemperature = getGPUTemperature())
+            gpuTemperature = getGPUTemperature()
+        )
     }
 
     private fun getCPUTemperature(): Double {
         return try {
             commandExecutor
-                .execCommand("cat", arrayListOf("/sys/class/thermal/thermal_zone0/temp"))
+                .execCommand("cat", arrayListOf(cpuTemperatureFile))
                 .first()
                 .toDouble() / 1000.0
         } catch (e: Exception) {
@@ -30,7 +36,7 @@ class RaspberryPiStats(private val commandExecutor: CommandExecutor) {
 
     private fun getGPUTemperature(): Double {
         return try {
-            return commandExecutor.execCommand("vcgencmd", arrayListOf("measure_temp"))[0]
+            return commandExecutor.execCommand(gpuTemperatureCmd, arrayListOf("measure_temp"))[0]
                 .substringAfter("temp=")
                 .substringBefore("'C")
                 .trim()
