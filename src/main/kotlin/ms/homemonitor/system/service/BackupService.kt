@@ -13,10 +13,10 @@ class BackupService(
 
     private val log = LoggerFactory.getLogger(BackupService::class.java)
 
-    fun executeBackup() {
+    fun executeBackup(keep: Int) {
         try {
             log.info("Starting backup")
-            val backupOutput = commandExecutor.execCommand(backupScript, arrayListOf("_postgres", "672"))
+            val backupOutput = commandExecutor.execCommand(backupScript, arrayListOf("_postgres", keep.toString()))
             val backupSize = backupOutput[1].split("\\s+".toRegex())[2]
             log.info("Backup succeeded. Backup size: $backupSize")
         } catch (e: Exception) {

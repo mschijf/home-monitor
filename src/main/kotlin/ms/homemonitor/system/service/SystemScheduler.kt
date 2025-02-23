@@ -22,7 +22,7 @@ class SystemScheduler(
     @Scheduled(cron = "0 0 * * * *")
     fun doBackup() {
         if (backupEnabled)
-            backupService.executeBackup()
+            backupService.executeBackup(keep=672)
     }
 
     @Scheduled(cron = "0 10 * * * *")
