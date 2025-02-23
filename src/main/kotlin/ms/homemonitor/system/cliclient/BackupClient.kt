@@ -20,8 +20,9 @@ class BackupClient(
         try {
             log.info("Starting backup")
             val backupOutput = commandExecutor.execCommand(backupScript, arrayListOf(postFix))
-            val backupSize = backupOutput[1].split("\\s+".toRegex())[2].trim()
-            val backupFileName = backupOutput[2].trim().split("\\s+".toRegex())[4]
+            val backupOutputParts = backupOutput.first().trim().split("\\s+".toRegex())
+            val backupFileName = backupOutputParts[0]
+            val backupSize = backupOutputParts[1]
             log.info("Backup succeeded. Backup size: $backupSize kB. Backup file name: $backupFileName")
             return BackupDataModel(backupSize.toLong() * 1024, backupTime, backupFileName)
         } catch (e: Exception) {
