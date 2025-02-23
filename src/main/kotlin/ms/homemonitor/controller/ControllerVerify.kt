@@ -3,12 +3,12 @@ package ms.homemonitor.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import ms.homemonitor.system.cliclient.DropboxClient
-import ms.homemonitor.system.cliclient.model.DropboxDataModel
+import ms.homemonitor.system.cliclient.model.BackupDataModel
 import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
 import ms.homemonitor.heath.restclient.EnecoRestClient
 import ms.homemonitor.heath.restclient.model.EnecoConsumption
-import ms.homemonitor.system.cliclient.SystemClient
+import ms.homemonitor.system.cliclient.SystemTemperatureClient
 import ms.homemonitor.system.cliclient.model.SystemTemperatureModel
 import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoDayReport
@@ -29,7 +29,7 @@ class ControllerVerify(
     private val homeWizardWaterClient: HomeWizardWaterClient,
     private val tadoRestClient: TadoClient,
     private val enecoRestClient: EnecoRestClient,
-    private val systemClient: SystemClient,
+    private val systemTemperatureClient: SystemTemperatureClient,
     private val dropboxClient: DropboxClient,
 ) {
 
@@ -74,12 +74,12 @@ class ControllerVerify(
     @Tag(name="4. System")
     @GetMapping("/verify/system/temperature/current")
     fun raspberrypi(): SystemTemperatureModel {
-        return systemClient.getSystemTemperature()
+        return systemTemperatureClient.getSystemTemperature()
     }
 
     @Tag(name="4. System")
     @GetMapping("/verify/backupprocess/current")
-    fun getBackupStats(): List<DropboxDataModel> {
+    fun getBackupStats(): List<BackupDataModel> {
         return dropboxClient.getBackupStats()
     }
 

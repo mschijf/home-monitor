@@ -1,6 +1,6 @@
 package ms.homemonitor.system.cliclient
 
-import ms.homemonitor.system.cliclient.model.DropboxDataModel
+import ms.homemonitor.system.cliclient.model.BackupDataModel
 import ms.homemonitor.shared.tools.commandline.CommandExecutor
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -15,11 +15,11 @@ class DropboxClient(
 
     private val log = LoggerFactory.getLogger(DropboxClient::class.java)
 
-    fun getBackupStats(): List<DropboxDataModel> {
+    fun getBackupStats(): List<BackupDataModel> {
         return try {
             commandExecutor.execCommand(dropboxUploader, arrayListOf("list", "Backup/home-monitor/"))
                 .filter { it.endsWith("postgres") }
-                .map { it.toBackupStats() }
+                .map { it.toBackupDataModel() }
                 .sortedBy { it.dateTime }
         } catch (e: Exception) {
             log.error("Couldn't retrieve backup list, caused by ${e.message}")
@@ -39,7 +39,7 @@ class DropboxClient(
         }
     }
 
-    private fun String.toBackupStats(): DropboxDataModel {
+    private fun String.toBackupDataModel() : BackupDataModel {
         val fields = this.split("\\s+".toRegex())
         val year = fields[3].substring(0, 4).toInt()
         val month = fields[3].substring(4, 6).toInt()
@@ -47,7 +47,7 @@ class DropboxClient(
         val hour = fields[3].substring(9, 11).toInt()
         val minute = fields[3].substring(11, 13).toInt()
         val second = fields[3].substring(13, 15).toInt()
-        return DropboxDataModel(fields[2].toLong(), LocalDateTime.of(year, month, day, hour, minute, second))
+        return BackupDataModel(fields[2].toLong(), LocalDateTime.of(year, month, day, hour, minute, second))
     }
 
 }

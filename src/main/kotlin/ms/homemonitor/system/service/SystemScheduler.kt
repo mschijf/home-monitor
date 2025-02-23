@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class SystemScheduler(
-    private val dbStatsService: DbStatsService,
-    private val backupService: BackupService,
-    private val systemTemperatureService: SystemTemperatureService,
+    private val systemService: SystemService,
     @Value("\${home-monitor.system.enabled}") private val enabled: Boolean,
     @Value("\${home-monitor.system.backup.enabled}") private val backupEnabled: Boolean,
 ) {
@@ -16,24 +14,24 @@ class SystemScheduler(
     @Scheduled(cron = "0 * * * * *")
     fun dbStats() {
         if (enabled)
-            dbStatsService.processDbStats()
+            systemService.processDbStats()
     }
 
     @Scheduled(cron = "0 0 * * * *")
     fun doBackup() {
         if (backupEnabled)
-            backupService.executeBackup(keep=672)
+            systemService.executeBackup(keep=672)
     }
 
     @Scheduled(cron = "0 10 * * * *")
     fun dropboxFreeSpace() {
         if (enabled)
-            dbStatsService.processBackupStats()
+            systemService.processBackupStats()
     }
 
     @Scheduled(cron = "0 * * * * *")
     fun systemTemperatureMeasurement() {
         if (enabled)
-            systemTemperatureService.processMeasurement()
+            systemService.processMeasurement()
     }
 }
