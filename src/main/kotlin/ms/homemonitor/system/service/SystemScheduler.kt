@@ -21,7 +21,7 @@ class SystemScheduler(
     fun doBackup() {
         if (backupEnabled) {
             systemService.executeBackup()
-            systemService.cleanUp(keep = 672)
+            systemService.cleanUp()
         }
     }
 

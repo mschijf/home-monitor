@@ -54,6 +54,8 @@ home-monitor:
     backup:
       enabled: false
       script: ${home-monitor.mock-location}/backup.sh
+      keep: 3
+      postfix: _postgres
 
 
 

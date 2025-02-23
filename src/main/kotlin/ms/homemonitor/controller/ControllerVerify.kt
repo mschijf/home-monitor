@@ -98,6 +98,6 @@ class ControllerVerify(
     @Tag(name="4. System")
     @DeleteMapping("/verify/backup/cleanup")
     fun cleanupBackup() {
-        systemService.cleanUp(672)
+        systemService.cleanUp()
     }
 }

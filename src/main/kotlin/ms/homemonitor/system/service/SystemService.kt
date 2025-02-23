@@ -7,6 +7,7 @@ import ms.homemonitor.system.cliclient.SystemTemperatureClient
 import ms.homemonitor.system.repository.BackupStatsEntity
 import ms.homemonitor.system.repository.BackupStatsRepository
 import ms.homemonitor.system.repository.DatabaseAdminRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import kotlin.math.max
 
@@ -17,7 +18,9 @@ class SystemService(
     private val backupStatsRepository: BackupStatsRepository,
     private val databaseAdminRepository: DatabaseAdminRepository,
     private val dropboxClient: DropboxClient,
-    private val measurement: MicroMeterMeasurement
+    private val measurement: MicroMeterMeasurement,
+    @Value("\${home-monitor.system.backup.keep}") private val keepNumberOfBackupFiles: Int,
+    @Value("\${home-monitor.system.backup.postfix}") private val backupPostfix: String
 ) {
 
     fun processMeasurement() {
@@ -32,22 +35,22 @@ class SystemService(
     }
 
     fun executeBackup() {
-        val data = backupClient.executeBackup("_postgres")
+        val data = backupClient.executeBackup(backupPostfix)
         measurement.setDoubleGauge("homeMonitorBackupSize", data.fileSize.toDouble())
     }
 
-    fun cleanUp(keep: Int) {
-        val backupList = dropboxClient.getBackupStats(filter = "_postgres")
-        if (backupList.size > keep) {
-            backupList.take(backupList.size - keep).forEach { dropboxRecord ->
+    fun cleanUp() {
+        val backupList = dropboxClient.getBackupStats(filter = backupPostfix)
+        if (backupList.size > keepNumberOfBackupFiles) {
+            backupList.take(backupList.size - keepNumberOfBackupFiles).forEach { dropboxRecord ->
                 dropboxClient.deleteFile(dropboxRecord.fileName)
             }
         }
-        measurement.setDoubleGauge("homeMonitorBackupCount", max(keep, backupList.size).toDouble())
+        measurement.setDoubleGauge("homeMonitorBackupCount", max(keepNumberOfBackupFiles, backupList.size).toDouble())
     }
 
     fun processBackupStats() {
-        val stats = dropboxClient.getBackupStats(filter = "_postgres")
+        val stats = dropboxClient.getBackupStats(filter = backupPostfix)
         val freeSpace = dropboxClient.getFreeBackupSpace()
         if (stats.isNotEmpty()) {
             val entity = backupStatsRepository.findById(1).orElse(BackupStatsEntity(1))

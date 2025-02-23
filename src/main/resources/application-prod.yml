@@ -33,6 +33,7 @@ home-monitor:
     backup:
       enabled: true
       script: /home/martinschijf/home-monitor-backup-script/backup.sh
+      keep: 672
 
 
   log:
