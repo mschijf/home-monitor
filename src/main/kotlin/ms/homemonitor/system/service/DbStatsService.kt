@@ -1,6 +1,6 @@
 package ms.homemonitor.system.service
 
-import ms.homemonitor.system.cliclient.BackupStats
+import ms.homemonitor.system.cliclient.DropboxClient
 import ms.homemonitor.system.repository.BackupStatsRepository
 import ms.homemonitor.system.repository.BackupStatsEntity
 import ms.homemonitor.system.repository.DatabaseAdminRepository
@@ -12,7 +12,7 @@ class DbStatsService(
     private val backupStatsRepository: BackupStatsRepository,
     private val databaseAdminRepository: DatabaseAdminRepository,
     private val measurement: MicroMeterMeasurement,
-    private val backupStats: BackupStats,
+    private val dropboxClient: DropboxClient,
 ) {
 
     fun processDbStats() {
@@ -21,8 +21,8 @@ class DbStatsService(
     }
 
     fun processBackupStats() {
-        val stats = backupStats.getBackupStats()
-        val freeSpace = backupStats.getFreeBackupSpace()
+        val stats = dropboxClient.getBackupStats()
+        val freeSpace = dropboxClient.getFreeBackupSpace()
         if (stats.isNotEmpty()) {
             val entity = backupStatsRepository.findById(1).orElse(BackupStatsEntity(1))
 

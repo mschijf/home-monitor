@@ -2,13 +2,13 @@ package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import ms.homemonitor.system.cliclient.BackupStats
-import ms.homemonitor.system.cliclient.model.BackupStatsModel
+import ms.homemonitor.system.cliclient.DropboxClient
+import ms.homemonitor.system.cliclient.model.DropboxDataModel
 import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
 import ms.homemonitor.heath.restclient.EnecoRestClient
 import ms.homemonitor.heath.restclient.model.EnecoConsumption
-import ms.homemonitor.system.cliclient.SystemTemperature
+import ms.homemonitor.system.cliclient.SystemClient
 import ms.homemonitor.system.cliclient.model.SystemTemperatureModel
 import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoDayReport
@@ -29,8 +29,8 @@ class ControllerVerify(
     private val homeWizardWaterClient: HomeWizardWaterClient,
     private val tadoRestClient: TadoClient,
     private val enecoRestClient: EnecoRestClient,
-    private val systemTemperature: SystemTemperature,
-    private val backupStats: BackupStats,
+    private val systemClient: SystemClient,
+    private val dropboxClient: DropboxClient,
 ) {
 
     @Tag(name="1. Homewizard")
@@ -74,19 +74,19 @@ class ControllerVerify(
     @Tag(name="4. System")
     @GetMapping("/verify/system/temperature/current")
     fun raspberrypi(): SystemTemperatureModel {
-        return systemTemperature.getSystemTemperature()
+        return systemClient.getSystemTemperature()
     }
 
     @Tag(name="4. System")
     @GetMapping("/verify/backupprocess/current")
-    fun getBackupStats(): List<BackupStatsModel> {
-        return backupStats.getBackupStats()
+    fun getBackupStats(): List<DropboxDataModel> {
+        return dropboxClient.getBackupStats()
     }
 
     @Tag(name="4. System")
     @GetMapping("/verify/backupprocess/space")
     fun getFreeBackupSpace(): Long {
-        return backupStats.getFreeBackupSpace()
+        return dropboxClient.getFreeBackupSpace()
     }
 
 }
