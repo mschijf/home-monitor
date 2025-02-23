@@ -19,7 +19,6 @@ class BackupService(
             val backupOutput = commandExecutor.execCommand(backupScript, arrayListOf("_postgres", "672"))
             val backupSize = backupOutput[1].split("\\s+".toRegex())[2]
             log.info("Backup succeeded. Backup size: $backupSize")
-            println(backupOutput)
         } catch (e: Exception) {
             log.error("Backup failed, caused by ${e.message}")
         }
