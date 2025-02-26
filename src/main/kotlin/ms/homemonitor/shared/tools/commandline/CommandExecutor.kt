@@ -7,10 +7,13 @@ import java.io.InputStreamReader
 
 @Service
 class CommandExecutor {
+
+
     @Throws(IOException::class)
-    fun execCommand(cmd: String, paramList: List<String>): List<String> {
+    fun execCommand(cmd: String): List<String> {
+        val cmdParts = cmd.split("\\s+".toRegex())
         val rt = Runtime.getRuntime()
-        val proc = rt.exec(arrayOf(cmd) + paramList)
+        val proc = rt.exec(cmdParts.toTypedArray())
 
         val stdInput = BufferedReader(InputStreamReader(proc.inputStream)).lines().toList()
         val stdError = BufferedReader(InputStreamReader(proc.errorStream)).lines().toList()

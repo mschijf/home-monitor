@@ -19,8 +19,7 @@ class SystemService(
     private val databaseAdminRepository: DatabaseAdminRepository,
     private val dropboxClient: DropboxClient,
     private val measurement: MicroMeterMeasurement,
-    @Value("\${home-monitor.system.backup.keep}") private val keepNumberOfBackupFiles: Int,
-    @Value("\${home-monitor.system.backup.postfix}") private val backupPostfix: String
+    @Value("\${home-monitor.system.backup.keep}") private val keepNumberOfBackupFiles: Int
 ) {
 
     fun processMeasurement() {
@@ -35,12 +34,12 @@ class SystemService(
     }
 
     fun executeBackup() {
-        val data = backupClient.executeBackup(backupPostfix)
+        val data = backupClient.executeBackup()
         measurement.setDoubleGauge("homeMonitorBackupSize", data.fileSize.toDouble())
     }
 
     fun cleanUp(keep: Int = keepNumberOfBackupFiles) {
-        val backupList = dropboxClient.getBackupStats(filter = backupPostfix)
+        val backupList = dropboxClient.getBackupStats()
         if (backupList.size > keep) {
             backupList.take(backupList.size - keep).forEach { dropboxRecord ->
                 dropboxClient.deleteFile(dropboxRecord.fileName)
@@ -50,7 +49,7 @@ class SystemService(
     }
 
     fun processBackupStats() {
-        val stats = dropboxClient.getBackupStats(filter = backupPostfix)
+        val stats = dropboxClient.getBackupStats()
         val freeSpace = dropboxClient.getFreeBackupSpace()
         if (stats.isNotEmpty()) {
             val entity = backupStatsRepository.findById(1).orElse(BackupStatsEntity(1))

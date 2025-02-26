@@ -10,17 +10,16 @@ import java.time.LocalDateTime
 @Service
 class DropboxClient(
     private val commandExecutor: CommandExecutor,
-    @Value("\${home-monitor.system.dropbox_uploader}") private val dropboxUploader: String
+    @Value("\${home-monitor.system.dropbox.dropbox_uploader}") private val dropboxUploader: String,
+    @Value("\${home-monitor.system.dropbox.root}") private val dropboxRoot: String
 ) {
 
-    private val dropboxRoot = "Backup/home-monitor/"
     private val log = LoggerFactory.getLogger(DropboxClient::class.java)
 
-    fun getBackupStats(filter: String): List<BackupDataModel> {
+    fun getBackupStats(): List<BackupDataModel> {
         return try {
-            commandExecutor.execCommand(dropboxUploader, arrayListOf("list", dropboxRoot))
+            commandExecutor.execCommand("$dropboxUploader list $dropboxRoot")
                 .drop(1)
-                .filter { it.endsWith(filter) }
                 .map { it.toBackupDataModel() }
                 .sortedBy { it.dateTime }
         } catch (e: Exception) {
@@ -31,13 +30,22 @@ class DropboxClient(
 
     fun getFreeBackupSpace(): Long {
         return try {
-            commandExecutor.execCommand(dropboxUploader, arrayListOf("space"))
+            commandExecutor.execCommand("$dropboxUploader space")
                 .first { it.contains("Free:") }
                 .split("\\s+".toRegex())[1]
                 .toLong()
         } catch (e: Exception) {
             log.error("Couldn't retrieve backup space, caused by ${e.message}")
             -1L
+        }
+    }
+
+    fun deleteFile(fileName: String) {
+        try {
+            commandExecutor.execCommand("$dropboxUploader delete $dropboxRoot/$fileName")
+            log.info("Removing from dropbox $dropboxRoot/$fileName")
+        } catch (e: Exception) {
+            log.error("Couldn't remove file with filename $fileName, caused by ${e.message}")
         }
     }
 
@@ -51,14 +59,4 @@ class DropboxClient(
         val second = fields[3].substring(13, 15).toInt()
         return BackupDataModel(fields[2].toLong(), LocalDateTime.of(year, month, day, hour, minute, second), fields[3])
     }
-
-    fun deleteFile(fileName: String) {
-        try {
-            commandExecutor.execCommand(dropboxUploader, arrayListOf("delete", "$dropboxRoot/$fileName"))
-            log.info("Removing from dropbox $dropboxRoot/$fileName")
-        } catch (e: Exception) {
-            log.error("Couldn't remove file with filename $fileName, caused by ${e.message}")
-        }
-    }
-
 }

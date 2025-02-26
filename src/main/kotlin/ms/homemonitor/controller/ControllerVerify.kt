@@ -80,7 +80,7 @@ class ControllerVerify(
     @Tag(name="4. System")
     @GetMapping("/verify/backupprocess/current")
     fun getBackupStats(): List<BackupDataModel> {
-        return dropboxClient.getBackupStats("")
+        return dropboxClient.getBackupStats()
     }
 
     @Tag(name="4. System")

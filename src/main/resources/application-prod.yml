@@ -27,9 +27,11 @@ home-monitor:
 
   system:
     enabled: true
-    cpuTemperatureFile: /sys/class/thermal/thermal_zone0/temp
-    gpuTemperatureCmd: vcgencmd
-    dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
+    cpuTemperatureCmd: cat /sys/class/thermal/thermal_zone0/temp
+    gpuTemperatureCmd: vcgencmd measure_temp
+    dropbox:
+      dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
+      root: Backup/home-monitor/
     backup:
       enabled: true
       script: /home/martinschijf/home-monitor-backup-script/backup.sh

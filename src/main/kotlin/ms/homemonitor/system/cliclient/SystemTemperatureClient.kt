@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class SystemTemperatureClient(
     private val commandExecutor: CommandExecutor,
-    @Value("\${home-monitor.system.cpuTemperatureFile}") private val cpuTemperatureFile: String,
+    @Value("\${home-monitor.system.cpuTemperatureCmd}") private val cpuTemperatureCmd: String,
     @Value("\${home-monitor.system.gpuTemperatureCmd}") private val gpuTemperatureCmd: String,
 ) {
 
@@ -25,7 +25,7 @@ class SystemTemperatureClient(
     private fun getCPUTemperature(): Double {
         return try {
             commandExecutor
-                .execCommand("cat", arrayListOf(cpuTemperatureFile))
+                .execCommand(cpuTemperatureCmd)
                 .first()
                 .toDouble() / 1000.0
         } catch (e: Exception) {
@@ -36,7 +36,8 @@ class SystemTemperatureClient(
 
     private fun getGPUTemperature(): Double {
         return try {
-            return commandExecutor.execCommand(gpuTemperatureCmd, arrayListOf("measure_temp"))[0]
+            return commandExecutor.execCommand(gpuTemperatureCmd)
+                .first()
                 .substringAfter("temp=")
                 .substringBefore("'C")
                 .trim()
