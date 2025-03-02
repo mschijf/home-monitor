@@ -29,16 +29,16 @@ class ApiDefinitions {
     @Bean
     fun verifyGroup(): GroupedOpenApi? {
         return GroupedOpenApi.builder()
-            .group("verify")
-            .displayName("Verify")
+            .group("admin")
+            .displayName("Admin")
             .addOpenApiCustomizer(OpenApiCustomizer { openApi: OpenAPI? ->
                 openApi!!.info = Info()
-                    .title("Verify (Rest)Clients APIs")
+                    .title("Admin or verify (Rest)Clients APIs")
                     .description("verify the working of retrieving current data from several data providers")
                     .version("1.0")
             }
             )
-            .pathsToMatch("/verify/**")
+            .pathsToMatch("/admin/**")
             .build()
     }
 

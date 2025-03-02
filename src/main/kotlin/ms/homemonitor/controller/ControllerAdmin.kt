@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
-import ms.homemonitor.heath.repository.model.ManualMeasuredHeathModel
+import ms.homemonitor.heath.repository.model.ManualHeathCorrectionModel
 import ms.homemonitor.heath.restclient.EnecoRestClient
 import ms.homemonitor.heath.restclient.model.EnecoConsumption
 import ms.homemonitor.heath.service.HeathService
@@ -25,7 +25,7 @@ import java.time.LocalDate
 
 
 @RestController
-class ControllerVerify(
+class ControllerAdmin(
     private val homeWizardElectricityClient: HomeWizardElectricityClient,
     private val homeWizardWaterClient: HomeWizardWaterClient,
     private val tadoRestClient: TadoClient,
@@ -37,19 +37,19 @@ class ControllerVerify(
 ) {
 
     @Tag(name="1. Homewizard")
-    @GetMapping("/verify/homewizard/electricity/current")
+    @GetMapping("/admin/homewizard/electricity/current")
     fun homeWizardElectricity(): HomeWizardElectricityData {
         return homeWizardElectricityClient.getHomeWizardElectricityData()
     }
 
     @Tag(name="1. Homewizard")
-    @GetMapping("/verify/homewizard/water/current")
+    @GetMapping("/admin/homewizard/water/current")
     fun homeWizardWater(): HomeWizardWaterData {
         return homeWizardWaterClient.getHomeWizardWaterData()
     }
 
     @Tag(name="2. Eneco")
-    @GetMapping("/verify/eneco/current")
+    @GetMapping("/admin/eneco/current")
     @Operation(summary = "Be careful using this one." +
             "It uses Selenium to log in to 'mijneneco'. " +
             "Using it many times after each other might lead to 'my account'  to be blocked")
@@ -58,24 +58,23 @@ class ControllerVerify(
     }
 
     @Tag(name="2. Eneco")
-    @PostMapping("/verify/eneco/manual")
-    @Operation(summary = "Set a manual measurement")
-    fun setManualEnecoMeasurement(@RequestBody manualStanding: ManualMeasuredHeathModel) {
-        val resultOk = heathService.setManualMeasurement(manualStanding)
+    @PostMapping("/admin/eneco/correction")
+    @Operation(summary = "Set a manual measurement/correction")
+    fun setManualEnecoMeasurement(@RequestBody manualStanding: ManualHeathCorrectionModel) {
+        val resultOk = heathService.setManualCorrection(manualStanding)
         if (!resultOk) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST)
         }
     }
 
-
     @Tag(name="3. Tado")
-    @GetMapping("/verify/tado/current")
+    @GetMapping("/admin/tado/current")
     fun tado(): TadoResponseModel {
         return tadoRestClient.getTadoResponse()
     }
 
     @Tag(name="3. Tado")
-    @GetMapping("/verify/tado/dayreport")
+    @GetMapping("/admin/tado/dayreport")
     fun tadoHistorical(@RequestParam(name="day", required = false) inputDay: String = LocalDate.now().toString()): TadoDayReport {
         try {
             val dayTime = LocalDate.parse(inputDay)
@@ -86,31 +85,31 @@ class ControllerVerify(
     }
 
     @Tag(name="4. System")
-    @GetMapping("/verify/system/temperature/current")
+    @GetMapping("/admin/system/temperature/current")
     fun raspberrypi(): SystemTemperatureModel {
         return systemTemperatureClient.getSystemTemperature()
     }
 
     @Tag(name="4. System")
-    @GetMapping("/verify/backupprocess/current")
+    @GetMapping("/admin/backupprocess/current")
     fun getBackupStats(): List<BackupDataModel> {
         return dropboxClient.getBackupStats()
     }
 
     @Tag(name="4. System")
-    @GetMapping("/verify/backupprocess/space")
+    @GetMapping("/admin/backupprocess/space")
     fun getFreeBackupSpace(): Long {
         return dropboxClient.getFreeBackupSpace()
     }
 
     @Tag(name="4. System")
-    @PostMapping("/verify/backup")
+    @PostMapping("/admin/backup")
     fun executeBackup() {
         systemService.executeBackup()
     }
 
     @Tag(name="4. System")
-    @DeleteMapping("/verify/backup/cleanup")
+    @DeleteMapping("/admin/backup/cleanup")
     fun cleanupBackup(@RequestParam keep: Int) {
         systemService.cleanUp(keep)
     }

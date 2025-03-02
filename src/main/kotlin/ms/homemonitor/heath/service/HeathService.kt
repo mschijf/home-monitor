@@ -2,10 +2,10 @@ package ms.homemonitor.heath.service
 
 import jakarta.transaction.Transactional
 import ms.homemonitor.heath.repository.HeathRepository
-import ms.homemonitor.heath.repository.ManualMeasuredHeathRepository
+import ms.homemonitor.heath.repository.ManualHeathCorrectionRepository
 import ms.homemonitor.heath.repository.model.HeathEntity
-import ms.homemonitor.heath.repository.model.ManualMeasuredHeathEntity
-import ms.homemonitor.heath.repository.model.ManualMeasuredHeathModel
+import ms.homemonitor.heath.repository.model.ManualHeathCorrectionEntity
+import ms.homemonitor.heath.repository.model.ManualHeathCorrectionModel
 import ms.homemonitor.heath.restclient.EnecoRestClient
 import ms.homemonitor.shared.summary.service.SummaryService
 import ms.homemonitor.shared.summary.service.model.YearSummary
@@ -22,7 +22,7 @@ import kotlin.math.absoluteValue
 @Service
 class HeathService(
     private val heathRepository: HeathRepository,
-    private val manualMeasuredHeathRepository: ManualMeasuredHeathRepository,
+    private val manualHeathCorrectionRepository: ManualHeathCorrectionRepository,
     private val enecoRestClient: EnecoRestClient,
     private val enecoStatsService: EnecoStatsService,
     private val summary: SummaryService,
@@ -37,10 +37,10 @@ class HeathService(
     }
 
     @Transactional
-    fun setManualMeasurement(manualStanding: ManualMeasuredHeathModel): Boolean {
+    fun setManualCorrection(manualStanding: ManualHeathCorrectionModel): Boolean {
         if (okValue(manualStanding)) {
-            manualMeasuredHeathRepository.saveAndFlush(
-                ManualMeasuredHeathEntity(LocalDateTime.now(), manualStanding.heathGJ)
+            manualHeathCorrectionRepository.saveAndFlush(
+                ManualHeathCorrectionEntity(LocalDateTime.now(), manualStanding.heathGJ)
             )
             updateEnecoData()
             return true
@@ -49,7 +49,7 @@ class HeathService(
         }
     }
 
-    private fun okValue(manualStanding: ManualMeasuredHeathModel): Boolean {
+    private fun okValue(manualStanding: ManualHeathCorrectionModel): Boolean {
         val lastHeath = heathRepository.getLastHeathEntity()
         val diff = lastHeath?.heathGJ!!.minus(manualStanding.heathGJ)
         return diff.toDouble().absoluteValue < 1
@@ -93,7 +93,7 @@ class HeathService(
                 )
             }
             .runningFold(lastRecord()) {acc, elt ->
-                val correction = manualMeasuredHeathRepository.getLastCorrectionBetween(acc.time, elt.time)
+                val correction = manualHeathCorrectionRepository.getLastCorrectionBetween(acc.time, elt.time)
                 if (correction != null) {
                     HeathEntity(
                         time = elt.time,

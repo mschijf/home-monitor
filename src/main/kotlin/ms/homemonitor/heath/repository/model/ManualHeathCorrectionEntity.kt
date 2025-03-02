@@ -8,11 +8,11 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "manual_measured_heath")
-class ManualMeasuredHeathEntity(
+@Table(name = "manual_heath_correction")
+class ManualHeathCorrectionEntity(
     @Id
     @Column(name = "time", nullable = false, unique = true)
-    val time: LocalDateTime = LocalDateTime.MIN,
+    val time: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "heath_gj", nullable = true)
     var heathGJ: BigDecimal? =  null

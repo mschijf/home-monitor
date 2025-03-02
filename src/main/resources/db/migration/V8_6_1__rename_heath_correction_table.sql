@@ -1,0 +1,1 @@
+ALTER TABLE manual_measured_heath RENAME TO manual_heath_correction;
