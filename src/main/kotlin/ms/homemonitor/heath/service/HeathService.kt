@@ -1,11 +1,14 @@
 package ms.homemonitor.heath.service
 
 import jakarta.transaction.Transactional
-import ms.homemonitor.heath.repository.model.HeathEntity
 import ms.homemonitor.heath.repository.HeathRepository
+import ms.homemonitor.heath.repository.ManualMeasuredHeathRepository
+import ms.homemonitor.heath.repository.model.HeathEntity
+import ms.homemonitor.heath.repository.model.ManualMeasuredHeathEntity
+import ms.homemonitor.heath.repository.model.ManualMeasuredHeathModel
 import ms.homemonitor.heath.restclient.EnecoRestClient
-import ms.homemonitor.shared.summary.service.model.YearSummary
 import ms.homemonitor.shared.summary.service.SummaryService
+import ms.homemonitor.shared.summary.service.model.YearSummary
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -14,10 +17,12 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
+import kotlin.math.absoluteValue
 
 @Service
 class HeathService(
     private val heathRepository: HeathRepository,
+    private val manualMeasuredHeathRepository: ManualMeasuredHeathRepository,
     private val enecoRestClient: EnecoRestClient,
     private val enecoStatsService: EnecoStatsService,
     private val summary: SummaryService,
@@ -30,6 +35,26 @@ class HeathService(
     fun getYearSummary(): YearSummary {
         return summary.getSummary(heathRepository)
     }
+
+    @Transactional
+    fun setManualMeasurement(manualStanding: ManualMeasuredHeathModel): Boolean {
+        if (okValue(manualStanding)) {
+            manualMeasuredHeathRepository.saveAndFlush(
+                ManualMeasuredHeathEntity(LocalDateTime.now(), manualStanding.heathGJ)
+            )
+            updateEnecoData()
+            return true
+        } else {
+            return false
+        }
+    }
+
+    private fun okValue(manualStanding: ManualMeasuredHeathModel): Boolean {
+        val lastHeath = heathRepository.getLastHeathEntity()
+        val diff = lastHeath?.heathGJ!!.minus(manualStanding.heathGJ)
+        return diff.toDouble().absoluteValue < 1
+    }
+
 
     @Transactional
     fun processMeaurement() {
@@ -68,13 +93,23 @@ class HeathService(
                 )
             }
             .runningFold(lastRecord()) {acc, elt ->
-                HeathEntity(
-                    time = elt.time,
-                    deltaGJ = elt.deltaGJ,
-                    heathGJ = acc.heathGJ?.plus(elt.deltaGJ!!)
-                )
+                val correction = manualMeasuredHeathRepository.getLastCorrectionBetween(acc.time, elt.time)
+                if (correction != null) {
+                    HeathEntity(
+                        time = elt.time,
+                        deltaGJ = correction.heathGJ!!.minus(acc.heathGJ!!),
+                        heathGJ = correction.heathGJ
+                    )
+                } else {
+                    HeathEntity(
+                        time = elt.time,
+                        deltaGJ = elt.heathGJ,
+                        heathGJ = acc.heathGJ?.plus(elt.deltaGJ!!)
+                    )
+                }
             }
             .drop(1)
+
         return newHeathRecordList
     }
 

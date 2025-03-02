@@ -4,8 +4,10 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
+import ms.homemonitor.heath.repository.model.ManualMeasuredHeathModel
 import ms.homemonitor.heath.restclient.EnecoRestClient
 import ms.homemonitor.heath.restclient.model.EnecoConsumption
+import ms.homemonitor.heath.service.HeathService
 import ms.homemonitor.system.cliclient.DropboxClient
 import ms.homemonitor.system.cliclient.SystemTemperatureClient
 import ms.homemonitor.system.cliclient.model.BackupDataModel
@@ -30,7 +32,8 @@ class ControllerVerify(
     private val enecoRestClient: EnecoRestClient,
     private val systemTemperatureClient: SystemTemperatureClient,
     private val dropboxClient: DropboxClient,
-    private val systemService: SystemService
+    private val systemService: SystemService,
+    private val heathService: HeathService
 ) {
 
     @Tag(name="1. Homewizard")
@@ -53,6 +56,17 @@ class ControllerVerify(
     fun getEnecoData(): List<EnecoConsumption> {
         return enecoRestClient.getNewDataFromEneco(LocalDate.now())
     }
+
+    @Tag(name="2. Eneco")
+    @PostMapping("/verify/eneco/manual")
+    @Operation(summary = "Set a manual measurement")
+    fun setManualEnecoMeasurement(@RequestBody manualStanding: ManualMeasuredHeathModel) {
+        val resultOk = heathService.setManualMeasurement(manualStanding)
+        if (!resultOk) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST)
+        }
+    }
+
 
     @Tag(name="3. Tado")
     @GetMapping("/verify/tado/current")
