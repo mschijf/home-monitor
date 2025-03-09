@@ -117,7 +117,7 @@ class HeathService(
         val lastUpdateTime = enecoStatsService.getLastSuccessfullUpdate()
         val now = LocalDateTime.now()
         val diff = ChronoUnit.HOURS.between(lastUpdateTime, now)
-        if (diff > 5) {
+        if (diff > 12) {
             log.error("Last succesfull update more than $diff hours ago. Last succesfull one was at $lastUpdateTime")
         }
     }

@@ -49,7 +49,7 @@ class EnecoRestClient(
     private fun getEnecoHourDataFromEneco(start: LocalDate, end: LocalDate): List<EnecoUsageEntry> {
         val secrets = enecoAccessToken.getEnecoSecretsOrNull()
         if (secrets == null) {
-            log.warn("Could not retrieve the secrets from Eneco")
+            log.info("Could not retrieve the secrets from Eneco")
             return emptyList()
         } else {
             val result = mutableListOf<EnecoUsageEntry>()

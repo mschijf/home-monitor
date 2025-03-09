@@ -18,7 +18,7 @@ class BackupClient(
     fun executeBackup(): BackupDataModel {
         val backupTime = LocalDateTime.now()
         try {
-            log.info("Starting backup")
+            log.debug("Starting backup")
             val backupOutput = commandExecutor.execCommand(backupScript)
             val backupOutputParts = backupOutput.first().trim().split("\\s+".toRegex())
             val backupFileName = backupOutputParts[0]

@@ -26,7 +26,7 @@ class EnecoAccessToken(
     private fun scrapeEnecoPage():String {
         try {
 
-            log.info("start reading new Eneco data")
+            log.debug("start reading new Eneco data")
 
             WebDriverManager.firefoxdriver().setup()
 
@@ -61,7 +61,7 @@ class EnecoAccessToken(
 
             driver.quit()
 
-            log.info("Finish reading new Eneco data")
+            log.debug("Finish reading new Eneco data")
             return pageSource ?: ""
 
         } catch (e: Exception) {

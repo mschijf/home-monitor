@@ -43,7 +43,7 @@ class DropboxClient(
     fun deleteFile(fileName: String) {
         try {
             commandExecutor.execCommand("$dropboxUploader delete $dropboxRoot/$fileName")
-            log.info("Removing from dropbox $dropboxRoot/$fileName")
+            log.debug("Removing from dropbox $dropboxRoot/$fileName")
         } catch (e: Exception) {
             log.error("Couldn't remove file with filename $fileName, caused by ${e.message}")
         }
