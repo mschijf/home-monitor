@@ -16,7 +16,10 @@ data class EnecoOAuth(
     companion object {
         private val log = LoggerFactory.getLogger(EnecoOAuth::class.java)
 
-        fun of(htmlPage: String): EnecoOAuth? {
+        fun of(htmlPage: String?): EnecoOAuth? {
+            if (htmlPage == null)
+                return null
+
             val apiKey = getValueForKey(htmlPage, "FE_DC_API_KEY")
             val accessToken = getValueForKey(htmlPage, "accessToken")
             return if (apiKey.isEmpty() || accessToken.isEmpty())

@@ -23,7 +23,7 @@ class EnecoAccessToken(
         return EnecoOAuth.of(sourcePage)
     }
 
-    private fun scrapeEnecoPage():String {
+    private fun scrapeEnecoPage():String? {
         try {
 
             log.debug("start reading new Eneco data")
@@ -64,9 +64,12 @@ class EnecoAccessToken(
             log.debug("Finish reading new Eneco data")
             return pageSource ?: ""
 
+        } catch (nse: NoSuchElementException) {
+            log.info("Cannot find one of the elements - identifier or password. Probably page not loaded correctly")
+            return null
         } catch (e: Exception) {
             log.error("Some error occurred", e)
-            return ""
+            return null
         }
     }
 }
