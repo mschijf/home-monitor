@@ -13,7 +13,7 @@ spring:
   flyway:
     user: home-monitor
     password: home-monitor
-    enablede: true
+    enabled: true
     baselineOnMigrate: true
     baseline-version: 0
 
@@ -25,20 +25,17 @@ home-monitor:
   mock-location: ./mock
 
   homewizard:
-    enabled: false
     electricityBaseRestUrl: http://192.168.2.40/api/v1
     waterBaseRestUrl: http://192.168.2.42/api/v1
     initialWaterValue: 799.017
 
   eneco:
-    enabled: false
     initialDate: 2024-01-01T00:00:00
     initialHeathValue: 196.196
     username: not_for_dev
     password: not_for_dev
 
   tado:
-    enabled: false
     tokenUrl: https://auth.tado.com/oauth/token
     clientId: public-api-preview
     clientSecret: 4HJGRffVR8xb3XdEUQpjgZ1VplJi6Xgw
@@ -47,19 +44,35 @@ home-monitor:
     password: not_for_dev
 
   system:
-    enabled: false
     cpuTemperatureCmd: cat ${home-monitor.mock-location}/sys_class_thermal_thermal_zone0_temp
     gpuTemperatureCmd: ${home-monitor.mock-location}/vcgencmd.sh measure_temp
     dropbox:
         dropbox_uploader: ${home-monitor.mock-location}/dropbox_uploader.sh
         root: Backup/home-monitor/
     backup:
-      enabled: false
       script: ${home-monitor.mock-location}/backup.sh
       keep: 3
 
   log:
     location: ${home-monitor.mock-location}/log
+
+  scheduler:
+    electricity:
+      detailed: "-"
+      regular: "-"
+    water:
+      detailed: "-"
+      regular: "-"
+    tado:
+      regular: "-"
+    heath:
+      updateEnecoStats: "-"
+    system:
+      temperature: "-"
+      dbStats: "-"
+      backup: "-"
+      dropboxFreeSpace: "-"
+
 
 management:
   endpoints:

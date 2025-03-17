@@ -10,32 +10,44 @@ spring:
     password: ${home-monitor.datasource.password}
 
 home-monitor:
-  homewizard:
-    enabled: true
+#  homewizard:
 #    username: defined_in_secrets
 #    password: defined_in_secrets
 
-  tado:
-    enabled: true
+#  tado:
 #    username: defined_in_secrets
 #    password: defined_in_secrets
 
-  eneco:
-    enabled: true
+#  eneco:
 #    username: defined_in_secrets
 #    password: defined_in_secrets
 
   system:
-    enabled: true
     cpuTemperatureCmd: cat /sys/class/thermal/thermal_zone0/temp
     gpuTemperatureCmd: vcgencmd measure_temp
     dropbox:
       dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
       root: Backup/home-monitor/
     backup:
-      enabled: true
       script: /home/martinschijf/home-monitor-backup-script/backup.sh
       keep: 672
+
+  scheduler:
+    electricity:
+      detailed: 0/10 * * * * *
+      regular: 0 * * * * *
+    water:
+      detailed: 0/10 * * * * *
+      regular: 0 * * * * *
+    tado:
+      regular: 0 * * * * *
+    heath:
+      updateEnecoStats: 0 0 1-23/2 * * *
+    system:
+      temperature: 0 * * * * *
+      dbStats: 0 * * * * *
+      backup: 0 15 1-23/2 * * *
+      dropboxFreeSpace: 0 20 1-23/2 * * *
 
 
   log:

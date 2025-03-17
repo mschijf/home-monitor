@@ -1,39 +1,31 @@
 package ms.homemonitor.system.service
 
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
 class SystemScheduler(
-    private val systemService: SystemService,
-    @Value("\${home-monitor.system.enabled}") private val enabled: Boolean,
-    @Value("\${home-monitor.system.backup.enabled}") private val backupEnabled: Boolean,
+    private val systemService: SystemService
 ) {
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "\${home-monitor.scheduler.system.dbStats}")
     fun dbStats() {
-        if (enabled)
-            systemService.processDbStats()
+        systemService.processDbStats()
     }
 
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "\${home-monitor.scheduler.system.backup}")
     fun doBackup() {
-        if (backupEnabled) {
-            systemService.executeBackup()
-            systemService.cleanUp()
-        }
+        systemService.executeBackup()
+        systemService.cleanUp()
     }
 
-    @Scheduled(cron = "0 10 * * * *")
+    @Scheduled(cron = "\${home-monitor.scheduler.system.dropboxFreeSpace}")
     fun dropboxFreeSpace() {
-        if (enabled)
-            systemService.processBackupStats()
+        systemService.processBackupStats()
     }
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "\${home-monitor.scheduler.system.temperature}")
     fun systemTemperatureMeasurement() {
-        if (enabled)
-            systemService.processMeasurement()
+        systemService.processMeasurement()
     }
 }

@@ -1,25 +1,21 @@
 package ms.homemonitor.water.service
 
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
 class HomeWizardWaterScheduler(
-    private val homeWizardWaterService: HomeWizardWaterService,
-    @Value("\${home-monitor.homewizard.enabled}") private val enabled: Boolean,
+    private val homeWizardWaterService: HomeWizardWaterService
 ) {
 
-    @Scheduled(cron = "0/10 * * * * *")
+    @Scheduled(cron = "\${home-monitor.scheduler.water.detailed}")
     fun detailedWaterMeasurement() {
-        if (enabled)
-            homeWizardWaterService.processMeasurement(persistentStore = false)
+        homeWizardWaterService.processMeasurement(persistentStore = false)
     }
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "\${home-monitor.scheduler.water.regular}")
     fun minuteMeasurement() {
-        if (enabled)
-            homeWizardWaterService.processMeasurement(persistentStore = true)
+        homeWizardWaterService.processMeasurement(persistentStore = true)
     }
 
 }
