@@ -13,6 +13,7 @@ import ms.homemonitor.system.cliclient.SystemTemperatureClient
 import ms.homemonitor.system.cliclient.model.BackupDataModel
 import ms.homemonitor.system.cliclient.model.SystemTemperatureModel
 import ms.homemonitor.system.service.SystemService
+import ms.homemonitor.tado.restclient.TadoAccessToken
 import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoResponseModel
@@ -28,6 +29,7 @@ import java.time.LocalDate
 class ControllerAdmin(
     private val homeWizardElectricityClient: HomeWizardElectricityClient,
     private val homeWizardWaterClient: HomeWizardWaterClient,
+    private val tadoAccessToken: TadoAccessToken,
     private val tadoRestClient: TadoClient,
     private val enecoRestClient: EnecoRestClient,
     private val systemTemperatureClient: SystemTemperatureClient,
@@ -65,6 +67,18 @@ class ControllerAdmin(
         if (!resultOk) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST)
         }
+    }
+
+    @Tag(name="3. Tado")
+    @PostMapping("/admin/tado/getAccessDeviceUrl")
+    fun tadoDeviceAuthorization(): Any? {
+        return tadoAccessToken.newTadoAccessDeviceAuthorization()
+    }
+
+    @Tag(name="3. Tado")
+    @PostMapping("/admin/tado/confirmDevice")
+    fun tadoConfirmDeviceAuthorization(): Any? {
+        return tadoAccessToken.confirmNewTadoAccessDiviceAuthorization()
     }
 
     @Tag(name="3. Tado")

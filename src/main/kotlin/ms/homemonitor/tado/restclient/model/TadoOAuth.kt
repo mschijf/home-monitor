@@ -18,6 +18,9 @@ data class TadoOAuth(
     @JsonProperty("scope")
     val scope: String,
 
-    @JsonProperty("jti")
-    val jti: String,
+    @JsonProperty("userId")
+    val userId: String,
+
+//    @JsonProperty("jti")
+//    val jti: String,
 )
