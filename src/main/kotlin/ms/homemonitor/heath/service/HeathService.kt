@@ -68,7 +68,14 @@ class HeathService(
     private fun updateEnecoData(): Boolean {
         val beginningOfLastDay = clearLastDay()
         val newHeathRecordList = getNewDataFromDate(beginningOfLastDay.toLocalDate())
-        heathRepository.saveAllAndFlush(newHeathRecordList)
+        newHeathRecordList.forEach { heathRecord ->
+            try {
+                heathRepository.saveAndFlush(heathRecord)
+            } catch (e: Exception) {
+                log.info("Ignore exception ' ${e.message}' while updating record $heathRecord")
+            }
+        }
+
         return newHeathRecordList.isNotEmpty()
     }
 
