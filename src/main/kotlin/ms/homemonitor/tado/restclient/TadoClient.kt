@@ -29,10 +29,10 @@ class TadoClient(
 
     private inline fun <reified T : Any>getTadoObjectViaRest(endPoint: String): T  {
         val headers = HttpHeaders()
-        headers.setBearerAuth(tadoAccessToken.getTadoAccessToken())
+        headers.setBearerAuth(tadoAccessToken.getTadoAccessToken(refresh = false))
         var response = restTemplate.getForEntityWithHeader<T>(endPoint, HttpEntity<Any?>(headers))
         if (response.statusCode == HttpStatus.UNAUTHORIZED) {
-            headers.setBearerAuth(tadoAccessToken.refreshedTadoAccessToken())
+            headers.setBearerAuth(tadoAccessToken.getTadoAccessToken(refresh = true))
             response = restTemplate.getForEntityWithHeader<T>(endPoint, HttpEntity<Any?>(headers))
         }
         return response.body!!
@@ -40,10 +40,10 @@ class TadoClient(
 
     private fun getTadoResponseAsStringViaRest(endPoint: String): String  {
         val headers = HttpHeaders()
-        headers.setBearerAuth(tadoAccessToken.getTadoAccessToken())
+        headers.setBearerAuth(tadoAccessToken.getTadoAccessToken(refresh = false))
         var response = restTemplate.getForEntityWithHeader<String>(endPoint, HttpEntity<Any?>(headers))
         if (response.statusCode == HttpStatus.UNAUTHORIZED) {
-            headers.setBearerAuth(tadoAccessToken.refreshedTadoAccessToken())
+            headers.setBearerAuth(tadoAccessToken.getTadoAccessToken(refresh = true))
             response = restTemplate.getForEntityWithHeader<String>(endPoint, HttpEntity<Any?>(headers))
         }
         return response.body!!

@@ -1,5 +1,6 @@
 package ms.homemonitor.tado.restclient
 
+import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.tado.repository.TadoTokenRepository
 import ms.homemonitor.tado.repository.model.TadoTokenEntity
 import ms.homemonitor.tado.restclient.model.TadoDeviceAuthorization
@@ -29,13 +30,15 @@ class TadoAccessToken(
     private var deviceAuthorization: TadoDeviceAuthorization? = null
     private var accessTokenObject: TadoOAuth? = null
 
-    fun getTadoAccessToken(): String {
-        return getTadoOAuthObject().accessToken
-    }
-
-    fun refreshedTadoAccessToken(): String {
-        newTadoGetTokensUsingRefreshToken(accessTokenObject!!.refreshToken)
-        return getTadoOAuthObject().accessToken
+    fun getTadoAccessToken(refresh: Boolean): String {
+        try {
+            if (refresh) {
+                newTadoGetTokensUsingRefreshToken(accessTokenObject!!.refreshToken)
+            }
+            return getTadoOAuthObject().accessToken
+        } catch (ex: Exception) {
+            throw HomeMonitorException("Error getting access token", ex)
+        }
     }
 
     private fun newTadoGetTokensUsingRefreshToken(refreshToken: String): TadoOAuth? {
@@ -52,7 +55,7 @@ class TadoAccessToken(
         if (accessTokenObject == null) {
             val refreshToken = readLastRefreshToken()
             if (refreshToken.isEmpty()) {
-                log.error("Refresh token is empty")
+                log.info("Refresh token is empty")
             }
             accessTokenObject = newTadoGetTokensUsingRefreshToken(refreshToken)
         }
