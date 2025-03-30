@@ -29,6 +29,25 @@ class TadoAccessToken(
     private var deviceAuthorization: TadoDeviceAuthorization? = null
     private var accessTokenObject: TadoOAuth? = null
 
+    fun getTadoAccessToken(): String {
+        return getTadoOAuthObject().accessToken
+    }
+
+    fun refreshedTadoAccessToken(): String {
+        newTadoGetTokensUsingRefreshToken(accessTokenObject!!.refreshToken)
+        return getTadoOAuthObject().accessToken
+    }
+
+    private fun newTadoGetTokensUsingRefreshToken(refreshToken: String): TadoOAuth? {
+        val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
+        bodyMap.add("client_id", clientId)
+        bodyMap.add("grant_type", "refresh_token")
+        bodyMap.add("refresh_token", refreshToken)
+
+        resetAccessTokenObject(bodyMap)
+        return accessTokenObject
+    }
+
     private fun getTadoOAuthObject() : TadoOAuth {
         if (accessTokenObject == null) {
             val refreshToken = readLastRefreshToken()
@@ -38,15 +57,6 @@ class TadoAccessToken(
             accessTokenObject = newTadoGetTokensUsingRefreshToken(refreshToken)
         }
         return accessTokenObject!!
-    }
-
-    fun getTadoAccessToken(): String {
-        return getTadoOAuthObject().accessToken
-    }
-
-    fun refreshedTadoAccessToken(): String {
-        newTadoGetTokensUsingRefreshToken(accessTokenObject!!.refreshToken)
-        return getTadoOAuthObject().accessToken
     }
 
     fun newTadoAccessDeviceAuthorization(): Any? {
@@ -71,16 +81,6 @@ class TadoAccessToken(
 
         resetAccessTokenObject(bodyMap)
 
-        return accessTokenObject
-    }
-
-    private fun newTadoGetTokensUsingRefreshToken(refreshToken: String): TadoOAuth? {
-        val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
-        bodyMap.add("client_id", clientId)
-        bodyMap.add("grant_type", "refresh_token")
-        bodyMap.add("refresh_token", refreshToken)
-
-        resetAccessTokenObject(bodyMap)
         return accessTokenObject
     }
 
