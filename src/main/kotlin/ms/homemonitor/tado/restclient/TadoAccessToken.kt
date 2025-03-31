@@ -16,6 +16,11 @@ import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
 import java.time.LocalDateTime
 
+
+/**
+ * See: https://support.tado.com/en/articles/8565472-how-do-i-authenticate-to-access-the-rest-api
+ */
+
 @Service
 class TadoAccessToken(
     @Value("\${home-monitor.tado.deviceUrl}") private val deviceUrl: String,
