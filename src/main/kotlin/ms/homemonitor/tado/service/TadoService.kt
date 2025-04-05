@@ -1,7 +1,6 @@
 package ms.homemonitor.tado.service
 
 import ms.homemonitor.shared.HomeMonitorException
-import ms.homemonitor.shared.tools.dateRangeByDay
 import ms.homemonitor.tado.repository.TadoHourAggregateRepository
 import ms.homemonitor.tado.repository.TadoRepository
 import ms.homemonitor.tado.repository.model.TadoEntity
@@ -77,13 +76,12 @@ class TadoService(
         }
     }
 
-    fun processHistory() {
-        val start = LocalDate.of(2024, 1, 1)
-//        val end = LocalDate.of(2024, 4, 1)
-        val end = LocalDate.now()
-        dateRangeByDay(start, end).forEach { day ->
-            println(day)
-            processHourAggregateMeasurement(day)
-        }
-    }
+//    fun processHistory() {
+//        val start = LocalDate.of(2024, 4, 1)
+//        val end = LocalDate.now()
+//        dateRangeByDay(start, end).forEach { day ->
+//            println(day)
+//            processHourAggregateMeasurement(day)
+//        }
+//    }
 }

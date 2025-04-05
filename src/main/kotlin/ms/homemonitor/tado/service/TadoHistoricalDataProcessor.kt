@@ -43,6 +43,7 @@ class TadoHistoricalDataProcessor(
             tadoClient.getTadoHistoricalInfo(day)
         }
 
+
         val tadoDayDetails = TadoDayReportDetails(tadoDayReport)
         return dateTimeRangeByMinute(day.atStartOfDay(), day.plusDays(1).atStartOfDay().minusSeconds(1))
             .map { time -> tadoDayDetails.getTadoReportTimeUnit(time) }
