@@ -1,17 +1,24 @@
 package ms.homemonitor.tado.service
 
 import ms.homemonitor.shared.HomeMonitorException
+import ms.homemonitor.shared.tools.dateRangeByDay
+import ms.homemonitor.tado.repository.TadoHourAggregateRepository
 import ms.homemonitor.tado.repository.TadoRepository
 import ms.homemonitor.tado.repository.model.TadoEntity
+import ms.homemonitor.tado.repository.model.TadoHourAggregateEntity
 import ms.homemonitor.tado.restclient.TadoClient
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
 @Service
 class TadoService(
     private val tadoClient: TadoClient,
-    private val tadoRepository: TadoRepository) {
+    private val tadoRepository: TadoRepository,
+    private val tadoHistoricalDataProcessor: TadoHistoricalDataProcessor,
+    private val tadoHourAggregateRepository: TadoHourAggregateRepository,
+) {
 
     fun processMeasurement(timeUnit: TimeUnit) {
         try {
@@ -37,6 +44,29 @@ class TadoService(
         }
     }
 
+    fun processHourAggregateMeasurement(day:LocalDate = LocalDate.now()) {
+        tadoHistoricalDataProcessor.getHourAggregateList(day, useFile = false).forEach { tadoHour ->
+            try {
+                tadoHourAggregateRepository.saveAndFlush(
+                    TadoHourAggregateEntity(
+                        time = tadoHour.time,
+                        insideTemperature = tadoHour.insideTemperature,
+                        outsideTemperature = tadoHour.outsideTemperature,
+                        humidityPercentage = tadoHour.humidityPercentage,
+                        powerOnMinutes = tadoHour.powerOnMinutes,
+                        settingTemperature = tadoHour.settingTemperature,
+                        sunnyMinutes = tadoHour.sunnyMinutes,
+                        weatherState = tadoHour.weatherState,
+                        callForHeat = tadoHour.callForHeat,
+                    )
+                )
+            } catch (e: Exception) {
+                throw HomeMonitorException("Error while processing Tado Aggregate Data", e)
+            }
+        }
+    }
+
+
     private fun callForHeatValue(heatingPowerPercentage: Double): Int {
         return when {
             (heatingPowerPercentage <= 0) -> 0
@@ -47,49 +77,13 @@ class TadoService(
         }
     }
 
-//    fun processDayReport(day: LocalDate = LocalDate.now()) {
-//        val today = day
-//        val yesterday = today.minusDays(1)
-//        val dayReport = tadoClient.getTadoHistoricalInfo(yesterday)
-//        val measuredList = tadoRepository.findBetweenDates(yesterday.atStartOfDay(), today.atStartOfDay())
-//        val tadoDayDetails = TadoDayReportDetails(dayReport)
-//        measuredList.forEach { currentEntity ->
-//            val dataReportEntity = tadoDayDetails.getTadoReportTimeUnit(currentEntity.time)
-//            if (currentEntity.callForHeat == null) {
-//                currentEntity.callForHeat = dataReportEntity.callForHeat
-//                tadoRepository.save(currentEntity)
-//            } else {
-//                if (currentEntity.callForHeat != dataReportEntity.callForHeat) {
-//                    log.warn("${currentEntity.time} 'call for heat' has value ${currentEntity.callForHeat}, but ${dataReportEntity.callForHeat} was expected")
-//                    currentEntity.callForHeat = dataReportEntity.callForHeat
-//                    tadoRepository.save(currentEntity)
-//                }
-//            }
-//        }
-//        tadoRepository.flush()
-//    }
-//
-//    fun processHistory() {
-//        val start = LocalDate.of(2024, 3, 30)
-//        val end = LocalDate.of(2024, 11, 17)
-//        dateRangeByDay(start, end).forEach { day ->
-//            println(day)
-//            val list = tadoHistoricalDataProcessor
-//                .processHistoricalDay(day, useFile = true)
-//                .map { dayUnit -> TadoEntity(
-//                    time = dayUnit.time,
-//                    insideTemperature = dayUnit.insideTemperature,
-//                    humidityPercentage = dayUnit.humidityPercentage,
-//                    heatingPowerPercentage = null,
-//                    settingPowerOn = dayUnit.settingPowerOn,
-//                    settingTemperature = dayUnit.settingTemperature,
-//                    outsideTemperature = dayUnit.outsideTemperature,
-//                    solarIntensityPercentage = null,
-//                    weatherState = dayUnit.weatherState,
-//                    callForHeat = dayUnit.callForHeat,
-//                    density = "h"
-//                ) }
-//            list.forEach { tadoRepository.saveAndFlush(it) }
-//        }
-//    }
+    fun processHistory() {
+        val start = LocalDate.of(2024, 1, 1)
+//        val end = LocalDate.of(2024, 4, 1)
+        val end = LocalDate.now()
+        dateRangeByDay(start, end).forEach { day ->
+            println(day)
+            processHourAggregateMeasurement(day)
+        }
+    }
 }

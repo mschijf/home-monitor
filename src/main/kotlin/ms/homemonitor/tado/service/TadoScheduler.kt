@@ -13,4 +13,10 @@ class TadoScheduler(
     fun tadoMeasurement() {
         tadoService.processMeasurement(TimeUnit.MINUTES)
     }
+
+    @Scheduled(cron = "\${home-monitor.scheduler.tado.hourSummary}")
+    fun tadoMeasurementHour() {
+        tadoService.processHourAggregateMeasurement()
+    }
+
 }

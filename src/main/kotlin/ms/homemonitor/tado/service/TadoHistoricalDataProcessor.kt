@@ -35,7 +35,7 @@ class TadoHistoricalDataProcessor(
         return objectMapper
     }
 
-    fun processHistoricalDay(day: LocalDate, useFile: Boolean = false): List<TadoReportTimeUnit> {
+    fun getHourAggregateList(day: LocalDate, useFile: Boolean = false): List<TadoReportTimeUnit> {
         val tadoDayReport: TadoDayReport = if (useFile) {
             val jsonString = File("data/tado/dayreport_$day").bufferedReader().readLine()
             objectMapper.readValue(jsonString)
@@ -55,15 +55,15 @@ class TadoHistoricalDataProcessor(
         val lastTado = tadoMinuteList.last()
         val lastTime = lastTado.time
         val aggregate = TadoReportTimeUnit(
-            time = LocalDateTime.of(lastTime.year, lastTime.month, lastTime.dayOfMonth, lastTime.hour, 0, 0).plusHours(1),
+            time = LocalDateTime.of(lastTime.year, lastTime.month, lastTime.dayOfMonth, lastTime.hour, 0, 0),
             insideTemperature = tadoMinuteList.sumOf { it.insideTemperature ?: 0.0 } / tadoMinuteList.size,
             outsideTemperature = tadoMinuteList.sumOf { it.outsideTemperature ?: 0.0 } / tadoMinuteList.size,
             humidityPercentage = tadoMinuteList.sumOf { it.humidityPercentage ?: 0.0 } / tadoMinuteList.size,
             sunnyMinutes = tadoMinuteList.sumOf { it.sunnyMinutes ?: 0 },
             callForHeat = tadoMinuteList.map { it.callForHeat ?: 0 }.average().roundToInt(),
             settingTemperature = tadoMinuteList.sumOf { it.settingTemperature ?: 0.0 } / tadoMinuteList.size,
-            settingPowerOn = tadoMinuteList.any { it.settingPowerOn == true },
-            weatherState = lastTado.weatherState
+            powerOnMinutes = tadoMinuteList.sumOf { it.powerOnMinutes ?: 0 },
+            weatherState = tadoMinuteList.last().weatherState,
         )
         return aggregate
     }

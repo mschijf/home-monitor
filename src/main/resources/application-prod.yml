@@ -41,6 +41,7 @@ home-monitor:
       regular: 0 * * * * *
     tado:
       regular: 0 * * * * *
+      hourSummary: 0 0 * * * *
     heath:
       updateEnecoStats: 0 0 1-23/2 * * *
     system:

@@ -5,11 +5,11 @@ import java.time.LocalDateTime
 data class TadoReportTimeUnit(
     val time: LocalDateTime = LocalDateTime.MIN,
     val insideTemperature: Double?,
-    val humidityPercentage: Double?,
-    val settingPowerOn: Boolean?,
-    val callForHeat: Int?,
-    val settingTemperature: Double?,
     val outsideTemperature: Double?,
+    val humidityPercentage: Double?,
+    val powerOnMinutes: Int?,
+    val settingTemperature: Double?,
     val sunnyMinutes: Int?,
-    val weatherState: String?
+    val weatherState: String?,
+    val callForHeat: Int?,
 )
