@@ -6,6 +6,7 @@ import ms.homemonitor.tado.repository.TadoRepository
 import ms.homemonitor.tado.repository.model.TadoEntity
 import ms.homemonitor.tado.repository.model.TadoHourAggregateEntity
 import ms.homemonitor.tado.restclient.TadoClient
+import ms.homemonitor.tado.service.model.TadoDayReportTimeUnit
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -14,7 +15,6 @@ import java.time.LocalDateTime
 class TadoService(
     private val tadoClient: TadoClient,
     private val tadoRepository: TadoRepository,
-    private val tadoHistoricalDataProcessor: TadoHistoricalDataProcessor,
     private val tadoHourAggregateRepository: TadoHourAggregateRepository,
 ) {
 
@@ -41,7 +41,7 @@ class TadoService(
     }
 
     fun processHourAggregateMeasurement(day:LocalDate = LocalDate.now()) {
-        tadoHistoricalDataProcessor.getHourAggregateList(day).forEach { tadoHour ->
+        getHourAggregateList(day).forEach { tadoHour ->
             try {
                 tadoHourAggregateRepository.saveAndFlush(
                     TadoHourAggregateEntity(
@@ -61,6 +61,12 @@ class TadoService(
             }
         }
     }
+
+    private fun getHourAggregateList(day: LocalDate): List<TadoDayReportTimeUnit> {
+        val tadoDayReport = tadoClient.getTadoHistoricalInfo(day)
+        return TadoDayReportDetails(tadoDayReport, day).getHourList()
+    }
+
 
 //    fun processHistory() {
 //        val start = LocalDate.of(2024, 4, 1)
