@@ -36,10 +36,4 @@ class TadoEntity(
 
     @Column(name = "weather_state", nullable = true)
     var weatherState: String? =  null,
-
-    @Column(name = "call_for_heat", nullable = true)
-    var callForHeat: Int? =  null,
-
-    @Column(name = "density", nullable = true)
-    var density: String? =  null,
 )

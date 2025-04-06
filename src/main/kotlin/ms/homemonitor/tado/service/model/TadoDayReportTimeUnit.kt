@@ -2,7 +2,7 @@ package ms.homemonitor.tado.service.model
 
 import java.time.LocalDateTime
 
-data class TadoReportTimeUnit(
+data class TadoDayReportTimeUnit(
     val time: LocalDateTime = LocalDateTime.MIN,
     val insideTemperature: Double?,
     val outsideTemperature: Double?,

@@ -9,7 +9,6 @@ import ms.homemonitor.tado.restclient.TadoClient
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.concurrent.TimeUnit
 
 @Service
 class TadoService(
@@ -19,7 +18,7 @@ class TadoService(
     private val tadoHourAggregateRepository: TadoHourAggregateRepository,
 ) {
 
-    fun processMeasurement(timeUnit: TimeUnit) {
+    fun processMeasurement() {
         try {
             val now = LocalDateTime.now()
             val tadoResponse = tadoClient.getTadoResponse()
@@ -34,8 +33,6 @@ class TadoService(
                     outsideTemperature = tadoResponse.weather.outsideTemperature.celsius,
                     solarIntensityPercentage = tadoResponse.weather.solarIntensity.percentage,
                     weatherState = tadoResponse.weather.weatherState.value,
-                    callForHeat = callForHeatValue(tadoResponse.tadoState.activityDataPoints.heatingPower.percentage),
-                    density = if (timeUnit == TimeUnit.MINUTES) "m" else "h"
                 )
             )
         } catch (e: Exception) {
@@ -44,7 +41,7 @@ class TadoService(
     }
 
     fun processHourAggregateMeasurement(day:LocalDate = LocalDate.now()) {
-        tadoHistoricalDataProcessor.getHourAggregateList(day, useFile = false).forEach { tadoHour ->
+        tadoHistoricalDataProcessor.getHourAggregateList(day).forEach { tadoHour ->
             try {
                 tadoHourAggregateRepository.saveAndFlush(
                     TadoHourAggregateEntity(
@@ -62,17 +59,6 @@ class TadoService(
             } catch (e: Exception) {
                 throw HomeMonitorException("Error while processing Tado Aggregate Data", e)
             }
-        }
-    }
-
-
-    private fun callForHeatValue(heatingPowerPercentage: Double): Int {
-        return when {
-            (heatingPowerPercentage <= 0) -> 0
-            (heatingPowerPercentage >= 1) and (heatingPowerPercentage <= 33) -> 10
-            (heatingPowerPercentage >= 34) and (heatingPowerPercentage <= 66) -> 20
-            (heatingPowerPercentage >= 67) and (heatingPowerPercentage <= 100) -> 30
-            else -> 0
         }
     }
 

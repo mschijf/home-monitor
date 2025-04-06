@@ -1,6 +1,6 @@
 package ms.homemonitor.tado.service
 
-import ms.homemonitor.tado.service.model.TadoReportTimeUnit
+import ms.homemonitor.tado.service.model.TadoDayReportTimeUnit
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -18,7 +18,7 @@ data class TadoDayReportDetails(private val tadoDayReport: TadoDayReport) {
     private val callForHeatList = tadoDayReport.callForHeat.dataIntervals.map { it.from.tadoTimeToLocalTime() to it.value }.sortedBy { it.first }
     private val isSunnyList = tadoDayReport.weather.sunny.dataIntervals.map { it.from.tadoTimeToLocalTime() to it.value }.sortedBy { it.first }
 
-    fun getTadoReportTimeUnit(localTime: LocalDateTime): TadoReportTimeUnit {
+    fun getTadoReportTimeUnit(localTime: LocalDateTime): TadoDayReportTimeUnit {
         val insideTemperature = insideTemperaturelist.lastOrNull { it.first.isBefore(localTime.plusNanos(1)) }?.second
         val humidityPercentage = humidityPercentageList.lastOrNull { it.first.isBefore(localTime.plusNanos(1)) }?.second
         val callForHeat = callForHeatList.lastOrNull{ it.first.isBefore(localTime.plusNanos(1)) }?.second
@@ -28,7 +28,7 @@ data class TadoDayReportDetails(private val tadoDayReport: TadoDayReport) {
         val isSunny = isSunnyList.lastOrNull { it.first.isBefore(localTime.plusNanos(1)) }?.second == true
         val weatherState = weatherStateList.lastOrNull { it.first.isBefore(localTime.plusNanos(1)) }?.second
 
-        return TadoReportTimeUnit(
+        return TadoDayReportTimeUnit(
             time = localTime,
             insideTemperature = insideTemperature,
             outsideTemperature = outsideTemperature,

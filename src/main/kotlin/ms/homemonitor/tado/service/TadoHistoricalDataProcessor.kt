@@ -1,16 +1,9 @@
 package ms.homemonitor.tado.service
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import ms.homemonitor.shared.tools.dateTimeRangeByMinute
-import ms.homemonitor.tado.service.model.TadoReportTimeUnit
 import ms.homemonitor.tado.restclient.TadoClient
-import ms.homemonitor.tado.restclient.model.TadoDayReport
+import ms.homemonitor.tado.service.model.TadoDayReportTimeUnit
 import org.springframework.stereotype.Service
-import java.io.File
 import java.time.LocalDate
 import java.time.LocalDateTime
 import kotlin.math.roundToInt
@@ -20,30 +13,28 @@ class TadoHistoricalDataProcessor(
     private val tadoClient: TadoClient
 ) {
 
-    private val objectMapper = defineObjectMapper()
-
-    fun writeToFile(date: LocalDate) {
-        val response = tadoClient.getTadoHistoricalInfoAsString(date)
-        val f = File("data/tado/dayreport_$date")
-        f.writeText(response)
-    }
-
-    private fun defineObjectMapper(): ObjectMapper {
-        val objectMapper = jacksonObjectMapper()
-        objectMapper.registerModule(JavaTimeModule())
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        return objectMapper
-    }
-
-    fun getHourAggregateList(day: LocalDate, useFile: Boolean = false): List<TadoReportTimeUnit> {
-        val tadoDayReport: TadoDayReport = if (useFile) {
-            val jsonString = File("data/tado/dayreport_$day").bufferedReader().readLine()
-            objectMapper.readValue(jsonString)
-        } else {
-            tadoClient.getTadoHistoricalInfo(day)
-        }
-
-
+//    private val objectMapper = defineObjectMapper()
+//
+//    fun writeToFile(date: LocalDate) {
+//        val response = tadoClient.getTadoHistoricalInfoAsString(date)
+//        val f = File("data/tado/dayreport_$date")
+//        f.writeText(response)
+//    }
+//
+//    private fun defineObjectMapper(): ObjectMapper {
+//        val objectMapper = jacksonObjectMapper()
+//        objectMapper.registerModule(JavaTimeModule())
+//        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+//        return objectMapper
+//    }
+//
+//    private fun getDayReportFromFile(day: LocalDate) {
+//        val jsonString = File("data/tado/dayreport_$day").bufferedReader().readLine()
+//        return objectMapper.readValue(jsonString)
+//    }
+//
+    fun getHourAggregateList(day: LocalDate): List<TadoDayReportTimeUnit> {
+        val tadoDayReport = tadoClient.getTadoHistoricalInfo(day)
         val tadoDayDetails = TadoDayReportDetails(tadoDayReport)
         return dateTimeRangeByMinute(day.atStartOfDay(), day.plusDays(1).atStartOfDay().minusSeconds(1))
             .map { time -> tadoDayDetails.getTadoReportTimeUnit(time) }
@@ -52,10 +43,10 @@ class TadoHistoricalDataProcessor(
             .values.toList()
     }
 
-    private fun aggregateTadoReportTimeUnitMinuteListToHour(tadoMinuteList: List<TadoReportTimeUnit>): TadoReportTimeUnit {
+    private fun aggregateTadoReportTimeUnitMinuteListToHour(tadoMinuteList: List<TadoDayReportTimeUnit>): TadoDayReportTimeUnit {
         val lastTado = tadoMinuteList.last()
         val lastTime = lastTado.time
-        val aggregate = TadoReportTimeUnit(
+        val aggregate = TadoDayReportTimeUnit(
             time = LocalDateTime.of(lastTime.year, lastTime.month, lastTime.dayOfMonth, lastTime.hour, 0, 0),
             insideTemperature = tadoMinuteList.sumOf { it.insideTemperature ?: 0.0 } / tadoMinuteList.size,
             outsideTemperature = tadoMinuteList.sumOf { it.outsideTemperature ?: 0.0 } / tadoMinuteList.size,
