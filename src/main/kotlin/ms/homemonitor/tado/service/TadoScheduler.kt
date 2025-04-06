@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class TadoScheduler(
-    private val tadoService: TadoService
+    private val tadoService: TadoService,
+    private val tadoDayReportService: TadoDayReportService
 ) {
 
     @Scheduled(cron = "\${home-monitor.scheduler.tado.regular}")
@@ -15,7 +16,7 @@ class TadoScheduler(
 
     @Scheduled(cron = "\${home-monitor.scheduler.tado.hourSummary}")
     fun tadoMeasurementHour() {
-        tadoService.processHourAggregateMeasurement()
+        tadoDayReportService.processHourAggregateMeasurement()
     }
 
 }
