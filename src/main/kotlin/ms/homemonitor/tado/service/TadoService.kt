@@ -11,7 +11,6 @@ import java.time.LocalDateTime
 class TadoService(
     private val tadoClient: TadoClient,
     private val tadoRepository: TadoRepository,
-    private val tadoDayReportService: TadoDayReportService
 ) {
 
     fun processMeasurement() {
