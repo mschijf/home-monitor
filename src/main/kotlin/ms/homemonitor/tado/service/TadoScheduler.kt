@@ -19,4 +19,8 @@ class TadoScheduler(
         tadoDayReportService.processHourAggregateMeasurement()
     }
 
+    @Scheduled(cron = "\${home-monitor.scheduler.tado.cleanup}")
+    fun tadoCleanup() {
+        tadoService.cleanupOldData(keepDays = 90L)
+    }
 }

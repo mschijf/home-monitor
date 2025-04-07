@@ -64,6 +64,7 @@ home-monitor:
     tado:
       regular: "-"
       hourSummary: "-"
+      cleanup: "-"
     heath:
       updateEnecoStats: "-"
     system:
