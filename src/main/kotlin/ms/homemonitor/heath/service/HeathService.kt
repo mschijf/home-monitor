@@ -110,7 +110,7 @@ class HeathService(
                 } else {
                     HeathEntity(
                         time = elt.time,
-                        deltaGJ = elt.heathGJ,
+                        deltaGJ = elt.deltaGJ,
                         heathGJ = acc.heathGJ?.plus(elt.deltaGJ!!)
                     )
                 }
