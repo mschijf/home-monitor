@@ -1,5 +1,6 @@
 package ms.homemonitor.heath.service
 
+import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
@@ -7,9 +8,14 @@ import org.springframework.stereotype.Service
 class HeathScheduler(
     private val heathService: HeathService
 ) {
+    val log = LoggerFactory.getLogger(javaClass)
 
     @Scheduled(cron = "\${home-monitor.scheduler.heath.updateEnecoStats}")
     fun updateEnecoStatistics() {
-        heathService.processMeaurement()
+        try {
+            heathService.processMeaurement()
+        } catch (e: Exception) {
+            log.error(e.message, e)
+        }
     }
 }

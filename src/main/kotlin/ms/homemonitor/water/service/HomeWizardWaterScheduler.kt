@@ -1,5 +1,6 @@
 package ms.homemonitor.water.service
 
+import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
@@ -8,14 +9,25 @@ class HomeWizardWaterScheduler(
     private val homeWizardWaterService: HomeWizardWaterService
 ) {
 
+    val log = LoggerFactory.getLogger(javaClass)
+
     @Scheduled(cron = "\${home-monitor.scheduler.water.detailed}")
     fun detailedWaterMeasurement() {
-        homeWizardWaterService.processMeasurement(persistentStore = false)
+        try {
+            homeWizardWaterService.processMeasurement(persistentStore = false)
+        } catch (e: Exception) {
+            log.error(e.message, e)
+        }
+
     }
 
     @Scheduled(cron = "\${home-monitor.scheduler.water.regular}")
     fun minuteMeasurement() {
-        homeWizardWaterService.processMeasurement(persistentStore = true)
+        try {
+            homeWizardWaterService.processMeasurement(persistentStore = true)
+        } catch (e: Exception) {
+            log.error(e.message, e)
+        }
     }
 
 }
