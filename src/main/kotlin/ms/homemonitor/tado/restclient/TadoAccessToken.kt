@@ -103,6 +103,7 @@ class TadoAccessToken(
 
     private fun storeToken(accessToken: TadoOAuth?) {
         if (accessToken != null) {
+            tadoTokenRepository.deleteAll()
             tadoTokenRepository.save(
                 TadoTokenEntity(LocalDateTime.now(), accessToken.refreshToken)
             )
