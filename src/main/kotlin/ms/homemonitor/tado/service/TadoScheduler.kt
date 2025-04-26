@@ -39,6 +39,5 @@ class TadoScheduler(
         } catch (e: Exception) {
             log.error(e.message, e)
         }
-
     }
 }

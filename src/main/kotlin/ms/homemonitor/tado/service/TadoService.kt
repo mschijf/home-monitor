@@ -43,8 +43,8 @@ class TadoService(
     @Transactional
     fun cleanupOldData(keepDays: Long) {
         val beforeTime = LocalDate.now().minusDays(keepDays)
-        val recordsTodelete = tadoRepository.countRecordsBeforeTime(beforeTime.atStartOfDay())
+        val recordsToDelete = tadoRepository.countRecordsBeforeTime(beforeTime.atStartOfDay())
         tadoRepository.deleteDataBeforeTime(beforeTime.atStartOfDay())
-        log.info("Deleted $recordsTodelete tado records")
+        log.info("Deleted $recordsToDelete tado records")
     }
 }

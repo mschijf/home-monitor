@@ -30,4 +30,13 @@ class HomeWizardWaterScheduler(
         }
     }
 
+    @Scheduled(cron = "\${home-monitor.scheduler.water.cleanup}")
+    fun waterCleanup() {
+        try {
+            homeWizardWaterService.cleanupOldData(keepDays = 90L)
+        } catch (e: Exception) {
+            log.error(e.message, e)
+        }
+    }
+
 }

@@ -28,4 +28,13 @@ class HomeWizardElectricityScheduler(
             log.error(e.message, e)
         }
     }
+
+    @Scheduled(cron = "\${home-monitor.scheduler.electricity.cleanup}")
+    fun electricityCleanup() {
+        try {
+            homeWizardElectricityService.cleanupOldData(keepDays = 90L)
+        } catch (e: Exception) {
+            log.error(e.message, e)
+        }
+    }
 }

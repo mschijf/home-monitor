@@ -58,9 +58,11 @@ home-monitor:
     electricity:
       detailed: "-"
       regular: "-"
+      cleanup: "-"
     water:
       detailed: "-"
       regular: "-"
+      cleanup: "-"
     tado:
       regular: "-"
       hourSummary: "-"
