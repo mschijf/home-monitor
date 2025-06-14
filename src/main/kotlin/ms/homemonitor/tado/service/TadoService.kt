@@ -60,7 +60,6 @@ class TadoService(
                 batteryState = deviceInfo.batteryState
             )
         )
-        println("Battery Info: ${deviceInfo.batteryState}")
     }
 
 }
