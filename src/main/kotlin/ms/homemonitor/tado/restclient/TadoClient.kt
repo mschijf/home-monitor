@@ -7,6 +7,7 @@ import ms.homemonitor.tado.restclient.model.TadoState
 import ms.homemonitor.tado.restclient.model.TadoWeather
 import ms.homemonitor.tado.restclient.model.TadoZone
 import ms.homemonitor.shared.tools.rest.getForEntityWithHeader
+import ms.homemonitor.tado.restclient.model.TadoDevice
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -68,7 +69,15 @@ class TadoClient(
     fun getTadoResponse(): TadoResponseModel {
         val homeId = getTadoMe().homes[0].id
         val zoneId = getTadoZonesForHome(homeId)[0].id
-        return TadoResponseModel(getTadoStateForZone(homeId, zoneId), getTadoOutsideWeather(homeId))
+        return TadoResponseModel(
+            getTadoStateForZone(homeId, zoneId),
+            getTadoOutsideWeather(homeId))
+    }
+
+    fun getTadoDeviceInfo(): TadoDevice {
+        val homeId = getTadoMe().homes[0].id
+        val deviceList: List<TadoDevice> = getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/devices")
+        return deviceList.first { it.deviceType == "RU02" }
     }
 
     fun getTadoHistoricalInfo(day: LocalDate) : TadoDayReport {

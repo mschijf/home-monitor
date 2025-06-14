@@ -44,6 +44,7 @@ home-monitor:
     tado:
       regular: 0 * * * * *
       hourSummary: 0 0 * * * *
+      deviceState: 0 0 1 * * *
       cleanup: 0 1 0 * * *
     heath:
       updateEnecoStats: 0 0 1-23/2 * * *

@@ -16,6 +16,7 @@ import ms.homemonitor.system.service.SystemService
 import ms.homemonitor.tado.restclient.TadoAccessToken
 import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoDayReport
+import ms.homemonitor.tado.restclient.model.TadoDevice
 import ms.homemonitor.tado.restclient.model.TadoResponseModel
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import ms.homemonitor.water.restclient.model.HomeWizardWaterData
@@ -85,6 +86,12 @@ class ControllerAdmin(
     @GetMapping("/admin/tado/current")
     fun tado(): TadoResponseModel {
         return tadoRestClient.getTadoResponse()
+    }
+
+    @Tag(name="3. Tado")
+    @GetMapping("/admin/tado/device")
+    fun tadoDevice(): TadoDevice {
+        return tadoRestClient.getTadoDeviceInfo()
     }
 
     @Tag(name="3. Tado")

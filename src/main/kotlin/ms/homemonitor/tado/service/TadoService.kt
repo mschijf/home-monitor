@@ -2,7 +2,9 @@ package ms.homemonitor.tado.service
 
 import jakarta.transaction.Transactional
 import ms.homemonitor.shared.HomeMonitorException
+import ms.homemonitor.tado.repository.TadoDeviceRepository
 import ms.homemonitor.tado.repository.TadoRepository
+import ms.homemonitor.tado.repository.model.TadoDeviceEntity
 import ms.homemonitor.tado.repository.model.TadoEntity
 import ms.homemonitor.tado.restclient.TadoClient
 import org.slf4j.LoggerFactory
@@ -14,6 +16,7 @@ import java.time.LocalDateTime
 class TadoService(
     private val tadoClient: TadoClient,
     private val tadoRepository: TadoRepository,
+    private val tadoDeviceRepository: TadoDeviceRepository,
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -47,4 +50,17 @@ class TadoService(
         tadoRepository.deleteDataBeforeTime(beforeTime.atStartOfDay())
         log.info("Deleted $recordsToDelete tado records")
     }
+
+    fun processDeviceInfo() {
+        val now = LocalDateTime.now()
+        val deviceInfo = tadoClient.getTadoDeviceInfo()
+        tadoDeviceRepository.saveAndFlush(
+            TadoDeviceEntity(
+                time=now,
+                batteryState = deviceInfo.batteryState
+            )
+        )
+        println("Battery Info: ${deviceInfo.batteryState}")
+    }
+
 }

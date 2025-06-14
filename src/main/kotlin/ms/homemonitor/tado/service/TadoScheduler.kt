@@ -29,7 +29,15 @@ class TadoScheduler(
         } catch (e: Exception) {
             log.error(e.message, e)
         }
+    }
 
+    @Scheduled(cron = "\${home-monitor.scheduler.tado.deviceState}")
+    fun tadoBattery() {
+        try {
+            tadoService.processDeviceInfo()
+        } catch (e: Exception) {
+            log.error(e.message, e)
+        }
     }
 
     @Scheduled(cron = "\${home-monitor.scheduler.tado.cleanup}")
