@@ -18,6 +18,7 @@ import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoDevice
 import ms.homemonitor.tado.restclient.model.TadoResponseModel
+import ms.homemonitor.tado.service.TadoService
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import ms.homemonitor.water.restclient.model.HomeWizardWaterData
 import org.springframework.http.HttpStatus
@@ -36,7 +37,8 @@ class ControllerAdmin(
     private val systemTemperatureClient: SystemTemperatureClient,
     private val dropboxClient: DropboxClient,
     private val systemService: SystemService,
-    private val heathService: HeathService
+    private val heathService: HeathService,
+    private val tadoService: TadoService,
 ) {
 
     @Tag(name="1. Homewizard")
@@ -91,6 +93,13 @@ class ControllerAdmin(
     @Tag(name="3. Tado")
     @GetMapping("/admin/tado/device")
     fun tadoDevice(): TadoDevice {
+        return tadoRestClient.getTadoDeviceInfo()
+    }
+
+    @Tag(name="3. Tado")
+    @PostMapping("/admin/tado/device")
+    fun tadoStoreDeviceInfo(): TadoDevice {
+        tadoService.processDeviceInfo()
         return tadoRestClient.getTadoDeviceInfo()
     }
 
