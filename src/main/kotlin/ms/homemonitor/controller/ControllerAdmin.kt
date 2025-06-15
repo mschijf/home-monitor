@@ -22,8 +22,11 @@ import ms.homemonitor.tado.service.TadoService
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import ms.homemonitor.water.restclient.model.HomeWizardWaterData
 import org.springframework.http.HttpStatus
+import org.springframework.ui.Model
+import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.servlet.ModelAndView
 import java.time.LocalDate
 
 
@@ -40,6 +43,12 @@ class ControllerAdmin(
     private val heathService: HeathService,
     private val tadoService: TadoService,
 ) {
+
+    @GetMapping("/")
+    fun home(model: ModelMap): ModelAndView {
+        model.addAttribute("attribute", "redirectWithRedirectPrefix")
+        return ModelAndView("redirect:/swagger-ui/index.html", model)
+    }
 
     @Tag(name="1. Homewizard")
     @GetMapping("/admin/homewizard/electricity/current")
