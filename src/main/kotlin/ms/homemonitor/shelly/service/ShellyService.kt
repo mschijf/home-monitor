@@ -14,7 +14,6 @@ class ShellyService(
 ) {
 
     fun processMeasurement() {
-        println("asdasddasasdasd")
         try {
             val now = LocalDateTime.now()
             val shellyResponse = shellyClient.getShellyThermometerData()
