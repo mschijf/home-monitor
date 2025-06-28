@@ -22,6 +22,10 @@ home-monitor:
 #    username: defined_in_secrets
 #    password: defined_in_secrets
 
+#  shelly:
+#    deviceId: defined_in_secrets
+#    authorizationKey: defined_in_secrets
+
   system:
     cpuTemperatureCmd: cat /sys/class/thermal/thermal_zone0/temp
     gpuTemperatureCmd: vcgencmd measure_temp
@@ -48,6 +52,8 @@ home-monitor:
       cleanup: 0 1 0 * * *
     heath:
       updateEnecoStats: 0 0 1-23/2 * * *
+    shelly:
+      regular: 0 0/5 * * * *
     system:
       temperature: 0 * * * * *
       dbStats: 0 * * * * *

@@ -41,6 +41,12 @@ home-monitor:
     clientId: 1bb50063-6b0c-4d11-bd99-387f4a91cc46
     baseRestUrl: https://my.tado.com/api/v2
 
+
+  shelly:
+    thermometerBaseRestUrl: https://shelly-189-eu.shelly.cloud/device/
+    deviceId: not_for_dev
+    authorizationKey: not_for_dev
+
   system:
     cpuTemperatureCmd: cat ${home-monitor.mock-location}/sys_class_thermal_thermal_zone0_temp
     gpuTemperatureCmd: ${home-monitor.mock-location}/vcgencmd.sh measure_temp
@@ -68,6 +74,8 @@ home-monitor:
       hourSummary: "-"
       deviceState: "-"
       cleanup: "-"
+    shelly:
+      regular: "-"
     heath:
       updateEnecoStats: "-"
     system:

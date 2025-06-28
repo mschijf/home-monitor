@@ -8,6 +8,8 @@ import ms.homemonitor.heath.repository.model.ManualHeathCorrectionModel
 import ms.homemonitor.heath.restclient.EnecoRestClient
 import ms.homemonitor.heath.restclient.model.EnecoConsumption
 import ms.homemonitor.heath.service.HeathService
+import ms.homemonitor.shelly.restclient.ShellyClient
+import ms.homemonitor.shelly.restclient.model.ShellyThermometerData
 import ms.homemonitor.system.cliclient.DropboxClient
 import ms.homemonitor.system.cliclient.SystemTemperatureClient
 import ms.homemonitor.system.cliclient.model.BackupDataModel
@@ -22,7 +24,6 @@ import ms.homemonitor.tado.service.TadoService
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import ms.homemonitor.water.restclient.model.HomeWizardWaterData
 import org.springframework.http.HttpStatus
-import org.springframework.ui.Model
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
@@ -36,6 +37,7 @@ class ControllerAdmin(
     private val homeWizardWaterClient: HomeWizardWaterClient,
     private val tadoAccessToken: TadoAccessToken,
     private val tadoRestClient: TadoClient,
+    private val shellyRestClient: ShellyClient,
     private val enecoRestClient: EnecoRestClient,
     private val systemTemperatureClient: SystemTemperatureClient,
     private val dropboxClient: DropboxClient,
@@ -123,31 +125,38 @@ class ControllerAdmin(
         }
     }
 
-    @Tag(name="4. System")
+    @Tag(name="4. Shelly")
+    @GetMapping("/admin/shelly/status")
+    fun shellyStatus(): ShellyThermometerData {
+        return shellyRestClient.getShellyThermometerData()
+    }
+
+
+    @Tag(name="5. System")
     @GetMapping("/admin/system/temperature/current")
     fun raspberrypi(): SystemTemperatureModel {
         return systemTemperatureClient.getSystemTemperature()
     }
 
-    @Tag(name="4. System")
+    @Tag(name="5. System")
     @GetMapping("/admin/backupprocess/current")
     fun getBackupStats(): List<BackupDataModel> {
         return dropboxClient.getBackupStats()
     }
 
-    @Tag(name="4. System")
+    @Tag(name="5. System")
     @GetMapping("/admin/backupprocess/space")
     fun getFreeBackupSpace(): Long {
         return dropboxClient.getFreeBackupSpace()
     }
 
-    @Tag(name="4. System")
+    @Tag(name="5. System")
     @PostMapping("/admin/backup")
     fun executeBackup() {
         systemService.executeBackup()
     }
 
-    @Tag(name="4. System")
+    @Tag(name="5. System")
     @DeleteMapping("/admin/backup/cleanup")
     fun cleanupBackup(@RequestParam keep: Int) {
         systemService.cleanUp(keep)
