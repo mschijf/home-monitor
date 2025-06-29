@@ -1,10 +1,10 @@
 package ms.homemonitor.tado.service
 
+import ms.homemonitor.shared.tools.utcTimeToLocalTime
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoTemperature
 import ms.homemonitor.tado.service.model.TadoDayReportTimeUnit
 import java.time.LocalDateTime
-import java.time.ZoneId
 
 data class TadoDayReportTimeUnitDetails(
     val insideTemperaturelist: List<Pair<LocalDateTime, Double>>,
@@ -22,24 +22,17 @@ data class TadoDayReportTimeUnitDetails(
     companion object {
         fun of(tadoDayReport: TadoDayReport): TadoDayReportTimeUnitDetails {
             return TadoDayReportTimeUnitDetails(
-                insideTemperaturelist = tadoDayReport.measuredData.insideTemperature.dataPoints.map { it.timestamp.tadoTimeToLocalTime() to it.value.celsius }.sortedBy { it.first },
-                humidityPercentageList = tadoDayReport.measuredData.humidity.dataPoints.map { it.timestamp.tadoTimeToLocalTime() to it.value }.sortedBy { it.first },
-                settingPowerOnList = tadoDayReport.settings.dataIntervals.map { it.from.tadoTimeToLocalTime() to it.value.power }.sortedBy { it.first },
-                settingTemperatureList = tadoDayReport.settings.dataIntervals.map { it.from.tadoTimeToLocalTime() to it.value.temperature }.sortedBy { it.first },
+                insideTemperaturelist = tadoDayReport.measuredData.insideTemperature.dataPoints.map { it.timestamp.utcTimeToLocalTime() to it.value.celsius }.sortedBy { it.first },
+                humidityPercentageList = tadoDayReport.measuredData.humidity.dataPoints.map { it.timestamp.utcTimeToLocalTime() to it.value }.sortedBy { it.first },
+                settingPowerOnList = tadoDayReport.settings.dataIntervals.map { it.from.utcTimeToLocalTime() to it.value.power }.sortedBy { it.first },
+                settingTemperatureList = tadoDayReport.settings.dataIntervals.map { it.from.utcTimeToLocalTime() to it.value.temperature }.sortedBy { it.first },
 
-                outsideTemperatureList = tadoDayReport.weather.condition.dataIntervals.map { it.from.tadoTimeToLocalTime() to it.value.temperature }.sortedBy { it.first },
-                weatherStateList = tadoDayReport.weather.condition.dataIntervals.map { it.from.tadoTimeToLocalTime() to it.value.state }.sortedBy { it.first },
+                outsideTemperatureList = tadoDayReport.weather.condition.dataIntervals.map { it.from.utcTimeToLocalTime() to it.value.temperature }.sortedBy { it.first },
+                weatherStateList = tadoDayReport.weather.condition.dataIntervals.map { it.from.utcTimeToLocalTime() to it.value.state }.sortedBy { it.first },
 
-                callForHeatList = tadoDayReport.callForHeat.dataIntervals.map { it.from.tadoTimeToLocalTime() to it.value }.sortedBy { it.first },
-                isSunnyList = tadoDayReport.weather.sunny.dataIntervals.map { it.from.tadoTimeToLocalTime() to it.value }.sortedBy { it.first }
+                callForHeatList = tadoDayReport.callForHeat.dataIntervals.map { it.from.utcTimeToLocalTime() to it.value }.sortedBy { it.first },
+                isSunnyList = tadoDayReport.weather.sunny.dataIntervals.map { it.from.utcTimeToLocalTime() to it.value }.sortedBy { it.first }
             )
-        }
-
-        private fun LocalDateTime.tadoTimeToLocalTime(): LocalDateTime {
-            return this
-                .atZone(ZoneId.of("UTC"))
-                .withZoneSameInstant(ZoneId.of("Europe/Berlin"))
-                .toLocalDateTime()
         }
     }
 
