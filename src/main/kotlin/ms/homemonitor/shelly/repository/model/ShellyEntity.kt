@@ -20,6 +20,6 @@ class ShellyEntity(
     var humidityPercentage: Double? =  null,
 
     @Column(name = "updated", nullable = true)
-    var updated: String? =  null,
+    var updated: LocalDateTime? =  null,
 
 )

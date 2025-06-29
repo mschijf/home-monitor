@@ -26,9 +26,9 @@ class ShellyService(
                     time = now,
                     insideTemperature = shellyResponse.data.deviceStatus.temperature.value,
                     humidityPercentage = shellyResponse.data.deviceStatus.humidity.value,
-                    updated = LocalDateTime.parse(shellyResponse.data.deviceStatus.updated, formatter)
+                    updated = LocalDateTime
+                        .parse(shellyResponse.data.deviceStatus.updated, formatter)
                         .utcTimeToLocalTime()
-                        .toString()
                 )
             )
         } catch (e: Exception) {
