@@ -1,4 +1,4 @@
-START (FLASh to sd card)
+START (FLASH to sd card)
 ========================
 * install ubuntu 24.10 server
 * or instal rapsberry-pi desktop
@@ -194,3 +194,15 @@ sudo apt-get install prometheus-node-exporter
 check: http://192.168.2.39:9100/metrics ==> should exists after install
 je kan dit aan prometheus koppelen, maar dat heb ik niet gedaan.
 
+
+INSTALL OOKLA'S SPEEDTEST.CLI
+=============================
+Voer op pi uit:
+$ curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
+$ sudo apt install speedtest-cli
+
+To check if it works:
+$ speedtest --version
+
+To get result (take a few (10-20) seconds)
+$ speedtest --json
