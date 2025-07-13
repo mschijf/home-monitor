@@ -128,16 +128,40 @@ CREATE DATABASE "home-monitor";
 HOME-MONITOR
 ============
 
-mkdir home-monitor
-add application.yml in home-monitor with right credentials
+mkdir ~/application
+mkdir ~/application/config
+mkdir ~/application/home-monitor
 
-mkdir repository
-git clone {repository-run-scripts}
+add secrets.yml in ~/application/config with right credentials:
+
+--------
+home-monitor:
+  datasource:
+    username: home-monitor-app
+    password: see 1password
+
+  eneco:
+    username: mschijf@icloud.com
+    password: see 1password
+
+  shelly:
+    deviceId: see 1password
+    authorizationKey: see 1password
+-------
+
 
 git clone {home-monitor} on laptop and do mvn clean deploy
 ==> dit installeert de laatste versie in 'repository' en start op pi de applicatie op
 
 
+
+
+INSTALL REPOSITORY UPDATE SCRIPTS
+=================================
+Create directory:
+$ mkdir ~/repository
+$ git clone the repository-run-scripts (see https://github.com/mschijf/repository-run-scripts)
+==> this installs a directory "~/repository/repository-run-scripts/" with two scripts (run.sh and stop.sh)
 
 
 
@@ -165,9 +189,9 @@ fi
 CRONTAB and BACKUP van home-monitor
 ===================================
 
-$ cd ~/home-monitor
+$ cd ~
 $ git clone {home-monitor-backup-script}
-crontab ~/home-monitor/home-monitor-backup-script/crontab_pi
+crontab ~/home-monitor-backup-script/crontab_pi
 
 
 DROPBOX-BACKUP
@@ -206,3 +230,5 @@ $ speedtest --version
 
 To get result (take a few (10-20) seconds)
 $ speedtest --json
+
+
