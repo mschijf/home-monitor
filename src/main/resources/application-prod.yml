@@ -18,6 +18,10 @@ home-monitor:
 #    username: defined_in_secrets
 #    password: defined_in_secrets
 
+#  tuya:
+#    clientId: defined_in_secrets
+#    secret: defined_in_secrets
+
 #  eneco:
 #    username: defined_in_secrets
 #    password: defined_in_secrets
