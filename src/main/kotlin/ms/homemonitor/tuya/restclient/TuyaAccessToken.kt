@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -93,12 +91,18 @@ class TuyaAccessToken(
         }
     }
 
-
     fun getTuyaData(deviceId: String, startTime: LocalDateTime, endTime: LocalDateTime): String {
+
+        val zone = ZoneId.of("Europe/Berlin")
+        val zoneOffSet: ZoneOffset? = zone.rules.getOffset(LocalDateTime.now())
+
+        val startTimeEpoch = startTime.toEpochSecond(zoneOffSet)*1000
+        val endTimeEpoch = endTime.toEpochSecond(zoneOffSet)*1000
+
         val tuyaTime= Instant.now().epochSecond * 1000
         val accessToken = getTuyaAccessToken()
-        val url="/v2.1/cloud/thing/$deviceId/report-logs?codes=add_ele&end_time=1759010400000&size=80&start_time=1758924000000"
-//        val url="/v2.1/cloud/thing/$deviceID/report-logs?codes=add_ele&start_time=1758924000000&end_time=1759010400000&size=80"
+//        val url="/v2.1/cloud/thing/$deviceId/report-logs?codes=add_ele&end_time=1759010400000&size=80&start_time=1758924000000"
+        val url="/v2.1/cloud/thing/$deviceId/report-logs?codes=add_ele&end_time=$endTimeEpoch&size=80&start_time=$startTimeEpoch"
         val data="${clientId}${accessToken}${tuyaTime}GET\n$emptyStringHmacSha256\n\n${url}"
 
         val hashStringFinal = getHmacSha256(data)
