@@ -41,6 +41,10 @@ home-monitor:
     clientId: 1bb50063-6b0c-4d11-bd99-387f4a91cc46
     baseRestUrl: https://my.tado.com/api/v2
 
+  tuya:
+    clientId: not_for_dev
+    secret: not_for_dev
+    baseUrl: https://openapi.tuyaeu.com
 
   shelly:
     thermometerBaseRestUrl: https://shelly-189-eu.shelly.cloud/device/
