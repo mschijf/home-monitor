@@ -1,6 +1,4 @@
-package ms.homemonitor.tuya.restclient.model
-
-import com.fasterxml.jackson.annotation.JsonProperty
+package ms.homemonitor.smartplug.restclient.model
 
 data class TuyaAuthResponse(
     val result: TuyaAuth?,

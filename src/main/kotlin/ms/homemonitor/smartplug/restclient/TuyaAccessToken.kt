@@ -1,8 +1,8 @@
-package ms.homemonitor.tuya.restclient
+package ms.homemonitor.smartplug.restclient
 
 import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.shared.tools.rest.getForEntityWithHeader
-import ms.homemonitor.tuya.restclient.model.TuyaAuthResponse
+import ms.homemonitor.smartplug.restclient.model.TuyaAuthResponse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity

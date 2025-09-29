@@ -1,4 +1,4 @@
-package ms.homemonitor.tuya.restclient.model
+package ms.homemonitor.smartplug.restclient.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
