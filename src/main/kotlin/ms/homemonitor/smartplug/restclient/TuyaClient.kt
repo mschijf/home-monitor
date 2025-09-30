@@ -55,9 +55,15 @@ class TuyaClient(
 
             val deviceUrl = baseUrl + url
             val dataResponse = restTemplate.getForEntityWithHeader<TuyaDataResponse>(deviceUrl, HttpEntity(bodyMap))
-            val logs = dataResponse.body?.result?.logs?:throw Exception("no body or result from Tuya")
+            if (dataResponse.body?.success?:false) {
+                val result = dataResponse.body?.result ?: throw Exception("no body or result from Tuya")
+                val logs = result.logs?:emptyList()
+                return logs.sortedBy { it.eventTime }
+            } else {
+                log.info("success is false for $url")
+                return emptyList()
+            }
 
-            return logs.sortedBy { it.eventTime }
         } catch (ex: Exception) {
             throw HomeMonitorException("Error getting tuya data", ex)
         }

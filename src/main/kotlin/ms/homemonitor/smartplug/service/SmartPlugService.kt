@@ -29,7 +29,7 @@ class SmartPlugService(
     private fun processDevice(deviceId: String) {
         try {
             val lastRecord = smartPlugRepository.getLastSmartPlugEntity(deviceId)
-            val startTime = lastRecord?.id?.time?.minusMinutes(1) ?: LocalDate.now().atStartOfDay().minusMinutes(1)
+            val startTime = lastRecord?.id?.time?.plusSeconds(1) ?: LocalDate.now().atStartOfDay().minusMinutes(1)
             val endTime = LocalDateTime.now().plusMinutes(1)
 
 
