@@ -45,6 +45,7 @@ home-monitor:
     clientId: not_for_dev
     secret: not_for_dev
     baseUrl: https://openapi.tuyaeu.com
+    devices: bf60ff004a1abac9896jej, bf16eb692b0b46ca3fn4ia, bf1452e9dbf6164045ikse, bf7c8e021095eb1bbf1lzp, bf3ebf99b68b4d4fe79pht
 
   shelly:
     thermometerBaseRestUrl: https://shelly-189-eu.shelly.cloud/device/

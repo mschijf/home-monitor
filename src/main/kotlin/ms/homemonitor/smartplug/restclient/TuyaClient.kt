@@ -2,6 +2,7 @@ package ms.homemonitor.smartplug.restclient
 
 import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.shared.tools.rest.getForEntityWithHeader
+import ms.homemonitor.smartplug.restclient.model.TuyaDataDetail
 import ms.homemonitor.smartplug.restclient.model.TuyaDataResponse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -21,21 +22,14 @@ import java.time.*
 class TuyaClient(
     @Value("\${home-monitor.tuya.clientId}") private val clientId: String,
     @Value("\${home-monitor.tuya.baseUrl}") private val baseUrl: String,
+    @Value("\${home-monitor.tuya.devices}") private val deviceList: List<String>,
     private val tuyaAccessToken: TuyaAccessToken
 ) {
 
     private val restTemplate = RestTemplate()
     private val log = LoggerFactory.getLogger(TuyaClient::class.java)
-    private val deviceId = "bf60ff004a1abac9896jej"
 
-    fun getTuyaDataAllDevices():String {
-        return getTuyaData(
-            deviceId,
-            LocalDate.now().minusDays(1).atStartOfDay(),
-            LocalDate.now().atStartOfDay())
-    }
-
-    private fun getTuyaData(deviceId: String, startTime: LocalDateTime, endTime: LocalDateTime): String {
+    fun getTuyaData(deviceId: String, startTime: LocalDateTime, endTime: LocalDateTime): List<TuyaDataDetail> {
 
         val zone = ZoneId.of("Europe/Berlin")
         val zoneOffSet: ZoneOffset? = zone.rules.getOffset(LocalDateTime.now())
@@ -61,22 +55,14 @@ class TuyaClient(
 
             val deviceUrl = baseUrl + url
             val dataResponse = restTemplate.getForEntityWithHeader<TuyaDataResponse>(deviceUrl, HttpEntity(bodyMap))
-            println("========================= DATA")
-            println(dataResponse)
-            println("========================= DATA")
-            val x = dataResponse.body
-            val logs =  x!!.result!!.logs
+            val logs = dataResponse.body?.result?.logs?:throw Exception("no body or result from Tuya")
 
-            logs.sortedBy { it.eventTime }.forEach {
-                println("${ Instant.ofEpochMilli(it.eventTime) }  --> ${it.value}")
-            }
-
-            return "Logs:  Aantal:${logs.size}, Som: ${logs.sumOf { it.value }.toString()}"
-
+            return logs.sortedBy { it.eventTime }
         } catch (ex: Exception) {
             throw HomeMonitorException("Error getting tuya data", ex)
         }
-
     }
+
+    fun getDeviceList() = deviceList
 
 }
