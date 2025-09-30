@@ -71,12 +71,11 @@ class TuyaClient(
         }
     }
 
-    fun getDeviceList() = deviceList
-
-    fun getTuyaDeviceMasterData(deviceId: String): TuyaDeviceMasterData? {
+    fun getTuyaDeviceMasterData(): List<TuyaDeviceMasterData> {
         val tuyaTime= Instant.now().epochSecond * 1000
         val accessToken = tuyaAccessToken.getTuyaAccessToken()
-        val url="/v2.0/cloud/thing/$deviceId"
+        val deviceListForRequest = deviceList.joinToString(",")
+        val url="/v2.0/cloud/thing/batch?device_ids=$deviceListForRequest"
 
         val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
         bodyMap.add("sign_method", "HMAC-SHA256")
@@ -96,7 +95,7 @@ class TuyaClient(
                 return masterData
             } else {
                 log.info("success is false for $url")
-                return null
+                return emptyList()
             }
 
         } catch (ex: Exception) {

@@ -58,6 +58,8 @@ home-monitor:
       updateEnecoStats: 0 0 1-23/2 * * *
     shelly:
       regular: 0 0/5 * * * *
+    smartPlug:
+      regular: 0 1 * * * *
     system:
       temperature: 0 * * * * *
       dbStats: 0 * * * * *

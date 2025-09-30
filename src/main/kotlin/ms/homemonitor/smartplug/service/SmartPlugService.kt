@@ -21,29 +21,25 @@ class SmartPlugService(
     private val zoneId = ZoneId.of("Europe/Berlin")
 
     fun processMeasurement() {
-        //todo: call it every hour(?)
-        val deviceList = tuyaClient.getDeviceList()
-        deviceList.forEach { deviceId ->
-            processDevice(deviceId)
+        val deviceMasterDataList = tuyaClient.getTuyaDeviceMasterData()
+        deviceMasterDataList.forEach { masterData ->
+            processDevice(masterData.deviceId, masterData.customName)
         }
     }
 
-    private fun processDevice(deviceId: String) {
+    private fun processDevice(deviceId: String, deviceName: String) {
         try {
-            val lastRecord = lastRecord(deviceId)
+            val lastRecord = lastRecord(deviceName)
 
             val startTime = lastRecord.id.time?.plusSeconds(1) ?: LocalDate.now().atStartOfDay().minusMinutes(1)
             val endTime = LocalDateTime.now().plusMinutes(1)
 
-
-            val tuyaMasterData = tuyaClient.getTuyaDeviceMasterData(deviceId)
             val tuyaDetailList = tuyaClient.getTuyaData(deviceId, startTime, endTime)
-            val deviceName = tuyaMasterData?.customName ?: deviceId
             val toBeSaveList = tuyaDetailList
                 .map { tuyaDetail ->
                     SmartPlugEntity(
                         SmartPlugId(
-                            deviceName,
+                            name = deviceName,
                             time = LocalDateTime.ofInstant(Instant.ofEpochMilli(tuyaDetail.eventTime), zoneId),
                         ),
                         deltaKWH = BigDecimal(tuyaDetail.value)
@@ -62,16 +58,16 @@ class SmartPlugService(
         }
     }
 
-    private fun lastRecord(deviceId: String): SmartPlugEntity {
+    private fun lastRecord(deviceName: String): SmartPlugEntity {
         return smartPlugRepository
-            .getLastSmartPlugEntity(deviceId)
+            .getLastSmartPlugEntity(deviceName)
             ?: SmartPlugEntity(
                 id = SmartPlugId(
-                    deviceId,
-                    LocalDate.now().atStartOfDay().minusMinutes(1)
+                    name = deviceName,
+                    time = LocalDate.now().atStartOfDay().minusMinutes(1)
                 ),
                 deltaKWH = BigDecimal.ZERO,
-                BigDecimal.ZERO
+                powerKWH = BigDecimal.ZERO
             )
     }
 }

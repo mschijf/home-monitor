@@ -79,6 +79,8 @@ home-monitor:
       hourSummary: "-"
       deviceState: "-"
       cleanup: "-"
+    smartPlug:
+      regular: "-"
     shelly:
       regular: "-"
     heath:
