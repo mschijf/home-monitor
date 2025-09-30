@@ -4,6 +4,8 @@ import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.shared.tools.rest.getForEntityWithHeader
 import ms.homemonitor.smartplug.restclient.model.TuyaDataDetail
 import ms.homemonitor.smartplug.restclient.model.TuyaDataResponse
+import ms.homemonitor.smartplug.restclient.model.TuyaDeviceMasterData
+import ms.homemonitor.smartplug.restclient.model.TuyaDeviceMasterDataResponse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -70,5 +72,36 @@ class TuyaClient(
     }
 
     fun getDeviceList() = deviceList
+
+    fun getTuyaDeviceMasterData(deviceId: String): TuyaDeviceMasterData? {
+        val tuyaTime= Instant.now().epochSecond * 1000
+        val accessToken = tuyaAccessToken.getTuyaAccessToken()
+        val url="/v2.0/cloud/thing/$deviceId"
+
+        val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
+        bodyMap.add("sign_method", "HMAC-SHA256")
+        bodyMap.add("client_id", clientId)
+        bodyMap.add("t", tuyaTime.toString())
+        bodyMap.add("mode", "cors")
+        bodyMap.add("Content-Type", "application/json")
+        bodyMap.add("sign", tuyaAccessToken.getHmacSha256("${clientId}${accessToken}${tuyaTime}", HttpMethod.GET, url))
+        bodyMap.add("access_token", accessToken)
+
+        try {
+
+            val deviceUrl = baseUrl + url
+            val dataResponse = restTemplate.getForEntityWithHeader<TuyaDeviceMasterDataResponse>(deviceUrl, HttpEntity(bodyMap))
+            if (dataResponse.body?.success?:false) {
+                val masterData = dataResponse.body?.result ?: throw Exception("no body or result from Tuya")
+                return masterData
+            } else {
+                log.info("success is false for $url")
+                return null
+            }
+
+        } catch (ex: Exception) {
+            throw HomeMonitorException("Error getting tuya master data", ex)
+        }
+    }
 
 }

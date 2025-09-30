@@ -1,6 +1,7 @@
 package ms.homemonitor.smartplug.restclient
 
 import ms.homemonitor.shared.HomeMonitorException
+import ms.homemonitor.shared.tools.TimedCache
 import ms.homemonitor.shared.tools.rest.getForEntityWithHeader
 import ms.homemonitor.smartplug.restclient.model.TuyaAuthResponse
 import org.slf4j.LoggerFactory
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate
 import java.time.Instant
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
+
 
 /**
  * https://stackoverflow.com/questions/73874058/call-to-tuya-api-via-bash
@@ -29,7 +31,12 @@ class TuyaAccessToken(
     private val restTemplate = RestTemplate()
     private val log = LoggerFactory.getLogger(TuyaClient::class.java)
 
+    private val cachedAccessToken = TimedCache<String>()
+
     fun getTuyaAccessToken(): String {
+        val accessToken = cachedAccessToken.get()
+        if (accessToken != null)
+            return accessToken
 
         val tuyaTime= Instant.now().epochSecond * 1000
         val url="/v1.0/token?grant_type=1"
@@ -44,42 +51,14 @@ class TuyaAccessToken(
 
         try {
             val deviceUrl = baseUrl + url
-            val deviceAuthorization = restTemplate.getForEntityWithHeader<TuyaAuthResponse>(deviceUrl, HttpEntity(bodyMap))
-            return deviceAuthorization.body?.result?.accessToken?:throw Exception("empty body or result")
+            val response = restTemplate.getForEntityWithHeader<TuyaAuthResponse>(deviceUrl, HttpEntity(bodyMap))
+            val authenticationDetails = response.body?.result?:throw Exception("empty body or result")
+            cachedAccessToken.put(authenticationDetails.accessToken, authenticationDetails.expireTime-10)
+            return authenticationDetails.accessToken
         } catch (ex: Exception) {
             throw HomeMonitorException("Error getting access token", ex)
         }
     }
-
-//    fun refreshTuyaAccessCode(refreshCode: String): String {
-//        val tuyaTime= Instant.now().epochSecond * 1000
-//        val url="/v1.0/token/$refreshCode"
-//        val data = "${clientId}${tuyaTime}GET\n$emptyStringHmacSha256\n\n${url}"
-//        val hashStringFinal = getHmacSha256(data)
-//
-//        try {
-//            val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
-//            bodyMap.add("sign_method", "HMAC-SHA256")
-//            bodyMap.add("client_id", clientId)
-//            bodyMap.add("t", tuyaTime.toString())
-//            bodyMap.add("mode", "cors")
-//            bodyMap.add("Content-Type", "application/json")
-//            bodyMap.add("sign", hashStringFinal)
-//
-//            val deviceUrl = baseUrl + url
-//            val deviceAuthorization = restTemplate.getForEntityWithHeader<TuyaAuthResponse>(deviceUrl, HttpEntity(bodyMap))
-//
-//            val x = deviceAuthorization.body
-//
-//            println("AFTER REFRESH")
-//            println(x!!.toString())
-//
-//            return x!!.result!!.accessToken
-//
-//        } catch (ex: Exception) {
-//            throw HomeMonitorException("Error getting access token", ex)
-//        }
-//    }
 
     fun getHmacSha256(preQualifierString: String, httpMethod: HttpMethod, url: String): String {
         val emptyStringHmacSha256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"

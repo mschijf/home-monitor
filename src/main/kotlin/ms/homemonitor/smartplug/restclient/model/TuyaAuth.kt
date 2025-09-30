@@ -10,7 +10,7 @@ data class TuyaAuth(
     val refreshToken: String,
 
     @JsonProperty("expire_time")
-    val expireTime: String,
+    val expireTime: Int,
 
     @JsonProperty("uid")
     val uid: String,
