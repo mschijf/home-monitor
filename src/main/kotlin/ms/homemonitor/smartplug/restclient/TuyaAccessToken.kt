@@ -23,9 +23,9 @@ import javax.crypto.spec.SecretKeySpec
 
 @Service
 class TuyaAccessToken(
-    @Value("\${home-monitor.tuya.clientId}") private val clientId: String,
-    @Value("\${home-monitor.tuya.secret}") private val secret: String,
-    @Value("\${home-monitor.tuya.baseUrl}") private val baseUrl: String
+    @param:Value("\${home-monitor.tuya.clientId}") private val clientId: String,
+    @param:Value("\${home-monitor.tuya.secret}") private val secret: String,
+    @param:Value("\${home-monitor.tuya.baseUrl}") private val baseUrl: String
 ) {
 
     private val restTemplate = RestTemplate()
@@ -38,16 +38,8 @@ class TuyaAccessToken(
         if (accessToken != null)
             return accessToken
 
-        val tuyaTime= Instant.now().epochSecond * 1000
         val url="/v1.0/token?grant_type=1"
-
-        val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
-        bodyMap.add("sign_method", "HMAC-SHA256")
-        bodyMap.add("client_id", clientId)
-        bodyMap.add("t", tuyaTime.toString())
-        bodyMap.add("mode", "cors")
-        bodyMap.add("Content-Type", "application/json")
-        bodyMap.add("sign", getHmacSha256("${clientId}${tuyaTime}", HttpMethod.GET, url))
+        val bodyMap = getBodyMap(url)
 
         try {
             val deviceUrl = baseUrl + url
@@ -70,6 +62,19 @@ class TuyaAccessToken(
         val hash = hmacSHA256.doFinal(inputData.toByteArray())
         val hashString = hash.joinToString("") { String.format("%02x", it) }
         return hashString.uppercase()
+    }
+
+    private fun getBodyMap(url: String): MultiValueMap<String, String> {
+        val tuyaTime= Instant.now().epochSecond * 1000
+
+        val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
+        bodyMap.add("sign_method", "HMAC-SHA256")
+        bodyMap.add("client_id", clientId)
+        bodyMap.add("t", tuyaTime.toString())
+        bodyMap.add("mode", "cors")
+        bodyMap.add("Content-Type", "application/json")
+        bodyMap.add("sign", getHmacSha256("${clientId}${tuyaTime}", HttpMethod.GET, url))
+        return bodyMap
     }
 
 }

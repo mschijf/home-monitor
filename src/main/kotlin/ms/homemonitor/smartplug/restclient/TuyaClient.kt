@@ -22,9 +22,8 @@ import java.time.*
 
 @Service
 class TuyaClient(
-    @Value("\${home-monitor.tuya.clientId}") private val clientId: String,
-    @Value("\${home-monitor.tuya.baseUrl}") private val baseUrl: String,
-    @Value("\${home-monitor.tuya.devices}") private val deviceList: List<String>,
+    @param:Value("\${home-monitor.tuya.clientId}") private val clientId: String,
+    @param:Value("\${home-monitor.tuya.baseUrl}") private val baseUrl: String,
     private val tuyaAccessToken: TuyaAccessToken
 ) {
 
@@ -34,24 +33,11 @@ class TuyaClient(
     fun getTuyaData(deviceId: String, startTime: LocalDateTime, endTime: LocalDateTime): List<TuyaDataDetail> {
 
         val zone = ZoneId.of("Europe/Berlin")
-        val zoneOffSet: ZoneOffset? = zone.rules.getOffset(LocalDateTime.now())
+        val startTimeEpoch = startTime.toEpochSecond(zone.rules.getOffset(startTime))*1000
+        val endTimeEpoch = endTime.toEpochSecond(zone.rules.getOffset(endTime))*1000
 
-        val startTimeEpoch = startTime.toEpochSecond(zoneOffSet)*1000
-        val endTimeEpoch = endTime.toEpochSecond(zoneOffSet)*1000
-
-        val tuyaTime= Instant.now().epochSecond * 1000
-        val accessToken = tuyaAccessToken.getTuyaAccessToken()
-//        val url="/v2.1/cloud/thing/$deviceId/report-logs?codes=add_ele&end_time=1759010400000&size=80&start_time=1758924000000"
         val url="/v2.1/cloud/thing/$deviceId/report-logs?codes=add_ele&end_time=$endTimeEpoch&size=80&start_time=$startTimeEpoch"
-
-        val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
-        bodyMap.add("sign_method", "HMAC-SHA256")
-        bodyMap.add("client_id", clientId)
-        bodyMap.add("t", tuyaTime.toString())
-        bodyMap.add("mode", "cors")
-        bodyMap.add("Content-Type", "application/json")
-        bodyMap.add("sign", tuyaAccessToken.getHmacSha256("${clientId}${accessToken}${tuyaTime}", HttpMethod.GET, url))
-        bodyMap.add("access_token", accessToken)
+        val bodyMap = getBodyMap(url)
 
         try {
 
@@ -72,19 +58,9 @@ class TuyaClient(
     }
 
     fun getTuyaDeviceMasterData(): List<TuyaDeviceMasterData> {
-        val tuyaTime= Instant.now().epochSecond * 1000
-        val accessToken = tuyaAccessToken.getTuyaAccessToken()
-        val deviceListForRequest = deviceList.joinToString(",")
-        val url="/v2.0/cloud/thing/batch?device_ids=$deviceListForRequest"
 
-        val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
-        bodyMap.add("sign_method", "HMAC-SHA256")
-        bodyMap.add("client_id", clientId)
-        bodyMap.add("t", tuyaTime.toString())
-        bodyMap.add("mode", "cors")
-        bodyMap.add("Content-Type", "application/json")
-        bodyMap.add("sign", tuyaAccessToken.getHmacSha256("${clientId}${accessToken}${tuyaTime}", HttpMethod.GET, url))
-        bodyMap.add("access_token", accessToken)
+        val url="/v2.0/cloud/thing/device?page_size=20"
+        val bodyMap = getBodyMap(url)
 
         try {
 
@@ -101,6 +77,21 @@ class TuyaClient(
         } catch (ex: Exception) {
             throw HomeMonitorException("Error getting tuya master data", ex)
         }
+    }
+
+    private fun getBodyMap(url: String): MultiValueMap<String, String> {
+        val tuyaTime= Instant.now().epochSecond * 1000
+        val accessToken = tuyaAccessToken.getTuyaAccessToken()
+
+        val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
+        bodyMap.add("sign_method", "HMAC-SHA256")
+        bodyMap.add("client_id", clientId)
+        bodyMap.add("t", tuyaTime.toString())
+        bodyMap.add("mode", "cors")
+        bodyMap.add("Content-Type", "application/json")
+        bodyMap.add("sign", tuyaAccessToken.getHmacSha256("${clientId}${accessToken}${tuyaTime}", HttpMethod.GET, url))
+        bodyMap.add("access_token", accessToken)
+        return bodyMap
     }
 
 }

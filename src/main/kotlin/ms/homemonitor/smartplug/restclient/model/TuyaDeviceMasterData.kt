@@ -5,6 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class TuyaDeviceMasterData(
     @JsonProperty("id")
     val deviceId: String,
-    @JsonProperty("custom_name")
+    @JsonProperty("customName")
     val customName: String,
 )
