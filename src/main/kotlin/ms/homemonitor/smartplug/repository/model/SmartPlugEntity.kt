@@ -15,7 +15,4 @@ class SmartPlugEntity(
 
     @Column(name = "delta_kwh", nullable = true)
     var deltaKWH: BigDecimal? = null,
-
-    @Column(name = "power_kwh", nullable = true)
-    var powerKWH: BigDecimal? = null
 )

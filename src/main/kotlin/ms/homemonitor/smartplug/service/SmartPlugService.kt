@@ -45,13 +45,6 @@ class SmartPlugService(
                         deltaKWH = BigDecimal(tuyaDetail.value)
                     )
                 }
-                .runningFold(lastRecord(deviceName)) { acc, elt ->
-                    SmartPlugEntity(
-                        id = elt.id,
-                        deltaKWH = elt.deltaKWH,
-                        powerKWH = acc.powerKWH?.plus(elt.deltaKWH!!)
-                    )
-                }
             smartPlugRepository.saveAllAndFlush(toBeSaveList)
         } catch (e: Exception) {
             throw HomeMonitorException("Error while processing Tuya data", e)
@@ -67,7 +60,6 @@ class SmartPlugService(
                     time = LocalDate.now().atStartOfDay().minusMinutes(1)
                 ),
                 deltaKWH = BigDecimal.ZERO,
-                powerKWH = BigDecimal.ZERO
             )
     }
 }
