@@ -22,7 +22,7 @@ class SmartPlugScheduler(
     @Scheduled(cron = "\${home-monitor.scheduler.smartPlug.deviceState}")
     fun retrieveSmartPlugDataStatus() {
         try {
-            smartPlugService.processMeasurement()
+            smartPlugService.processSmartPlugStatus()
         } catch (e: Exception) {
             log.error(e.message, e)
         }
