@@ -7,4 +7,8 @@ data class TuyaDeviceMasterData(
     val deviceId: String,
     @JsonProperty("customName")
     val customName: String,
+    @JsonProperty("isOnline")
+    val isOnline: Boolean,
+    @JsonProperty("timeZone")
+    val timeZone: String
 )

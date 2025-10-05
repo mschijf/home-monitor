@@ -60,12 +60,12 @@ home-monitor:
       regular: 0 0/5 * * * *
     smartPlug:
       regular: 0 1 * * * *
+      deviceState: 0 0/15 * * * *
     system:
       temperature: 0 * * * * *
       dbStats: 0 * * * * *
       backup: 0 15 1-23/2 * * *
       dropboxFreeSpace: 0 20 1-23/2 * * *
-
 
   log:
     location: /home/martinschijf/application/home-monitor/log

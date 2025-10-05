@@ -2,8 +2,10 @@ package ms.homemonitor.smartplug.service
 
 import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.smartplug.repository.SmartPlugRepository
+import ms.homemonitor.smartplug.repository.SmartPlugStatusRepository
 import ms.homemonitor.smartplug.repository.model.SmartPlugEntity
 import ms.homemonitor.smartplug.repository.model.SmartPlugId
+import ms.homemonitor.smartplug.repository.model.SmartPlugStatusEntity
 import ms.homemonitor.smartplug.restclient.TuyaClient
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
@@ -16,9 +18,21 @@ import java.time.ZoneId
 class SmartPlugService(
     private val tuyaClient: TuyaClient,
     private val smartPlugRepository: SmartPlugRepository,
+    private val smartPlugStatusRepository: SmartPlugStatusRepository,
 ) {
 
     private val zoneId = ZoneId.of("Europe/Berlin")
+
+    fun processSmartPlugStatus() {
+        val deviceMasterDataList = tuyaClient.getTuyaDeviceMasterData()
+        smartPlugStatusRepository.saveAndFlush(
+            SmartPlugStatusEntity(
+                time = LocalDateTime.now(),
+                numberKnown = deviceMasterDataList.size,
+                numberOnLine = deviceMasterDataList.count { it.isOnline },
+            )
+        )
+    }
 
     fun processMeasurement() {
         val deviceMasterDataList = tuyaClient.getTuyaDeviceMasterData()

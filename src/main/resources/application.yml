@@ -80,6 +80,7 @@ home-monitor:
       cleanup: "-"
     smartPlug:
       regular: "-"
+      deviceState: "-"
     shelly:
       regular: "-"
     heath:
