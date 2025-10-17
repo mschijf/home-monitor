@@ -1,6 +1,7 @@
 package ms.homemonitor.smartplug.service
 
 import ms.homemonitor.shared.HomeMonitorException
+import ms.homemonitor.shared.tools.dateTimeRangeByHour
 import ms.homemonitor.smartplug.repository.SmartPlugRepository
 import ms.homemonitor.smartplug.repository.SmartPlugStatusRepository
 import ms.homemonitor.smartplug.repository.model.SmartPlugEntity
@@ -13,6 +14,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
+import kotlin.collections.map
 
 @Service
 class SmartPlugService(
@@ -35,15 +37,26 @@ class SmartPlugService(
     }
 
     fun processMeasurement() {
+        processRealDevices()
+        processVirtualDevices()
+    }
+
+    private fun processRealDevices() {
         val deviceMasterDataList = tuyaClient.getTuyaDeviceMasterData()
         deviceMasterDataList.forEach { masterData ->
             processDevice(masterData.deviceId, masterData.customName)
         }
     }
 
+    private fun processVirtualDevices() {
+        VirtualSmartPlug.virtualDeviceList.forEach { virtualDevice ->
+            processVirtualDevice(virtualDevice.name, virtualDevice.wattHourPerHour)
+        }
+    }
+
     private fun processDevice(deviceId: String, deviceName: String) {
         try {
-            val lastRecord = lastRecord(deviceName)
+            val lastRecord = lastRecord(deviceName, isVirtual = false)
 
             val startTime = lastRecord.id.time?.plusSeconds(1) ?: LocalDate.now().atStartOfDay().minusMinutes(1)
             val endTime = LocalDateTime.now().plusMinutes(1)
@@ -56,7 +69,8 @@ class SmartPlugService(
                             name = deviceName,
                             time = LocalDateTime.ofInstant(Instant.ofEpochMilli(tuyaDetail.eventTime), zoneId),
                         ),
-                        deltaKWH = BigDecimal(tuyaDetail.value)
+                        deltaKWH = BigDecimal(tuyaDetail.value),
+                        isVirtual = false
                     )
                 }
             smartPlugRepository.saveAllAndFlush(toBeSaveList)
@@ -65,15 +79,40 @@ class SmartPlugService(
         }
     }
 
-    private fun lastRecord(deviceName: String): SmartPlugEntity {
+    private fun processVirtualDevice(virtualDeviceName: String, wattHourPerHour: BigDecimal) {
+        val lastRecord = lastRecord(virtualDeviceName, isVirtual = true)
+        val startTime = lastRecord.id.time ?: LocalDate.now().atStartOfDay().minusMinutes(1)
+        val endTime = LocalDateTime.now()
+        try {
+            val toBeSaveList = dateTimeRangeByHour(startTime, endTime)
+                .drop(1)
+                .map { time ->
+                    SmartPlugEntity(
+                        SmartPlugId(
+                            name = virtualDeviceName,
+                            time = time,
+                        ),
+                        deltaKWH = wattHourPerHour,
+                        isVirtual = true
+                    )
+                }.toList()
+            smartPlugRepository.saveAllAndFlush(toBeSaveList)
+        } catch (e: Exception) {
+            throw HomeMonitorException("Error while processing Tuya data", e)
+        }
+    }
+
+
+    private fun lastRecord(deviceName: String, isVirtual: Boolean): SmartPlugEntity {
         return smartPlugRepository
-            .getLastSmartPlugEntity(deviceName)
+            .getLastSmartPlugEntity(deviceName, isVirtual)
             ?: SmartPlugEntity(
                 id = SmartPlugId(
                     name = deviceName,
                     time = LocalDate.now().atStartOfDay().minusMinutes(1)
                 ),
                 deltaKWH = BigDecimal.ZERO,
+                isVirtual = isVirtual
             )
     }
 }

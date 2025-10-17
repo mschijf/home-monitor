@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface SmartPlugRepository: JpaRepository<SmartPlugEntity, SmartPlugId> {
 
-    @Query(value = "select smartPlug from SmartPlugEntity smartPlug where smartPlug.id.name = :name order by smartPlug.id.time desc limit 1")
-    fun getLastSmartPlugEntity(@Param("name")name: String): SmartPlugEntity?
+    @Query(value = "select smartPlug from SmartPlugEntity smartPlug where smartPlug.id.name = :name and  smartPlug.isVirtual = :isVirtual order by smartPlug.id.time desc limit 1")
+    fun getLastSmartPlugEntity(@Param("name")name: String, @Param("isVirtual")isVirtual: Boolean): SmartPlugEntity?
 
 }

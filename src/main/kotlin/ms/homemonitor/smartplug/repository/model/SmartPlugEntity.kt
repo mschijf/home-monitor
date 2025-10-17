@@ -15,4 +15,8 @@ class SmartPlugEntity(
 
     @Column(name = "delta_kwh", nullable = true)
     var deltaKWH: BigDecimal? = null,
+
+    @Column(name = "is_virtual", nullable = true)
+    var isVirtual: Boolean? = null,
+
 )

@@ -45,7 +45,7 @@ class HomeWizardWaterService(
                 )
             }
         } catch (e: Exception) {
-            throw HomeMonitorException("Error while processing and storing HomeWizard data", e)
+            throw HomeMonitorException("Error while processing and storing HomeWizard Water data", e)
         }
     }
 

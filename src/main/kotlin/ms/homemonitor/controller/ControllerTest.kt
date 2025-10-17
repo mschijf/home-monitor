@@ -12,7 +12,7 @@ class ControllerTest(
     @Tag(name="Test")
     @GetMapping("/test/do_test")
     fun someTest(): Any {
-        return smartPlugService.processSmartPlugStatus()
+        return smartPlugService.processMeasurement()
     }
 
 }
