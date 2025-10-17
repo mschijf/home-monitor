@@ -70,6 +70,7 @@
             "mode": "thresholds"
           },
           "mappings": [],
+          "max": 64000000000,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -122,189 +123,9 @@
             "type": "prometheus",
             "uid": "ce5mpc55vhptse"
           },
-          "editorMode": "code",
-          "expr": "disk_free_bytes",
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "Disk size Free",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "ce5mpc55vhptse"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 100,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "#EAB839",
-                "value": 60
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "celsius"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 3,
-        "y": 1
-      },
-      "hideTimeOverride": true,
-      "id": 26,
-      "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ce5mpc55vhptse"
-          },
-          "editorMode": "code",
-          "expr": "systemCpuTemperature",
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "CPU temperature",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "ce5mpc55vhptse"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 0
-              },
-              {
-                "color": "green",
-                "value": 2000000000
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 6,
-        "y": 1
-      },
-      "id": 78,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ce5mpc55vhptse"
-          },
           "disableTextWrap": false,
           "editorMode": "code",
-          "exemplar": false,
-          "expr": "system_cpu_usage{}",
+          "expr": "disk_free_bytes",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -314,8 +135,9 @@
           "useBackend": false
         }
       ],
-      "title": "CPU Usage",
-      "type": "timeseries"
+      "timeFrom": "1h",
+      "title": "Disk size Free",
+      "type": "gauge"
     },
     {
       "datasource": {
@@ -356,7 +178,7 @@
       "gridPos": {
         "h": 4,
         "w": 3,
-        "x": 9,
+        "x": 3,
         "y": 1
       },
       "id": 94,
@@ -410,132 +232,6 @@
             "mode": "thresholds"
           },
           "mappings": [],
-          "max": 20000000,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "orange",
-                "value": 10000000
-              },
-              {
-                "color": "red",
-                "value": 15000000
-              }
-            ]
-          },
-          "unit": "decbytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 12,
-        "y": 1
-      },
-      "id": 90,
-      "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT size FROM backup_stats WHERE id=1",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [
-                  {
-                    "name": "last_eneco_import",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50,
-            "whereJsonTree": {
-              "children1": [
-                {
-                  "id": "b89aaa9b-cdef-4012-b456-71933a69cb85",
-                  "properties": {
-                    "field": "id",
-                    "fieldSrc": "field",
-                    "operator": "equal",
-                    "value": [
-                      0
-                    ],
-                    "valueError": [
-                      null
-                    ],
-                    "valueSrc": [
-                      "value"
-                    ],
-                    "valueType": [
-                      "number"
-                    ]
-                  },
-                  "type": "rule"
-                }
-              ],
-              "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
-              "type": "group"
-            },
-            "whereString": "id = 0"
-          },
-          "table": "admin"
-        }
-      ],
-      "title": "backup size",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "green",
-            "mode": "thresholds"
-          },
-          "mappings": [],
           "max": 9000,
           "min": 0,
           "thresholds": {
@@ -566,7 +262,7 @@
       "gridPos": {
         "h": 4,
         "w": 3,
-        "x": 15,
+        "x": 6,
         "y": 1
       },
       "id": 109,
@@ -648,8 +344,227 @@
           "table": "admin"
         }
       ],
-      "title": "Free (dropbox) space",
+      "title": "Dropbox space",
       "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ce5mpc55vhptse"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "green",
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 20000000,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 10000000
+              },
+              {
+                "color": "red",
+                "value": 15000000
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 9,
+        "y": 1
+      },
+      "id": 90,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ce5mpc55vhptse"
+          },
+          "editorMode": "code",
+          "expr": "homeMonitorBackupSize",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Backup size",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "green",
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": -1
+              },
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 12,
+        "y": 1
+      },
+      "hideTimeOverride": true,
+      "id": 123,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "firstNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT battery_state FROM tado_device_info WHERE $__timeFilter(\"time\") ORDER BY \"time\" DESC LIMIT 1",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "last_eneco_import",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "b89aaa9b-cdef-4012-b456-71933a69cb85",
+                  "properties": {
+                    "field": "id",
+                    "fieldSrc": "field",
+                    "operator": "equal",
+                    "value": [
+                      0
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "number"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
+              "type": "group"
+            },
+            "whereString": "id = 0"
+          },
+          "table": "admin"
+        }
+      ],
+      "timeFrom": "2d",
+      "title": "Tado Battery",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "value"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "stat"
     },
     {
       "datasource": {
@@ -681,8 +596,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 18,
+        "w": 4,
+        "x": 16,
         "y": 1
       },
       "id": 22,
@@ -711,84 +626,15 @@
             "uid": "ce5mpc55vhptse"
           },
           "editorMode": "code",
-          "expr": "sum(logback_events_total{level=\"error\"})",
+          "exemplar": false,
+          "expr": "sum(logback_events_total{level=\"error\"}) ",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "Error",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Error",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "ce5mpc55vhptse"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 1
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 21,
-        "y": 1
-      },
-      "id": 23,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "delta"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ce5mpc55vhptse"
-          },
-          "editorMode": "code",
-          "expr": "sum(logback_events_total{level=\"warn\"})",
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Warning",
       "type": "stat"
     },
     {
@@ -800,9 +646,11 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "orange",
+            "fixedColor": "#FF780A",
             "mode": "fixed"
           },
+          "decimals": 0,
+          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -818,9 +666,9 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 3,
-        "x": 0,
-        "y": 5
+        "w": 4,
+        "x": 20,
+        "y": 1
       },
       "id": 114,
       "options": {
@@ -905,7 +753,7 @@
           "table": "admin"
         }
       ],
-      "title": "Last start-up",
+      "title": "Last restart",
       "transformations": [
         {
           "id": "convertFieldType",
@@ -932,271 +780,9 @@
         "defaults": {
           "color": {
             "fixedColor": "green",
-            "mode": "fixed"
+            "mode": "thresholds"
           },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 12,
-        "y": 5
-      },
-      "id": 89,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "firstNotNull"
-          ],
-          "fields": "/.*/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT oldest FROM backup_stats WHERE id=1",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [
-                  {
-                    "name": "last_eneco_import",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50,
-            "whereJsonTree": {
-              "children1": [
-                {
-                  "id": "b89aaa9b-cdef-4012-b456-71933a69cb85",
-                  "properties": {
-                    "field": "id",
-                    "fieldSrc": "field",
-                    "operator": "equal",
-                    "value": [
-                      0
-                    ],
-                    "valueError": [
-                      null
-                    ],
-                    "valueSrc": [
-                      "value"
-                    ],
-                    "valueType": [
-                      "number"
-                    ]
-                  },
-                  "type": "rule"
-                }
-              ],
-              "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
-              "type": "group"
-            },
-            "whereString": "id = 0"
-          },
-          "table": "admin"
-        }
-      ],
-      "title": "Oldest backup",
-      "transformations": [
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "time",
-                "targetField": "value"
-              }
-            ],
-            "fields": {}
-          }
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "green",
-            "mode": "fixed"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 15,
-        "y": 5
-      },
-      "id": 93,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "firstNotNull"
-          ],
-          "fields": "/.*/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT last FROM backup_stats WHERE id=1",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [
-                  {
-                    "name": "last_eneco_import",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50,
-            "whereJsonTree": {
-              "children1": [
-                {
-                  "id": "b89aaa9b-cdef-4012-b456-71933a69cb85",
-                  "properties": {
-                    "field": "id",
-                    "fieldSrc": "field",
-                    "operator": "equal",
-                    "value": [
-                      0
-                    ],
-                    "valueError": [
-                      null
-                    ],
-                    "valueSrc": [
-                      "value"
-                    ],
-                    "valueType": [
-                      "number"
-                    ]
-                  },
-                  "type": "rule"
-                }
-              ],
-              "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
-              "type": "group"
-            },
-            "whereString": "id = 0"
-          },
-          "table": "admin"
-        }
-      ],
-      "title": "Last backup",
-      "transformations": [
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "time",
-                "targetField": "value"
-              }
-            ],
-            "fields": {}
-          }
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "blue",
-            "mode": "fixed"
-          },
-          "decimals": 3,
+          "decimals": 1,
           "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
@@ -1205,125 +791,31 @@
               {
                 "color": "green",
                 "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 18,
-        "y": 5
-      },
-      "hideTimeOverride": true,
-      "id": 60,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "firstNotNull"
-          ],
-          "fields": "/^time$/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "builder",
-          "format": "table",
-          "rawSql": "SELECT \"time\" FROM water ORDER BY \"time\" DESC LIMIT 1 ",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [
-                  {
-                    "name": "\"time\"",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 1,
-            "orderBy": {
-              "property": {
-                "name": [
-                  "\"time\""
-                ],
-                "type": "string"
               },
-              "type": "property"
-            },
-            "orderByDirection": "DESC"
-          },
-          "table": "water"
-        }
-      ],
-      "timeFrom": "1d",
-      "title": "last measurement",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "orange",
-            "mode": "fixed"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
+              {
+                "color": "red",
+                "value": -1
+              },
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
-          }
+          },
+          "unit": "s"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 2,
-        "w": 3,
-        "x": 21,
-        "y": 5
+        "w": 4,
+        "x": 12,
+        "y": 3
       },
-      "id": 64,
+      "id": 93,
       "options": {
         "colorMode": "value",
-        "graphMode": "none",
+        "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
         "percentChangeColorMode": "standard",
@@ -1348,7 +840,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select last from eneco_stats where not last is null order by day desc limit 1",
+          "rawSql": "SELECT extract(epoch from (now() - last)) FROM backup_stats WHERE id=1",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1403,7 +895,7 @@
           "table": "admin"
         }
       ],
-      "title": "Last eneco import",
+      "title": "Last Backup",
       "transformations": [
         {
           "id": "convertFieldType",
@@ -1421,24 +913,81 @@
       "type": "stat"
     },
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 7
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ce5mpc55vhptse"
       },
-      "id": 33,
-      "panels": [],
-      "title": "Binnen en buiten klimaat",
-      "type": "row"
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 20,
+        "y": 3
+      },
+      "id": 116,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "delta"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ce5mpc55vhptse"
+          },
+          "editorMode": "code",
+          "expr": "sum(logback_events_total{level=\"warn\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Warning",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Warning",
+      "type": "stat"
     },
     {
       "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
+        "type": "prometheus",
+        "uid": "ce5mpc55vhptse"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1474,10 +1023,12 @@
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "off"
+              "mode": "dashed"
             }
           },
+          "fieldMinMax": false,
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1487,60 +1038,41 @@
               },
               {
                 "color": "red",
-                "value": 80
+                "value": 52.5
               }
             ]
           },
-          "unit": "celsius"
+          "unit": "percentunit"
         },
         "overrides": [
           {
             "matcher": {
               "id": "byName",
-              "options": "outside_temperature"
+              "options": "Temperature"
             },
             "properties": [
               {
-                "id": "color",
-                "value": {
-                  "fixedColor": "purple",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "heating_power_percentage"
-            },
-            "properties": [
+                "id": "unit",
+                "value": "celsius"
+              },
               {
                 "id": "color",
                 "value": {
                   "fixedColor": "red",
                   "mode": "fixed"
                 }
-              },
-              {
-                "id": "unit",
-                "value": "percent"
-              },
-              {
-                "id": "max",
-                "value": 150
               }
             ]
           }
         ]
       },
       "gridPos": {
-        "h": 8,
-        "w": 20,
+        "h": 5,
+        "w": 9,
         "x": 0,
-        "y": 8
+        "y": 5
       },
-      "id": 74,
+      "id": 78,
       "options": {
         "legend": {
           "calcs": [],
@@ -1557,46 +1089,161 @@
       "targets": [
         {
           "datasource": {
+            "type": "prometheus",
+            "uid": "ce5mpc55vhptse"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "system_cpu_usage{}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "Usage",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ce5mpc55vhptse"
+          },
+          "editorMode": "code",
+          "expr": "systemCpuTemperature",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Temperature",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "CPU Usage/Temperature",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "offline"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "percentage",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "red",
+                      "value": 0.1
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "online"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "percentage",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 99.9
+                    },
+                    {
+                      "color": "green",
+                      "value": 100
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 9,
+        "y": 5
+      },
+      "id": 133,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
             "type": "grafana-postgresql-datasource",
             "uid": "ae47yxjg85kowb"
           },
-          "editorMode": "builder",
+          "editorMode": "code",
           "format": "table",
-          "rawSql": "SELECT inside_temperature, outside_temperature, heating_power_percentage, \"time\" FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
+          "rawQuery": true,
+          "rawSql": "select time, (number_known-number_on_line) as offline, number_on_line as online from smart_plug_status where $__timeFilter(time) order by time",
           "refId": "A",
           "sql": {
             "columns": [
               {
                 "parameters": [
                   {
-                    "name": "inside_temperature",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              },
-              {
-                "parameters": [
-                  {
-                    "name": "outside_temperature",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              },
-              {
-                "parameters": [
-                  {
-                    "name": "heating_power_percentage",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              },
-              {
-                "parameters": [
-                  {
-                    "name": "\"time\"",
+                    "name": "last_eneco_import",
                     "type": "functionParameter"
                   }
                 ],
@@ -1611,24 +1258,17 @@
                 "type": "groupBy"
               }
             ],
-            "orderBy": {
-              "property": {
-                "name": "\"time\"",
-                "type": "string"
-              },
-              "type": "property"
-            },
-            "orderByDirection": "ASC",
+            "limit": 50,
             "whereJsonTree": {
               "children1": [
                 {
-                  "id": "bab989b8-0123-4456-b89a-b1933a84e647",
+                  "id": "b89aaa9b-cdef-4012-b456-71933a69cb85",
                   "properties": {
-                    "field": "\"time\"",
+                    "field": "id",
                     "fieldSrc": "field",
-                    "operator": "macros",
+                    "operator": "equal",
                     "value": [
-                      "timeFilter"
+                      0
                     ],
                     "valueError": [
                       null
@@ -1637,7 +1277,7 @@
                       "value"
                     ],
                     "valueType": [
-                      "datetime"
+                      "number"
                     ]
                   },
                   "type": "rule"
@@ -1646,13 +1286,189 @@
               "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
               "type": "group"
             },
-            "whereString": "$__timeFilter(\"time\")"
+            "whereString": "id = 0"
           },
-          "table": "tado"
+          "table": "admin"
         }
       ],
-      "title": "Temperatuur",
-      "type": "timeseries"
+      "title": "Smart Plug Status",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "failed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 9,
+        "x": 15,
+        "y": 5
+      },
+      "id": 115,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "never",
+        "stacking": "normal",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": -200
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select time, success::Integer, (not success)::Integer as failed from eneco_stats where $__timeFilter(time) order by time",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "last_eneco_import",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "b89aaa9b-cdef-4012-b456-71933a69cb85",
+                  "properties": {
+                    "field": "id",
+                    "fieldSrc": "field",
+                    "operator": "equal",
+                    "value": [
+                      0
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "number"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
+              "type": "group"
+            },
+            "whereString": "id = 0"
+          },
+          "table": "admin"
+        }
+      ],
+      "title": "Eneco Imports Succes",
+      "type": "barchart"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 33,
+      "panels": [],
+      "title": "Binnen en buiten klimaat (stand)",
+      "type": "row"
     },
     {
       "datasource": {
@@ -1672,7 +1488,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "orange",
                 "value": null
               }
             ]
@@ -1683,9 +1499,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 8
+        "w": 3,
+        "x": 0,
+        "y": 11
       },
       "hideTimeOverride": true,
       "id": 16,
@@ -1791,7 +1607,7 @@
         }
       ],
       "timeFrom": "1h",
-      "title": "Temperatuur binnen",
+      "title": "Woonkamer",
       "type": "stat"
     },
     {
@@ -1812,7 +1628,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "blue",
                 "value": null
               }
             ]
@@ -1823,271 +1639,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 2,
-        "x": 20,
+        "w": 3,
+        "x": 3,
         "y": 11
-      },
-      "hideTimeOverride": true,
-      "id": 72,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "firstNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "builder",
-          "format": "table",
-          "rawSql": "SELECT heating_power_percentage FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" DESC LIMIT 1 ",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [
-                  {
-                    "name": "heating_power_percentage",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 1,
-            "orderBy": {
-              "property": {
-                "name": "\"time\"",
-                "type": "string"
-              },
-              "type": "property"
-            },
-            "orderByDirection": "DESC",
-            "whereJsonTree": {
-              "children1": [
-                {
-                  "id": "bbabab9a-4567-489a-bcde-f1933a766b6f",
-                  "properties": {
-                    "field": "\"time\"",
-                    "fieldSrc": "field",
-                    "operator": "macros",
-                    "value": [
-                      "timeFilter"
-                    ],
-                    "valueError": [
-                      null
-                    ],
-                    "valueSrc": [
-                      "value"
-                    ],
-                    "valueType": [
-                      "datetime"
-                    ]
-                  },
-                  "type": "rule"
-                }
-              ],
-              "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
-              "type": "group"
-            },
-            "whereString": "$__timeFilter(\"time\")"
-          },
-          "table": "tado"
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "heating power",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 2,
-        "x": 22,
-        "y": 11
-      },
-      "hideTimeOverride": true,
-      "id": 113,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT setting_temperature FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" DESC LIMIT 1 ",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [
-                  {
-                    "name": "humidity_percentage",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 1,
-            "orderBy": {
-              "property": {
-                "name": "\"time\"",
-                "type": "string"
-              },
-              "type": "property"
-            },
-            "orderByDirection": "DESC",
-            "whereJsonTree": {
-              "children1": [
-                {
-                  "id": "89bab9a9-89ab-4cde-b012-31933a876da4",
-                  "properties": {
-                    "field": "\"time\"",
-                    "fieldSrc": "field",
-                    "operator": "macros",
-                    "value": [
-                      "timeFilter"
-                    ],
-                    "valueError": [
-                      null
-                    ],
-                    "valueSrc": [
-                      "value"
-                    ],
-                    "valueType": [
-                      "datetime"
-                    ]
-                  },
-                  "type": "rule"
-                }
-              ],
-              "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
-              "type": "group"
-            },
-            "whereString": "$__timeFilter(\"time\")"
-          },
-          "table": "tado"
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "Setting temperatuur",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 14
       },
       "hideTimeOverride": true,
       "id": 17,
@@ -2184,7 +1738,7 @@
         }
       ],
       "timeFrom": "1h",
-      "title": "Vochtigheid binnen",
+      "title": "Woonkamer",
       "type": "stat"
     },
     {
@@ -2196,153 +1750,51 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
+          "decimals": 1,
+          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "orange",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
-          "unit": "percent"
+          "unit": "celsius"
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Humidity %"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Zonintensity %"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "orange",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "heating_power_percentage"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "humidity_percentage"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "solar_intensity_percentage"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "orange",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
-        "h": 7,
-        "w": 20,
-        "x": 0,
-        "y": 16
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 11
       },
-      "id": 73,
+      "hideTimeOverride": true,
+      "id": 124,
       "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
         },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
+        "showPercentChange": false,
+        "text": {
+          "titleSize": 4
+        },
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "11.3.1",
       "targets": [
@@ -2351,34 +1803,26 @@
             "type": "grafana-postgresql-datasource",
             "uid": "ae47yxjg85kowb"
           },
-          "editorMode": "builder",
+          "editorMode": "code",
           "format": "table",
-          "rawSql": "SELECT \"time\", humidity_percentage, solar_intensity_percentage FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
+          "rawQuery": true,
+          "rawSql": "SELECT inside_temperature, \"time\" FROM shelly WHERE $__timeFilter(\"time\") ORDER BY \"time\" DESC LIMIT 1 ",
           "refId": "A",
           "sql": {
             "columns": [
               {
                 "parameters": [
                   {
+                    "name": "inside_temperature",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
                     "name": "\"time\"",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              },
-              {
-                "parameters": [
-                  {
-                    "name": "humidity_percentage",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              },
-              {
-                "parameters": [
-                  {
-                    "name": "solar_intensity_percentage",
                     "type": "functionParameter"
                   }
                 ],
@@ -2393,6 +1837,7 @@
                 "type": "groupBy"
               }
             ],
+            "limit": 1,
             "orderBy": {
               "property": {
                 "name": "\"time\"",
@@ -2400,11 +1845,11 @@
               },
               "type": "property"
             },
-            "orderByDirection": "ASC",
+            "orderByDirection": "DESC",
             "whereJsonTree": {
               "children1": [
                 {
-                  "id": "899aa8a8-4567-489a-bcde-f1933a8a03dd",
+                  "id": "8ba8aa88-89ab-4cde-b012-31933a7137c8",
                   "properties": {
                     "field": "\"time\"",
                     "fieldSrc": "field",
@@ -2433,8 +1878,9 @@
           "table": "tado"
         }
       ],
-      "title": "Percentages",
-      "type": "timeseries"
+      "timeFrom": "1h",
+      "title": "Badkamer",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -2454,7 +1900,139 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 9,
+        "y": 11
+      },
+      "hideTimeOverride": true,
+      "id": 125,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "titleSize": 4
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT humidity_percentage FROM shelly WHERE $__timeFilter(\"time\") ORDER BY \"time\" DESC LIMIT 1 ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "humidity_percentage",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 1,
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "DESC",
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "89bab9a9-89ab-4cde-b012-31933a876da4",
+                  "properties": {
+                    "field": "\"time\"",
+                    "fieldSrc": "field",
+                    "operator": "macros",
+                    "value": [
+                      "timeFilter"
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "datetime"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
+              "type": "group"
+            },
+            "whereString": "$__timeFilter(\"time\")"
+          },
+          "table": "tado"
+        }
+      ],
+      "timeFrom": "1h",
+      "title": "Badkamer",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "orange",
                 "value": null
               }
             ]
@@ -2465,9 +2043,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 17
+        "w": 3,
+        "x": 12,
+        "y": 11
       },
       "hideTimeOverride": true,
       "id": 20,
@@ -2557,7 +2135,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "yellow",
                 "value": null
               }
             ]
@@ -2568,9 +2146,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 20
+        "w": 3,
+        "x": 15,
+        "y": 11
       },
       "hideTimeOverride": true,
       "id": 21,
@@ -2671,12 +2249,1146 @@
       "type": "stat"
     },
     {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 18,
+        "y": 11
+      },
+      "hideTimeOverride": true,
+      "id": 113,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "titleSize": 4
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT setting_temperature FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" DESC LIMIT 1 ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "humidity_percentage",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 1,
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "DESC",
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "89bab9a9-89ab-4cde-b012-31933a876da4",
+                  "properties": {
+                    "field": "\"time\"",
+                    "fieldSrc": "field",
+                    "operator": "macros",
+                    "value": [
+                      "timeFilter"
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "datetime"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
+              "type": "group"
+            },
+            "whereString": "$__timeFilter(\"time\")"
+          },
+          "table": "tado"
+        }
+      ],
+      "timeFrom": "1h",
+      "title": "Tado (set)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 11
+      },
+      "hideTimeOverride": true,
+      "id": 72,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "firstNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "titleSize": 4
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "builder",
+          "format": "table",
+          "rawSql": "SELECT heating_power_percentage FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" DESC LIMIT 1 ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "heating_power_percentage",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 1,
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "DESC",
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "bbabab9a-4567-489a-bcde-f1933a766b6f",
+                  "properties": {
+                    "field": "\"time\"",
+                    "fieldSrc": "field",
+                    "operator": "macros",
+                    "value": [
+                      "timeFilter"
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "datetime"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
+              "type": "group"
+            },
+            "whereString": "$__timeFilter(\"time\")"
+          },
+          "table": "tado"
+        }
+      ],
+      "timeFrom": "1h",
+      "title": "Tado (pct)",
+      "type": "stat"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 136,
+      "panels": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae5mp6r3ghhq8f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "celsius"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "buiten"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "purple",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "heating_power_percentage"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "percent"
+                  },
+                  {
+                    "id": "max",
+                    "value": 150
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 15
+          },
+          "id": 74,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT inside_temperature as woonkamer, outside_temperature as buiten, heating_power_percentage, \"time\" FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [
+                      {
+                        "name": "inside_temperature",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "outside_temperature",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "heating_power_percentage",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "\"time\"",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "orderBy": {
+                  "property": {
+                    "name": "\"time\"",
+                    "type": "string"
+                  },
+                  "type": "property"
+                },
+                "orderByDirection": "ASC",
+                "whereJsonTree": {
+                  "children1": [
+                    {
+                      "id": "bab989b8-0123-4456-b89a-b1933a84e647",
+                      "properties": {
+                        "field": "\"time\"",
+                        "fieldSrc": "field",
+                        "operator": "macros",
+                        "value": [
+                          "timeFilter"
+                        ],
+                        "valueError": [
+                          null
+                        ],
+                        "valueSrc": [
+                          "value"
+                        ],
+                        "valueType": [
+                          "datetime"
+                        ]
+                      },
+                      "type": "rule"
+                    }
+                  ],
+                  "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
+                  "type": "group"
+                },
+                "whereString": "$__timeFilter(\"time\")"
+              },
+              "table": "tado"
+            },
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "hide": false,
+              "rawQuery": true,
+              "rawSql": "SELECT inside_temperature as badkamer, \"time\" FROM shelly WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
+              "refId": "B",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [
+                      {
+                        "name": "inside_temperature",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "outside_temperature",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "heating_power_percentage",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "\"time\"",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "orderBy": {
+                  "property": {
+                    "name": "\"time\"",
+                    "type": "string"
+                  },
+                  "type": "property"
+                },
+                "orderByDirection": "ASC",
+                "whereJsonTree": {
+                  "children1": [
+                    {
+                      "id": "bab989b8-0123-4456-b89a-b1933a84e647",
+                      "properties": {
+                        "field": "\"time\"",
+                        "fieldSrc": "field",
+                        "operator": "macros",
+                        "value": [
+                          "timeFilter"
+                        ],
+                        "valueError": [
+                          null
+                        ],
+                        "valueSrc": [
+                          "value"
+                        ],
+                        "valueType": [
+                          "datetime"
+                        ]
+                      },
+                      "type": "rule"
+                    }
+                  ],
+                  "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
+                  "type": "group"
+                },
+                "whereString": "$__timeFilter(\"time\")"
+              },
+              "table": "tado"
+            }
+          ],
+          "title": "Temperatuur",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae5mp6r3ghhq8f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "heating_power_percentage"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "solar_intensity_percentage"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "orange",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "__systemRef": "hideSeriesFrom",
+                "matcher": {
+                  "id": "byNames",
+                  "options": {
+                    "mode": "exclude",
+                    "names": [
+                      "solar_intensity_percentage"
+                    ],
+                    "prefix": "All except:",
+                    "readOnly": true
+                  }
+                },
+                "properties": [
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": true
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 23
+          },
+          "id": 73,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "builder",
+              "format": "table",
+              "rawSql": "SELECT \"time\", solar_intensity_percentage FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [
+                      {
+                        "name": "\"time\"",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "solar_intensity_percentage",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "orderBy": {
+                  "property": {
+                    "name": "\"time\"",
+                    "type": "string"
+                  },
+                  "type": "property"
+                },
+                "orderByDirection": "ASC",
+                "whereJsonTree": {
+                  "children1": [
+                    {
+                      "id": "899aa8a8-4567-489a-bcde-f1933a8a03dd",
+                      "properties": {
+                        "field": "\"time\"",
+                        "fieldSrc": "field",
+                        "operator": "macros",
+                        "value": [
+                          "timeFilter"
+                        ],
+                        "valueError": [
+                          null
+                        ],
+                        "valueSrc": [
+                          "value"
+                        ],
+                        "valueType": [
+                          "datetime"
+                        ]
+                      },
+                      "type": "rule"
+                    }
+                  ],
+                  "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
+                  "type": "group"
+                },
+                "whereString": "$__timeFilter(\"time\")"
+              },
+              "table": "tado"
+            }
+          ],
+          "title": "Sun",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae5mp6r3ghhq8f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "heating_power_percentage"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "percent"
+                  },
+                  {
+                    "id": "max",
+                    "value": 150
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "badkamer"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "blue",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 30
+          },
+          "id": 130,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT humidity_percentage as badkamer, \"time\" FROM shelly WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [
+                      {
+                        "name": "inside_temperature",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "outside_temperature",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "heating_power_percentage",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "\"time\"",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "orderBy": {
+                  "property": {
+                    "name": "\"time\"",
+                    "type": "string"
+                  },
+                  "type": "property"
+                },
+                "orderByDirection": "ASC",
+                "whereJsonTree": {
+                  "children1": [
+                    {
+                      "id": "bab989b8-0123-4456-b89a-b1933a84e647",
+                      "properties": {
+                        "field": "\"time\"",
+                        "fieldSrc": "field",
+                        "operator": "macros",
+                        "value": [
+                          "timeFilter"
+                        ],
+                        "valueError": [
+                          null
+                        ],
+                        "valueSrc": [
+                          "value"
+                        ],
+                        "valueType": [
+                          "datetime"
+                        ]
+                      },
+                      "type": "rule"
+                    }
+                  ],
+                  "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
+                  "type": "group"
+                },
+                "whereString": "$__timeFilter(\"time\")"
+              },
+              "table": "tado"
+            },
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "hide": false,
+              "rawQuery": true,
+              "rawSql": "SELECT humidity_percentage as woonkamer, \"time\" FROM tado WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
+              "refId": "B",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [
+                      {
+                        "name": "inside_temperature",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "outside_temperature",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "heating_power_percentage",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [
+                      {
+                        "name": "\"time\"",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "orderBy": {
+                  "property": {
+                    "name": "\"time\"",
+                    "type": "string"
+                  },
+                  "type": "property"
+                },
+                "orderByDirection": "ASC",
+                "whereJsonTree": {
+                  "children1": [
+                    {
+                      "id": "bab989b8-0123-4456-b89a-b1933a84e647",
+                      "properties": {
+                        "field": "\"time\"",
+                        "fieldSrc": "field",
+                        "operator": "macros",
+                        "value": [
+                          "timeFilter"
+                        ],
+                        "valueError": [
+                          null
+                        ],
+                        "valueSrc": [
+                          "value"
+                        ],
+                        "valueType": [
+                          "datetime"
+                        ]
+                      },
+                      "type": "rule"
+                    }
+                  ],
+                  "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
+                  "type": "group"
+                },
+                "whereString": "$__timeFilter(\"time\")"
+              },
+              "table": "tado"
+            }
+          ],
+          "title": "Vocht%",
+          "type": "timeseries"
+        }
+      ],
+      "title": "Klimaat (trend)",
+      "type": "row"
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 15
       },
       "id": 40,
       "panels": [],
@@ -2721,7 +3433,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -2776,7 +3489,7 @@
         "h": 9,
         "w": 20,
         "x": 0,
-        "y": 24
+        "y": 16
       },
       "id": 96,
       "options": {
@@ -2881,7 +3594,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-green"
+                "color": "super-light-green",
+                "value": null
               }
             ]
           }
@@ -2892,7 +3606,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 24
+        "y": 16
       },
       "hideTimeOverride": true,
       "id": 99,
@@ -2961,7 +3675,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -2972,7 +3687,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 27
+        "y": 19
       },
       "hideTimeOverride": true,
       "id": 100,
@@ -3041,7 +3756,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-green"
+                "color": "dark-green",
+                "value": null
               }
             ]
           }
@@ -3052,7 +3768,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 30
+        "y": 22
       },
       "hideTimeOverride": true,
       "id": 101,
@@ -3112,6 +3828,509 @@
       "fieldConfig": {
         "defaults": {
           "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "watth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 21,
+        "x": 0,
+        "y": 25
+      },
+      "id": 131,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": -200
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  date_trunc('day', time) AS day,\n  name,\n  SUM(delta_kwh) as wh\nFROM smart_plug\nWHERE\n  $__timeFilter(\"time\")\nGROUP BY day, name\nORDER BY day, name;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "ASC"
+          },
+          "table": "heath_hour_usage"
+        }
+      ],
+      "timeFrom": "30d",
+      "title": "Smart Plug Per Day (WH)",
+      "transformations": [
+        {
+          "id": "prepareTimeSeries",
+          "options": {
+            "format": "multi"
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 21,
+        "x": 0,
+        "y": 32
+      },
+      "id": 134,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": -200
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "with totals as\n    (select min(time)::date as day,\n           (max(power_normal_kwh) - min(power_normal_kwh) +\n            max(power_offpeak_kwh) - min(power_offpeak_kwh)) * 1000 as totaldaypower\n    from electricity\n    where $__timeFilter(\"time\") \n    group by extract(year from time), extract(month from time), extract(day from time)\n    )\n  , smart as\n     (select min(time)::date as day,\n             name,\n             sum(delta_kwh) as power\n      from smart_plug\n      where $__timeFilter(\"time\") and (name != 'Marantz Versterker')\n      group by name, extract(year from time), extract(month from time), extract(day from time)\n)\n\nselect smart.day, name, power/totaldaypower as \"%\"\nfrom totals inner join smart on totals.day = smart.day\norder by 1\n;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "ASC"
+          },
+          "table": "heath_hour_usage"
+        }
+      ],
+      "timeFrom": "30d",
+      "title": "Smart Plug Per Day (Percentage)",
+      "transformations": [
+        {
+          "id": "prepareTimeSeries",
+          "options": {
+            "format": "multi"
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 21,
+        "x": 0,
+        "y": 39
+      },
+      "id": 135,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": -200
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "with totals as\n    (select min(time)::date as day,\n           (max(power_normal_kwh) - min(power_normal_kwh) +\n            max(power_offpeak_kwh) - min(power_offpeak_kwh)) * 1000 as totaldaypower\n    from electricity\n    where $__timeFilter(\"time\") \n    group by extract(year from time), extract(month from time), extract(day from time)\n    )\n  , smart as\n     (select min(time)::date as day,\n             sum(delta_kwh) as power\n      from smart_plug\n      where $__timeFilter(\"time\") and (name != 'Marantz Versterker')\n      group by extract(year from time), extract(month from time), extract(day from time)\n)\n\nselect smart.day, power/totaldaypower as \"%\"\nfrom totals inner join smart on totals.day = smart.day\norder by 1\n;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "ASC"
+          },
+          "table": "heath_hour_usage"
+        }
+      ],
+      "timeFrom": "30d",
+      "title": "Known Devices Per Day (Percentage)",
+      "transformations": [
+        {
+          "id": "prepareTimeSeries",
+          "options": {
+            "format": "multi"
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "watth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 21,
+        "x": 0,
+        "y": 46
+      },
+      "id": 132,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": -200
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  date_trunc('hour', time) AS day,\n  name,\n  SUM(delta_kwh) as power\nFROM smart_plug\nWHERE\n  $__timeFilter(\"time\")\nGROUP BY day, name\nORDER BY day, name;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "ASC"
+          },
+          "table": "heath_hour_usage"
+        }
+      ],
+      "title": "Smart Plug Per Hour (KWH)",
+      "transformations": [
+        {
+          "id": "prepareTimeSeries",
+          "options": {
+            "format": "multi"
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
             "mode": "thresholds"
           },
           "custom": {
@@ -3141,7 +4360,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -3211,7 +4431,7 @@
         "h": 9,
         "w": 20,
         "x": 0,
-        "y": 33
+        "y": 53
       },
       "id": 75,
       "options": {
@@ -3316,7 +4536,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue"
+                "color": "super-light-blue",
+                "value": null
               }
             ]
           }
@@ -3327,7 +4548,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 33
+        "y": 53
       },
       "hideTimeOverride": true,
       "id": 102,
@@ -3396,7 +4617,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue"
+                "color": "blue",
+                "value": null
               }
             ]
           }
@@ -3407,7 +4629,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 36
+        "y": 56
       },
       "hideTimeOverride": true,
       "id": 104,
@@ -3476,7 +4698,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-blue"
+                "color": "dark-blue",
+                "value": null
               }
             ]
           }
@@ -3487,7 +4710,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 39
+        "y": 59
       },
       "hideTimeOverride": true,
       "id": 103,
@@ -3578,7 +4801,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -3632,7 +4856,7 @@
         "h": 9,
         "w": 20,
         "x": 0,
-        "y": 42
+        "y": 62
       },
       "id": 98,
       "options": {
@@ -3737,7 +4961,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-orange"
+                "color": "super-light-orange",
+                "value": null
               }
             ]
           }
@@ -3748,7 +4973,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 42
+        "y": 62
       },
       "hideTimeOverride": true,
       "id": 105,
@@ -3817,7 +5042,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "orange"
+                "color": "orange",
+                "value": null
               }
             ]
           }
@@ -3828,7 +5054,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 45
+        "y": 65
       },
       "hideTimeOverride": true,
       "id": 106,
@@ -3897,7 +5123,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "orange"
+                "color": "orange",
+                "value": null
               }
             ]
           }
@@ -3908,7 +5135,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 48
+        "y": 68
       },
       "hideTimeOverride": true,
       "id": 107,
@@ -3956,7 +5183,7 @@
         }
       ],
       "timeFrom": "1h",
-      "title": "Heath - (rated PY) verwachting dit jaar",
+      "title": "Heath - verwachting dit jaar",
       "type": "stat"
     },
     {
@@ -3999,7 +5226,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -4054,9 +5282,9 @@
         "h": 8,
         "w": 20,
         "x": 0,
-        "y": 51
+        "y": 71
       },
-      "id": 111,
+      "id": 119,
       "options": {
         "barRadius": 0,
         "barWidth": 1,
@@ -4088,7 +5316,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT min(time)::date as time,\n       avg(outside_temperature) as \"2024\"\nFROM tado\n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
+          "rawSql": "SELECT min(time)::date as time,\n       avg(outside_temperature) as \"2024\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -4117,7 +5345,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       avg(outside_temperature) as \"2025\"\nFROM tado\n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
+          "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       avg(outside_temperature) as \"2025\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
           "refId": "B",
           "sql": {
             "columns": [
@@ -4159,7 +5387,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "orange"
+                "color": "orange",
+                "value": null
               }
             ]
           }
@@ -4170,7 +5399,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 51
+        "y": 71
       },
       "hideTimeOverride": true,
       "id": 108,
@@ -4261,7 +5490,373 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "time:MMM"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "2024"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "2025"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 20,
+        "x": 0,
+        "y": 79
+      },
+      "id": 121,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 1,
+        "fullHighlight": false,
+        "groupWidth": 0.9,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT min(time)::date as time,\n       avg(inside_temperature) as \"2024\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       avg(inside_temperature) as \"2025\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Binnentemperatuur per maand (gemiddeld)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisWidth": -7,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "time:MMM"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "2024"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "2025"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 20,
+        "x": 0,
+        "y": 87
+      },
+      "id": 122,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 1,
+        "fullHighlight": false,
+        "groupWidth": 0.9,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT min(time)::date as time,\n       sum(sunny_minutes) as \"2024\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       sum(sunny_minutes) as \"2025\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Zonminuten per maand (totaal)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisWidth": -7,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -4315,9 +5910,9 @@
         "h": 8,
         "w": 20,
         "x": 0,
-        "y": 59
+        "y": 95
       },
-      "id": 112,
+      "id": 120,
       "options": {
         "barRadius": 0,
         "barWidth": 1,
@@ -4349,7 +5944,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT min(time)::date as time,\n       avg(call_for_heat) as \"2024\"\nFROM tado\n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
+          "rawSql": "SELECT min(time)::date as time,\n       sum(call_for_heat) as \"2024\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())-1 \ngroup by extract(year from time), extract(month from time)\norder by time;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -4378,7 +5973,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       avg(call_for_heat) as \"2025\"\nFROM tado\n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
+          "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       sum(call_for_heat) as \"2025\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
           "refId": "B",
           "sql": {
             "columns": [
@@ -4399,7 +5994,7 @@
           }
         }
       ],
-      "title": "call for heat per maand (gemiddeld)",
+      "title": "call for heat per maand (totaal)",
       "type": "barchart"
     },
     {
@@ -4408,7 +6003,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 67
+        "y": 103
       },
       "id": 86,
       "panels": [
@@ -4491,7 +6086,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 68
+            "y": 1225
           },
           "id": 87,
           "options": {
@@ -4607,7 +6202,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 68
+            "y": 1225
           },
           "id": 88,
           "options": {
@@ -4655,7 +6250,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 68
+        "y": 104
       },
       "id": 5,
       "panels": [
@@ -4740,7 +6335,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 142
+            "y": 1266
           },
           "id": 85,
           "options": {
@@ -4927,7 +6522,7 @@
                 "properties": [
                   {
                     "id": "unit",
-                    "value": "time:dd hh:mm"
+                    "value": "time:dd HH:mm"
                   }
                 ]
               }
@@ -4937,7 +6532,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 175
+            "y": 1571
           },
           "id": 95,
           "options": {
@@ -5110,7 +6705,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 182
+            "y": 1578
           },
           "id": 83,
           "options": {
@@ -5178,7 +6773,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 69
+        "y": 105
       },
       "id": 34,
       "panels": [
@@ -5220,7 +6815,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -5263,7 +6859,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 143
+            "y": 932
           },
           "id": 71,
           "options": {
@@ -5360,7 +6956,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -5403,7 +7000,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 151
+            "y": 958
           },
           "id": 66,
           "options": {
@@ -5500,7 +7097,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -5542,7 +7140,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 159
+            "y": 966
           },
           "id": 80,
           "options": {
@@ -5619,7 +7217,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 70
+        "y": 106
       },
       "id": 48,
       "panels": [
@@ -5642,7 +7240,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -5653,7 +7252,7 @@
             "h": 4,
             "w": 6,
             "x": 0,
-            "y": 71
+            "y": 933
           },
           "hideTimeOverride": true,
           "id": 62,
@@ -5732,7 +7331,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -5743,7 +7343,7 @@
             "h": 4,
             "w": 6,
             "x": 6,
-            "y": 71
+            "y": 933
           },
           "hideTimeOverride": true,
           "id": 61,
@@ -5835,7 +7435,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -5846,7 +7447,7 @@
             "h": 4,
             "w": 6,
             "x": 12,
-            "y": 71
+            "y": 933
           },
           "hideTimeOverride": true,
           "id": 36,
@@ -5947,7 +7548,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -5958,7 +7560,7 @@
             "h": 4,
             "w": 6,
             "x": 18,
-            "y": 71
+            "y": 933
           },
           "id": 58,
           "options": {
@@ -6052,7 +7654,7 @@
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
                 "axisLabel": "",
-                "axisPlacement": "auto",
+                "axisPlacement": "left",
                 "fillOpacity": 80,
                 "gradientMode": "none",
                 "hideFrom": {
@@ -6076,7 +7678,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -6085,37 +7688,53 @@
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "T2"
+                  "options": "laag"
                 },
                 "properties": [
                   {
                     "id": "color",
                     "value": {
-                      "fixedColor": "super-light-red",
+                      "fixedColor": "green",
                       "mode": "fixed"
                     }
+                  },
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "hidden"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "time:D MMM"
                   }
                 ]
               }
             ]
           },
           "gridPos": {
-            "h": 9,
-            "w": 24,
+            "h": 7,
+            "w": 12,
             "x": 0,
-            "y": 75
+            "y": 955
           },
-          "id": 67,
+          "id": 129,
           "options": {
             "barRadius": 0,
-            "barWidth": 1,
+            "barWidth": 0.95,
             "fullHighlight": false,
             "groupWidth": 0.7,
             "legend": {
               "calcs": [],
               "displayMode": "list",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": false
             },
             "orientation": "auto",
             "showValue": "always",
@@ -6137,7 +7756,7 @@
               "editorMode": "code",
               "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT $__timeGroup(time,'1d') as time, max(power_offpeak_kwh) FROM electricity WHERE $__timeFilter(time) group by 1 order by 1",
+              "rawSql": "select\n    min(time)::date as time,\n    min(power_offpeak_kwh) as laag\n    from electricity\n    where $__timeFilter(time)\n    group by extract(year from time), extract(month from time)\n    order by 1;",
               "refId": "A",
               "sql": {
                 "columns": [
@@ -6158,8 +7777,8 @@
               }
             }
           ],
-          "timeFrom": "30d",
-          "title": "Electriciteit stand Per Dag DB (Kwh)",
+          "timeFrom": "12M",
+          "title": "Electriciteit stand (Laag) Per Maand (Kwh)",
           "type": "barchart"
         },
         {
@@ -6178,7 +7797,7 @@
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
                 "axisLabel": "",
-                "axisPlacement": "auto",
+                "axisPlacement": "left",
                 "fillOpacity": 80,
                 "gradientMode": "none",
                 "hideFrom": {
@@ -6197,12 +7816,13 @@
               "decimals": 3,
               "fieldMinMax": false,
               "mappings": [],
-              "min": 3000,
+              "min": 2150,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -6211,52 +7831,53 @@
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "T2"
+                  "options": "hoog"
                 },
                 "properties": [
                   {
                     "id": "color",
                     "value": {
-                      "fixedColor": "super-light-red",
+                      "fixedColor": "red",
                       "mode": "fixed"
                     }
+                  },
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "hidden"
                   }
                 ]
               },
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "max"
+                  "options": "time"
                 },
                 "properties": [
                   {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "super-light-red",
-                      "mode": "fixed"
-                    }
+                    "id": "unit",
+                    "value": "time:D MMM"
                   }
                 ]
               }
             ]
           },
           "gridPos": {
-            "h": 9,
-            "w": 24,
-            "x": 0,
-            "y": 84
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 955
           },
-          "id": 68,
+          "id": 67,
           "options": {
             "barRadius": 0,
-            "barWidth": 1,
+            "barWidth": 0.95,
             "fullHighlight": false,
             "groupWidth": 0.7,
             "legend": {
               "calcs": [],
               "displayMode": "list",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": false
             },
             "orientation": "auto",
             "showValue": "always",
@@ -6278,7 +7899,7 @@
               "editorMode": "code",
               "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT $__timeGroup(time,'1d') as time, max(power_normal_kwh) FROM electricity WHERE $__timeFilter(time) group by 1 order by 1",
+              "rawSql": "select\n    min(time)::date as time,\n    min(power_normal_kwh) as hoog\n    from electricity\n    where extract(year from time) = extract(year from now())\n    group by extract(year from time), extract(month from time)\n    order by 1;",
               "refId": "A",
               "sql": {
                 "columns": [
@@ -6299,8 +7920,7 @@
               }
             }
           ],
-          "timeFrom": "30d",
-          "title": "Electriciteit stand Per Dag DB (Kwh)",
+          "title": "Electriciteit stand (Hoog) Per Maand (Kwh)",
           "type": "barchart"
         },
         {
@@ -6319,7 +7939,7 @@
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
                 "axisLabel": "",
-                "axisPlacement": "auto",
+                "axisPlacement": "left",
                 "fillOpacity": 80,
                 "gradientMode": "none",
                 "hideFrom": {
@@ -6343,7 +7963,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -6353,7 +7974,19 @@
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "max"
+                  "options": "time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "time:D MMM"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "water"
                 },
                 "properties": [
                   {
@@ -6362,31 +7995,35 @@
                       "fixedColor": "blue",
                       "mode": "fixed"
                     }
+                  },
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "hidden"
                   }
                 ]
               }
             ]
           },
           "gridPos": {
-            "h": 8,
-            "w": 24,
+            "h": 7,
+            "w": 12,
             "x": 0,
-            "y": 93
+            "y": 962
           },
-          "id": 69,
+          "id": 127,
           "options": {
             "barRadius": 0,
-            "barWidth": 0.97,
+            "barWidth": 0.95,
             "fullHighlight": false,
             "groupWidth": 0.7,
             "legend": {
               "calcs": [],
               "displayMode": "list",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": false
             },
             "orientation": "auto",
-            "showValue": "auto",
+            "showValue": "always",
             "stacking": "none",
             "tooltip": {
               "mode": "single",
@@ -6405,7 +8042,7 @@
               "editorMode": "code",
               "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT $__timeGroup(time,'1d') as time, max(water_m3) FROM water WHERE $__timeFilter(time) group by 1 order by 1",
+              "rawSql": "select\n    min(time)::date as time,\n    min(water_m3) as water\n    from water\n    where extract(year from time) = extract(year from now())\n    group by extract(year from time), extract(month from time)\n    order by 1;",
               "refId": "A",
               "sql": {
                 "columns": [
@@ -6426,8 +8063,7 @@
               }
             }
           ],
-          "timeFrom": "30d",
-          "title": "Waterstand Per Dag DB (M3)",
+          "title": "Water stand Per Maand (M3)",
           "type": "barchart"
         },
         {
@@ -6439,7 +8075,7 @@
           "fieldConfig": {
             "defaults": {
               "color": {
-                "mode": "palette-classic"
+                "mode": "thresholds"
               },
               "custom": {
                 "axisBorderShow": false,
@@ -6463,13 +8099,15 @@
                 }
               },
               "decimals": 3,
+              "fieldMinMax": false,
               "mappings": [],
-              "min": 198.5,
+              "min": 200,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -6478,13 +8116,25 @@
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "heath_gj"
+                  "options": "time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "time:D MMM"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "water"
                 },
                 "properties": [
                   {
                     "id": "color",
                     "value": {
-                      "fixedColor": "orange",
+                      "fixedColor": "blue",
                       "mode": "fixed"
                     }
                   }
@@ -6493,7 +8143,7 @@
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "max"
+                  "options": "warmte"
                 },
                 "properties": [
                   {
@@ -6502,38 +8152,42 @@
                       "fixedColor": "orange",
                       "mode": "fixed"
                     }
+                  },
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "hidden"
                   }
                 ]
               }
             ]
           },
           "gridPos": {
-            "h": 8,
-            "w": 24,
-            "x": 0,
-            "y": 101
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 962
           },
-          "id": 59,
+          "id": 128,
           "options": {
             "barRadius": 0,
-            "barWidth": 0.97,
+            "barWidth": 0.95,
             "fullHighlight": false,
             "groupWidth": 0.7,
             "legend": {
               "calcs": [],
               "displayMode": "list",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": false
             },
             "orientation": "auto",
-            "showValue": "auto",
+            "showValue": "always",
             "stacking": "none",
             "tooltip": {
               "mode": "single",
               "sort": "none"
             },
             "xTickLabelRotation": 0,
-            "xTickLabelSpacing": -200
+            "xTickLabelSpacing": -100
           },
           "pluginVersion": "11.3.1",
           "targets": [
@@ -6545,7 +8199,7 @@
               "editorMode": "code",
               "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT $__timeGroup(time,'1d') as time, max(heath_gj) FROM heath WHERE $__timeFilter(time) group by 1 order by 1",
+              "rawSql": "select\n    min(time)::date as time,\n    min(heath_GJ) as warmte\n    from heath\n    where extract(year from time) = extract(year from now())\n    group by extract(year from time), extract(month from time)\n    order by 1;",
               "refId": "A",
               "sql": {
                 "columns": [
@@ -6566,8 +8220,7 @@
               }
             }
           ],
-          "timeFrom": "30d",
-          "title": "Energy Consumption Per Day DB (GJ)",
+          "title": "Energy stand Per Maand (GJ)",
           "type": "barchart"
         }
       ],
@@ -6575,12 +8228,197 @@
       "type": "row"
     },
     {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 107
+      },
+      "id": 118,
+      "panels": [],
+      "title": "Log",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "ee9nfq7i30dmoa"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": true
+            },
+            "filterable": true,
+            "inspect": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "className"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 180
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "timeStr"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 219
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "type"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 94
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 20
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "msg"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 891
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 108
+      },
+      "id": 117,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "time"
+          }
+        ]
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ee9nfq7i30dmoa"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "http://192.168.2.39:8080/log/logs",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Logs",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "application": true,
+              "pid": true,
+              "process": true,
+              "time": false
+            },
+            "includeByName": {},
+            "indexByName": {
+              "application": 2,
+              "className": 3,
+              "msg": 4,
+              "pid": 5,
+              "process": 6,
+              "throwable": 7,
+              "time": 8,
+              "timeStr": 0,
+              "type": 1
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
       "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 71
+        "y": 117
       },
       "id": 110,
       "panels": [
@@ -6622,7 +8460,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -6677,7 +8516,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 119
+            "y": 118
           },
           "id": 79,
           "options": {
@@ -6693,7 +8532,7 @@
             },
             "orientation": "auto",
             "showValue": "auto",
-            "stacking": "none",
+            "stacking": "normal",
             "tooltip": {
               "mode": "single",
               "sort": "none"
@@ -6749,7 +8588,7 @@
     "list": []
   },
   "time": {
-    "from": "now-5d",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {
@@ -6768,6 +8607,6 @@
   "timezone": "browser",
   "title": "Home-monitor",
   "uid": "bdsucvo44sy68b",
-  "version": 107,
+  "version": 246,
   "weekStart": ""
 }
