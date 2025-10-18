@@ -105,7 +105,7 @@ class SmartPlugService(
 
     private fun lastRecord(deviceName: String, isVirtual: Boolean): SmartPlugEntity {
         return smartPlugRepository
-            .getLastSmartPlugEntity(deviceName, isVirtual)
+            .getLastSmartPlugEntity(deviceName)
             ?: SmartPlugEntity(
                 id = SmartPlugId(
                     name = deviceName,

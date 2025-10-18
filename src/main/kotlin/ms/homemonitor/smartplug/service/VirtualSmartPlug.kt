@@ -6,6 +6,7 @@ class VirtualSmartPlug() {
     companion object {
         val virtualDeviceList = listOf(
             VirtualDevice("WTW", BigDecimal.valueOf(44.25)),
+            VirtualDevice("Meterkast (IoT)", BigDecimal.valueOf(18.16)),
         )
     }
 }
