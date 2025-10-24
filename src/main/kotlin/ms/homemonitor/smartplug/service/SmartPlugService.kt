@@ -12,10 +12,8 @@ import ms.homemonitor.smartplug.restclient.model.TuyaDeviceMasterData
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.Instant
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-import kotlin.collections.map
 
 @Service
 class SmartPlugService(
@@ -57,10 +55,8 @@ class SmartPlugService(
 
     private fun processDevice(deviceId: String, deviceName: String) {
         try {
-            val lastRecord = lastRecord(deviceName, isVirtual = false)
-
-            val startTime = lastRecord.id.time?.plusSeconds(1) ?: LocalDate.now().atStartOfDay().minusMinutes(1)
-            val endTime = LocalDateTime.now().plusMinutes(1)
+            val startTime = lastRecordTime(deviceName)
+            val endTime = LocalDateTime.now()
 
             val tuyaDetailList = tuyaClient.getTuyaData(deviceId, startTime, endTime)
             val toBeSaveList = tuyaDetailList
@@ -70,8 +66,8 @@ class SmartPlugService(
                             name = deviceName,
                             time = LocalDateTime.ofInstant(Instant.ofEpochMilli(tuyaDetail.eventTime), zoneId),
                         ),
-                        deltaKWH = BigDecimal(tuyaDetail.value),
-                        isVirtual = false
+                        deltaWH = BigDecimal(tuyaDetail.value),
+                        deviceId = deviceId
                     )
                 }
             smartPlugRepository.saveAllAndFlush(toBeSaveList)
@@ -81,8 +77,7 @@ class SmartPlugService(
     }
 
     private fun processVirtualDevice(virtualDeviceName: String, wattHourPerHour: BigDecimal) {
-        val lastRecord = lastRecord(virtualDeviceName, isVirtual = true)
-        val startTime = lastRecord.id.time ?: LocalDate.now().atStartOfDay().minusMinutes(1)
+        val startTime = lastRecordTime(virtualDeviceName)
         val endTime = LocalDateTime.now()
         try {
             val toBeSaveList = dateTimeRangeByHour(startTime, endTime)
@@ -93,8 +88,8 @@ class SmartPlugService(
                             name = virtualDeviceName,
                             time = time,
                         ),
-                        deltaKWH = wattHourPerHour,
-                        isVirtual = true
+                        deltaWH = wattHourPerHour,
+                        deviceId = null
                     )
                 }.toList()
             smartPlugRepository.saveAllAndFlush(toBeSaveList)
@@ -104,15 +99,9 @@ class SmartPlugService(
     }
 
 
-    private fun lastRecord(deviceName: String, isVirtual: Boolean): SmartPlugEntity {
-        return smartPlugRepository.getLastSmartPlugEntityByName(deviceName)
-            ?: SmartPlugEntity(
-                id = SmartPlugId(
-                    name = deviceName,
-                    time = smartPlugRepository.getLastSmartPlugEntity()?.id?.time?.plusSeconds(1) ?: LocalDateTime.now()
-                ),
-                deltaKWH = BigDecimal.ZERO,
-                isVirtual = isVirtual
-            )
+    private fun lastRecordTime(deviceName: String): LocalDateTime {
+        return smartPlugRepository.getLastSmartPlugEntityByName(deviceName)?.id?.time
+            ?: smartPlugRepository.getLastSmartPlugEntity()?.id?.time?.plusSeconds(1)
+            ?: LocalDateTime.now()
     }
 }

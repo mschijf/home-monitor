@@ -13,10 +13,10 @@ class SmartPlugEntity(
     @EmbeddedId
     var id: SmartPlugId = SmartPlugId(),
 
-    @Column(name = "delta_kwh", nullable = true)
-    var deltaKWH: BigDecimal? = null,
+    @Column(name = "delta_wh", nullable = true)
+    var deltaWH: BigDecimal? = null,
 
-    @Column(name = "is_virtual", nullable = true)
-    var isVirtual: Boolean? = null,
+    @Column(name = "device_id", nullable = true)
+    var deviceId: String? = null,
 
-)
+    )
