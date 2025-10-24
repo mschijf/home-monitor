@@ -59,8 +59,7 @@ home-monitor:
     shelly:
       regular: 0 0/5 * * * *
     smartPlug:
-      regular: 0 1 * * * *
-      deviceState: 0 0/15 * * * *
+      regular: 0 5/30 * * * *
     system:
       temperature: 0 * * * * *
       dbStats: 0 * * * * *

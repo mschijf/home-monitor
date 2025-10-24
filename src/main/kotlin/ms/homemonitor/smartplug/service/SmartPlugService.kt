@@ -8,6 +8,7 @@ import ms.homemonitor.smartplug.repository.model.SmartPlugEntity
 import ms.homemonitor.smartplug.repository.model.SmartPlugId
 import ms.homemonitor.smartplug.repository.model.SmartPlugStatusEntity
 import ms.homemonitor.smartplug.restclient.TuyaClient
+import ms.homemonitor.smartplug.restclient.model.TuyaDeviceMasterData
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.Instant
@@ -25,17 +26,6 @@ class SmartPlugService(
 
     private val zoneId = ZoneId.of("Europe/Berlin")
 
-    fun processSmartPlugStatus() {
-        val deviceMasterDataList = tuyaClient.getTuyaDeviceMasterData()
-        smartPlugStatusRepository.saveAndFlush(
-            SmartPlugStatusEntity(
-                time = LocalDateTime.now(),
-                numberKnown = deviceMasterDataList.size,
-                numberOnLine = deviceMasterDataList.count { it.isOnline },
-            )
-        )
-    }
-
     fun processMeasurement() {
         processRealDevices()
         processVirtualDevices()
@@ -43,9 +33,20 @@ class SmartPlugService(
 
     private fun processRealDevices() {
         val deviceMasterDataList = tuyaClient.getTuyaDeviceMasterData()
+        processSmartPlugStatus(deviceMasterDataList)
         deviceMasterDataList.forEach { masterData ->
             processDevice(masterData.deviceId, masterData.customName)
         }
+    }
+
+    private fun processSmartPlugStatus(deviceMasterDataList: List<TuyaDeviceMasterData>) {
+        smartPlugStatusRepository.saveAndFlush(
+            SmartPlugStatusEntity(
+                time = LocalDateTime.now(),
+                numberKnown = deviceMasterDataList.size,
+                numberOnLine = deviceMasterDataList.count { it.isOnline },
+            )
+        )
     }
 
     private fun processVirtualDevices() {
@@ -104,12 +105,11 @@ class SmartPlugService(
 
 
     private fun lastRecord(deviceName: String, isVirtual: Boolean): SmartPlugEntity {
-        return smartPlugRepository
-            .getLastSmartPlugEntity(deviceName)
+        return smartPlugRepository.getLastSmartPlugEntityByName(deviceName)
             ?: SmartPlugEntity(
                 id = SmartPlugId(
                     name = deviceName,
-                    time = LocalDate.now().atStartOfDay().minusMinutes(1)
+                    time = smartPlugRepository.getLastSmartPlugEntity()?.id?.time?.plusSeconds(1) ?: LocalDateTime.now()
                 ),
                 deltaKWH = BigDecimal.ZERO,
                 isVirtual = isVirtual

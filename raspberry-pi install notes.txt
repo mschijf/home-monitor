@@ -125,6 +125,21 @@ CREATE DATABASE "home-monitor";
 
 *** copy backup tables ****
 
+TINYTUYA(not used, just described)
+==================================
+Necessary for fetching data from tuya clients (plugs for energy monitoring)
+This create a ~/domoticz user with necessary tinytuya files
+
+Install on laptop (when local admin):
+-------------------------------------
+python3 -m pip install tinytuya
+
+Install on Raspberry Pi:
+-------------------------
+sudo pip3 install tinytuya -t /home/domoticz/Domoticz_Python_Environmen
+
+more info: https://github.com/jasonacox/tinytuya
+
 HOME-MONITOR
 ============
 
@@ -147,6 +162,10 @@ home-monitor:
   shelly:
     deviceId: see 1password
     authorizationKey: see 1password
+
+  tuya:
+    clientId: see 1password
+    secret: see 1password
 -------
 
 
