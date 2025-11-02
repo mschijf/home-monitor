@@ -59,7 +59,7 @@ home-monitor:
         root: Backup/home-monitor/
     backup:
       script: ${home-monitor.mock-location}/backup.sh
-      keep: 3
+      keepWeeks: 4
 
   log:
     location: ${home-monitor.mock-location}/log

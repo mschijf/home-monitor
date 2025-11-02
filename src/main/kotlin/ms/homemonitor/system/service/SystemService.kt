@@ -9,7 +9,7 @@ import ms.homemonitor.system.repository.BackupStatsRepository
 import ms.homemonitor.system.repository.DatabaseAdminRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import kotlin.math.max
+import java.time.LocalDateTime
 
 @Service
 class SystemService(
@@ -19,7 +19,7 @@ class SystemService(
     private val databaseAdminRepository: DatabaseAdminRepository,
     private val dropboxClient: DropboxClient,
     private val measurement: MicroMeterMeasurement,
-    @Value("\${home-monitor.system.backup.keep}") private val keepNumberOfBackupFiles: Int
+    @Value("\${home-monitor.system.backup.keepWeeks}") private val keepNumberOfWeekDetailsBackupFiles: Int
 ) {
 
     fun processMeasurement() {
@@ -38,14 +38,17 @@ class SystemService(
         measurement.setDoubleGauge("homeMonitorBackupSize", data.fileSize.toDouble())
     }
 
-    fun cleanUp(keep: Int = keepNumberOfBackupFiles) {
-        val backupList = dropboxClient.getBackupStats()
-        if (backupList.size > keep) {
-            backupList.take(backupList.size - keep).forEach { dropboxRecord ->
+    fun cleanUp(keepWeekDetails: Int = keepNumberOfWeekDetailsBackupFiles) {
+        val oldBackupsPerMonth = dropboxClient.getBackupStats()
+            .filter { it.dateTime.isBefore(LocalDateTime.now().minusWeeks(keepWeekDetails.toLong())) }
+            .groupBy { it.dateTime.year * 100 + it.dateTime.month.value }
+            .filter{ it.value.size > 1 }
+
+        oldBackupsPerMonth.values.forEach { monthList ->
+            monthList.sortedBy { it.dateTime }.dropLast(1).forEach { dropboxRecord ->
                 dropboxClient.deleteFile(dropboxRecord.fileName)
             }
         }
-        measurement.setDoubleGauge("homeMonitorBackupCount", max(keep, backupList.size).toDouble())
     }
 
     fun processBackupStats() {

@@ -9,6 +9,7 @@ import ms.homemonitor.smartplug.repository.model.SmartPlugId
 import ms.homemonitor.smartplug.repository.model.SmartPlugStatusEntity
 import ms.homemonitor.smartplug.restclient.TuyaClient
 import ms.homemonitor.smartplug.restclient.model.TuyaDeviceMasterData
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.Instant
@@ -22,6 +23,7 @@ class SmartPlugService(
     private val smartPlugStatusRepository: SmartPlugStatusRepository,
 ) {
 
+    private val log = LoggerFactory.getLogger(SmartPlugService::class.java)
     private val zoneId = ZoneId.of("Europe/Berlin")
 
     fun processMeasurement() {
@@ -55,7 +57,7 @@ class SmartPlugService(
 
     private fun processDevice(deviceId: String, deviceName: String) {
         try {
-            val startTime = lastRecordTime(deviceName)
+            val startTime = lastRecordTime(deviceName).plusSeconds(1)
             val endTime = LocalDateTime.now()
 
             val tuyaDetailList = tuyaClient.getTuyaData(deviceId, startTime, endTime)
@@ -70,18 +72,17 @@ class SmartPlugService(
                         deviceId = deviceId
                     )
                 }
-            smartPlugRepository.saveAllAndFlush(toBeSaveList)
+            saveRecordList(toBeSaveList)
         } catch (e: Exception) {
             throw HomeMonitorException("Error while processing Tuya data", e)
         }
     }
 
     private fun processVirtualDevice(virtualDeviceName: String, wattHourPerHour: BigDecimal) {
-        val startTime = lastRecordTime(virtualDeviceName)
+        val startTime = lastRecordTime(virtualDeviceName).plusHours(1)
         val endTime = LocalDateTime.now()
         try {
             val toBeSaveList = dateTimeRangeByHour(startTime, endTime)
-                .drop(1)
                 .map { time ->
                     SmartPlugEntity(
                         SmartPlugId(
@@ -92,16 +93,26 @@ class SmartPlugService(
                         deviceId = null
                     )
                 }.toList()
-            smartPlugRepository.saveAllAndFlush(toBeSaveList)
+            saveRecordList(toBeSaveList)
         } catch (e: Exception) {
             throw HomeMonitorException("Error while processing Tuya data", e)
+        }
+    }
+
+    private fun saveRecordList(recordList: List<SmartPlugEntity>) {
+        recordList.forEach { smartPlugRecord ->
+            try {
+                smartPlugRepository.saveAndFlush(smartPlugRecord)
+            } catch (e: Exception) {
+                log.info("Ignore exception ' ${e.message}' while updating record $smartPlugRecord")
+            }
         }
     }
 
 
     private fun lastRecordTime(deviceName: String): LocalDateTime {
         return smartPlugRepository.getLastSmartPlugEntityByName(deviceName)?.id?.time
-            ?: smartPlugRepository.getLastSmartPlugEntity()?.id?.time?.plusSeconds(1)
+            ?: smartPlugRepository.getLastSmartPlugEntity()?.id?.time
             ?: LocalDateTime.now()
     }
 }

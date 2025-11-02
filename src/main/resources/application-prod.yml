@@ -38,7 +38,7 @@ home-monitor:
       root: Backup/home-monitor/
     backup:
       script: /home/martinschijf/home-monitor-backup-script/backup.sh
-      keep: 672
+      keepWeeks: 4
 
   scheduler:
     electricity:
