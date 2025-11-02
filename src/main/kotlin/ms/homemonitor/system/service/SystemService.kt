@@ -39,10 +39,12 @@ class SystemService(
     }
 
     fun cleanUp(keepWeekDetails: Int = keepNumberOfWeekDetailsBackupFiles) {
+        //keep for 10 years, the latest per month
+        // keep for the last x weeks, the backup details per hour
         val oldBackupsPerMonth = dropboxClient.getBackupStats()
             .filter { it.dateTime.isBefore(LocalDateTime.now().minusWeeks(keepWeekDetails.toLong())) }
-            .groupBy { it.dateTime.year * 100 + it.dateTime.month.value }
-            .filter{ it.value.size > 1 }
+            .groupBy { (it.dateTime.year % 10) * 100 + it.dateTime.month.value }
+            .filter{ it.value.size > 1}
 
         oldBackupsPerMonth.values.forEach { monthList ->
             monthList.sortedBy { it.dateTime }.dropLast(1).forEach { dropboxRecord ->
