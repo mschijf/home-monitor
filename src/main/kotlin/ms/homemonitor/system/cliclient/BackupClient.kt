@@ -23,7 +23,7 @@ class BackupClient(
             val backupOutputParts = backupOutput.first().trim().split("\\s+".toRegex())
             val backupFileName = backupOutputParts[0]
             val backupSize = backupOutputParts[1]
-            log.info("Backup succeeded. Backup size: $backupSize kB. Backup file name: $backupFileName")
+            log.debug("Backup succeeded. Backup size: $backupSize kB. Backup file name: $backupFileName")
             return BackupDataModel(backupSize.toLong() * 1024, backupTime, backupFileName)
         } catch (e: Exception) {
             log.error("Backup failed, caused by ${e.message}")

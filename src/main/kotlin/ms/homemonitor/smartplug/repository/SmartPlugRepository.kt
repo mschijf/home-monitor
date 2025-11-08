@@ -13,6 +13,9 @@ interface SmartPlugRepository: JpaRepository<SmartPlugEntity, SmartPlugId> {
     @Query(value = "select smartPlug from SmartPlugEntity smartPlug where smartPlug.id.name = :name order by smartPlug.id.time desc limit 1")
     fun getLastSmartPlugEntityByName(@Param("name")name: String): SmartPlugEntity?
 
+    @Query(value = "select smartPlug from SmartPlugEntity smartPlug where smartPlug.deviceId = :deviceId order by smartPlug.id.time desc limit 1")
+    fun getLastSmartPlugEntityByDeviceId(@Param("deviceId")deviceId: String): SmartPlugEntity?
+
     @Query(value = "select smartPlug from SmartPlugEntity smartPlug order by smartPlug.id.time desc limit 1")
     fun getLastSmartPlugEntity(): SmartPlugEntity?
 }

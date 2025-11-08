@@ -54,13 +54,13 @@ class EnecoRestClient(
         } else {
             val result = mutableListOf<EnecoUsageEntry>()
             var dayDate = start
-            while (dayDate != end) {
+            while (dayDate.isBefore(end)) {
                 val response = getEnecoHourDataByAccessToken(secrets.apiKey, secrets.accessToken, dayDate)
                 if (response != null)
                     result.addAll(response.data.usages[0].entries)
                 dayDate = dayDate.plusDays(1)
             }
-            log.info("eneco data read  from $start to $end, ${result.size} hours, ${result.sumOf { it.actual.warmth.high }} GJ")
+            log.info("eneco data read from $start to $end, ${result.size} hours, ${result.sumOf { it.actual.warmth.high }} GJ")
             return result
         }
     }

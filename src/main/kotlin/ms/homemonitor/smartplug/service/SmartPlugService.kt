@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 
@@ -57,7 +58,7 @@ class SmartPlugService(
 
     private fun processDevice(deviceId: String, deviceName: String) {
         try {
-            val startTime = lastRecordTime(deviceName).plusSeconds(1)
+            val startTime = lastRecordTime(deviceName, deviceId).plusSeconds(1)
             val endTime = LocalDateTime.now()
 
             val tuyaDetailList = tuyaClient.getTuyaData(deviceId, startTime, endTime)
@@ -109,10 +110,10 @@ class SmartPlugService(
         }
     }
 
-
-    private fun lastRecordTime(deviceName: String): LocalDateTime {
+    private fun lastRecordTime(deviceName: String, deviceId: String? = null): LocalDateTime {
         return smartPlugRepository.getLastSmartPlugEntityByName(deviceName)?.id?.time
+            ?: (if (deviceId == null) null else smartPlugRepository.getLastSmartPlugEntityByDeviceId(deviceId)?.id?.time)
             ?: smartPlugRepository.getLastSmartPlugEntity()?.id?.time
-            ?: LocalDateTime.now()
+            ?: LocalDate.now().atStartOfDay()
     }
 }
