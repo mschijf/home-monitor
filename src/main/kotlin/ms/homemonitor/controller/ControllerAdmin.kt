@@ -1,6 +1,7 @@
 package ms.homemonitor.controller
 
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
@@ -10,6 +11,9 @@ import ms.homemonitor.heath.restclient.model.EnecoConsumption
 import ms.homemonitor.heath.service.HeathService
 import ms.homemonitor.shelly.restclient.ShellyClient
 import ms.homemonitor.shelly.restclient.model.ShellyThermometerData
+import ms.homemonitor.smartplug.restclient.TuyaClient
+import ms.homemonitor.smartplug.restclient.model.TuyaDataDetail
+import ms.homemonitor.smartplug.restclient.model.TuyaDeviceMasterData
 import ms.homemonitor.system.cliclient.DropboxClient
 import ms.homemonitor.system.cliclient.SystemTemperatureClient
 import ms.homemonitor.system.cliclient.model.BackupDataModel
@@ -29,6 +33,8 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.ModelAndView
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 
 @RestController
@@ -44,6 +50,7 @@ class ControllerAdmin(
     private val systemService: SystemService,
     private val heathService: HeathService,
     private val tadoService: TadoService,
+    private val tuyaClient: TuyaClient,
 ) {
 
     @GetMapping("/")
@@ -131,32 +138,51 @@ class ControllerAdmin(
         return shellyRestClient.getShellyThermometerData()
     }
 
+    @Tag(name="5. Tuya")
+    @GetMapping("/admin/tuya/devices/masterdata")
+    fun getTuyaDeviceMasterData(): List<TuyaDeviceMasterData> {
+        return tuyaClient.getTuyaDeviceMasterData()
+    }
 
-    @Tag(name="5. System")
+    @Tag(name="5. Tuya")
+    @GetMapping("/admin/tuya/devices/{deviceId}")
+    fun getTuyaData(@PathVariable deviceId: String,
+                    @Parameter(description = "date in format dd-mm-yyyy") @RequestParam dateString: String): List<TuyaDataDetail> {
+
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        try {
+            val date = LocalDate.parse(dateString, formatter)
+            return tuyaClient.getTuyaData(deviceId, date.atStartOfDay(), date.atStartOfDay().plusHours(24))
+        } catch (_: DateTimeParseException) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "'dateString' parameter cannot be paresed to a date")
+        }
+    }
+
+    @Tag(name="6. System")
     @GetMapping("/admin/system/temperature/current")
     fun raspberrypi(): SystemTemperatureModel {
         return systemTemperatureClient.getSystemTemperature()
     }
 
-    @Tag(name="5. System")
+    @Tag(name="6. System")
     @GetMapping("/admin/backupprocess/current")
     fun getBackupStats(): List<BackupDataModel> {
         return dropboxClient.getBackupStats()
     }
 
-    @Tag(name="5. System")
+    @Tag(name="6. System")
     @GetMapping("/admin/backupprocess/space")
     fun getFreeBackupSpace(): Long {
         return dropboxClient.getFreeBackupSpace()
     }
 
-    @Tag(name="5. System")
+    @Tag(name="6. System")
     @PostMapping("/admin/backup")
     fun executeBackup() {
         systemService.executeBackup()
     }
 
-    @Tag(name="5. System")
+    @Tag(name="6. System")
     @DeleteMapping("/admin/backup/cleanup")
     fun cleanupBackup(@RequestParam keep: Int) {
         systemService.cleanUp(keep)
