@@ -21,6 +21,6 @@ interface SmartPlugRepository: JpaRepository<SmartPlugEntity, SmartPlugId> {
     fun getLastSmartPlugEntity(): SmartPlugEntity?
 
     @Modifying
-    @Query(value = "refresh materialized view electricity_detail", nativeQuery = true)
+    @Query(value = "refresh materialized view electricity_hour_detail", nativeQuery = true)
     fun refreshElectricityDetail()
 }

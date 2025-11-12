@@ -18,8 +18,14 @@ spring:
     baseline-version: 0
 
 springdoc:
+  api-docs:
+    enabled: true
   swagger-ui:
     tagsSorter: alpha
+
+logging:
+  level:
+    org.springdoc: ERROR
 
 home-monitor:
   mock-location: ./mock
