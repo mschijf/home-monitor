@@ -349,18 +349,17 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "ce5mpc55vhptse"
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
       },
       "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "green",
             "mode": "thresholds"
           },
+          "fieldMinMax": false,
           "mappings": [],
-          "max": 20000000,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -368,35 +367,83 @@
               {
                 "color": "green",
                 "value": null
-              },
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "offline"
+            },
+            "properties": [
               {
-                "color": "orange",
-                "value": 10000000
-              },
-              {
-                "color": "red",
-                "value": 15000000
+                "id": "thresholds",
+                "value": {
+                  "mode": "percentage",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "red",
+                      "value": 0.1
+                    }
+                  ]
+                }
               }
             ]
           },
-          "unit": "decbytes"
-        },
-        "overrides": []
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "online"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "percentage",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 99.9
+                    },
+                    {
+                      "color": "green",
+                      "value": 100
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
+        "w": 4,
         "x": 9,
         "y": 1
       },
-      "id": 90,
+      "id": 133,
       "options": {
         "minVizHeight": 75,
         "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "last"
           ],
           "fields": "",
           "values": false
@@ -409,18 +456,68 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "ce5mpc55vhptse"
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
           },
           "editorMode": "code",
-          "expr": "homeMonitorBackupSize",
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select time, (number_known-number_on_line) as offline, number_on_line as online from smart_plug_status where $__timeFilter(time) order by time",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "last_eneco_import",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "b89aaa9b-cdef-4012-b456-71933a69cb85",
+                  "properties": {
+                    "field": "id",
+                    "fieldSrc": "field",
+                    "operator": "equal",
+                    "value": [
+                      0
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "number"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
+              "type": "group"
+            },
+            "whereString": "id = 0"
+          },
+          "table": "admin"
         }
       ],
-      "title": "Backup size",
+      "title": "Smart Plug Status",
       "type": "gauge"
     },
     {
@@ -459,8 +556,8 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 4,
-        "x": 12,
+        "w": 3,
+        "x": 13,
         "y": 1
       },
       "hideTimeOverride": true,
@@ -808,8 +905,8 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 4,
-        "x": 12,
+        "w": 3,
+        "x": 13,
         "y": 3
       },
       "id": 93,
@@ -1068,7 +1165,7 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 9,
+        "w": 12,
         "x": 0,
         "y": 5
       },
@@ -1120,179 +1217,6 @@
       ],
       "title": "CPU Usage/Temperature",
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "offline"
-            },
-            "properties": [
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "percentage",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    },
-                    {
-                      "color": "green",
-                      "value": 0
-                    },
-                    {
-                      "color": "red",
-                      "value": 0.1
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "online"
-            },
-            "properties": [
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "percentage",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    },
-                    {
-                      "color": "red",
-                      "value": 99.9
-                    },
-                    {
-                      "color": "green",
-                      "value": 100
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 6,
-        "x": 9,
-        "y": 5
-      },
-      "id": 133,
-      "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "select time, (number_known-number_on_line) as offline, number_on_line as online from smart_plug_status where $__timeFilter(time) order by time",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [
-                  {
-                    "name": "last_eneco_import",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50,
-            "whereJsonTree": {
-              "children1": [
-                {
-                  "id": "b89aaa9b-cdef-4012-b456-71933a69cb85",
-                  "properties": {
-                    "field": "id",
-                    "fieldSrc": "field",
-                    "operator": "equal",
-                    "value": [
-                      0
-                    ],
-                    "valueError": [
-                      null
-                    ],
-                    "valueSrc": [
-                      "value"
-                    ],
-                    "valueType": [
-                      "number"
-                    ]
-                  },
-                  "type": "rule"
-                }
-              ],
-              "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
-              "type": "group"
-            },
-            "whereString": "id = 0"
-          },
-          "table": "admin"
-        }
-      ],
-      "title": "Smart Plug Status",
-      "type": "gauge"
     },
     {
       "datasource": {
@@ -1363,8 +1287,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 9,
-        "x": 15,
+        "w": 12,
+        "x": 12,
         "y": 5
       },
       "id": 115,
@@ -2625,7 +2549,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 15
+            "y": 1173
           },
           "id": 74,
           "options": {
@@ -2959,7 +2883,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 23
+            "y": 1181
           },
           "id": 73,
           "options": {
@@ -3161,7 +3085,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 30
+            "y": 1188
           },
           "id": 130,
           "options": {
@@ -3387,9 +3311,9 @@
         "x": 0,
         "y": 15
       },
-      "id": 40,
+      "id": 138,
       "panels": [],
-      "title": "Maand",
+      "title": "Smart plug",
       "type": "row"
     },
     {
@@ -3401,430 +3325,6 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "kwatth"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2024"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "super-light-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2025"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "time"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "time:MMMM"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 20,
-        "x": 0,
-        "y": 16
-      },
-      "id": 96,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 1,
-        "fullHighlight": false,
-        "groupWidth": 0.9,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": -100
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "select\n    min(time)::date as time,\n    max(power_normal_kwh) - min(power_normal_kwh) +\n    max(power_offpeak_kwh) - min(power_offpeak_kwh) as \"2024\"\n    from electricity\n    where extract(year from time) = extract(year from now()) - 1\n    group by extract(year from time), extract(month from time)\n    order by 1;",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
-        },
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "hide": false,
-          "rawQuery": true,
-          "rawSql": "select\n    min(time)::date - INTERVAL '1 years' as time,\n    max(power_normal_kwh) - min(power_normal_kwh) +\n    max(power_offpeak_kwh) - min(power_offpeak_kwh) as \"2025\"\n    from electricity\n    where extract(year from time) = extract(year from now())\n    group by extract(year from time), extract(month from time)\n    order by 1;",
-          "refId": "B",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
-        }
-      ],
-      "title": "Electriciteit Totaal Per Maand (Kwh)",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "ee9nfq7i30dmoa"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "super-light-green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 16
-      },
-      "hideTimeOverride": true,
-      "id": 99,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "columns": [],
-          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "ee9nfq7i30dmoa"
-          },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "hide": false,
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "$.actualPreviousYear",
-          "source": "url",
-          "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "Electriciteit - Vorig Jaar",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "ee9nfq7i30dmoa"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 19
-      },
-      "hideTimeOverride": true,
-      "id": 100,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "columns": [],
-          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "ee9nfq7i30dmoa"
-          },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "hide": false,
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "$.actualRunningYear",
-          "source": "url",
-          "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "Electriciteit - Lopend Jaar",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "ee9nfq7i30dmoa"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "dark-green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 22
-      },
-      "hideTimeOverride": true,
-      "id": 101,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "columns": [],
-          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "ee9nfq7i30dmoa"
-          },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "hide": false,
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "$.yearExpectationExtrapolate",
-          "source": "url",
-          "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "Electriciteit - Verwachting dit jaar",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
             "mode": "palette-classic"
           },
           "custom": {
@@ -3854,148 +3354,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "watth"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "unknown"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "super-light-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 21,
-        "x": 0,
-        "y": 25
-      },
-      "id": 135,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "always",
-        "stacking": "normal",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": -200
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "with totals as\n    (select min(time)::date as day,\n           (max(power_normal_kwh) - min(power_normal_kwh) +\n            max(power_offpeak_kwh) - min(power_offpeak_kwh)) * 1000 as totaldaypower\n    from electricity\n    where $__timeFilter(\"time\") and (time <= (select max(time) from smart_plug))\n    group by extract(year from time), extract(month from time), extract(day from time)\n    )\n  , smart as\n     (select min(time)::date as day,\n             sum(delta_wh) as power\n      from smart_plug\n      where $__timeFilter(\"time\") and (name != 'Marantz Versterker')\n      group by extract(year from time), extract(month from time), extract(day from time)\n)\n\nselect smart.day, totaldaypower-power as unknown, power as known\nfrom totals inner join smart on totals.day = smart.day\norder by 1\n;\n",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "orderBy": {
-              "property": {
-                "name": "\"time\"",
-                "type": "string"
-              },
-              "type": "property"
-            },
-            "orderByDirection": "ASC"
-          },
-          "table": "heath_hour_usage"
-        }
-      ],
-      "timeFrom": "28d",
-      "title": "Unknown Devices Per Day (Wh)",
-      "transformations": [
-        {
-          "id": "prepareTimeSeries",
-          "options": {
-            "format": "multi"
-          }
-        }
-      ],
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -4005,9 +3365,9 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 21,
+        "w": 24,
         "x": 0,
-        "y": 32
+        "y": 16
       },
       "id": 131,
       "options": {
@@ -4041,7 +3401,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date_trunc('day', time) AS day,\n  name,\n  SUM(delta_wh) as \" \"\nFROM smart_plug\nWHERE\n  $__timeFilter(\"time\")\nGROUP BY day, name\nORDER BY day, name;",
+          "rawSql": "select \n  date_trunc('day', hour) as day, \n  name, \n  sum(delta_wh) as \" \"\nfrom electricity_detail\nwhere $__timeFilter(hour) \nGROUP BY day, name\nORDER BY day, name;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -4070,7 +3430,7 @@
           "table": "heath_hour_usage"
         }
       ],
-      "timeFrom": "30d",
+      "timeFrom": "28d",
       "title": "Smart Plug Per Day (WH)",
       "transformations": [
         {
@@ -4120,132 +3480,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 21,
-        "x": 0,
-        "y": 39
-      },
-      "id": 134,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "normal",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": -200
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "with totals as\n    (select min(time)::date as day,\n           (max(power_normal_kwh) - min(power_normal_kwh) +\n            max(power_offpeak_kwh) - min(power_offpeak_kwh)) * 1000 as totaldaypower\n    from electricity\n    where $__timeFilter(\"time\") and (time <= (select max(time) from smart_plug))\n    group by extract(year from time), extract(month from time), extract(day from time)\n    )\n  , smart as\n     (select min(time)::date as day,\n             name,\n             sum(delta_wh) as power\n      from smart_plug\n      where $__timeFilter(\"time\") and (name != 'Marantz Versterker')\n      group by name, extract(year from time), extract(month from time), extract(day from time)\n)\n\nselect smart.day, name, power/totaldaypower as \"%\"\nfrom totals inner join smart on totals.day = smart.day\norder by 1\n;\n",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "orderBy": {
-              "property": {
-                "name": "\"time\"",
-                "type": "string"
-              },
-              "type": "property"
-            },
-            "orderByDirection": "ASC"
-          },
-          "table": "heath_hour_usage"
-        }
-      ],
-      "timeFrom": "30d",
-      "title": "Smart Plug Per Day (Percentage)",
-      "transformations": [
-        {
-          "id": "prepareTimeSeries",
-          "options": {
-            "format": "multi"
-          }
-        }
-      ],
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -4255,9 +3491,9 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 21,
+        "w": 24,
         "x": 0,
-        "y": 46
+        "y": 23
       },
       "id": 137,
       "options": {
@@ -4291,7 +3527,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "with totals as\n    (select to_date(concat(extract(year from now()),extract(week from time)), 'iyyyiw') as week,\n            (max(power_normal_kwh) - min(power_normal_kwh) +\n             max(power_offpeak_kwh) - min(power_offpeak_kwh)) * 1000 as totaldaypower\n     from electricity\n     where $__timeFilter(\"time\")\n     group by extract(week from time)\n    )\n   , smart as\n    (select to_date(concat(extract(year from now()),extract(week from time)), 'iyyyiw') as week,\n            name,\n            sum(delta_wh) as power\n     from smart_plug\n     where $__timeFilter(\"time\") and (name != 'Marantz Versterker')\n     group by name, extract(week from time)\n    )\n\nselect smart.week, name, power as \" \"\nfrom totals inner join smart on totals.week = smart.week\norder by 1\n;",
+          "rawSql": "select \n  to_date(concat(extract(year from now()),extract(week from hour)), 'iyyyiw') as week, \n  name, \n  sum(delta_wh) as \" \"\nfrom electricity_detail\nwhere $__timeFilter(hour) \nGROUP BY week, name\nORDER BY week, name;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -4333,1790 +3569,1294 @@
       "type": "barchart"
     },
     {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "watth"
-        },
-        "overrides": []
-      },
+      "collapsed": true,
       "gridPos": {
-        "h": 7,
-        "w": 21,
+        "h": 1,
+        "w": 24,
         "x": 0,
-        "y": 53
+        "y": 30
       },
-      "id": 132,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "normal",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": -200
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
+      "id": 40,
+      "panels": [
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
+            "uid": "ae5mp6r3ghhq8f"
           },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  date_trunc('hour', time) AS day,\n  name,\n  SUM(delta_wh) as \" \"\nFROM smart_plug\nWHERE\n  $__timeFilter(\"time\")\nGROUP BY day, name\nORDER BY day, name;",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "orderBy": {
-              "property": {
-                "name": "\"time\"",
-                "type": "string"
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
               },
-              "type": "property"
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "kwatth"
             },
-            "orderByDirection": "ASC"
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2024"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "super-light-green",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2025"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "green",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "time:MMMM"
+                  }
+                ]
+              }
+            ]
           },
-          "table": "heath_hour_usage"
-        }
-      ],
-      "title": "Smart Plug Per Hour (Wh)",
-      "transformations": [
-        {
-          "id": "prepareTimeSeries",
+          "gridPos": {
+            "h": 9,
+            "w": 20,
+            "x": 0,
+            "y": 235
+          },
+          "id": 96,
           "options": {
-            "format": "multi"
-          }
-        }
-      ],
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
+            "barRadius": 0,
+            "barWidth": 1,
+            "fullHighlight": false,
+            "groupWidth": 0.9,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": -100
           },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "select\n    min(time)::date as time,\n    max(power_normal_kwh) - min(power_normal_kwh) +\n    max(power_offpeak_kwh) - min(power_offpeak_kwh) as \"2024\"\n    from electricity\n    where extract(year from time) = extract(year from now()) - 1\n    group by extract(year from time), extract(month from time)\n    order by 1;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
             },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "hide": false,
+              "rawQuery": true,
+              "rawSql": "select\n    min(time)::date - INTERVAL '1 years' as time,\n    max(power_normal_kwh) - min(power_normal_kwh) +\n    max(power_offpeak_kwh) - min(power_offpeak_kwh) as \"2025\"\n    from electricity\n    where extract(year from time) = extract(year from now())\n    group by extract(year from time), extract(month from time)\n    order by 1;",
+              "refId": "B",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
             }
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "m3"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "water_m3"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "time"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "time:MMM"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2024"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "super-light-blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2025"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 20,
-        "x": 0,
-        "y": 60
-      },
-      "id": 75,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 1,
-        "fullHighlight": false,
-        "groupWidth": 0.9,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": -100
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT min(time)::date as time,\n       max(water_m3) - min(water_m3) as \"2024\"\nFROM water\n    where extract(year from time) = extract(year from now()) - 1\ngroup by extract(year from time), extract(month from time)\norder by time;\n",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
+          ],
+          "title": "Electriciteit Totaal Per Maand (Kwh)",
+          "type": "barchart"
         },
         {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "hide": false,
-          "rawQuery": true,
-          "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       max(water_m3) - min(water_m3) as \"2025\"\nFROM water\n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;\n",
-          "refId": "B",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
-        }
-      ],
-      "title": "Water Per Maand (M3)",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "ee9nfq7i30dmoa"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "super-light-blue"
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 60
-      },
-      "hideTimeOverride": true,
-      "id": 102,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "columns": [],
-          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
             "uid": "ee9nfq7i30dmoa"
           },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "hide": false,
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "$.actualPreviousYear",
-          "source": "url",
-          "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/water/summary",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "Water - Vorig jaar",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "ee9nfq7i30dmoa"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue"
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "super-light-green"
+                  }
+                ]
               }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 63
-      },
-      "hideTimeOverride": true,
-      "id": 104,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "columns": [],
-          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "ee9nfq7i30dmoa"
+            },
+            "overrides": []
           },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "hide": false,
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "$.actualRunningYear",
-          "source": "url",
-          "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/water/summary",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "Water - Lopend jaar",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "ee9nfq7i30dmoa"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 20,
+            "y": 235
           },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "dark-blue"
+          "hideTimeOverride": true,
+          "id": 99,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "columns": [],
+              "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+              "datasource": {
+                "type": "yesoreyeram-infinity-datasource",
+                "uid": "ee9nfq7i30dmoa"
+              },
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "hide": false,
+              "parser": "backend",
+              "refId": "A",
+              "root_selector": "$.actualPreviousYear",
+              "source": "url",
+              "type": "json",
+              "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+              "url_options": {
+                "data": "",
+                "method": "GET"
               }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 66
-      },
-      "hideTimeOverride": true,
-      "id": 103,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "columns": [],
-          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "ee9nfq7i30dmoa"
-          },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "hide": false,
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "$.yearExpectationExtrapolate",
-          "source": "url",
-          "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/water/summary",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "Water - Verwachting dit jaar",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisWidth": -7,
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
             }
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "time"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "time:MMM"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2024"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "super-light-orange",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2025"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "orange",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 20,
-        "x": 0,
-        "y": 69
-      },
-      "id": 98,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 1,
-        "fullHighlight": false,
-        "groupWidth": 0.9,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT min(time)::date as time,\n       max(heath_gj) - min(heath_gj) as \"2024\"\nFROM heath\n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
+          ],
+          "timeFrom": "1h",
+          "title": "Electriciteit - Vorig Jaar",
+          "type": "stat"
         },
         {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "hide": false,
-          "rawQuery": true,
-          "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       max(heath_gj) - min(heath_gj) as \"2025\"\nFROM heath\n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
-          "refId": "B",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
-        }
-      ],
-      "title": "Energy Consumption Per Maand (GJ)",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "ee9nfq7i30dmoa"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "super-light-orange"
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 69
-      },
-      "hideTimeOverride": true,
-      "id": 105,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "columns": [],
-          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
             "uid": "ee9nfq7i30dmoa"
           },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "hide": false,
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "$.actualPreviousYear",
-          "source": "url",
-          "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "Heath - Vorig jaar",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "ee9nfq7i30dmoa"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "orange"
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
               }
-            ]
-          }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 20,
+            "y": 238
+          },
+          "hideTimeOverride": true,
+          "id": 100,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "columns": [],
+              "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+              "datasource": {
+                "type": "yesoreyeram-infinity-datasource",
+                "uid": "ee9nfq7i30dmoa"
+              },
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "hide": false,
+              "parser": "backend",
+              "refId": "A",
+              "root_selector": "$.actualRunningYear",
+              "source": "url",
+              "type": "json",
+              "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+              "url_options": {
+                "data": "",
+                "method": "GET"
+              }
+            }
+          ],
+          "timeFrom": "1h",
+          "title": "Electriciteit - Lopend Jaar",
+          "type": "stat"
         },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 72
-      },
-      "hideTimeOverride": true,
-      "id": 106,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
         {
-          "columns": [],
-          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
             "uid": "ee9nfq7i30dmoa"
           },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "hide": false,
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "$.actualRunningYear",
-          "source": "url",
-          "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "Heath - Lopend jaar",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "ee9nfq7i30dmoa"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "dark-green"
+                  }
+                ]
+              }
+            },
+            "overrides": []
           },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 20,
+            "y": 241
+          },
+          "hideTimeOverride": true,
+          "id": 101,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "columns": [],
+              "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+              "datasource": {
+                "type": "yesoreyeram-infinity-datasource",
+                "uid": "ee9nfq7i30dmoa"
+              },
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "hide": false,
+              "parser": "backend",
+              "refId": "A",
+              "root_selector": "$.yearExpectationExtrapolate",
+              "source": "url",
+              "type": "json",
+              "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+              "url_options": {
+                "data": "",
+                "method": "GET"
+              }
+            }
+          ],
+          "timeFrom": "1h",
+          "title": "Electriciteit - Verwachting dit jaar",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae5mp6r3ghhq8f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "m3"
+            },
+            "overrides": [
               {
-                "color": "orange"
+                "matcher": {
+                  "id": "byName",
+                  "options": "water_m3"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "blue",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "time:MMM"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2024"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "super-light-blue",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2025"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "blue",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
               }
             ]
-          }
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 20,
+            "x": 0,
+            "y": 244
+          },
+          "id": 75,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 1,
+            "fullHighlight": false,
+            "groupWidth": 0.9,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": -100
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT min(time)::date as time,\n       max(water_m3) - min(water_m3) as \"2024\"\nFROM water\n    where extract(year from time) = extract(year from now()) - 1\ngroup by extract(year from time), extract(month from time)\norder by time;\n",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            },
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "hide": false,
+              "rawQuery": true,
+              "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       max(water_m3) - min(water_m3) as \"2025\"\nFROM water\n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;\n",
+              "refId": "B",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Water Per Maand (M3)",
+          "type": "barchart"
         },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 75
-      },
-      "hideTimeOverride": true,
-      "id": 107,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
         {
-          "columns": [],
-          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
             "uid": "ee9nfq7i30dmoa"
           },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "hide": false,
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "$.yearExpectationComparedWithLastYear",
-          "source": "url",
-          "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "Heath - verwachting dit jaar",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "super-light-blue"
+                  }
+                ]
+              }
+            },
+            "overrides": []
           },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisWidth": -7,
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 20,
+            "y": 244
+          },
+          "hideTimeOverride": true,
+          "id": 102,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [],
+              "fields": "",
+              "values": false
             },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
             },
-            "thresholdsStyle": {
-              "mode": "off"
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "columns": [],
+              "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+              "datasource": {
+                "type": "yesoreyeram-infinity-datasource",
+                "uid": "ee9nfq7i30dmoa"
+              },
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "hide": false,
+              "parser": "backend",
+              "refId": "A",
+              "root_selector": "$.actualPreviousYear",
+              "source": "url",
+              "type": "json",
+              "url": "http://192.168.2.39:8080/homewizard/water/summary",
+              "url_options": {
+                "data": "",
+                "method": "GET"
+              }
             }
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "celsius"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "time"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "time:MMM"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2024"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "super-light-red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2025"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 20,
-        "x": 0,
-        "y": 78
-      },
-      "id": 119,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 1,
-        "fullHighlight": false,
-        "groupWidth": 0.9,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT min(time)::date as time,\n       avg(outside_temperature) as \"2024\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
+          ],
+          "timeFrom": "1h",
+          "title": "Water - Vorig jaar",
+          "type": "stat"
         },
         {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "hide": false,
-          "rawQuery": true,
-          "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       avg(outside_temperature) as \"2025\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
-          "refId": "B",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
-        }
-      ],
-      "title": "Buitentemperatuur per maand (gemiddeld)",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "ee9nfq7i30dmoa"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "orange"
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 78
-      },
-      "hideTimeOverride": true,
-      "id": 108,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 4
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "columns": [],
-          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
             "uid": "ee9nfq7i30dmoa"
           },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "hide": false,
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "$.yearExpectationExtrapolate",
-          "source": "url",
-          "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "timeFrom": "1h",
-      "title": "Heath - (extrapolate) verwachting dit jaar",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue"
+                  }
+                ]
+              }
+            },
+            "overrides": []
           },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisWidth": -7,
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 20,
+            "y": 247
+          },
+          "hideTimeOverride": true,
+          "id": 104,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [],
+              "fields": "",
+              "values": false
             },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
             },
-            "thresholdsStyle": {
-              "mode": "off"
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "columns": [],
+              "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+              "datasource": {
+                "type": "yesoreyeram-infinity-datasource",
+                "uid": "ee9nfq7i30dmoa"
+              },
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "hide": false,
+              "parser": "backend",
+              "refId": "A",
+              "root_selector": "$.actualRunningYear",
+              "source": "url",
+              "type": "json",
+              "url": "http://192.168.2.39:8080/homewizard/water/summary",
+              "url_options": {
+                "data": "",
+                "method": "GET"
+              }
             }
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "celsius"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "time"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "time:MMM"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2024"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "super-light-yellow",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2025"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "yellow",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 20,
-        "x": 0,
-        "y": 86
-      },
-      "id": 121,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 1,
-        "fullHighlight": false,
-        "groupWidth": 0.9,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT min(time)::date as time,\n       avg(inside_temperature) as \"2024\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
+          ],
+          "timeFrom": "1h",
+          "title": "Water - Lopend jaar",
+          "type": "stat"
         },
         {
           "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ee9nfq7i30dmoa"
           },
-          "editorMode": "code",
-          "format": "table",
-          "hide": false,
-          "rawQuery": true,
-          "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       avg(inside_temperature) as \"2025\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
-          "refId": "B",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "dark-blue"
+                  }
+                ]
               }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
-        }
-      ],
-      "title": "Binnentemperatuur per maand (gemiddeld)",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
+            },
+            "overrides": []
           },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisWidth": -7,
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 20,
+            "y": 250
+          },
+          "hideTimeOverride": true,
+          "id": 103,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [],
+              "fields": "",
+              "values": false
             },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
             },
-            "thresholdsStyle": {
-              "mode": "off"
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "columns": [],
+              "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+              "datasource": {
+                "type": "yesoreyeram-infinity-datasource",
+                "uid": "ee9nfq7i30dmoa"
+              },
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "hide": false,
+              "parser": "backend",
+              "refId": "A",
+              "root_selector": "$.yearExpectationExtrapolate",
+              "source": "url",
+              "type": "json",
+              "url": "http://192.168.2.39:8080/homewizard/water/summary",
+              "url_options": {
+                "data": "",
+                "method": "GET"
+              }
             }
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "time"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "time:MMM"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2024"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "super-light-yellow",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2025"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "yellow",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 20,
-        "x": 0,
-        "y": 94
-      },
-      "id": 122,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 1,
-        "fullHighlight": false,
-        "groupWidth": 0.9,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT min(time)::date as time,\n       sum(sunny_minutes) as \"2024\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
+          ],
+          "timeFrom": "1h",
+          "title": "Water - Verwachting dit jaar",
+          "type": "stat"
         },
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
+            "uid": "ae5mp6r3ghhq8f"
           },
-          "editorMode": "code",
-          "format": "table",
-          "hide": false,
-          "rawQuery": true,
-          "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       sum(sunny_minutes) as \"2025\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
-          "refId": "B",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisWidth": -7,
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
                 },
-                "type": "groupBy"
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
               }
-            ],
-            "limit": 50
-          }
-        }
-      ],
-      "title": "Zonminuten per maand (totaal)",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "time:MMM"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2024"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "super-light-orange",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2025"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "orange",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
           },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisWidth": -7,
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
+          "gridPos": {
+            "h": 9,
+            "w": 20,
+            "x": 0,
+            "y": 253
+          },
+          "id": 98,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 1,
+            "fullHighlight": false,
+            "groupWidth": 0.9,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
             },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
             },
-            "thresholdsStyle": {
-              "mode": "off"
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": 0
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT min(time)::date as time,\n       max(heath_gj) - min(heath_gj) as \"2024\"\nFROM heath\n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            },
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "hide": false,
+              "rawQuery": true,
+              "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       max(heath_gj) - min(heath_gj) as \"2025\"\nFROM heath\n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
+              "refId": "B",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
             }
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "time"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "time:MMM"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2024"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "super-light-purple",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "2025"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-purple",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 20,
-        "x": 0,
-        "y": 102
-      },
-      "id": 120,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 1,
-        "fullHighlight": false,
-        "groupWidth": 0.9,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT min(time)::date as time,\n       sum(call_for_heat) as \"2024\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())-1 \ngroup by extract(year from time), extract(month from time)\norder by time;",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
+          ],
+          "title": "Energy Consumption Per Maand (GJ)",
+          "type": "barchart"
         },
         {
           "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ee9nfq7i30dmoa"
           },
-          "editorMode": "code",
-          "format": "table",
-          "hide": false,
-          "rawQuery": true,
-          "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       sum(call_for_heat) as \"2025\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
-          "refId": "B",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "super-light-orange"
+                  }
+                ]
               }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 20,
+            "y": 253
+          },
+          "hideTimeOverride": true,
+          "id": 105,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "columns": [],
+              "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+              "datasource": {
+                "type": "yesoreyeram-infinity-datasource",
+                "uid": "ee9nfq7i30dmoa"
+              },
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "hide": false,
+              "parser": "backend",
+              "refId": "A",
+              "root_selector": "$.actualPreviousYear",
+              "source": "url",
+              "type": "json",
+              "url": "http://192.168.2.39:8080/eneco/summary",
+              "url_options": {
+                "data": "",
+                "method": "GET"
               }
-            ],
-            "limit": 50
-          }
+            }
+          ],
+          "timeFrom": "1h",
+          "title": "Heath - Vorig jaar",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ee9nfq7i30dmoa"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "orange"
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 20,
+            "y": 256
+          },
+          "hideTimeOverride": true,
+          "id": 106,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "columns": [],
+              "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+              "datasource": {
+                "type": "yesoreyeram-infinity-datasource",
+                "uid": "ee9nfq7i30dmoa"
+              },
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "hide": false,
+              "parser": "backend",
+              "refId": "A",
+              "root_selector": "$.actualRunningYear",
+              "source": "url",
+              "type": "json",
+              "url": "http://192.168.2.39:8080/eneco/summary",
+              "url_options": {
+                "data": "",
+                "method": "GET"
+              }
+            }
+          ],
+          "timeFrom": "1h",
+          "title": "Heath - Lopend jaar",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ee9nfq7i30dmoa"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "orange"
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 20,
+            "y": 259
+          },
+          "hideTimeOverride": true,
+          "id": 107,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "columns": [],
+              "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+              "datasource": {
+                "type": "yesoreyeram-infinity-datasource",
+                "uid": "ee9nfq7i30dmoa"
+              },
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "hide": false,
+              "parser": "backend",
+              "refId": "A",
+              "root_selector": "$.yearExpectationComparedWithLastYear",
+              "source": "url",
+              "type": "json",
+              "url": "http://192.168.2.39:8080/eneco/summary",
+              "url_options": {
+                "data": "",
+                "method": "GET"
+              }
+            }
+          ],
+          "timeFrom": "1h",
+          "title": "Heath - verwachting dit jaar",
+          "type": "stat"
         }
       ],
-      "title": "call for heat per maand (totaal)",
-      "type": "barchart"
+      "title": "Maand",
+      "type": "row"
     },
     {
       "collapsed": true,
@@ -6124,7 +4864,827 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 110
+        "y": 31
+      },
+      "id": 139,
+      "panels": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae5mp6r3ghhq8f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisWidth": -7,
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "time:MMM"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2024"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "super-light-purple",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2025"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "dark-purple",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 20,
+            "x": 0,
+            "y": 581
+          },
+          "id": 120,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 1,
+            "fullHighlight": false,
+            "groupWidth": 0.9,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": 0
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT min(time)::date as time,\n       sum(call_for_heat) as \"2024\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())-1 \ngroup by extract(year from time), extract(month from time)\norder by time;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            },
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "hide": false,
+              "rawQuery": true,
+              "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       sum(call_for_heat) as \"2025\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
+              "refId": "B",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "call for heat per maand (totaal)",
+          "type": "barchart"
+        },
+        {
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ee9nfq7i30dmoa"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "orange"
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 20,
+            "y": 581
+          },
+          "hideTimeOverride": true,
+          "id": 108,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 4
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "columns": [],
+              "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+              "datasource": {
+                "type": "yesoreyeram-infinity-datasource",
+                "uid": "ee9nfq7i30dmoa"
+              },
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "hide": false,
+              "parser": "backend",
+              "refId": "A",
+              "root_selector": "$.yearExpectationExtrapolate",
+              "source": "url",
+              "type": "json",
+              "url": "http://192.168.2.39:8080/eneco/summary",
+              "url_options": {
+                "data": "",
+                "method": "GET"
+              }
+            }
+          ],
+          "timeFrom": "1h",
+          "title": "Heath - (extrapolate) verwachting dit jaar",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae5mp6r3ghhq8f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisWidth": -7,
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "celsius"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "time:MMM"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2024"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "super-light-red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2025"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 20,
+            "x": 0,
+            "y": 589
+          },
+          "id": 119,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 1,
+            "fullHighlight": false,
+            "groupWidth": 0.9,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": 0
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT min(time)::date as time,\n       avg(outside_temperature) as \"2024\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            },
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "hide": false,
+              "rawQuery": true,
+              "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       avg(outside_temperature) as \"2025\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
+              "refId": "B",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Buitentemperatuur per maand (gemiddeld)",
+          "type": "barchart"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae5mp6r3ghhq8f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisWidth": -7,
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "time:MMM"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2024"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "super-light-yellow",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2025"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "yellow",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 20,
+            "x": 0,
+            "y": 597
+          },
+          "id": 122,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 1,
+            "fullHighlight": false,
+            "groupWidth": 0.9,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": 0
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT min(time)::date as time,\n       sum(sunny_minutes) as \"2024\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            },
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "hide": false,
+              "rawQuery": true,
+              "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       sum(sunny_minutes) as \"2025\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
+              "refId": "B",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Zonminuten per maand (totaal)",
+          "type": "barchart"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae5mp6r3ghhq8f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisWidth": -7,
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "celsius"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "time:MMM"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2024"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "super-light-yellow",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2025"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "yellow",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 20,
+            "x": 0,
+            "y": 605
+          },
+          "id": 121,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 1,
+            "fullHighlight": false,
+            "groupWidth": 0.9,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": 0
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT min(time)::date as time,\n       avg(inside_temperature) as \"2024\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())-1\ngroup by extract(year from time), extract(month from time)\norder by time;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            },
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "hide": false,
+              "rawQuery": true,
+              "rawSql": "SELECT min(time)::date - INTERVAL '1 years' as time,\n       avg(inside_temperature) as \"2025\"\nFROM tado_hour_aggregate \n    where extract(year from time) = extract(year from now())\ngroup by extract(year from time), extract(month from time)\norder by time;",
+              "refId": "B",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Binnentemperatuur per maand (gemiddeld)",
+          "type": "barchart"
+        }
+      ],
+      "title": "Maand (extra warmte info)",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 32
       },
       "id": 86,
       "panels": [
@@ -6176,7 +5736,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -6207,7 +5768,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 1225
+            "y": 33
           },
           "id": 87,
           "options": {
@@ -6292,7 +5853,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -6323,7 +5885,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 1225
+            "y": 33
           },
           "id": 88,
           "options": {
@@ -6371,7 +5933,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 111
+        "y": 33
       },
       "id": 5,
       "panels": [
@@ -6413,7 +5975,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -6456,7 +6019,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 1266
+            "y": 34
           },
           "id": 85,
           "options": {
@@ -6584,6 +6147,131 @@
           "fieldConfig": {
             "defaults": {
               "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "watth"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 90
+          },
+          "id": 132,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 0.97,
+            "fullHighlight": false,
+            "groupWidth": 0.7,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "normal",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": -200
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT\n  hour,\n  name,\n  delta_wh as \" \"\nFROM electricity_detail\nWHERE\n  $__timeFilter(\"hour\")\nORDER BY hour, name;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "orderBy": {
+                  "property": {
+                    "name": "\"time\"",
+                    "type": "string"
+                  },
+                  "type": "property"
+                },
+                "orderByDirection": "ASC"
+              },
+              "table": "heath_hour_usage"
+            }
+          ],
+          "title": "Smart Plug Per Hour (Wh)",
+          "transformations": [
+            {
+              "id": "prepareTimeSeries",
+              "options": {
+                "format": "multi"
+              }
+            }
+          ],
+          "type": "barchart"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae5mp6r3ghhq8f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
                 "mode": "thresholds"
               },
               "custom": {
@@ -6613,7 +6301,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -6653,7 +6342,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 1571
+            "y": 97
           },
           "id": 95,
           "options": {
@@ -6799,7 +6488,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -6826,7 +6516,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 1578
+            "y": 104
           },
           "id": 83,
           "options": {
@@ -6894,7 +6584,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 112
+        "y": 34
       },
       "id": 34,
       "panels": [
@@ -6936,7 +6626,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -6979,7 +6670,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 932
+            "y": 35
           },
           "id": 71,
           "options": {
@@ -7076,7 +6767,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -7119,7 +6811,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 958
+            "y": 43
           },
           "id": 66,
           "options": {
@@ -7216,7 +6908,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -7258,7 +6951,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 966
+            "y": 74
           },
           "id": 80,
           "options": {
@@ -7335,7 +7028,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 113
+        "y": 35
       },
       "id": 48,
       "panels": [
@@ -7369,7 +7062,7 @@
             "h": 4,
             "w": 6,
             "x": 0,
-            "y": 933
+            "y": 2576
           },
           "hideTimeOverride": true,
           "id": 62,
@@ -7459,7 +7152,7 @@
             "h": 4,
             "w": 6,
             "x": 6,
-            "y": 933
+            "y": 2576
           },
           "hideTimeOverride": true,
           "id": 61,
@@ -7562,7 +7255,7 @@
             "h": 4,
             "w": 6,
             "x": 12,
-            "y": 933
+            "y": 2576
           },
           "hideTimeOverride": true,
           "id": 36,
@@ -7674,7 +7367,7 @@
             "h": 4,
             "w": 6,
             "x": 18,
-            "y": 933
+            "y": 2576
           },
           "id": 58,
           "options": {
@@ -7835,7 +7528,7 @@
             "h": 7,
             "w": 12,
             "x": 0,
-            "y": 955
+            "y": 2598
           },
           "id": 129,
           "options": {
@@ -7977,7 +7670,7 @@
             "h": 7,
             "w": 12,
             "x": 12,
-            "y": 955
+            "y": 2598
           },
           "id": 67,
           "options": {
@@ -8119,7 +7812,7 @@
             "h": 7,
             "w": 12,
             "x": 0,
-            "y": 962
+            "y": 2605
           },
           "id": 127,
           "options": {
@@ -8275,7 +7968,7 @@
             "h": 7,
             "w": 12,
             "x": 12,
-            "y": 962
+            "y": 2605
           },
           "id": 128,
           "options": {
@@ -8338,188 +8031,190 @@
       "type": "row"
     },
     {
-      "collapsed": false,
+      "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 114
+        "y": 36
       },
       "id": 118,
-      "panels": [],
-      "title": "Log",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "ee9nfq7i30dmoa"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto",
-              "wrapText": true
-            },
-            "filterable": true,
-            "inspect": true
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "className"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 180
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "timeStr"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 219
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "type"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 94
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "time"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 20
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "msg"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 891
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 24,
-        "x": 0,
-        "y": 115
-      },
-      "id": 117,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "time"
-          }
-        ]
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
+      "panels": [
         {
-          "columns": [],
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
             "uid": "ee9nfq7i30dmoa"
           },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "hide": false,
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "",
-          "source": "url",
-          "type": "json",
-          "url": "http://192.168.2.39:8080/log/logs",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "title": "Logs",
-      "transformations": [
-        {
-          "id": "organize",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto",
+                  "wrapText": true
+                },
+                "filterable": true,
+                "inspect": true
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "className"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 180
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "timeStr"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 219
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "type"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 94
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "time"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 20
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "msg"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 891
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 37
+          },
+          "id": 117,
           "options": {
-            "excludeByName": {
-              "application": true,
-              "pid": true,
-              "process": true,
-              "time": false
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
             },
-            "includeByName": {},
-            "indexByName": {
-              "application": 2,
-              "className": 3,
-              "msg": 4,
-              "pid": 5,
-              "process": 6,
-              "throwable": 7,
-              "time": 8,
-              "timeStr": 0,
-              "type": 1
-            },
-            "renameByName": {}
-          }
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "time"
+              }
+            ]
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "columns": [],
+              "datasource": {
+                "type": "yesoreyeram-infinity-datasource",
+                "uid": "ee9nfq7i30dmoa"
+              },
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "hide": false,
+              "parser": "backend",
+              "refId": "A",
+              "root_selector": "",
+              "source": "url",
+              "type": "json",
+              "url": "http://192.168.2.39:8080/log/logs",
+              "url_options": {
+                "data": "",
+                "method": "GET"
+              }
+            }
+          ],
+          "title": "Logs",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "application": true,
+                  "pid": true,
+                  "process": true,
+                  "time": false
+                },
+                "includeByName": {},
+                "indexByName": {
+                  "application": 2,
+                  "className": 3,
+                  "msg": 4,
+                  "pid": 5,
+                  "process": 6,
+                  "throwable": 7,
+                  "time": 8,
+                  "timeStr": 0,
+                  "type": 1
+                },
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
         }
       ],
-      "type": "table"
+      "title": "Log",
+      "type": "row"
     },
     {
       "collapsed": true,
@@ -8527,7 +8222,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 124
+        "y": 37
       },
       "id": 110,
       "panels": [
@@ -8569,7 +8264,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -8624,7 +8320,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 118
+            "y": 38
           },
           "id": 79,
           "options": {
@@ -8682,6 +8378,157 @@
           "timeFrom": "1y",
           "title": "Electriciteit Totaal Per Maand DB (Kwh)",
           "type": "barchart"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae5mp6r3ghhq8f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": [
+              {
+                "__systemRef": "hideSeriesFrom",
+                "matcher": {
+                  "id": "byNames",
+                  "options": {
+                    "mode": "exclude",
+                    "names": [
+                      "% Lampen voor"
+                    ],
+                    "prefix": "All except:",
+                    "readOnly": true
+                  }
+                },
+                "properties": [
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": true
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 24,
+            "x": 0,
+            "y": 47
+          },
+          "id": 134,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 0.97,
+            "fullHighlight": false,
+            "groupWidth": 0.7,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "normal",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": -200
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "with totals as\n    (select min(time)::date as day,\n           (max(power_normal_kwh) - min(power_normal_kwh) +\n            max(power_offpeak_kwh) - min(power_offpeak_kwh)) * 1000 as totaldaypower\n    from electricity\n    where $__timeFilter(\"time\") and (time <= (select max(time) from smart_plug))\n    group by extract(year from time), extract(month from time), extract(day from time)\n    )\n  , smart as\n     (select min(hour)::date as day,\n             name,\n             sum(delta_wh) as power\n      from electricity_detail\n      where $__timeFilter(\"hour\") and (name != 'Marantz Versterker')\n      group by name, extract(year from hour), extract(month from hour), extract(day from hour)\n)\n\nselect smart.day, name, power/totaldaypower as \"%\"\nfrom totals inner join smart on totals.day = smart.day\norder by 1\n;\n",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "orderBy": {
+                  "property": {
+                    "name": "\"time\"",
+                    "type": "string"
+                  },
+                  "type": "property"
+                },
+                "orderByDirection": "ASC"
+              },
+              "table": "heath_hour_usage"
+            }
+          ],
+          "timeFrom": "30d",
+          "title": "Smart Plug Per Day (Percentage)",
+          "transformations": [
+            {
+              "id": "prepareTimeSeries",
+              "options": {
+                "format": "multi"
+              }
+            }
+          ],
+          "type": "barchart"
         }
       ],
       "title": "Overig",
@@ -8689,7 +8536,7 @@
     }
   ],
   "preload": false,
-  "refresh": "5m",
+  "refresh": "15s",
   "schemaVersion": 40,
   "tags": [],
   "templating": {
@@ -8715,6 +8562,6 @@
   "timezone": "browser",
   "title": "Home-monitor",
   "uid": "bdsucvo44sy68b",
-  "version": 258,
+  "version": 279,
   "weekStart": ""
 }
