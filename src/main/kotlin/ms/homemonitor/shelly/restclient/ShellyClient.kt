@@ -11,6 +11,8 @@ import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
 
 
+//See: https://shelly-api-docs.shelly.cloud/cloud-control-api/communication-v2/
+
 @Service
 class ShellyClient(
     @Value("\${home-monitor.shelly.thermometerBaseRestUrl}") private val shellyBaseRestUrl: String,

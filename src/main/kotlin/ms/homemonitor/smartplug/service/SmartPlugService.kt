@@ -1,5 +1,6 @@
 package ms.homemonitor.smartplug.service
 
+import jakarta.transaction.Transactional
 import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.shared.tools.dateTimeRangeByHour
 import ms.homemonitor.smartplug.repository.SmartPlugRepository
@@ -27,9 +28,15 @@ class SmartPlugService(
     private val log = LoggerFactory.getLogger(SmartPlugService::class.java)
     private val zoneId = ZoneId.of("Europe/Berlin")
 
+    @Transactional
     fun processMeasurement() {
         processRealDevices()
         processVirtualDevices()
+        updateElectricityDetails()
+    }
+
+    private fun updateElectricityDetails() {
+        smartPlugRepository.refreshElectricityDetail()
     }
 
     private fun processRealDevices() {
