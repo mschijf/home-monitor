@@ -118,8 +118,8 @@ class SmartPlugService(
     }
 
     private fun lastRecordTime(deviceName: String, deviceId: String? = null): LocalDateTime {
-        return smartPlugRepository.getLastSmartPlugEntityByName(deviceName)?.id?.time
-            ?: (if (deviceId == null) null else smartPlugRepository.getLastSmartPlugEntityByDeviceId(deviceId)?.id?.time)
+        return deviceId?.let { smartPlugRepository.getLastSmartPlugEntityByDeviceId(it)?.id?.time }
+            ?: smartPlugRepository.getLastSmartPlugEntityByName(deviceName)?.id?.time
             ?: smartPlugRepository.getLastSmartPlugEntity()?.id?.time
             ?: LocalDate.now().atStartOfDay()
     }

@@ -1803,7 +1803,7 @@
         }
       ],
       "timeFrom": "1h",
-      "title": "Badkamer",
+      "title": "Werkkamer",
       "type": "stat"
     },
     {
@@ -1935,7 +1935,7 @@
         }
       ],
       "timeFrom": "1h",
-      "title": "Badkamer",
+      "title": "Werkkamer",
       "type": "stat"
     },
     {
@@ -2549,7 +2549,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 1347
+            "y": 15
           },
           "id": 74,
           "options": {
@@ -2671,7 +2671,7 @@
               "format": "table",
               "hide": false,
               "rawQuery": true,
-              "rawSql": "SELECT inside_temperature as badkamer, \"time\" FROM shelly WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
+              "rawSql": "SELECT inside_temperature as werkkamer, \"time\" FROM shelly WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
               "refId": "B",
               "sql": {
                 "columns": [
@@ -2883,7 +2883,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 1355
+            "y": 23
           },
           "id": 73,
           "options": {
@@ -3085,7 +3085,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 1362
+            "y": 30
           },
           "id": 130,
           "options": {
@@ -3369,132 +3369,6 @@
         "x": 0,
         "y": 16
       },
-      "id": 131,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "normal",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": -200
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae47yxjg85kowb"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "select \n  date_trunc('day', time) as day, \n  name, \n  sum(delta_wh) as \" \"\nfrom electricity_hour_detail\nwhere $__timeFilter(time) \nGROUP BY day, name\nORDER BY day, name;",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "orderBy": {
-              "property": {
-                "name": "\"time\"",
-                "type": "string"
-              },
-              "type": "property"
-            },
-            "orderByDirection": "ASC"
-          },
-          "table": "heath_hour_usage"
-        }
-      ],
-      "timeFrom": "28d",
-      "title": "Smart Plug Per Day (WH)",
-      "transformations": [
-        {
-          "id": "prepareTimeSeries",
-          "options": {
-            "format": "multi"
-          }
-        }
-      ],
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "ae5mp6r3ghhq8f"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "watth"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 23
-      },
       "id": 137,
       "options": {
         "barRadius": 0,
@@ -3574,7 +3448,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 23
       },
       "id": 40,
       "panels": [],
@@ -3675,7 +3549,7 @@
         "h": 9,
         "w": 20,
         "x": 0,
-        "y": 31
+        "y": 24
       },
       "id": 96,
       "options": {
@@ -3792,7 +3666,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 31
+        "y": 24
       },
       "hideTimeOverride": true,
       "id": 99,
@@ -3873,7 +3747,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 34
+        "y": 27
       },
       "hideTimeOverride": true,
       "id": 100,
@@ -3954,7 +3828,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 37
+        "y": 30
       },
       "hideTimeOverride": true,
       "id": 101,
@@ -4114,7 +3988,7 @@
         "h": 9,
         "w": 20,
         "x": 0,
-        "y": 40
+        "y": 33
       },
       "id": 75,
       "options": {
@@ -4231,7 +4105,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 40
+        "y": 33
       },
       "hideTimeOverride": true,
       "id": 102,
@@ -4312,7 +4186,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 43
+        "y": 36
       },
       "hideTimeOverride": true,
       "id": 104,
@@ -4393,7 +4267,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 46
+        "y": 39
       },
       "hideTimeOverride": true,
       "id": 103,
@@ -4539,7 +4413,7 @@
         "h": 9,
         "w": 20,
         "x": 0,
-        "y": 49
+        "y": 42
       },
       "id": 98,
       "options": {
@@ -4656,7 +4530,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 49
+        "y": 42
       },
       "hideTimeOverride": true,
       "id": 105,
@@ -4737,7 +4611,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 52
+        "y": 45
       },
       "hideTimeOverride": true,
       "id": 106,
@@ -4818,7 +4692,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 55
+        "y": 48
       },
       "hideTimeOverride": true,
       "id": 107,
@@ -4875,7 +4749,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 58
+        "y": 51
       },
       "id": 139,
       "panels": [
@@ -4973,7 +4847,7 @@
             "h": 8,
             "w": 20,
             "x": 0,
-            "y": 755
+            "y": 52
           },
           "id": 120,
           "options": {
@@ -5089,7 +4963,7 @@
             "h": 3,
             "w": 4,
             "x": 20,
-            "y": 755
+            "y": 52
           },
           "hideTimeOverride": true,
           "id": 108,
@@ -5235,7 +5109,7 @@
             "h": 8,
             "w": 20,
             "x": 0,
-            "y": 763
+            "y": 60
           },
           "id": 119,
           "options": {
@@ -5416,7 +5290,7 @@
             "h": 8,
             "w": 20,
             "x": 0,
-            "y": 771
+            "y": 68
           },
           "id": 122,
           "options": {
@@ -5598,7 +5472,7 @@
             "h": 8,
             "w": 20,
             "x": 0,
-            "y": 779
+            "y": 76
           },
           "id": 121,
           "options": {
@@ -5695,7 +5569,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 59
+        "y": 52
       },
       "id": 86,
       "panels": [
@@ -5747,8 +5621,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -5779,7 +5652,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 125
+            "y": 833
           },
           "id": 87,
           "options": {
@@ -5864,8 +5737,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -5896,7 +5768,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 125
+            "y": 833
           },
           "id": 88,
           "options": {
@@ -5944,7 +5816,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 60
+        "y": 53
       },
       "id": 5,
       "panels": [
@@ -5986,8 +5858,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -6030,7 +5901,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 126
+            "y": 256
           },
           "id": 85,
           "options": {
@@ -6187,8 +6058,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -6200,7 +6070,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 264
+            "y": 289
           },
           "id": 132,
           "options": {
@@ -6234,7 +6104,7 @@
               "editorMode": "code",
               "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT\n  hour,\n  name,\n  delta_wh as \" \"\nFROM electricity_detail\nWHERE\n  $__timeFilter(\"hour\")\nORDER BY hour, name;",
+              "rawSql": "SELECT\n  time,\n  name,\n  delta_wh as \" \"\nFROM electricity_hour_detail\nWHERE\n  $__timeFilter(\"time\")\nORDER BY time, name;",
               "refId": "A",
               "sql": {
                 "columns": [
@@ -6312,8 +6182,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -6353,7 +6222,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 271
+            "y": 296
           },
           "id": 95,
           "options": {
@@ -6499,8 +6368,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -6527,7 +6395,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 278
+            "y": 303
           },
           "id": 83,
           "options": {
@@ -6595,7 +6463,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 61
+        "y": 54
       },
       "id": 34,
       "panels": [
@@ -6637,8 +6505,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -6681,7 +6548,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 127
+            "y": 219
           },
           "id": 71,
           "options": {
@@ -6749,6 +6616,132 @@
           "fieldConfig": {
             "defaults": {
               "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "watth"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 227
+          },
+          "id": 131,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 0.97,
+            "fullHighlight": false,
+            "groupWidth": 0.7,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "normal",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": -200
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "select \n  date_trunc('day', time) as day, \n  name, \n  sum(delta_wh) as \" \"\nfrom electricity_hour_detail\nwhere $__timeFilter(time) \nGROUP BY day, name\nORDER BY day, name;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "orderBy": {
+                  "property": {
+                    "name": "\"time\"",
+                    "type": "string"
+                  },
+                  "type": "property"
+                },
+                "orderByDirection": "ASC"
+              },
+              "table": "heath_hour_usage"
+            }
+          ],
+          "timeFrom": "28d",
+          "title": "Smart Plug Per Day (WH)",
+          "transformations": [
+            {
+              "id": "prepareTimeSeries",
+              "options": {
+                "format": "multi"
+              }
+            }
+          ],
+          "type": "barchart"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae5mp6r3ghhq8f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
                 "mode": "thresholds"
               },
               "custom": {
@@ -6778,8 +6771,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -6822,7 +6814,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 217
+            "y": 235
           },
           "id": 66,
           "options": {
@@ -6919,8 +6911,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -6962,7 +6953,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 248
+            "y": 243
           },
           "id": 80,
           "options": {
@@ -7039,7 +7030,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 62
+        "y": 55
       },
       "id": 48,
       "panels": [
@@ -7062,8 +7053,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -7074,7 +7064,7 @@
             "h": 4,
             "w": 6,
             "x": 0,
-            "y": 128
+            "y": 836
           },
           "hideTimeOverride": true,
           "id": 62,
@@ -7153,8 +7143,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -7165,7 +7154,7 @@
             "h": 4,
             "w": 6,
             "x": 6,
-            "y": 128
+            "y": 836
           },
           "hideTimeOverride": true,
           "id": 61,
@@ -7257,8 +7246,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -7269,7 +7257,7 @@
             "h": 4,
             "w": 6,
             "x": 12,
-            "y": 128
+            "y": 836
           },
           "hideTimeOverride": true,
           "id": 36,
@@ -7370,8 +7358,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -7382,7 +7369,7 @@
             "h": 4,
             "w": 6,
             "x": 18,
-            "y": 128
+            "y": 836
           },
           "id": 58,
           "options": {
@@ -7500,8 +7487,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -7544,7 +7530,7 @@
             "h": 7,
             "w": 12,
             "x": 0,
-            "y": 141
+            "y": 849
           },
           "id": 129,
           "options": {
@@ -7643,8 +7629,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -7687,7 +7672,7 @@
             "h": 7,
             "w": 12,
             "x": 12,
-            "y": 141
+            "y": 849
           },
           "id": 67,
           "options": {
@@ -7785,8 +7770,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -7830,7 +7814,7 @@
             "h": 7,
             "w": 12,
             "x": 0,
-            "y": 148
+            "y": 856
           },
           "id": 127,
           "options": {
@@ -7928,8 +7912,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -7987,7 +7970,7 @@
             "h": 7,
             "w": 12,
             "x": 12,
-            "y": 148
+            "y": 856
           },
           "id": 128,
           "options": {
@@ -8050,483 +8033,727 @@
       "type": "row"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 63
+        "y": 56
       },
       "id": 118,
-      "panels": [
-        {
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "ee9nfq7i30dmoa"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "custom": {
-                "align": "auto",
-                "cellOptions": {
-                  "type": "auto",
-                  "wrapText": true
-                },
-                "filterable": true,
-                "inspect": true
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              }
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "className"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 180
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "timeStr"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 219
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "type"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 94
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "time"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 20
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "msg"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 891
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 9,
-            "w": 24,
-            "x": 0,
-            "y": 83
-          },
-          "id": 117,
-          "options": {
-            "cellHeight": "sm",
-            "footer": {
-              "countRows": false,
-              "fields": "",
-              "reducer": [
-                "sum"
-              ],
-              "show": false
-            },
-            "showHeader": true,
-            "sortBy": [
-              {
-                "desc": true,
-                "displayName": "time"
-              }
-            ]
-          },
-          "pluginVersion": "11.3.1",
-          "targets": [
-            {
-              "columns": [],
-              "datasource": {
-                "type": "yesoreyeram-infinity-datasource",
-                "uid": "ee9nfq7i30dmoa"
-              },
-              "filters": [],
-              "format": "table",
-              "global_query_id": "",
-              "hide": false,
-              "parser": "backend",
-              "refId": "A",
-              "root_selector": "",
-              "source": "url",
-              "type": "json",
-              "url": "http://192.168.2.39:8080/log/logs",
-              "url_options": {
-                "data": "",
-                "method": "GET"
-              }
-            }
-          ],
-          "title": "Logs",
-          "transformations": [
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "application": true,
-                  "pid": true,
-                  "process": true,
-                  "time": false
-                },
-                "includeByName": {},
-                "indexByName": {
-                  "application": 2,
-                  "className": 3,
-                  "msg": 4,
-                  "pid": 5,
-                  "process": 6,
-                  "throwable": 7,
-                  "time": 8,
-                  "timeStr": 0,
-                  "type": 1
-                },
-                "renameByName": {}
-              }
-            }
-          ],
-          "type": "table"
-        }
-      ],
+      "panels": [],
       "title": "Log",
       "type": "row"
     },
     {
-      "collapsed": true,
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "ee9nfq7i30dmoa"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": true
+            },
+            "filterable": true,
+            "inspect": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "className"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 180
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "timeStr"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 219
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "type"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 94
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 20
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "msg"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 891
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 57
+      },
+      "id": 117,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "time"
+          }
+        ]
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ee9nfq7i30dmoa"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "http://192.168.2.39:8080/log/logs",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Logs",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "application": true,
+              "pid": true,
+              "process": true,
+              "time": false
+            },
+            "includeByName": {},
+            "indexByName": {
+              "application": 2,
+              "className": 3,
+              "msg": 4,
+              "pid": 5,
+              "process": 6,
+              "throwable": 7,
+              "time": 8,
+              "timeStr": 0,
+              "type": 1
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 64
+        "y": 66
       },
       "id": 110,
-      "panels": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae5mp6r3ghhq8f"
+      "panels": [],
+      "title": "Overig",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
           },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "fillOpacity": 80,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineWidth": 1,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "fieldMinMax": false,
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              },
-              "unit": "kwatth"
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
             },
-            "overrides": [
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "normal"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "super-light-red",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
+                "color": "green",
+                "value": null
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "normal_kwh"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "super-light-red",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "firstdate"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "time:MMM"
-                  }
-                ]
+                "color": "red",
+                "value": 80
               }
             ]
           },
-          "gridPos": {
-            "h": 9,
-            "w": 24,
-            "x": 0,
-            "y": 84
-          },
-          "id": 79,
-          "options": {
-            "barRadius": 0,
-            "barWidth": 0.93,
-            "fullHighlight": false,
-            "groupWidth": 0.88,
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "orientation": "auto",
-            "showValue": "auto",
-            "stacking": "normal",
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            },
-            "xTickLabelRotation": 0,
-            "xTickLabelSpacing": 0
-          },
-          "pluginVersion": "11.3.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "grafana-postgresql-datasource",
-                "uid": "ae47yxjg85kowb"
-              },
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "select\n    min(time)::date as firstDate,\n    max(power_normal_kwh) - min(power_normal_kwh) as normal_kwh,\n    max(power_offpeak_kwh) - min(power_offpeak_kwh) as offpeak_kwh\n    from electricity\n    where $__timeFilter(time)\n    group by extract(year from time), extract(month from time)\n    order by 1;",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 50
-              }
-            }
-          ],
-          "timeFrom": "1y",
-          "title": "Electriciteit Totaal Per Maand DB (Kwh)",
-          "type": "barchart"
+          "unit": "percentunit"
         },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 67
+      },
+      "id": 141,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "colorByField": "day",
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "ae5mp6r3ghhq8f"
+            "uid": "ae47yxjg85kowb"
           },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "fillOpacity": 80,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineWidth": 1,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              },
-              "unit": "percentunit"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 24,
-            "x": 0,
-            "y": 93
-          },
-          "id": 134,
-          "options": {
-            "barRadius": 0,
-            "barWidth": 0.97,
-            "fullHighlight": false,
-            "groupWidth": 0.7,
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "orientation": "auto",
-            "showValue": "auto",
-            "stacking": "normal",
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            },
-            "xTickLabelRotation": 0,
-            "xTickLabelSpacing": -200
-          },
-          "pluginVersion": "11.3.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "grafana-postgresql-datasource",
-                "uid": "ae47yxjg85kowb"
-              },
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "with totals as\n    (select min(time)::date as day,\n           (max(power_normal_kwh) - min(power_normal_kwh) +\n            max(power_offpeak_kwh) - min(power_offpeak_kwh)) * 1000 as totaldaypower\n    from electricity\n    where $__timeFilter(\"time\") and (time <= (select max(time) from smart_plug))\n    group by extract(year from time), extract(month from time), extract(day from time)\n    )\n  , smart as\n     (select min(time)::date as day,\n             name,\n             sum(delta_wh) as power\n      from electricity_hour_detail\n      where $__timeFilter(\"time\") and (name != 'Marantz Versterker')\n      group by name, extract(year from time), extract(month from time), extract(day from time)\n)\n\nselect smart.day, name, power/totaldaypower as \"%\"\nfrom totals inner join smart on totals.day = smart.day\norder by 1\n;\n",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "orderBy": {
-                  "property": {
-                    "name": "\"time\"",
-                    "type": "string"
-                  },
-                  "type": "property"
-                },
-                "orderByDirection": "ASC"
-              },
-              "table": "heath_hour_usage"
-            }
-          ],
-          "timeFrom": "30d",
-          "title": "Smart Plug Per Day (Percentage)",
-          "transformations": [
-            {
-              "id": "prepareTimeSeries",
-              "options": {
-                "format": "multi"
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "with totals as\n    (select\n           (max(power_normal_kwh) - min(power_normal_kwh) +\n            max(power_offpeak_kwh) - min(power_offpeak_kwh)) * 1000 as totaldaypower\n    from electricity\n    where $__timeFilter(\"time\") \n    )\n  , smart as\n     (select min(time)::date as day,\n             name,\n             sum(coalesce(delta_wh,0)) as power\n      from electricity_hour_detail\n      where $__timeFilter(\"time\") and (name != 'Marantz Versterker')\n      group by name, extract(century from time)\n)\n\nselect name, power/(select totaldaypower from totals) as \"%\"\nfrom smart\norder by \"%\"\n;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
               }
-            }
-          ],
-          "type": "barchart"
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "ASC"
+          },
+          "table": "heath_hour_usage"
         }
       ],
-      "title": "Overig",
-      "type": "row"
+      "title": "Smart Plug  (Total Percentage)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 77
+      },
+      "id": 134,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": -200
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "with totals as\n    (select min(time)::date as day,\n           (max(power_normal_kwh) - min(power_normal_kwh) +\n            max(power_offpeak_kwh) - min(power_offpeak_kwh)) * 1000 as totaldaypower\n    from electricity\n    where $__timeFilter(\"time\") \n    group by extract(year from time), extract(month from time), extract(day from time)\n    )\n  , smart as\n     (select min(time)::date as day,\n             name,\n             sum(delta_wh) as power\n      from electricity_hour_detail\n      where $__timeFilter(\"time\") and (name != 'Marantz Versterker')\n      group by name, extract(year from time), extract(month from time), extract(day from time)\n)\n\nselect smart.day, name, power/totaldaypower as \"%\"\nfrom totals inner join smart on totals.day = smart.day\norder by 1\n;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "ASC"
+          },
+          "table": "heath_hour_usage"
+        }
+      ],
+      "timeFrom": "30d",
+      "title": "Smart Plug Per Day (Percentage)",
+      "transformations": [
+        {
+          "id": "prepareTimeSeries",
+          "options": {
+            "format": "multi"
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "watth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 87
+      },
+      "id": 140,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": -200
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select \n  date_trunc('month', time) as month,\n  name, \n  sum(delta_wh) as \" \"\nfrom electricity_hour_detail\nwhere $__timeFilter(\"time\") \ngroup by month, name\nORDER by month, name",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "orderBy": {
+              "property": {
+                "name": "\"time\"",
+                "type": "string"
+              },
+              "type": "property"
+            },
+            "orderByDirection": "ASC"
+          },
+          "table": "heath_hour_usage"
+        }
+      ],
+      "timeFrom": "12M",
+      "title": "Smart Plug Per Maand (Wh)",
+      "transformations": [
+        {
+          "id": "prepareTimeSeries",
+          "options": {
+            "format": "multi"
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "ae5mp6r3ghhq8f"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "normal"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "normal_kwh"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "firstdate"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "time:MMM"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 94
+      },
+      "id": 79,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.93,
+        "fullHighlight": false,
+        "groupWidth": 0.88,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae47yxjg85kowb"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select\n    min(time)::date as firstDate,\n    max(power_normal_kwh) - min(power_normal_kwh) as normal_kwh,\n    max(power_offpeak_kwh) - min(power_offpeak_kwh) as offpeak_kwh\n    from electricity\n    where $__timeFilter(time)\n    group by extract(year from time), extract(month from time)\n    order by 1;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "timeFrom": "1y",
+      "title": "Electriciteit Totaal Per Maand DB (Kwh)",
+      "type": "barchart"
     }
   ],
   "preload": false,
@@ -8556,6 +8783,6 @@
   "timezone": "browser",
   "title": "Home-monitor",
   "uid": "bdsucvo44sy68b",
-  "version": 281,
+  "version": 297,
   "weekStart": ""
 }
