@@ -2,6 +2,7 @@ package ms.homemonitor.shared.summary.service.model
 
 import ms.homemonitor.shared.summary.repository.RepositoryWithTotals
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 data class YearSummary(
@@ -30,12 +31,39 @@ data class YearSummary(
 
             val daysBetween = ChronoUnit.DAYS.between(yearStart, today)
             val daysInYear = if (LocalDate.now().isLeapYear) 366 else 365
-            val yearExpectationExtrapolate = daysInYear * actualYTD.toDouble() / daysBetween
-            val yearExpectationComparedWithLastYear = (actualYTD.toDouble() / actualYTDPrevYear.toDouble()) * actualPrevYear.toDouble()
+            val yearExpectationExtrapolate = daysInYear * actualYTD / daysBetween
+            val yearExpectationComparedWithLastYear = (actualYTD / actualYTDPrevYear) * actualPrevYear
             return YearSummary(
                 actualPrevYear, actualYTD, actualYTDPrevYear, actualRunningYear,
                 yearExpectationExtrapolate, yearExpectationComparedWithLastYear
             )
         }
+
+        fun ofHour(repository: RepositoryWithTotals): YearSummary {
+            val now = LocalDateTime.now()
+            val thisYear = now.year
+            val yearStart = LocalDate.of(thisYear, 1, 1).atStartOfDay()
+            val todayHour = LocalDateTime.of(thisYear, 1, 1, now.hour, 0, 0)
+
+            val prevYear = thisYear - 1
+            val prevYearStart = LocalDate.of(prevYear, 1, 1).atStartOfDay()
+            val todayHourPrevYear= LocalDateTime.of(prevYear, now.month, now.dayOfMonth, now.hour, 0, 0)
+
+
+            val actualPrevYear = repository.getTotalBetweenDates(prevYearStart, yearStart)
+            val actualRunningYear = repository.getTotalBetweenDates(todayHourPrevYear, todayHour)
+            val actualYTDPrevYear = repository.getTotalBetweenDates(prevYearStart, todayHourPrevYear)
+            val actualYTD = repository.getTotalBetweenDates(yearStart, todayHour)
+
+            val hoursBetween = ChronoUnit.HOURS.between(yearStart, todayHour)
+            val hoursInYear = 24 * if (LocalDate.now().isLeapYear) 366 else 365
+            val yearExpectationExtrapolate = hoursInYear * actualYTD / hoursBetween
+            val yearExpectationComparedWithLastYear = (actualYTD / actualYTDPrevYear) * actualPrevYear
+            return YearSummary(
+                actualPrevYear, actualYTD, actualYTDPrevYear, actualRunningYear,
+                yearExpectationExtrapolate, yearExpectationComparedWithLastYear
+            )
+        }
+
     }
 }

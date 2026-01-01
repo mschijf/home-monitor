@@ -6,7 +6,7 @@
 
     <groupId>ms</groupId>
     <artifactId>home-monitor</artifactId>
-    <version>10.0.8</version>
+    <version>10.0.9</version>
     <name>home-monitor</name>
     <description>home-monitoring: electricity, water, tado (temperature), heath (eneco), shelly (thermometer), Tuya (Smart plugs)...</description>
     <!--    <url/>-->
@@ -116,7 +116,7 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.9.2</version>
+            <version>6.3.3</version>
         </dependency>
 
         <dependency>

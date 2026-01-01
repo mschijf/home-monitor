@@ -32,6 +32,7 @@ class SmartPlugService(
     fun processMeasurement() {
         processRealDevices()
         processVirtualDevices()
+        processHistoricalDevices()
         updateElectricityDetails()
     }
 
@@ -60,6 +61,12 @@ class SmartPlugService(
     private fun processVirtualDevices() {
         VirtualSmartPlug.virtualDeviceList.forEach { virtualDevice ->
             processVirtualDevice(virtualDevice.name, virtualDevice.wattHourPerHour)
+        }
+    }
+
+    private fun processHistoricalDevices() {
+        VirtualSmartPlug.historicalDeviceList.forEach { historicalDevice ->
+            processDeviceByHistoricalData(historicalDevice.name, historicalDevice.hoursLookingBack)
         }
     }
 
@@ -107,6 +114,27 @@ class SmartPlugService(
         }
     }
 
+    private fun processDeviceByHistoricalData(deviceName: String, hoursBack: Long) {
+        val startTime = lastRecordTime(deviceName).plusSeconds(1).minusHours(hoursBack)
+        val endTime = LocalDateTime.now().minusHours(hoursBack)
+        try {
+            val toBeSaveList = getHistoricalData(deviceName, startTime, endTime)
+                .map { historicalRecord ->
+                    SmartPlugEntity(
+                        SmartPlugId(
+                            name = deviceName,
+                            time = historicalRecord.id.time!!.plusHours(hoursBack),
+                        ),
+                        deltaWH = historicalRecord.deltaWH,
+                        deviceId = null
+                    )
+                }.toList()
+            saveRecordList(toBeSaveList)
+        } catch (e: Exception) {
+            throw HomeMonitorException("Error while processing Historical Data", e)
+        }
+    }
+
     private fun saveRecordList(recordList: List<SmartPlugEntity>) {
         recordList.forEach { smartPlugRecord ->
             try {
@@ -122,5 +150,10 @@ class SmartPlugService(
             ?: smartPlugRepository.getLastSmartPlugEntityByName(deviceName)?.id?.time
             ?: smartPlugRepository.getLastSmartPlugEntity()?.id?.time
             ?: LocalDate.now().atStartOfDay()
+    }
+
+    private fun getHistoricalData(deviceName: String, startTime: LocalDateTime, endTime: LocalDateTime): List<SmartPlugEntity> {
+        return smartPlugRepository
+            .getHistoricalSmartPlugEntitiesByName(deviceName, startTime, endTime)
     }
 }
