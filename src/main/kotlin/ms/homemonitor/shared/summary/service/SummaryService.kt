@@ -28,7 +28,7 @@ class SummaryService {
         val prevYear = thisYear - 1
 
         val yearStart = LocalDate.of(thisYear, 1, 1).atStartOfDay()
-        val todayHour = LocalDateTime.of(thisYear, 1, 1, now.hour, 0, 0)
+        val todayHour = LocalDateTime.of(thisYear, now.month, now.dayOfMonth, now.hour, 0, 0)
         val prevYearStart = LocalDate.of(prevYear, 1, 1).atStartOfDay()
         val todayHourPrevYear= LocalDateTime.of(prevYear, now.month, now.dayOfMonth, now.hour, 0, 0)
 
