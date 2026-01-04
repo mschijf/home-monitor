@@ -12,7 +12,7 @@ import java.time.temporal.ChronoUnit
 class SummaryService {
     private val cache = mutableMapOf<RepositoryWithTotals, YearSummary>()
 
-    @Scheduled(cron = "0 15 * * * *")
+    @Scheduled(cron = "0 */5 * * * *")
     private fun clearCache() {
         cache.clear()
     }
@@ -39,7 +39,18 @@ class SummaryService {
 
         val hoursBetween = ChronoUnit.HOURS.between(yearStart, todayHour)
         val yearExpectationExtrapolate = hoursInYear * actualYTD / hoursBetween
-        val yearExpectationComparedWithLastYear = (actualYTD / actualYTDPrevYear) * actualPrevYear
+//        val yearExpectationComparedWithLastYear = (actualYTD / actualYTDPrevYear) * actualPrevYear
+
+        val nWeeks = 13L
+        val pastWeeks = now.minusWeeks(nWeeks)
+        val nowYearAgo = now.minusYears(1)
+        val pastWeeksYearAgo = nowYearAgo.minusWeeks(nWeeks)
+        val actualPastweeks = repository.getTotalBetweenDates(pastWeeks, now)
+        val actualPastweeksPrevYear = repository.getTotalBetweenDates(pastWeeksYearAgo, nowYearAgo)
+
+        val yearExpectationComparedWithLastYear = (actualPastweeks / actualPastweeksPrevYear) * actualPrevYear
+
+
 
         return YearSummary(
             actualPrevYear, actualYTD, actualYTDPrevYear, actualRunningYear,
