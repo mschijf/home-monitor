@@ -90,7 +90,7 @@ class ControllerAdmin(
         }
     }
 
-    @Tag(name="3. Tado")
+    @Tag(name="3a. Tado - authentication")
     @PostMapping("/admin/tado/getAccessDeviceUrl")
     @Operation(
         summary = "Step 1 in re-assigning a device to tado. Use if tado does not repsond anymore",
@@ -118,7 +118,7 @@ class ControllerAdmin(
         return tadoAccessToken.newTadoAccessDeviceAuthorization()
     }
 
-    @Tag(name="3. Tado")
+    @Tag(name="3a. Tado - authentication")
     @PostMapping("/admin/tado/confirmDevice")
     @Operation(
         summary = "Step 2 in re-assigning a device to tado. Use if tado does not repsond anymore",
@@ -127,26 +127,26 @@ class ControllerAdmin(
         return tadoAccessToken.confirmNewTadoAccessDeviceAuthorization()
     }
 
-    @Tag(name="3. Tado")
+    @Tag(name="3b. Tado")
     @GetMapping("/admin/tado/current")
     fun tado(): TadoResponseModel {
         return tadoRestClient.getTadoResponse()
     }
 
-    @Tag(name="3. Tado")
+    @Tag(name="3b. Tado")
     @GetMapping("/admin/tado/device")
     fun tadoDevice(): TadoDevice {
         return tadoRestClient.getTadoDeviceInfo()
     }
 
-    @Tag(name="3. Tado")
+    @Tag(name="3b. Tado")
     @PostMapping("/admin/tado/device")
     fun tadoStoreDeviceInfo(): TadoDevice {
         tadoService.processDeviceInfo()
         return tadoRestClient.getTadoDeviceInfo()
     }
 
-    @Tag(name="3. Tado")
+    @Tag(name="3b. Tado")
     @GetMapping("/admin/tado/dayreport")
     fun tadoHistorical(@RequestParam(name="day", required = false) inputDay: String = LocalDate.now().toString()): TadoDayReport {
         try {
