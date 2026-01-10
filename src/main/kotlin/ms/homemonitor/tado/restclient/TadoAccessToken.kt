@@ -19,6 +19,21 @@ import java.time.LocalDateTime
 
 /**
  * See: https://support.tado.com/en/articles/8565472-how-do-i-authenticate-to-access-the-rest-api
+ *
+ * 1. execute via swagger: /admin/tado/getAccessDeviceUrl
+ *    you get a response like
+ *           {
+ *             "device_code": "nC8RSDTEJf54nRqSFarTAmFj_cCma9CNC6eWiyszrNg",
+ *             "expires_in": "300",
+ *             "interval": 5,
+ *             "user_code": "9PW4HG",
+ *             "verification_uri": "https://login.tado.com/oauth2/device",
+ *             "verification_uri_complete": "https://login.tado.com/oauth2/device?user_code=9PW4HG"
+ *           }
+ * 2. goto the url presented at 'verification_uri_complete' (so, in thi example: https://login.tado.com/oauth2/device?user_code=9PW4HG)
+ * 3.    do submit the user_code, and login with tado credentials (in 1password)
+ *
+ * 4: final step: execute via swagger: /admin/tado/confirmDevice
  */
 
 @Service
@@ -81,7 +96,7 @@ class TadoAccessToken(
         return deviceAuthorization
     }
 
-    fun confirmNewTadoAccessDiviceAuthorization(): TadoOAuth? {
+    fun confirmNewTadoAccessDeviceAuthorization(): TadoOAuth? {
         val bodyMap: MultiValueMap<String, String> = LinkedMultiValueMap()
         bodyMap.add("client_id", clientId)
         bodyMap.add("device_code", deviceAuthorization!!.deviceCode)

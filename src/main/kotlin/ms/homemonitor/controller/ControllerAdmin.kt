@@ -92,14 +92,39 @@ class ControllerAdmin(
 
     @Tag(name="3. Tado")
     @PostMapping("/admin/tado/getAccessDeviceUrl")
+    @Operation(
+        summary = "Step 1 in re-assigning a device to tado. Use if tado does not repsond anymore",
+        description = "" +
+                " See: https://support.tado.com/en/articles/8565472-how-do-i-authenticate-to-access-the-rest-api\n" +
+                "\n" +
+                " 1. execute via swagger: /admin/tado/getAccessDeviceUrl\n" +
+                "   you get a response like\n" +
+                "```\n" +
+                "          {\n" +
+                "            \"device_code\": \" ..... \",\n" +
+                "            \"expires_in\": \"300\",\n" +
+                "            \"interval\": 5,\n" +
+                "            \"user_code\": \"ABCDEFG\",\n" +
+                "            \"verification_uri\": \"https://login.tado.com/oauth2/device\",\n" +
+                "            \"verification_uri_complete\": \"https://login.tado.com/oauth2/device?user_code=ABCDEFG\"\n" +
+                "          }\n" +
+                "```\n" +
+                " 2. goto the url presented at 'verification_uri_complete' (so, in this example: https://login.tado.com/oauth2/device?user_code=ABCDEFG)\n" +
+                " 3. submit the user_code, and login with tado credentials (in 1password)\n" +
+                "\n" +
+                " 4. final step: execute via swagger: /admin/tado/confirmDevice\n" +
+                "/\n")
     fun tadoDeviceAuthorization(): Any? {
         return tadoAccessToken.newTadoAccessDeviceAuthorization()
     }
 
     @Tag(name="3. Tado")
     @PostMapping("/admin/tado/confirmDevice")
+    @Operation(
+        summary = "Step 2 in re-assigning a device to tado. Use if tado does not repsond anymore",
+        description = "Just press execute, *after* you have done the steps described at Step 1")
     fun tadoConfirmDeviceAuthorization(): Any? {
-        return tadoAccessToken.confirmNewTadoAccessDiviceAuthorization()
+        return tadoAccessToken.confirmNewTadoAccessDeviceAuthorization()
     }
 
     @Tag(name="3. Tado")
