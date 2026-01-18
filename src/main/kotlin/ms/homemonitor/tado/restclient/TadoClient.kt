@@ -68,17 +68,11 @@ class TadoClient(
         return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/weather")
     }
 
-    private fun getHomeId(): Int {
-        if (!tadoIdCache.contains("homeId"))
-            tadoIdCache["homeId"] = getTadoMe().homes[0].id
-        return tadoIdCache["homeId"]!!
-    }
+    private fun getHomeId(): Int = 
+        tadoIdCache.getOrPut("homeId") { getTadoMe().homes.first().id }
 
-    private fun getZoneId(homeId: Int): Int {
-        if (!tadoIdCache.contains("zoneId"))
-            tadoIdCache["zoneId"] = getTadoZonesForHome(homeId)[0].id
-        return tadoIdCache["zoneId"]!!
-    }
+    private fun getZoneId(homeId: Int): Int =
+        tadoIdCache.getOrPut("zoneId") { getTadoZonesForHome(homeId).first().id }
 
     fun getTadoResponse(): TadoResponseModel {
         val homeId = getHomeId()
@@ -106,4 +100,3 @@ class TadoClient(
         return getTadoResponseAsStringViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=${day}")
     }
 }
-
