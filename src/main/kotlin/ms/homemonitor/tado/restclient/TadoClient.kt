@@ -28,6 +28,7 @@ class TadoClient(
     @Value("\${home-monitor.tado.baseRestUrl}") private val baseRestUrl: String) {
 
     private val restTemplate = RestTemplate()
+    private val tadoIdCache = mutableMapOf<String, Int>()
 
     private inline fun <reified T : Any>getTadoObjectViaRest(endPoint: String): T  {
         val headers = HttpHeaders()
@@ -67,32 +68,42 @@ class TadoClient(
         return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/weather")
     }
 
+    private fun getHomeId(): Int {
+        if (!tadoIdCache.contains("homeId"))
+            tadoIdCache["homeId"] = getTadoMe().homes[0].id
+        return tadoIdCache["homeId"]!!
+    }
+
+    private fun getZoneId(homeId: Int): Int {
+        if (!tadoIdCache.contains("zoneId"))
+            tadoIdCache["zoneId"] = getTadoZonesForHome(homeId)[0].id
+        return tadoIdCache["zoneId"]!!
+    }
+
     fun getTadoResponse(): TadoResponseModel {
-        val homeId = getTadoMe().homes[0].id
-        val zoneId = getTadoZonesForHome(homeId)[0].id
+        val homeId = getHomeId()
+        val zoneId = getZoneId(homeId)
         return TadoResponseModel(
             getTadoStateForZone(homeId, zoneId),
             getTadoOutsideWeather(homeId))
     }
 
     fun getTadoDeviceInfo(): TadoDevice {
-        val homeId = getTadoMe().homes[0].id
+        val homeId = getHomeId()
         val deviceList: List<TadoDevice> = getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/devices")
         return deviceList.first { it.deviceType == "RU02" }
     }
 
     fun getTadoHistoricalInfo(day: LocalDate) : TadoDayReport {
-        val homeId = getTadoMe().homes[0].id
-        val zoneId = getTadoZonesForHome(homeId)[0].id
+        val homeId = getHomeId()
+        val zoneId = getZoneId(homeId)
         return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=${day}")
     }
 
     fun getTadoHistoricalInfoAsString(day: LocalDate) : String {
-        val homeId = getTadoMe().homes[0].id
-        val zoneId = getTadoZonesForHome(homeId)[0].id
+        val homeId = getHomeId()
+        val zoneId = getZoneId(homeId)
         return getTadoResponseAsStringViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=${day}")
     }
-
-
 }
 

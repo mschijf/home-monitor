@@ -12,6 +12,7 @@ class TadoScheduler(
 
     val log = LoggerFactory.getLogger(javaClass)
 
+    //1440 * 4 (2, als cache)
     @Scheduled(cron = "\${home-monitor.scheduler.tado.regular}")
     fun tadoMeasurement() {
         try {
@@ -22,6 +23,7 @@ class TadoScheduler(
 
     }
 
+    //24 * 3 (1 als cache)
     @Scheduled(cron = "\${home-monitor.scheduler.tado.hourSummary}")
     fun tadoMeasurementHour() {
         try {
@@ -31,6 +33,7 @@ class TadoScheduler(
         }
     }
 
+    //1 * 2 (1 als cache)
     @Scheduled(cron = "\${home-monitor.scheduler.tado.deviceState}")
     fun tadoBattery() {
         try {
