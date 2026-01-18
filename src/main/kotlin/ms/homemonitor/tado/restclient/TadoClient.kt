@@ -1,5 +1,6 @@
 package ms.homemonitor.tado.restclient
 
+import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoMe
 import ms.homemonitor.tado.restclient.model.TadoResponseModel
@@ -36,7 +37,7 @@ class TadoClient(
             headers.setBearerAuth(tadoAccessToken.getTadoAccessToken(refresh = true))
             response = restTemplate.getForEntityWithHeader<T>(endPoint, HttpEntity<Any?>(headers))
         }
-        return response.body!!
+        return response.body ?: throw HomeMonitorException(response.toString(), NullPointerException())
     }
 
     private fun getTadoResponseAsStringViaRest(endPoint: String): String  {
