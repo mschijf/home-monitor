@@ -1,6 +1,7 @@
 package ms.homemonitor.tado.restclient
 
 import ms.homemonitor.shared.HomeMonitorException
+import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
 import ms.homemonitor.tado.repository.TadoTokenRepository
 import ms.homemonitor.tado.repository.model.TadoTokenEntity
 import ms.homemonitor.tado.restclient.model.TadoDeviceAuthorization
@@ -41,6 +42,7 @@ class TadoAccessToken(
     @Value("\${home-monitor.tado.deviceUrl}") private val deviceUrl: String,
     @Value("\${home-monitor.tado.tokenUrl}") private val tokenUrl: String,
     @Value("\${home-monitor.tado.clientId}") private val clientId: String,
+    private val measurement: MicroMeterMeasurement,
     private val tadoTokenRepository: TadoTokenRepository
 ) {
 
@@ -49,6 +51,13 @@ class TadoAccessToken(
 
     private var deviceAuthorization: TadoDeviceAuthorization? = null
     private var accessTokenObject: TadoOAuth? = null
+
+
+    private fun <T>postForObject(deviceUrl: String, httpEntity: HttpEntity<Any?>, responseType: Class<T>): T? {
+        measurement.increaseCounter("tado.get")
+        return restTemplate.postForObject(deviceUrl, httpEntity, responseType)
+    }
+
 
     fun getTadoAccessToken(refresh: Boolean): String {
         try {
@@ -91,7 +100,7 @@ class TadoAccessToken(
         headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
         headers.accept = listOf( MediaType.APPLICATION_JSON)
 
-        deviceAuthorization = restTemplate.postForObject(deviceUrl, HttpEntity(bodyMap, headers), TadoDeviceAuthorization::class.java)
+        deviceAuthorization = postForObject(deviceUrl, HttpEntity(bodyMap, headers), TadoDeviceAuthorization::class.java)
 
         return deviceAuthorization
     }
@@ -112,7 +121,7 @@ class TadoAccessToken(
         headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
         headers.accept = listOf( MediaType.APPLICATION_JSON)
 
-        accessTokenObject = restTemplate.postForObject(tokenUrl, HttpEntity(bodyMap, headers), TadoOAuth::class.java)
+        accessTokenObject = postForObject(tokenUrl, HttpEntity(bodyMap, headers), TadoOAuth::class.java)
         storeToken(accessTokenObject)
     }
 

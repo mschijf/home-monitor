@@ -6,7 +6,7 @@
 
     <groupId>ms</groupId>
     <artifactId>home-monitor</artifactId>
-    <version>10.0.12</version>
+    <version>10.0.13</version>
     <name>home-monitor</name>
     <description>home-monitoring: electricity, water, tado (temperature), heath (eneco), shelly (thermometer), Tuya (Smart plugs)...</description>
     <!--    <url/>-->

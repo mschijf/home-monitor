@@ -1,6 +1,7 @@
 package ms.homemonitor.tado.restclient
 
 import ms.homemonitor.shared.HomeMonitorException
+import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoMe
 import ms.homemonitor.tado.restclient.model.TadoResponseModel
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import java.time.LocalDate
@@ -25,18 +27,24 @@ import java.time.LocalDate
 @Service
 class TadoClient(
     private val tadoAccessToken: TadoAccessToken,
+    private val measurement: MicroMeterMeasurement,
     @Value("\${home-monitor.tado.baseRestUrl}") private val baseRestUrl: String) {
 
     private val restTemplate = RestTemplate()
     private val tadoIdCache = mutableMapOf<String, Int>()
 
+    private inline fun <reified T : Any>getForEntityWithHeader(endPoint: String, httpEntity: HttpEntity<Any?>): ResponseEntity<T> {
+        measurement.increaseCounter("tado.post")
+        return restTemplate.getForEntityWithHeader<T>(endPoint, httpEntity)
+    }
+
     private inline fun <reified T : Any>getTadoObjectViaRest(endPoint: String): T  {
         val headers = HttpHeaders()
         headers.setBearerAuth(tadoAccessToken.getTadoAccessToken(refresh = false))
-        var response = restTemplate.getForEntityWithHeader<T>(endPoint, HttpEntity<Any?>(headers))
+        var response = getForEntityWithHeader<T>(endPoint, HttpEntity<Any?>(headers))
         if (response.statusCode == HttpStatus.UNAUTHORIZED) {
             headers.setBearerAuth(tadoAccessToken.getTadoAccessToken(refresh = true))
-            response = restTemplate.getForEntityWithHeader<T>(endPoint, HttpEntity<Any?>(headers))
+            response = getForEntityWithHeader<T>(endPoint, HttpEntity<Any?>(headers))
         }
         return response.body ?: throw HomeMonitorException(response.toString(), NullPointerException())
     }
@@ -44,10 +52,10 @@ class TadoClient(
     private fun getTadoResponseAsStringViaRest(endPoint: String): String  {
         val headers = HttpHeaders()
         headers.setBearerAuth(tadoAccessToken.getTadoAccessToken(refresh = false))
-        var response = restTemplate.getForEntityWithHeader<String>(endPoint, HttpEntity<Any?>(headers))
+        var response = getForEntityWithHeader<String>(endPoint, HttpEntity<Any?>(headers))
         if (response.statusCode == HttpStatus.UNAUTHORIZED) {
             headers.setBearerAuth(tadoAccessToken.getTadoAccessToken(refresh = true))
-            response = restTemplate.getForEntityWithHeader<String>(endPoint, HttpEntity<Any?>(headers))
+            response = getForEntityWithHeader<String>(endPoint, HttpEntity<Any?>(headers))
         }
         return response.body!!
     }
