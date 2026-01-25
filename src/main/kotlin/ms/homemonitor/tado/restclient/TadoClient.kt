@@ -34,7 +34,7 @@ class TadoClient(
     private val tadoIdCache = mutableMapOf<String, Int>()
 
     private inline fun <reified T : Any>getForEntityWithHeader(endPoint: String, httpEntity: HttpEntity<Any?>): ResponseEntity<T> {
-        measurement.increaseCounter("tado.post")
+        measurement.increaseCounter("tado.get")
         return restTemplate.getForEntityWithHeader<T>(endPoint, httpEntity)
     }
 

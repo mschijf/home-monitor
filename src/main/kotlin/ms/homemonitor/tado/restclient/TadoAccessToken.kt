@@ -54,7 +54,7 @@ class TadoAccessToken(
 
 
     private fun <T>postForObject(deviceUrl: String, httpEntity: HttpEntity<Any?>, responseType: Class<T>): T? {
-        measurement.increaseCounter("tado.get")
+        measurement.increaseCounter("tado.post")
         return restTemplate.postForObject(deviceUrl, httpEntity, responseType)
     }
 
