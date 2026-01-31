@@ -27,6 +27,8 @@ import ms.homemonitor.tado.restclient.model.TadoResponseModel
 import ms.homemonitor.tado.service.TadoService
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import ms.homemonitor.water.restclient.model.HomeWizardWaterData
+import ms.homemonitor.weather.restclient.WeatherApiClient
+import ms.homemonitor.weather.restclient.model.WeatherApiCurrentData
 import org.springframework.http.HttpStatus
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.*
@@ -51,6 +53,7 @@ class ControllerAdmin(
     private val heathService: HeathService,
     private val tadoService: TadoService,
     private val tuyaClient: TuyaClient,
+    private val weatherApiClient: WeatherApiClient,
 ) {
 
     @GetMapping("/")
@@ -212,4 +215,11 @@ class ControllerAdmin(
     fun cleanupBackup(@RequestParam keep: Int) {
         systemService.cleanUp(keep)
     }
+
+    @Tag(name="7. Weatherapi")
+    @GetMapping("/admin/weather/current")
+    fun getCurrent(): WeatherApiCurrentData {
+        return weatherApiClient.getCurrentWeather()
+    }
+
 }

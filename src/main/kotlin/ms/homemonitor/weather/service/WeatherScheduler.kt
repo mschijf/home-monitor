@@ -1,20 +1,20 @@
-package ms.homemonitor.shelly.service
+package ms.homemonitor.weather.service
 
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
-class ShellyScheduler(
-    private val shellyService: ShellyService,
+class WeatherScheduler(
+    private val weatherService: WeatherService,
 ) {
 
     val log = LoggerFactory.getLogger(javaClass)
 
-    @Scheduled(cron = "\${home-monitor.scheduler.shelly.regular}")
-    fun shellyMeasurement() {
+    @Scheduled(cron = "\${home-monitor.scheduler.weather.regular}")
+    fun weatherMeasurement() {
         try {
-            shellyService.processMeasurement()
+            weatherService.processMeasurement()
         } catch (e: Exception) {
             log.error(e.message, e)
         }
