@@ -51,6 +51,7 @@ class TadoAccessToken(
 
     private var deviceAuthorization: TadoDeviceAuthorization? = null
     private var accessTokenObject: TadoOAuth? = null
+    private var expiresAt: LocalDateTime = LocalDateTime.now().minusDays(1)
 
 
     private fun <T>postForObject(deviceUrl: String, httpEntity: HttpEntity<Any?>, responseType: Class<T>): T? {
@@ -86,8 +87,11 @@ class TadoAccessToken(
             if (refreshToken.isEmpty()) {
                 log.info("Refresh token is empty")
             }
-            accessTokenObject = newTadoGetTokensUsingRefreshToken(refreshToken)
+            newTadoGetTokensUsingRefreshToken(refreshToken)
+        } else if (LocalDateTime.now().isAfter(expiresAt)) {
+            newTadoGetTokensUsingRefreshToken(accessTokenObject!!.refreshToken)
         }
+
         return accessTokenObject!!
     }
 
@@ -122,6 +126,8 @@ class TadoAccessToken(
         headers.accept = listOf( MediaType.APPLICATION_JSON)
 
         accessTokenObject = postForObject(tokenUrl, HttpEntity(bodyMap, headers), TadoOAuth::class.java)
+        expiresAt = LocalDateTime.now().plusSeconds(accessTokenObject!!.expiresIn.toLong())
+
         storeToken(accessTokenObject)
     }
 

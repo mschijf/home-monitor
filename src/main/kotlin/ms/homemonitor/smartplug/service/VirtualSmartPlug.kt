@@ -11,7 +11,7 @@ class VirtualSmartPlug() {
 
         val historicalDeviceList = listOf(
             HistoricalDevice("Koelkast", 99),
-//            HistoricalDevice("Vriezer", 51),
+            HistoricalDevice("Vriezer", 9*7*24),
         )
 
     }

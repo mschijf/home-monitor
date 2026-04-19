@@ -64,7 +64,8 @@ home-monitor:
     weather:
       regular: 0 0/5 * * * *
     smartPlug:
-      regular: 0 5/30 * * * *
+      regular: "-"
+#      regular: 0 5/30 * * * *
     system:
       temperature: 0 * * * * *
       dbStats: 0 * * * * *
