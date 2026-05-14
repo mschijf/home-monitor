@@ -29,15 +29,20 @@ class DropboxClient(
     }
 
     fun getFreeBackupSpace(): Long {
-        return try {
-            commandExecutor.execCommand("$dropboxUploader space")
-                .first { it.contains("Free:") }
-                .split("\\s+".toRegex())[1]
-                .toLong()
-        } catch (e: Exception) {
-            log.error("Couldn't retrieve backup space, caused by ${e.message}")
-            -1L
+        var e: Exception? = null
+        repeat (3) {
+            try {
+                val result = commandExecutor.execCommand("$dropboxUploader space")
+                    .first { it.contains("Free:") }
+                    .split("\\s+".toRegex())[1]
+                    .toLong()
+                return result
+            } catch (e1: Exception) {
+                e = e1
+            }
         }
+        log.error("Couldn't retrieve backup space, caused by ${e?.message?:"unknown"}")
+        return -1L
     }
 
     fun deleteFile(fileName: String) {
