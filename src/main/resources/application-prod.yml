@@ -53,6 +53,7 @@ home-monitor:
       regular: 0 * * * * *
       cleanup: 0 2 0 * * *
     tado:
+#      regular: "-"
       regular: 0 1/20 * * * *
       hourSummary: 0 45 23 * * *
       deviceState: 0  0  1 * * *
@@ -62,6 +63,7 @@ home-monitor:
     shelly:
       regular: 0 0/5 * * * *
     weather:
+#      regular: "-"
       regular: 0 0/5 * * * *
     smartPlug:
       regular: "-"
