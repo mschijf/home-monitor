@@ -18,7 +18,7 @@ data class LocationData(
 
 data class CurrentData(
     val last_updated_epoch: Long,
-    val last_updated: String,
+    val last_updated: String?,
     val temp_c: Double,
     val temp_f: Double,
     val is_day: Boolean,

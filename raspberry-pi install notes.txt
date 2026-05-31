@@ -215,10 +215,23 @@ crontab ~/home-monitor-backup-script/crontab_pi
 
 DROPBOX-BACKUP
 ==============
-* copy dropbox_uploader voor het maken van backup naar dropbox
 
+* download via github het script
+in ~/Prive/: git clone vanuit https://github.com/andreafabrizi/Dropbox-Uploader
+git clone https://github.com/andreafabrizi/Dropbox-Uploader.git
+
+* verbeter bugje:
+quota=$(sed -n 's/.*"allocated": \([0-9]*\).*/\1/p' "$RESPONSE_FILE")
+wordt (verwijder spatie achter allocated": )
+quota=$(sed -n 's/.*"allocated":\(\s*[0-9]*\).*/\1/p' "$RESPONSE_FILE")
+
+used=$(sed -n 's/.*"used": \([0-9]*\).*/\1/p' "$RESPONSE_FILE")
+wordt (verwijder spatie achter used": )
+used=$(sed -n 's/.*"used":\(\s*[0-9]*\).*/\1/p' "$RESPONSE_FILE")
+
+* copy dropbox_uploader voor het maken van backup naar dropbox
 mkdir ~/dropbox-uploader
-cd ~/Prive/Sources/shell/Dropbox-Uploader
+cd ~/Prive/Dropbox-Uploader
 scp dropbox_uploader.sh pi:~/dropbox-uploader
 backup.sh
 
