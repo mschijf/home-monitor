@@ -6,5 +6,7 @@ data class YearSummary(
     val actualYTDPreviousYear: Double,
     val actualRunningYear: Double,
     val yearExpectationExtrapolate: Double,
-    val yearExpectationComparedWithLastYear: Double) {
+    val yearExpectationComparedWithLastYear: Double,
+    val newPrognose1: Double,
+    val newPrognose2: Double) {
 }

@@ -36,10 +36,10 @@ class SummaryService {
         val actualRunningYear = repository.getTotalBetweenDates(todayHourPrevYear, todayHour)
         val actualYTDPrevYear = repository.getTotalBetweenDates(prevYearStart, todayHourPrevYear)
         val actualYTD = repository.getTotalBetweenDates(yearStart, todayHour)
+        val remainderLastYear = repository.getTotalBetweenDates(todayHourPrevYear, yearStart)
 
         val hoursBetween = ChronoUnit.HOURS.between(yearStart, todayHour)
         val yearExpectationExtrapolate = hoursInYear * actualYTD / hoursBetween
-//        val yearExpectationComparedWithLastYear = (actualYTD / actualYTDPrevYear) * actualPrevYear
 
         val nWeeks = 13L
         val pastWeeks = now.minusWeeks(nWeeks)
@@ -47,14 +47,29 @@ class SummaryService {
         val pastWeeksYearAgo = nowYearAgo.minusWeeks(nWeeks)
         val actualPastweeks = repository.getTotalBetweenDates(pastWeeks, now)
         val actualPastweeksPrevYear = repository.getTotalBetweenDates(pastWeeksYearAgo, nowYearAgo)
-
         val yearExpectationComparedWithLastYear = (actualPastweeks / actualPastweeksPrevYear) * actualPrevYear
+
+        val newPrognose1 = (actualPrevYear / actualYTDPrevYear) * actualYTD
+
+        val trend = 0.5 * getFactor(repository, now, 28) +
+                0.3 * getFactor(repository, now, 90) +
+                0.2 * getFactor(repository, now, now.dayOfYear.toLong())
+        val newPrognose2 = actualYTD + remainderLastYear * trend
 
 
 
         return YearSummary(
             actualPrevYear, actualYTD, actualYTDPrevYear, actualRunningYear,
-            yearExpectationExtrapolate, yearExpectationComparedWithLastYear
+            yearExpectationExtrapolate, yearExpectationComparedWithLastYear, newPrognose1, newPrognose2
         )
+    }
+
+    private fun getFactor(repository: RepositoryWithTotals, now: LocalDateTime, nDays: Long): Double {
+        val pastDays = now.minusDays(nDays)
+        val nowYearAgo = now.minusYears(1)
+        val pastDaysYearAgo = nowYearAgo.minusDays(nDays)
+        val actualPastDays = repository.getTotalBetweenDates(pastDays, now)
+        val actualPastDaysPrevYear = repository.getTotalBetweenDates(pastDaysYearAgo, nowYearAgo)
+        return (actualPastDays / actualPastDaysPrevYear)
     }
 }
