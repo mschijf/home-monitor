@@ -38,9 +38,10 @@ class HeathService(
 
     @Transactional
     fun setManualCorrection(manualStanding: ManualHeathCorrectionModel): Boolean {
-        if (okValue(manualStanding)) {
+        val lastHeath = heathRepository.getLastHeathEntity()
+        if (okValue(manualStanding, lastHeath)) {
             manualHeathCorrectionRepository.saveAndFlush(
-                ManualHeathCorrectionEntity(LocalDateTime.now(), manualStanding.heathGJ)
+                ManualHeathCorrectionEntity(LocalDateTime.now(), manualStanding.heathGJ, lastHeath?.heathGJ)
             )
             updateEnecoData()
             return true
@@ -49,10 +50,14 @@ class HeathService(
         }
     }
 
-    private fun okValue(manualStanding: ManualHeathCorrectionModel): Boolean {
-        val lastHeath = heathRepository.getLastHeathEntity()
-        val diff = lastHeath?.heathGJ!!.minus(manualStanding.heathGJ)
-        return diff.toDouble().absoluteValue < 1
+    private fun okValue(manualStanding: ManualHeathCorrectionModel, lastHeath: HeathEntity?): Boolean {
+        return if (lastHeath == null) {
+            false
+        } else {
+            lastHeath.heathGJ!!
+                .minus(manualStanding.heathGJ).toDouble()
+                .absoluteValue < 1
+        }
     }
 
 

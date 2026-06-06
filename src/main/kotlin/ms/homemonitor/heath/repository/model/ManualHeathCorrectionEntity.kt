@@ -15,5 +15,9 @@ class ManualHeathCorrectionEntity(
     val time: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "heath_gj", nullable = true)
-    var heathGJ: BigDecimal? =  null
+    var heathGJ: BigDecimal? =  null,
+
+    @Column(name = "heath_gj_beforecorrection", nullable = true)
+    var heathGJbeforeCorrection: BigDecimal? =  null
+
 )
