@@ -4,9 +4,14 @@ data class YearSummary(
     val actualPreviousYear: Double,
     val actualYTD: Double,
     val actualYTDPreviousYear: Double,
-    val actualRunningYear: Double,
-    val yearExpectationExtrapolate: Double,
-    val yearExpectationComparedWithLastYear: Double,
-    val newPrognose1: Double,
-    val newPrognose2: Double) {
-}
+    val remainderPreviousYear: Double,
+    val prognose: Prognose,
+)
+
+data class Prognose(
+    val followPreviousYear: Double,
+    val extrapolate: Double,
+    val followTrendYTD: Double,
+    val followTrend28Days: Double,
+    val followTrendWeighted: Double,
+)
