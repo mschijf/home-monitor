@@ -3792,7 +3792,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 2,
+        "x": 0,
         "y": 46
       },
       "hideTimeOverride": true,
@@ -3873,7 +3873,88 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 7,
+        "x": 4,
+        "y": 46
+      },
+      "hideTimeOverride": true,
+      "id": 165,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "titleSize": 4
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "columns": [],
+          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ee9nfq7i30dmoa"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "$.prognose.followTrendRollingYear",
+          "source": "url",
+          "type": "json",
+          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "timeFrom": "1h",
+      "title": "trend 365d",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "ee9nfq7i30dmoa"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 8,
         "y": 46
       },
       "hideTimeOverride": true,
@@ -3954,7 +4035,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 11,
+        "x": 12,
         "y": 46
       },
       "hideTimeOverride": true,
@@ -4035,7 +4116,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 15,
+        "x": 16,
         "y": 46
       },
       "hideTimeOverride": true,
@@ -4636,7 +4717,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 2,
+        "x": 0,
         "y": 58
       },
       "hideTimeOverride": true,
@@ -4717,11 +4798,92 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 7,
+        "x": 4,
         "y": 58
       },
       "hideTimeOverride": true,
       "id": 104,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "titleSize": 4
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "columns": [],
+          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ee9nfq7i30dmoa"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "$.prognose.followTrendRollingYear",
+          "source": "url",
+          "type": "json",
+          "url": "http://192.168.2.39:8080/homewizard/water/summary",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "timeFrom": "1h",
+      "title": "trend 365d",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "ee9nfq7i30dmoa"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 8,
+        "y": 58
+      },
+      "hideTimeOverride": true,
+      "id": 166,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -4798,7 +4960,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 11,
+        "x": 12,
         "y": 58
       },
       "hideTimeOverride": true,
@@ -4879,7 +5041,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 15,
+        "x": 16,
         "y": 58
       },
       "hideTimeOverride": true,
@@ -5466,7 +5628,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 2,
+        "x": 0,
         "y": 70
       },
       "hideTimeOverride": true,
@@ -5547,7 +5709,88 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 7,
+        "x": 4,
+        "y": 70
+      },
+      "hideTimeOverride": true,
+      "id": 167,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "titleSize": 4
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "columns": [],
+          "data": "{\n  \"actualPreviousYear\": 1522.64,\n  \"actualYTD\": 47.362,\n  \"actualYTDPreviousYear\": 11.454,\n  \"actualRunningYear\": 1558.548,\n  \"yearExpectationExtrapolate\": 1728.7130000000002,\n  \"yearExpectationComparedWithLastYear\": 6296.07784878645\n}",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ee9nfq7i30dmoa"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "$.prognose.followTrendRollingYear",
+          "source": "url",
+          "type": "json",
+          "url": "http://192.168.2.39:8080/eneco/summary",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "timeFrom": "1h",
+      "title": "trend 365d",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "ee9nfq7i30dmoa"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-orange",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 8,
         "y": 70
       },
       "hideTimeOverride": true,
@@ -5628,7 +5871,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 11,
+        "x": 12,
         "y": 70
       },
       "hideTimeOverride": true,
@@ -5709,7 +5952,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 15,
+        "x": 16,
         "y": 70
       },
       "hideTimeOverride": true,
@@ -8549,8 +8792,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -8693,8 +8935,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -8851,8 +9092,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -8866,7 +9106,7 @@
             "properties": [
               {
                 "id": "unit",
-                "value": "time:D MMM"
+                "value": "time:D MMM YYYY"
               }
             ]
           },
@@ -10648,7 +10888,7 @@
     "list": []
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {
@@ -10667,6 +10907,6 @@
   "timezone": "browser",
   "title": "Home-monitor",
   "uid": "bdsucvo44sy68b",
-  "version": 340,
+  "version": 343,
   "weekStart": ""
 }

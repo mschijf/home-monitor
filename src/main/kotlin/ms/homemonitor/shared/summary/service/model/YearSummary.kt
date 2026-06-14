@@ -14,4 +14,5 @@ data class Prognose(
     val followTrendYTD: Double,
     val followTrend28Days: Double,
     val followTrendWeighted: Double,
+    val followTrendRollingYear: Double,
 )

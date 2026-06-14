@@ -45,6 +45,7 @@ class SummaryService {
         val extrapolate = (hoursInYear.toDouble() / hoursYTD.toDouble()) * actualYTD
         val followTrend28Days = actualYTD + remainderPreviousYear * getFactor(repository, now, 28)
         val followTrendYTD = (actualPreviousYear / actualYTDPreviousYear) * actualYTD
+        val followTrendRollingYear = actualYTD + remainderPreviousYear * getFactor(repository, now, 365)
 
         val trend = 0.5 * getFactor(repository, now, 28) +
                 0.3 * getFactor(repository, now, 90) +
@@ -61,7 +62,8 @@ class SummaryService {
                 extrapolate,
                 followTrendYTD,
                 followTrend28Days,
-                followTrendWeighted),
+                followTrendWeighted,
+                followTrendRollingYear),
         )
     }
 
