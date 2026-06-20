@@ -147,6 +147,15 @@ class HomeWizardWaterService(
         log.info("Shower usage for $date: ${showers.size} showers saved")
     }
 
+    fun initShowers(fromDay: LocalDate) {
+        val now = LocalDate.now()
+        var current = fromDay
+        while (current <= now) {
+            processShowerUsage(current)
+            current = current.plusDays(1)
+        }
+    }
+
     @Transactional
     fun cleanupOldData(keepDays: Long) {
         val beforeTime = LocalDate.now().minusDays(keepDays)

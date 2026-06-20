@@ -98,6 +98,20 @@ class ControllerAdmin(
         return homeWizardWaterService.getShowers(parseDate(dayParam))
     }
 
+    @Tag(name="1. Homewizard")
+    @PostMapping("/admin/water/initshowers")
+    @Operation(
+        summary = "Init shower sessions from a given day",
+        description = "Returns water usage sessions for the given day that are likely showers " +
+                "(>= 20 liter, flow >= 1 L/min, warmth > 0). Gaps of up to 3 minutes within a session are allowed."
+    )
+    fun initShowersTable(
+        @RequestParam(name = "fromDay", required = false) fromDayParam: String?,
+    ) {
+        return homeWizardWaterService.initShowers(parseDate(fromDayParam))
+    }
+
+
     @Tag(name="2. Eneco")
     @GetMapping("/admin/eneco/current")
     @Operation(summary = "Be careful using this one." +
