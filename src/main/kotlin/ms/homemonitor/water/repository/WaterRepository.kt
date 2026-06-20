@@ -37,4 +37,6 @@ interface WaterRepository: JpaRepository<WaterEntity, LocalDateTime>, Repository
             "  AND time < :beforeTime;"
         , nativeQuery = true)
     fun countRecordsBeforeTime(@Param("beforeTime")beforeTime: LocalDateTime): Long
+
+    fun findByTimeBetweenOrderByTime(from: LocalDateTime, until: LocalDateTime): List<WaterEntity>
 }

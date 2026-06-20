@@ -11,6 +11,7 @@ import ms.homemonitor.water.service.HomeWizardWaterService
 import ms.homemonitor.weather.service.WeatherService
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 @Service
 class Scheduler(
@@ -100,6 +101,9 @@ class Scheduler(
 
     @Scheduled(cron = "\${home-monitor.scheduler.water.cleanup}")
     fun waterCleanup() = runSafely { homeWizardWaterService.cleanupOldData(90) }
+
+    @Scheduled(cron = "\${home-monitor.scheduler.water.showerUsage}")
+    fun showerUsage() = runSafely { homeWizardWaterService.processShowerUsage(LocalDate.now().minusDays(1)) }
 
     //-----------------------------------------------------------------------------------------------------------------
     // Weather

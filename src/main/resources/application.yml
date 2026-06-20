@@ -84,6 +84,7 @@ home-monitor:
       detailed: "-"
       regular: "-"
       cleanup: "-"
+      showerUsage: "-"
     tado:
       regular: "-"
       hourSummary: "-"

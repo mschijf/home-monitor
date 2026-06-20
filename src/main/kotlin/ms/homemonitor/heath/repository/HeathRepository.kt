@@ -16,6 +16,8 @@ interface HeathRepository: JpaRepository<HeathEntity, LocalDateTime>, Repository
 
     fun deleteHeathEntitiesByTimeGreaterThanEqual(dateTime: LocalDateTime)
 
+    fun findByTimeBetweenOrderByTime(from: LocalDateTime, until: LocalDateTime): List<HeathEntity>
+
     @Query(value = "SELECT max(heath_gj)-min(heath_gj) from heath where time >= :from and time <= :end", nativeQuery = true)
     override fun getTotalBetweenDates(@Param("from")from: LocalDateTime, @Param("end")end: LocalDateTime): Double
 

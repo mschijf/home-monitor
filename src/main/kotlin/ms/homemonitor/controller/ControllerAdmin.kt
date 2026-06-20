@@ -27,6 +27,8 @@ import ms.homemonitor.tado.restclient.model.TadoResponseModel
 import ms.homemonitor.tado.service.TadoService
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import ms.homemonitor.water.restclient.model.HomeWizardWaterData
+import ms.homemonitor.water.service.HomeWizardWaterService
+import ms.homemonitor.water.service.model.ShowerSession
 import ms.homemonitor.weather.restclient.WeatherApiClient
 import ms.homemonitor.weather.restclient.model.WeatherApiCurrentData
 import org.springframework.http.HttpStatus
@@ -36,13 +38,13 @@ import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.ModelAndView
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
 
 
 @RestController
 class ControllerAdmin(
     private val homeWizardElectricityClient: HomeWizardElectricityClient,
     private val homeWizardWaterClient: HomeWizardWaterClient,
+    private val homeWizardWaterService: HomeWizardWaterService,
     private val tadoAccessToken: TadoAccessToken,
     private val tadoRestClient: TadoClient,
     private val shellyRestClient: ShellyClient,
@@ -55,6 +57,15 @@ class ControllerAdmin(
     private val tuyaClient: TuyaClient,
     private val weatherApiClient: WeatherApiClient,
 ) {
+
+    private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+    private fun parseDate(dayParam: String?): LocalDate =
+        try {
+            if (dayParam != null) LocalDate.parse(dayParam, formatter) else LocalDate.now()
+        } catch (_: Exception) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Parameter 'day' must be in format dd-MM-yyyy")
+        }
+
 
     @GetMapping("/")
     fun home(model: ModelMap): ModelAndView {
@@ -72,6 +83,19 @@ class ControllerAdmin(
     @GetMapping("/admin/homewizard/water/current")
     fun homeWizardWater(): HomeWizardWaterData {
         return homeWizardWaterClient.getHomeWizardWaterData()
+    }
+
+    @Tag(name="1. Homewizard")
+    @GetMapping("/admin/water/showers")
+    @Operation(
+        summary = "Detect shower sessions for a given day",
+        description = "Returns water usage sessions for the given day that are likely showers " +
+                "(>= 20 liter, flow >= 1 L/min, warmth > 0). Gaps of up to 3 minutes within a session are allowed."
+    )
+    fun getShowers(
+        @RequestParam(name = "day", required = false) dayParam: String?,
+    ): List<ShowerSession> {
+        return homeWizardWaterService.getShowers(parseDate(dayParam))
     }
 
     @Tag(name="2. Eneco")
@@ -152,12 +176,7 @@ class ControllerAdmin(
     @Tag(name="3b. Tado")
     @GetMapping("/admin/tado/dayreport")
     fun tadoHistorical(@RequestParam(name="day", required = false) inputDay: String = LocalDate.now().toString()): TadoDayReport {
-        try {
-            val dayTime = LocalDate.parse(inputDay)
-            return tadoRestClient.getTadoHistoricalInfo(dayTime)
-        } catch (e: Exception) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message, e)
-        }
+        return tadoRestClient.getTadoHistoricalInfo(parseDate(inputDay))
     }
 
     @Tag(name="4. Shelly")
@@ -177,13 +196,8 @@ class ControllerAdmin(
     fun getTuyaData(@PathVariable deviceId: String,
                     @Parameter(description = "date in format dd-mm-yyyy") @RequestParam dateString: String): List<TuyaDataDetail> {
 
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-        try {
-            val date = LocalDate.parse(dateString, formatter)
-            return tuyaClient.getTuyaData(deviceId, date.atStartOfDay(), date.atStartOfDay().plusHours(24))
-        } catch (_: DateTimeParseException) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "'dateString' parameter cannot be paresed to a date")
-        }
+        val date = parseDate(dateString)
+        return tuyaClient.getTuyaData(deviceId, date.atStartOfDay(), date.atStartOfDay().plusHours(24))
     }
 
     @Tag(name="6. System")
