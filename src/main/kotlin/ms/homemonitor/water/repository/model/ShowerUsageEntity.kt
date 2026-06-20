@@ -4,21 +4,24 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "shower_usage")
 class ShowerUsageEntity(
     @Id
-    @Column(name = "date", nullable = false, unique = true)
-    val date: LocalDate,
+    @Column(name = "start_time", nullable = false)
+    val startTime: LocalDateTime,
 
-    @Column(name = "shower_count", nullable = false)
-    val showerCount: Int,
+    @Column(name = "end_time", nullable = false)
+    val endTime: LocalDateTime,
 
-    @Column(name = "total_liters", nullable = false)
-    val totalLiters: Double,
+    @Column(name = "duration_minutes", nullable = false)
+    val durationMinutes: Int,
 
-    @Column(name = "total_heat_gj", nullable = false)
-    val totalHeatGJ: Double,
+    @Column(name = "liters", nullable = false)
+    val liters: Double,
+
+    @Column(name = "heat_gj", nullable = false)
+    val heatGJ: Double,
 )

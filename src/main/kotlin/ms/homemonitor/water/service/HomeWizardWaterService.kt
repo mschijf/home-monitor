@@ -135,14 +135,16 @@ class HomeWizardWaterService(
 
     fun processShowerUsage(date: LocalDate) {
         val showers = getShowers(date)
-        val entity = ShowerUsageEntity(
-            date = date,
-            showerCount = showers.size,
-            totalLiters = showers.sumOf { it.liters },
-            totalHeatGJ = showers.sumOf { it.heatGJ ?: 0.0 },
-        )
-        showerUsageRepository.saveAndFlush(entity)
-        log.info("Shower usage for $date: ${showers.size} showers, ${entity.totalLiters}L, ${entity.totalHeatGJ}GJ")
+        showers.forEach { shower ->
+            showerUsageRepository.saveAndFlush(ShowerUsageEntity(
+                startTime = shower.startTime,
+                endTime = shower.endTime,
+                durationMinutes = shower.durationMinutes,
+                liters = shower.liters,
+                heatGJ = shower.heatGJ ?: 0.0,
+            ))
+        }
+        log.info("Shower usage for $date: ${showers.size} showers saved")
     }
 
     @Transactional
