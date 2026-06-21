@@ -1,9 +1,6 @@
 package ms.homemonitor.weather.repository.model
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
@@ -19,8 +16,9 @@ class WeatherEntity(
     @Column(name = "humidity_percentage", nullable = true)
     var humidityPercentage: Double? = null,
 
-    @Column(name = "condition", nullable = true)
-    var condition: String? = null,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "condition_id", nullable = true)
+    var condition: WeatherConditionEntity? = null,
 
     @Column(name = "wind_kph", nullable = true)
     var windKph: Double? = null,
