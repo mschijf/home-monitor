@@ -10,11 +10,8 @@ import java.time.LocalDateTime
 @Table(name = "shower_usage")
 class ShowerUsageEntity(
     @Id
-    @Column(name = "start_time", nullable = false, unique = true)
-    val startTime: LocalDateTime = LocalDateTime.MIN,
-
-    @Column(name = "end_time", nullable = true)
-    var endTime: LocalDateTime? = null,
+    @Column(name = "time", nullable = false, unique = true)
+    val time: LocalDateTime = LocalDateTime.MIN,
 
     @Column(name = "duration_minutes", nullable = true)
     var durationMinutes: Int? = null,

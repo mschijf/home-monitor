@@ -6,6 +6,7 @@ import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.shared.summary.service.SummaryService
 import ms.homemonitor.shared.summary.service.model.YearSummary
 import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
+import ms.homemonitor.shared.tools.utcTimeToLocalTime
 import ms.homemonitor.water.repository.ShowerUsageRepository
 import ms.homemonitor.water.repository.WaterRepository
 import ms.homemonitor.water.repository.model.ShowerUsageEntity
@@ -82,12 +83,15 @@ class HomeWizardWaterService(
             val hourFrom = session.startTime.truncatedTo(ChronoUnit.HOURS)
             val hourUntil = session.endTime.truncatedTo(ChronoUnit.HOURS)
             val heatGJ = heathRecords
-                .filter { it.time >= hourFrom && it.time <= hourUntil }
+                .filter { it.time in hourFrom .. hourUntil }
                 .mapNotNull { it.deltaGJ?.toDouble() }
                 .takeIf { it.isNotEmpty() }
                 ?.sum()
                 ?.let { Math.round(it * 10_000) / 10_000.0 }
-            session.copy(heatGJ = heatGJ)
+            session.copy(
+                startTime = session.startTime.utcTimeToLocalTime(),
+                endTime = session.endTime.utcTimeToLocalTime(),
+                heatGJ = heatGJ)
         }.filter { it.heatGJ != null && it.heatGJ > 0 }
     }
 
@@ -138,8 +142,7 @@ class HomeWizardWaterService(
         if (showers.isEmpty()) {
             showerUsageRepository.saveAndFlush(
                 ShowerUsageEntity(
-                    startTime = date.atStartOfDay(),
-                    endTime = date.atStartOfDay(),
+                    time = date.atStartOfDay().plusHours(3),
                     durationMinutes = 0,
                     liters = 0.0,
                     heatGJ = 0.0,
@@ -149,8 +152,7 @@ class HomeWizardWaterService(
             showers.forEach { shower ->
                 showerUsageRepository.saveAndFlush(
                     ShowerUsageEntity(
-                        startTime = shower.startTime,
-                        endTime = shower.endTime,
+                        time = shower.startTime,
                         durationMinutes = shower.durationMinutes,
                         liters = shower.liters,
                         heatGJ = shower.heatGJ ?: 0.0,
