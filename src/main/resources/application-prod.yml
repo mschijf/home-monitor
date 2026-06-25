@@ -52,7 +52,7 @@ home-monitor:
       detailed: 0/10 * * * * *
       regular: 0 * * * * *
       cleanup: 0 2 0 * * *
-      showerUsage: 0 0 2 * * *
+      showerUsage: 0 0 6 * * *
     tado:
 #      regular: "-"
       regular: 0 1/20 * * * *

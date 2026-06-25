@@ -1,17 +1,17 @@
 package ms.homemonitor.water.service
 
 import jakarta.transaction.Transactional
+import ms.homemonitor.heath.repository.HeathRepository
 import ms.homemonitor.shared.HomeMonitorException
-import ms.homemonitor.shared.summary.service.model.YearSummary
 import ms.homemonitor.shared.summary.service.SummaryService
+import ms.homemonitor.shared.summary.service.model.YearSummary
 import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
-import ms.homemonitor.water.repository.model.WaterEntity
+import ms.homemonitor.water.repository.ShowerUsageRepository
 import ms.homemonitor.water.repository.WaterRepository
+import ms.homemonitor.water.repository.model.ShowerUsageEntity
+import ms.homemonitor.water.repository.model.WaterEntity
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import ms.homemonitor.water.restclient.model.HomeWizardWaterData
-import ms.homemonitor.heath.repository.HeathRepository
-import ms.homemonitor.water.repository.ShowerUsageRepository
-import ms.homemonitor.water.repository.model.ShowerUsageEntity
 import ms.homemonitor.water.service.model.ShowerSession
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -135,14 +135,28 @@ class HomeWizardWaterService(
 
     fun processShowerUsage(date: LocalDate) {
         val showers = getShowers(date)
-        showers.forEach { shower ->
-            showerUsageRepository.saveAndFlush(ShowerUsageEntity(
-                startTime = shower.startTime,
-                endTime = shower.endTime,
-                durationMinutes = shower.durationMinutes,
-                liters = shower.liters,
-                heatGJ = shower.heatGJ ?: 0.0,
-            ))
+        if (showers.isEmpty()) {
+            showerUsageRepository.saveAndFlush(
+                ShowerUsageEntity(
+                    startTime = date.atStartOfDay(),
+                    endTime = date.atStartOfDay(),
+                    durationMinutes = 0,
+                    liters = 0.0,
+                    heatGJ = 0.0,
+                )
+            )
+        } else {
+            showers.forEach { shower ->
+                showerUsageRepository.saveAndFlush(
+                    ShowerUsageEntity(
+                        startTime = shower.startTime,
+                        endTime = shower.endTime,
+                        durationMinutes = shower.durationMinutes,
+                        liters = shower.liters,
+                        heatGJ = shower.heatGJ ?: 0.0,
+                    )
+                )
+            }
         }
         log.info("Shower usage for $date: ${showers.size} showers saved")
     }
