@@ -1,7 +1,7 @@
-package ms.homemonitor.heath.restclient
+package ms.homemonitor.heat.restclient
 
 import io.github.bonigarcia.wdm.WebDriverManager
-import ms.homemonitor.heath.restclient.model.EnecoOAuth
+import ms.homemonitor.heat.restclient.model.EnecoOAuth
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.firefox.FirefoxDriver

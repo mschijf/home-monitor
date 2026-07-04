@@ -1,7 +1,7 @@
 package ms.homemonitor.water.service
 
 import jakarta.transaction.Transactional
-import ms.homemonitor.heath.repository.HeathRepository
+import ms.homemonitor.heat.repository.HeatRepository
 import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.shared.summary.service.SummaryService
 import ms.homemonitor.shared.summary.service.model.YearSummary
@@ -24,7 +24,7 @@ import java.time.temporal.ChronoUnit
 @Service
 class HomeWizardWaterService(
     private val waterRepository: WaterRepository,
-    private val heathRepository: HeathRepository,
+    private val heatRepository: HeatRepository,
     private val showerUsageRepository: ShowerUsageRepository,
     private val homeWizardWaterClient: HomeWizardWaterClient,
     private val measurement: MicroMeterMeasurement,
@@ -76,12 +76,12 @@ class HomeWizardWaterService(
         val sessions = buildSessions(flows)
 
         // Eneco stores heat per hour; time = start of the hour (e.g. 07:00 covers 07:00–08:00)
-        val heathRecords = heathRepository.findByTimeBetweenOrderByTime(from, until)
+        val heatRecords = heatRepository.findByTimeBetweenOrderByTime(from, until)
 
         return sessions.map { session ->
             val hourFrom = session.startTime.truncatedTo(ChronoUnit.HOURS)
             val hourUntil = session.endTime.truncatedTo(ChronoUnit.HOURS)
-            val heatGJ = heathRecords
+            val heatGJ = heatRecords
                 .filter { it.time in hourFrom .. hourUntil }
                 .mapNotNull { it.deltaGJ?.toDouble() }
                 .takeIf { it.isNotEmpty() }

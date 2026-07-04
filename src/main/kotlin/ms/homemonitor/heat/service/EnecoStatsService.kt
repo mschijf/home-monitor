@@ -1,7 +1,7 @@
-package ms.homemonitor.heath.service
+package ms.homemonitor.heat.service
 
-import ms.homemonitor.heath.repository.EnecoStatsRepository
-import ms.homemonitor.heath.repository.model.EnecoStatsEntity
+import ms.homemonitor.heat.repository.EnecoStatsRepository
+import ms.homemonitor.heat.repository.model.EnecoStatsEntity
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 

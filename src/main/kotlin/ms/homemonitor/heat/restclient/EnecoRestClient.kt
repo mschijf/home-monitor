@@ -1,8 +1,8 @@
-package ms.homemonitor.heath.restclient
+package ms.homemonitor.heat.restclient
 
-import ms.homemonitor.heath.restclient.model.EnecoConsumption
-import ms.homemonitor.heath.restclient.model.EnecoDataModel
-import ms.homemonitor.heath.restclient.model.EnecoUsageEntry
+import ms.homemonitor.heat.restclient.model.EnecoConsumption
+import ms.homemonitor.heat.restclient.model.EnecoDataModel
+import ms.homemonitor.heat.restclient.model.EnecoUsageEntry
 import ms.homemonitor.shared.tools.rest.getForEntityWithHeader
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpEntity

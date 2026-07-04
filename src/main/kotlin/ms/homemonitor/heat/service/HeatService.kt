@@ -1,12 +1,12 @@
-package ms.homemonitor.heath.service
+package ms.homemonitor.heat.service
 
 import jakarta.transaction.Transactional
-import ms.homemonitor.heath.repository.HeathRepository
-import ms.homemonitor.heath.repository.ManualHeathCorrectionRepository
-import ms.homemonitor.heath.repository.model.HeathEntity
-import ms.homemonitor.heath.repository.model.ManualHeathCorrectionEntity
-import ms.homemonitor.heath.repository.model.ManualHeathCorrectionModel
-import ms.homemonitor.heath.restclient.EnecoRestClient
+import ms.homemonitor.heat.repository.HeatRepository
+import ms.homemonitor.heat.repository.ManualHeatCorrectionRepository
+import ms.homemonitor.heat.repository.model.HeatEntity
+import ms.homemonitor.heat.repository.model.ManualHeatCorrectionEntity
+import ms.homemonitor.heat.repository.model.ManualHeatCorrectionModel
+import ms.homemonitor.heat.restclient.EnecoRestClient
 import ms.homemonitor.shared.summary.service.SummaryService
 import ms.homemonitor.shared.summary.service.model.YearSummary
 import org.slf4j.LoggerFactory
@@ -20,28 +20,28 @@ import java.time.temporal.ChronoUnit
 import kotlin.math.absoluteValue
 
 @Service
-class HeathService(
-    private val heathRepository: HeathRepository,
-    private val manualHeathCorrectionRepository: ManualHeathCorrectionRepository,
+class HeatService(
+    private val heatRepository: HeatRepository,
+    private val manualHeatCorrectionRepository: ManualHeatCorrectionRepository,
     private val enecoRestClient: EnecoRestClient,
     private val enecoStatsService: EnecoStatsService,
     private val summary: SummaryService,
     @Value("\${home-monitor.eneco.initialDate}") private val initialDate: LocalDateTime,
-    @Value("\${home-monitor.eneco.initialHeathValue}") private val initialHeathValue: BigDecimal,
+    @Value("\${home-monitor.eneco.initialHeatValue}") private val initialHeatValue: BigDecimal,
 ) {
 
-    private val log = LoggerFactory.getLogger(HeathService::class.java)
+    private val log = LoggerFactory.getLogger(HeatService::class.java)
 
     fun getYearSummary(): YearSummary {
-        return summary.getSummary(heathRepository)
+        return summary.getSummary(heatRepository)
     }
 
     @Transactional
-    fun setManualCorrection(manualStanding: ManualHeathCorrectionModel): Boolean {
-        val lastHeath = heathRepository.getLastHeathEntity()
-        if (okValue(manualStanding, lastHeath)) {
-            manualHeathCorrectionRepository.saveAndFlush(
-                ManualHeathCorrectionEntity(LocalDateTime.now(), manualStanding.heathGJ, lastHeath?.heathGJ)
+    fun setManualCorrection(manualStanding: ManualHeatCorrectionModel): Boolean {
+        val lastHeat = heatRepository.getLastHeatEntity()
+        if (okValue(manualStanding, lastHeat)) {
+            manualHeatCorrectionRepository.saveAndFlush(
+                ManualHeatCorrectionEntity(LocalDateTime.now(), manualStanding.heatGJ, lastHeat?.heatGJ)
             )
             updateEnecoData()
             return true
@@ -50,12 +50,12 @@ class HeathService(
         }
     }
 
-    private fun okValue(manualStanding: ManualHeathCorrectionModel, lastHeath: HeathEntity?): Boolean {
-        return if (lastHeath == null) {
+    private fun okValue(manualStanding: ManualHeatCorrectionModel, lastHeat: HeatEntity?): Boolean {
+        return if (lastHeat == null) {
             false
         } else {
-            lastHeath.heathGJ!!
-                .minus(manualStanding.heathGJ).toDouble()
+            lastHeat.heatGJ!!
+                .minus(manualStanding.heatGJ).toDouble()
                 .absoluteValue < 1
         }
     }
@@ -72,57 +72,57 @@ class HeathService(
 
     private fun updateEnecoData(): Boolean {
         val beginningOfLastDay = clearLastDay()
-        val newHeathRecordList = getNewDataFromDate(beginningOfLastDay.toLocalDate())
-        newHeathRecordList.forEach { heathRecord ->
+        val newHeatRecordList = getNewDataFromDate(beginningOfLastDay.toLocalDate())
+        newHeatRecordList.forEach { heatRecord ->
             try {
-                heathRepository.saveAndFlush(heathRecord)
+                heatRepository.saveAndFlush(heatRecord)
             } catch (e: Exception) {
-                log.info("Ignore exception ' ${e.message}' while updating record $heathRecord")
+                log.info("Ignore exception ' ${e.message}' while updating record $heatRecord")
             }
         }
 
-        return newHeathRecordList.isNotEmpty()
+        return newHeatRecordList.isNotEmpty()
     }
 
-    private fun lastRecord(): HeathEntity {
-        return heathRepository.getLastHeathEntity() ?: HeathEntity(initialDate, BigDecimal.ZERO, initialHeathValue)
+    private fun lastRecord(): HeatEntity {
+        return heatRepository.getLastHeatEntity() ?: HeatEntity(initialDate, BigDecimal.ZERO, initialHeatValue)
     }
 
     private fun clearLastDay(): LocalDateTime {
         val beginningOfLastDay = LocalDateTime.of(lastRecord().time.toLocalDate(), LocalTime.MIDNIGHT)
-        heathRepository.deleteHeathEntitiesByTimeGreaterThanEqual(beginningOfLastDay)
+        heatRepository.deleteHeatEntitiesByTimeGreaterThanEqual(beginningOfLastDay)
         return beginningOfLastDay
     }
 
-    private fun getNewDataFromDate(beginningOfLastDay: LocalDate): List<HeathEntity> {
+    private fun getNewDataFromDate(beginningOfLastDay: LocalDate): List<HeatEntity> {
         val freshDataList = enecoRestClient.getNewDataFromEneco(beginningOfLastDay).sortedBy { it.date }
-        val newHeathRecordList = freshDataList
+        val newHeatRecordList = freshDataList
             .map{fresh ->
-                HeathEntity(
+                HeatEntity(
                     time = fresh.date,
                     deltaGJ = fresh.totalUsedGigaJoule,
-                    heathGJ = BigDecimal.ZERO
+                    heatGJ = BigDecimal.ZERO
                 )
             }
             .runningFold(lastRecord()) {acc, elt ->
-                val correction = manualHeathCorrectionRepository.getLastCorrectionBetween(acc.time, elt.time)
+                val correction = manualHeatCorrectionRepository.getLastCorrectionBetween(acc.time, elt.time)
                 if (correction != null) {
-                    HeathEntity(
+                    HeatEntity(
                         time = elt.time,
-                        deltaGJ = correction.heathGJ!!.minus(acc.heathGJ!!),
-                        heathGJ = correction.heathGJ
+                        deltaGJ = correction.heatGJ!!.minus(acc.heatGJ!!),
+                        heatGJ = correction.heatGJ
                     )
                 } else {
-                    HeathEntity(
+                    HeatEntity(
                         time = elt.time,
                         deltaGJ = elt.deltaGJ,
-                        heathGJ = acc.heathGJ?.plus(elt.deltaGJ!!)
+                        heatGJ = acc.heatGJ?.plus(elt.deltaGJ!!)
                     )
                 }
             }
             .drop(1)
 
-        return newHeathRecordList
+        return newHeatRecordList
     }
 
     private fun processFailedUpdate() {

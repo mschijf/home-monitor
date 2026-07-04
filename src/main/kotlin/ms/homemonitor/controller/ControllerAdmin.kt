@@ -5,10 +5,10 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import ms.homemonitor.electricity.restclient.HomeWizardElectricityClient
 import ms.homemonitor.electricity.restclient.model.HomeWizardElectricityData
-import ms.homemonitor.heath.repository.model.ManualHeathCorrectionModel
-import ms.homemonitor.heath.restclient.EnecoRestClient
-import ms.homemonitor.heath.restclient.model.EnecoConsumption
-import ms.homemonitor.heath.service.HeathService
+import ms.homemonitor.heat.repository.model.ManualHeatCorrectionModel
+import ms.homemonitor.heat.restclient.EnecoRestClient
+import ms.homemonitor.heat.restclient.model.EnecoConsumption
+import ms.homemonitor.heat.service.HeatService
 import ms.homemonitor.shelly.restclient.ShellyClient
 import ms.homemonitor.shelly.restclient.model.ShellyThermometerData
 import ms.homemonitor.smartplug.restclient.TuyaClient
@@ -52,7 +52,7 @@ class ControllerAdmin(
     private val systemTemperatureClient: SystemTemperatureClient,
     private val dropboxClient: DropboxClient,
     private val systemService: SystemService,
-    private val heathService: HeathService,
+    private val heatService: HeatService,
     private val tadoService: TadoService,
     private val tuyaClient: TuyaClient,
     private val weatherApiClient: WeatherApiClient,
@@ -124,8 +124,8 @@ class ControllerAdmin(
     @Tag(name="2. Eneco")
     @PostMapping("/admin/eneco/correction")
     @Operation(summary = "Set a manual measurement/correction")
-    fun setManualEnecoMeasurement(@RequestBody manualStanding: ManualHeathCorrectionModel) {
-        val resultOk = heathService.setManualCorrection(manualStanding)
+    fun setManualEnecoMeasurement(@RequestBody manualStanding: ManualHeatCorrectionModel) {
+        val resultOk = heatService.setManualCorrection(manualStanding)
         if (!resultOk) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST)
         }

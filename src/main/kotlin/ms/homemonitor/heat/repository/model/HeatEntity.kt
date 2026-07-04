@@ -1,4 +1,4 @@
-package ms.homemonitor.heath.repository.model
+package ms.homemonitor.heat.repository.model
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "heath")
-class HeathEntity(
+class HeatEntity(
     @Id
     @Column(name = "time", nullable = false, unique = true)
     val time: LocalDateTime = LocalDateTime.MIN,
@@ -18,5 +18,5 @@ class HeathEntity(
     var deltaGJ: BigDecimal? =  null,
 
     @Column(name = "heath_gj", nullable = true)
-    var heathGJ: BigDecimal? =  null
+    var heatGJ: BigDecimal? =  null
 )

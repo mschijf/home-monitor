@@ -1,6 +1,6 @@
-package ms.homemonitor.heath.repository
+package ms.homemonitor.heat.repository
 
-import ms.homemonitor.heath.repository.model.EnecoStatsEntity
+import ms.homemonitor.heat.repository.model.EnecoStatsEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository

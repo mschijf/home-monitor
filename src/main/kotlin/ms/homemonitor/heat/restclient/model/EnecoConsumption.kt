@@ -1,4 +1,4 @@
-package ms.homemonitor.heath.restclient.model
+package ms.homemonitor.heat.restclient.model
 
 import java.math.BigDecimal
 import java.time.LocalDateTime

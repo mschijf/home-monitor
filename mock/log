@@ -37,11 +37,6 @@
 2025-02-17T18:32:11.291+01:00  INFO 3087623 --- [home-monitoring] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 9 ms
 2025-02-17T18:32:11.810+01:00  INFO 3087623 --- [home-monitoring] [           main] m.homemonitor.HomeMonitorApplicationKt   : Started HomeMonitorApplicationKt in 45.57 seconds (process running for 48.821)
 2025-02-17T18:33:00.112+01:00  INFO 3087623 --- [home-monitoring] [   scheduling-1] m.h.tado.restclient.TadoAccessToken      : Refreshing access token - use username and password
-2025-02-17T19:00:07.953+01:00  INFO 3087623 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-17T19:00:10.056+01:00  INFO 3087623 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-17T19:00:10.166+01:00  INFO 3087623 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-17T19:00:45.626+01:00  INFO 3087623 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-17T19:00:46.269+01:00  INFO 3087623 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-17 to 2025-02-18, 24 hours, 0.0 GJ
 2025-02-17T19:04:50.525+01:00  INFO 3087623 --- [home-monitoring] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
 2025-02-17T19:04:50.568+01:00  INFO 3087623 --- [home-monitoring] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
 2025-02-17T19:04:50.613+01:00  INFO 3087623 --- [home-monitoring] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
@@ -86,43 +81,6 @@
 2025-02-17T19:05:41.125+01:00  INFO 3096178 --- [home-monitoring] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2025-02-17T19:05:41.132+01:00  INFO 3096178 --- [home-monitoring] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
 2025-02-17T19:06:00.603+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.tado.restclient.TadoAccessToken      : Refreshing access token - use username and password
-2025-02-17T21:00:02.269+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-17T21:00:04.627+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-17T21:00:04.746+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-17T21:00:36.657+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-17T21:00:36.693+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.model.EnecoOAuth    : cannot find FE_DC_API_KEY on htmlPage
-2025-02-17T21:00:36.695+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.model.EnecoOAuth    : cannot find accessToken on htmlPage
-2025-02-17T21:00:36.696+01:00  WARN 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : Could not retrieve the secrets from Eneco
-2025-02-17T23:00:01.520+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-17T23:00:02.059+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-17T23:00:02.100+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-17T23:00:34.461+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-17T23:00:35.656+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-16 to 2025-02-18, 48 hours, 0.07200000000000269 GJ
-2025-02-18T01:00:01.160+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-18T01:00:01.694+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-18T01:00:01.741+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-18T01:00:35.105+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-18T01:00:36.011+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-17 to 2025-02-19, 48 hours, 0.00300000000001432 GJ
-2025-02-18T03:00:01.051+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-18T03:00:01.376+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-18T03:00:01.397+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-18T03:00:33.997+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-18T03:00:34.565+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-18 to 2025-02-19, 24 hours, 0.0 GJ
-2025-02-18T05:00:00.866+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-18T05:00:01.149+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-18T05:00:01.172+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-18T05:00:33.971+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-18T05:00:34.377+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-18 to 2025-02-19, 24 hours, 0.0 GJ
-2025-02-18T07:00:02.682+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-18T07:00:03.032+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-18T07:00:03.052+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-18T07:00:39.708+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-18T07:00:40.271+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-18 to 2025-02-19, 24 hours, 0.0 GJ
-2025-02-18T09:00:03.978+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-18T09:00:04.231+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-18T09:00:04.247+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-18T09:00:38.308+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-18T09:00:38.797+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-18 to 2025-02-19, 24 hours, 0.0149999999999864 GJ
 2025-02-18T10:12:01.700+01:00 ERROR 3096178 --- [home-monitoring] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
 ms.homemonitor.shared.HomeMonitorException: Error while processing Tado data
@@ -156,58 +114,3 @@ Caused by: org.springframework.web.client.HttpServerErrorException$GatewayTimeou
 	at ms.homemonitor.tado.service.TadoService.processMeasurement(TadoService.kt:25) ~[!/:8.4.3]
 	... 16 common frames omitted
 
-2025-02-18T11:00:02.678+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-18T11:00:03.006+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-18T11:00:03.045+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-18T11:00:35.340+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-18T11:00:35.798+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-18 to 2025-02-19, 24 hours, 0.0149999999999864 GJ
-2025-02-18T13:00:00.401+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-18T13:00:00.643+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-18T13:00:00.658+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-18T13:00:32.648+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-18T13:00:33.175+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-18 to 2025-02-19, 24 hours, 0.0149999999999864 GJ
-2025-02-18T15:00:00.458+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-18T15:00:00.703+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-18T15:00:00.722+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-18T15:00:38.113+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-18T15:00:38.675+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-18 to 2025-02-19, 24 hours, 0.0149999999999864 GJ
-2025-02-18T17:00:00.802+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-18T17:00:01.071+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-18T17:00:01.088+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-18T17:00:32.121+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-18T17:00:32.634+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-18 to 2025-02-19, 24 hours, 0.0149999999999864 GJ
-2025-02-18T19:00:00.423+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-18T19:00:00.638+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-18T19:00:00.651+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-18T19:00:32.777+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-18T19:00:33.224+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-18 to 2025-02-19, 24 hours, 0.01599999999999117 GJ
-2025-02-18T21:00:00.359+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-18T21:00:00.642+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-18T21:00:00.662+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-18T21:00:32.884+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-18T21:00:33.450+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-18 to 2025-02-19, 24 hours, 0.01599999999999117 GJ
-2025-02-18T23:00:00.877+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-18T23:00:01.271+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-18T23:00:01.292+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-18T23:00:32.777+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-18T23:00:33.239+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-18 to 2025-02-19, 24 hours, 0.01599999999999117 GJ
-2025-02-19T01:00:00.639+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-19T01:00:00.880+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-19T01:00:00.895+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-19T01:00:34.921+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-19T01:00:35.860+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-18 to 2025-02-20, 48 hours, 0.01599999999999117 GJ
-2025-02-19T03:00:00.372+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-19T03:00:00.590+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-19T03:00:00.603+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-19T03:00:32.900+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-19T03:00:33.346+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-19 to 2025-02-20, 24 hours, 0.0 GJ
-2025-02-19T05:00:00.748+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-19T05:00:00.979+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-19T05:00:00.994+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-19T05:00:35.428+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-19T05:00:35.896+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-19 to 2025-02-20, 24 hours, 0.0 GJ
-2025-02-19T07:00:00.287+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : start reading new Eneco data
-2025-02-19T07:00:00.532+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Using geckodriver 0.35.0 (resolved driver for Firefox 135)
-2025-02-19T07:00:00.547+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] i.g.bonigarcia.wdm.WebDriverManager      : Exporting webdriver.gecko.driver as /home/martinschijf/.cache/selenium/geckodriver/linux-arm64/0.35.0/geckodriver
-2025-02-19T07:00:32.562+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoAccessToken    : Finish reading new Eneco data
-2025-02-19T07:00:32.973+01:00  INFO 3096178 --- [home-monitoring] [   scheduling-1] m.h.heath.restclient.EnecoRestClient     : eneco data read  from 2025-02-19 to 2025-02-20, 24 hours, 0.0 GJ

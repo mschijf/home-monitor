@@ -37,7 +37,7 @@ home-monitor:
 
   eneco:
     initialDate: 2024-01-01T00:00:00
-    initialHeathValue: 196.196
+    initialHeatValue: 196.196
     username: not_for_dev
     password: not_for_dev
 
@@ -94,7 +94,7 @@ home-monitor:
       regular: "-"
     shelly:
       regular: "-"
-    heath:
+    heat:
       updateEnecoStats: "-"
     weather:
       regular: "-"

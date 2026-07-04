@@ -1,7 +1,7 @@
 package ms.homemonitor.shared.scheduler
 
 import ms.homemonitor.electricity.service.HomeWizardElectricityService
-import ms.homemonitor.heath.service.HeathService
+import ms.homemonitor.heat.service.HeatService
 import ms.homemonitor.shelly.service.ShellyService
 import ms.homemonitor.smartplug.service.SmartPlugService
 import ms.homemonitor.system.service.SystemService
@@ -22,7 +22,7 @@ class Scheduler(
     private val systemService: SystemService,
     private val smartPlugService: SmartPlugService,
     private val shellyService: ShellyService,
-    private val heathService: HeathService,
+    private val heatService: HeatService,
     private val homeWizardElectricityService: HomeWizardElectricityService
 ): AbstractBaseScheduler() {
 
@@ -40,10 +40,10 @@ class Scheduler(
     fun electricityCleanup()  = runSafely { homeWizardElectricityService.cleanupOldData(keepDays = 90L) }
 
     //-----------------------------------------------------------------------------------------------------------------
-    // Heath
+    // Heat
     //-----------------------------------------------------------------------------------------------------------------
-    @Scheduled(cron = "\${home-monitor.scheduler.heath.updateEnecoStats}")
-    fun updateEnecoStatistics()  = runSafely { heathService.processMeaurement() }
+    @Scheduled(cron = "\${home-monitor.scheduler.heat.updateEnecoStats}")
+    fun updateEnecoStatistics()  = runSafely { heatService.processMeaurement() }
 
     //-----------------------------------------------------------------------------------------------------------------
     // Shelly
