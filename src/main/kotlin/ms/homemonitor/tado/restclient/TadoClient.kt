@@ -10,6 +10,7 @@ import ms.homemonitor.tado.restclient.model.TadoWeather
 import ms.homemonitor.tado.restclient.model.TadoZone
 import ms.homemonitor.shared.tools.rest.getForEntityWithHeader
 import ms.homemonitor.tado.restclient.model.TadoDevice
+import ms.homemonitor.tado.restclient.model.TadoZoneStates
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -108,9 +109,10 @@ class TadoClient(
         return getTadoResponseAsStringViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=${day}")
     }
 
-    fun getAllZones(): String {
+    fun getAllZones(): TadoZoneStates {
         val homeId = getHomeId()
-        return getTadoResponseAsStringViaRest("${baseRestUrl}/homes/$homeId/zoneStates")
+//        return getTadoResponseAsStringViaRest("${baseRestUrl}/homes/$homeId/zoneStates")
+        return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/zoneStates")
     }
 
 }

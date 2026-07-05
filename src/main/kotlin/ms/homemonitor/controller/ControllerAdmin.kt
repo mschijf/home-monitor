@@ -24,6 +24,7 @@ import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoDevice
 import ms.homemonitor.tado.restclient.model.TadoResponseModel
+import ms.homemonitor.tado.restclient.model.TadoZoneStates
 import ms.homemonitor.tado.service.TadoService
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
 import ms.homemonitor.water.restclient.model.HomeWizardWaterData
@@ -134,7 +135,7 @@ class ControllerAdmin(
     @Tag(name="3a. Tado - authentication")
     @PostMapping("/admin/tado/getAccessDeviceUrl")
     @Operation(
-        summary = "Step 1 in re-assigning a device to tado. Use if tado does not repsond anymore",
+        summary = "Step 1 in re-assigning a device to tado. Use if tado does not respond anymore",
         description = "" +
                 " See: https://support.tado.com/en/articles/8565472-how-do-i-authenticate-to-access-the-rest-api\n" +
                 "\n" +
@@ -162,7 +163,7 @@ class ControllerAdmin(
     @Tag(name="3a. Tado - authentication")
     @PostMapping("/admin/tado/confirmDevice")
     @Operation(
-        summary = "Step 2 in re-assigning a device to tado. Use if tado does not repsond anymore",
+        summary = "Step 2 in re-assigning a device to tado. Use if tado does not respond anymore",
         description = "Just press execute, *after* you have done the steps described at Step 1")
     fun tadoConfirmDeviceAuthorization(): Any? {
         return tadoAccessToken.confirmNewTadoAccessDeviceAuthorization()
@@ -195,7 +196,7 @@ class ControllerAdmin(
 
     @Tag(name="3b. Tado")
     @GetMapping("/admin/tado/allZones")
-    fun tadoAllZones(): String {
+    fun tadoAllZones(): TadoZoneStates {
         return tadoRestClient.getAllZones()
     }
 
