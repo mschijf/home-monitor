@@ -193,6 +193,12 @@ class ControllerAdmin(
         return tadoRestClient.getTadoHistoricalInfo(parseDate(inputDay))
     }
 
+    @Tag(name="3b. Tado")
+    @GetMapping("/admin/tado/allZones")
+    fun tadoAllZones(): String {
+        return tadoRestClient.getAllZones()
+    }
+
     @Tag(name="4. Shelly")
     @GetMapping("/admin/shelly/status")
     fun shellyStatus(): ShellyThermometerData {

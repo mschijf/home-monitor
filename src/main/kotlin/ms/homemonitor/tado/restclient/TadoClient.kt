@@ -107,4 +107,10 @@ class TadoClient(
         val zoneId = getZoneId(homeId)
         return getTadoResponseAsStringViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=${day}")
     }
+
+    fun getAllZones(): String {
+        val homeId = getHomeId()
+        return getTadoResponseAsStringViaRest("${baseRestUrl}/homes/$homeId/zoneStates")
+    }
+
 }
