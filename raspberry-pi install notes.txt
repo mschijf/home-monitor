@@ -28,6 +28,14 @@ sudo timedatectl set-timezone Europe/Amsterdam
 sudo timedatectl set-ntp no
 sudo apt install ntp
 
+change config settings (for instance WIFI)
+==========================================
+Met
+
+sudo raspi-config
+
+kan je bepaalde installingen wijizgen, bijvoorbeeld de settings van de wifi (ssid, wifi-password)
+
 
 SSH
 ===
