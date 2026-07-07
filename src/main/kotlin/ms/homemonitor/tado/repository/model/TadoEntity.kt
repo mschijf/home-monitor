@@ -13,6 +13,9 @@ class TadoEntity(
     @Column(name = "time", nullable = false, unique = true)
     val time: LocalDateTime = LocalDateTime.MIN,
 
+    @Column(name = "zone_id", nullable = false)
+    val zoneId: String = "1",
+
     @Column(name = "inside_temperature", nullable = true)
     var insideTemperature: Double? =  null,
 
@@ -27,13 +30,4 @@ class TadoEntity(
 
     @Column(name = "setting_temperature", nullable = true)
     var settingTemperature: Double? =  null,
-
-    @Column(name = "outside_temperature", nullable = true)
-    var outsideTemperature: Double? =  null,
-
-    @Column(name = "solar_intensity_percentage", nullable = true)
-    var solarIntensityPercentage: Double? =  null,
-
-    @Column(name = "weather_state", nullable = true)
-    var weatherState: String? =  null,
 )

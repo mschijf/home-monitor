@@ -4,7 +4,6 @@ import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoMe
-import ms.homemonitor.tado.restclient.model.TadoResponseModel
 import ms.homemonitor.tado.restclient.model.TadoState
 import ms.homemonitor.tado.restclient.model.TadoWeather
 import ms.homemonitor.tado.restclient.model.TadoZone
@@ -83,12 +82,15 @@ class TadoClient(
     private fun getZoneId(homeId: Int): Int =
         tadoIdCache.getOrPut("zoneId") { getTadoZonesForHome(homeId).first().id }
 
-    fun getTadoResponse(): TadoResponseModel {
+    fun getTadoState(): TadoState {
         val homeId = getHomeId()
         val zoneId = getZoneId(homeId)
-        return TadoResponseModel(
-            getTadoStateForZone(homeId, zoneId),
-            getTadoOutsideWeather(homeId))
+        return getTadoStateForZone(homeId, zoneId)
+    }
+
+    fun getTadoOutsideWeather(): TadoWeather {
+        val homeId = getHomeId()
+        return getTadoOutsideWeather(homeId)
     }
 
     fun getTadoDeviceInfo(): TadoDevice {
@@ -103,11 +105,11 @@ class TadoClient(
         return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=${day}")
     }
 
-    fun getTadoHistoricalInfoAsString(day: LocalDate) : String {
-        val homeId = getHomeId()
-        val zoneId = getZoneId(homeId)
-        return getTadoResponseAsStringViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=${day}")
-    }
+//    fun getTadoHistoricalInfoAsString(day: LocalDate) : String {
+//        val homeId = getHomeId()
+//        val zoneId = getZoneId(homeId)
+//        return getTadoResponseAsStringViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/dayReport?date=${day}")
+//    }
 
     fun getAllZones(): TadoZoneStates {
         val homeId = getHomeId()
