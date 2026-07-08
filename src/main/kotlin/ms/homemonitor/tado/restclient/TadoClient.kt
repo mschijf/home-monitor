@@ -95,9 +95,9 @@ class TadoClient(
         return getTadoOutsideWeather(homeId)
     }
 
-    fun getTadoDeviceInfo(): List<TadoDevice> {
+    fun getTadoZones(): List<TadoZone> {
         val homeId = getHomeId()
-        return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/devices")
+        return getTadoZonesForHome(homeId)
     }
 
     fun getTadoHistoricalInfo(day: LocalDate) : TadoDayReport {

@@ -2,10 +2,10 @@ package ms.homemonitor.tado.service
 
 import jakarta.transaction.Transactional
 import ms.homemonitor.shared.HomeMonitorException
-import ms.homemonitor.tado.repository.TadoDeviceRepository
+import ms.homemonitor.tado.repository.TadoDeviceStateRepository
 import ms.homemonitor.tado.repository.TadoOutsideRepository
 import ms.homemonitor.tado.repository.TadoRepository
-import ms.homemonitor.tado.repository.model.TadoDeviceEntity
+import ms.homemonitor.tado.repository.model.TadoDeviceStateEntity
 import ms.homemonitor.tado.repository.model.TadoEntity
 import ms.homemonitor.tado.repository.model.TadoOutsideEntity
 import ms.homemonitor.tado.restclient.TadoClient
@@ -19,7 +19,7 @@ class TadoService(
     private val tadoClient: TadoClient,
     private val tadoRepository: TadoRepository,
     private val tadoOutsideRepository: TadoOutsideRepository,
-    private val tadoDeviceRepository: TadoDeviceRepository,
+    private val tadoDeviceStateRepository: TadoDeviceStateRepository,
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -68,17 +68,18 @@ class TadoService(
     }
 
     fun processDeviceInfo() {
-        val now = LocalDateTime.now()
-        val deviceInfoList = tadoClient.getTadoDeviceInfo()
-        log.info("deviceInfoList: $deviceInfoList")
-        tadoDeviceRepository.saveAndFlush(
-            TadoDeviceEntity(
-                time=now,
-                batteryState = deviceInfoList
-                    .first { it.deviceType == "RU02" }
-                    .batteryState
-            )
-        )
+        tadoClient.getTadoZones().forEach { zone ->
+            zone.deviceList.forEach { device ->
+                tadoDeviceStateRepository.saveAndFlush(
+                    TadoDeviceStateEntity(
+                        serialNumber = device.serialNo,
+                        zoneId = zone.id,
+                        zoneName = zone.name,
+                        batteryState = device.batteryState,
+                    )
+                )
+            }
+        }
     }
 
 }

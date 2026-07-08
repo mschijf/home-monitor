@@ -22,8 +22,8 @@ import ms.homemonitor.system.service.SystemService
 import ms.homemonitor.tado.restclient.TadoAccessToken
 import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoDayReport
-import ms.homemonitor.tado.restclient.model.TadoDevice
 import ms.homemonitor.tado.restclient.model.TadoWeather
+import ms.homemonitor.tado.restclient.model.TadoZone
 import ms.homemonitor.tado.restclient.model.TadoZoneStates
 import ms.homemonitor.tado.service.TadoService
 import ms.homemonitor.water.restclient.HomeWizardWaterClient
@@ -48,13 +48,13 @@ class ControllerAdmin(
     private val homeWizardWaterService: HomeWizardWaterService,
     private val tadoAccessToken: TadoAccessToken,
     private val tadoRestClient: TadoClient,
+    private val tadoService: TadoService,
     private val shellyRestClient: ShellyClient,
     private val enecoRestClient: EnecoRestClient,
     private val systemTemperatureClient: SystemTemperatureClient,
     private val dropboxClient: DropboxClient,
     private val systemService: SystemService,
     private val heatService: HeatService,
-    private val tadoService: TadoService,
     private val tuyaClient: TuyaClient,
     private val weatherApiClient: WeatherApiClient,
 ) {
@@ -183,15 +183,15 @@ class ControllerAdmin(
 
     @Tag(name="3b. Tado")
     @GetMapping("/admin/tado/device")
-    fun tadoDevice(): List<TadoDevice> {
-        return tadoRestClient.getTadoDeviceInfo()
+    fun tadoDevice(): List<TadoZone> {
+        return tadoRestClient.getTadoZones()
     }
 
     @Tag(name="3b. Tado")
     @PostMapping("/admin/tado/device")
-    fun tadoStoreDeviceInfo(): List<TadoDevice> {
+    fun tadoStoreDeviceInfo(): List<TadoZone> {
         tadoService.processDeviceInfo()
-        return tadoRestClient.getTadoDeviceInfo()
+        return tadoRestClient.getTadoZones()
     }
 
     @Tag(name="3b. Tado")
