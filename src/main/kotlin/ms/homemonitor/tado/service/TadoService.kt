@@ -27,18 +27,19 @@ class TadoService(
     fun processMeasurement() {
         try {
             val now = LocalDateTime.now()
-            val tadoInside = tadoClient.getTadoState()
-//            val tadoInside = tadoClient.getAllZones().zoneStates.get("1")!!
-            tadoRepository.saveAndFlush(
-                TadoEntity(
-                    time = now,
-                    insideTemperature = tadoInside.sensorDataPoints.insideTemperature.celsius,
-                    humidityPercentage = tadoInside.sensorDataPoints.humidity.percentage,
-                    heatingPowerPercentage = tadoInside.activityDataPoints.heatingPower.percentage,
-                    settingPowerOn = tadoInside.setting.power == "ON",
-                    settingTemperature = tadoInside.setting.temperature?.celsius ?: 0.0,
+            tadoClient.getAllZones().zoneStates.forEach { (zoneId, tadoInside) ->
+                tadoRepository.saveAndFlush(
+                    TadoEntity(
+                        time = now,
+                        zoneId = zoneId.toInt(),
+                        insideTemperature = tadoInside.sensorDataPoints.insideTemperature.celsius,
+                        humidityPercentage = tadoInside.sensorDataPoints.humidity.percentage,
+                        heatingPowerPercentage = tadoInside.activityDataPoints.heatingPower.percentage,
+                        settingPowerOn = tadoInside.setting.power == "ON",
+                        settingTemperature = tadoInside.setting.temperature?.celsius ?: 0.0,
+                    )
                 )
-            )
+            }
             val tadoOutside = tadoClient.getTadoOutsideWeather()
             tadoOutsideRepository.saveAndFlush(
                 TadoOutsideEntity(

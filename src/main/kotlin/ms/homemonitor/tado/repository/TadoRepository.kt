@@ -1,6 +1,7 @@
 package ms.homemonitor.tado.repository
 
 import ms.homemonitor.tado.repository.model.TadoEntity
+import ms.homemonitor.tado.repository.model.TadoId
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
 @Repository
-interface TadoRepository: JpaRepository<TadoEntity, LocalDateTime> {
+interface TadoRepository: JpaRepository<TadoEntity, TadoId> {
 
     @Modifying
     @Query(value = "DELETE from tado where time < :beforeTime", nativeQuery = true)

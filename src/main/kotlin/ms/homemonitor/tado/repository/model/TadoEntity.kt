@@ -3,18 +3,21 @@ package ms.homemonitor.tado.repository.model
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
+import jakarta.persistence.IdClass
 import jakarta.persistence.Table
 import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tado")
+@IdClass(TadoId::class)
 class TadoEntity(
     @Id
-    @Column(name = "time", nullable = false, unique = true)
+    @Column(name = "time", nullable = false)
     val time: LocalDateTime = LocalDateTime.MIN,
 
+    @Id
     @Column(name = "zone_id", nullable = false)
-    val zoneId: String = "1",
+    val zoneId: Int = 1,
 
     @Column(name = "inside_temperature", nullable = true)
     var insideTemperature: Double? =  null,
