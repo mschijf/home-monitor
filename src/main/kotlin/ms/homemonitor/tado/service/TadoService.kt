@@ -69,7 +69,7 @@ class TadoService(
 
     fun processDeviceInfo() {
         tadoClient.getTadoZones().forEach { zone ->
-            zone.deviceList.forEach { device ->
+            zone.devices.forEach { device ->
                 tadoDeviceStateRepository.saveAndFlush(
                     TadoDeviceStateEntity(
                         serialNumber = device.serialNo,

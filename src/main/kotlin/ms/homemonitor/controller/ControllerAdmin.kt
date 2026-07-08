@@ -181,6 +181,14 @@ class ControllerAdmin(
         return tadoRestClient.getTadoOutsideWeather()
     }
 
+
+    @Tag(name="3b. Tado")
+    @GetMapping("/admin/tado/deviceString")
+    fun tadoDeviceString(): String {
+        return tadoRestClient.getTadoZonesForHomeAsString()
+    }
+
+
     @Tag(name="3b. Tado")
     @GetMapping("/admin/tado/device")
     fun tadoDevice(): List<TadoZone> {

@@ -10,10 +10,10 @@ import jakarta.persistence.Table
 class TadoDeviceStateEntity(
     @Id
     @Column(name = "serial_number", nullable = false, length = 32)
-    val serialNumber: String,
+    val serialNumber: String = "unknown",
 
     @Column(name = "zone_id", nullable = false)
-    val zoneId: Int,
+    val zoneId: Int = -1,
 
     @Column(name = "zone_name", nullable = true, length = 16)
     val zoneName: String? = null,

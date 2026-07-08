@@ -66,11 +66,17 @@ class TadoClient(
         return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/zones")
     }
 
+    fun getTadoZonesForHomeAsString() : String {
+        val homeId = getHomeId()
+        return getTadoResponseAsStringViaRest("${baseRestUrl}/homes/$homeId/zones")
+    }
+
     private fun getTadoOutsideWeather(homeId: Int): TadoWeather {
         return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/weather")
     }
 
     private fun getHomeId(): Int {
+        //homeId is: 1140394
         if (homeId < 0) {
             homeId = getTadoMe().homes.first().id
             log.info("home id: $homeId")
