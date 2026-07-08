@@ -2,14 +2,9 @@ package ms.homemonitor.tado.restclient
 
 import ms.homemonitor.shared.HomeMonitorException
 import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
-import ms.homemonitor.tado.restclient.model.TadoDayReport
-import ms.homemonitor.tado.restclient.model.TadoMe
-import ms.homemonitor.tado.restclient.model.TadoState
-import ms.homemonitor.tado.restclient.model.TadoWeather
-import ms.homemonitor.tado.restclient.model.TadoZone
 import ms.homemonitor.shared.tools.rest.getForEntityWithHeader
-import ms.homemonitor.tado.restclient.model.TadoDevice
-import ms.homemonitor.tado.restclient.model.TadoZoneStates
+import ms.homemonitor.tado.restclient.model.*
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -31,7 +26,10 @@ class TadoClient(
     @Value("\${home-monitor.tado.baseRestUrl}") private val baseRestUrl: String) {
 
     private val restTemplate = RestTemplate()
-    private val tadoIdCache = mutableMapOf<String, Int>()
+    private var homeId: Int = -1
+    private var zoneInfoCache = emptyMap<Int, TadoZone>()
+
+    private val log = LoggerFactory.getLogger(javaClass)
 
     private inline fun <reified T : Any>getForEntityWithHeader(endPoint: String, httpEntity: HttpEntity<Any?>): ResponseEntity<T> {
         measurement.increaseCounter("tado.get")
@@ -68,24 +66,23 @@ class TadoClient(
         return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/zones")
     }
 
-    private fun getTadoStateForZone(homeId: Int, zoneId: Int) : TadoState {
-        return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/zones/$zoneId/state")
-    }
-
     private fun getTadoOutsideWeather(homeId: Int): TadoWeather {
         return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/weather")
     }
 
-    private fun getHomeId(): Int = 
-        tadoIdCache.getOrPut("homeId") { getTadoMe().homes.first().id }
+    private fun getHomeId(): Int {
+        if (homeId < 0) {
+            homeId = getTadoMe().homes.first().id
+            log.info("home id: $homeId")
+        }
+        return homeId
+    }
 
-    private fun getZoneId(homeId: Int): Int =
-        tadoIdCache.getOrPut("zoneId") { getTadoZonesForHome(homeId).first().id }
-
-    fun getTadoState(): TadoState {
-        val homeId = getHomeId()
-        val zoneId = getZoneId(homeId)
-        return getTadoStateForZone(homeId, zoneId)
+    private fun getZoneId(homeId: Int): Int {
+        zoneInfoCache = getTadoZonesForHome(homeId).associateBy { it.id }
+        log.info("home id: $homeId")
+        log.info("zoneInfo: $zoneInfoCache")
+        return zoneInfoCache.keys.min()
     }
 
     fun getAllZones(): TadoZoneStates {
@@ -98,10 +95,9 @@ class TadoClient(
         return getTadoOutsideWeather(homeId)
     }
 
-    fun getTadoDeviceInfo(): TadoDevice {
+    fun getTadoDeviceInfo(): List<TadoDevice> {
         val homeId = getHomeId()
-        val deviceList: List<TadoDevice> = getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/devices")
-        return deviceList.first { it.deviceType == "RU02" }
+        return getTadoObjectViaRest("${baseRestUrl}/homes/$homeId/devices")
     }
 
     fun getTadoHistoricalInfo(day: LocalDate) : TadoDayReport {

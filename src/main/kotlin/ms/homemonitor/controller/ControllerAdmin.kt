@@ -23,7 +23,6 @@ import ms.homemonitor.tado.restclient.TadoAccessToken
 import ms.homemonitor.tado.restclient.TadoClient
 import ms.homemonitor.tado.restclient.model.TadoDayReport
 import ms.homemonitor.tado.restclient.model.TadoDevice
-import ms.homemonitor.tado.restclient.model.TadoState
 import ms.homemonitor.tado.restclient.model.TadoWeather
 import ms.homemonitor.tado.restclient.model.TadoZoneStates
 import ms.homemonitor.tado.service.TadoService
@@ -172,8 +171,8 @@ class ControllerAdmin(
 
     @Tag(name="3b. Tado")
     @GetMapping("/admin/tado/currentInside")
-    fun tadoInside(): TadoState {
-        return tadoRestClient.getTadoState()
+    fun tadoInside(): TadoZoneStates {
+        return tadoRestClient.getAllZones()
     }
 
     @Tag(name="3b. Tado")
@@ -184,13 +183,13 @@ class ControllerAdmin(
 
     @Tag(name="3b. Tado")
     @GetMapping("/admin/tado/device")
-    fun tadoDevice(): TadoDevice {
+    fun tadoDevice(): List<TadoDevice> {
         return tadoRestClient.getTadoDeviceInfo()
     }
 
     @Tag(name="3b. Tado")
     @PostMapping("/admin/tado/device")
-    fun tadoStoreDeviceInfo(): TadoDevice {
+    fun tadoStoreDeviceInfo(): List<TadoDevice> {
         tadoService.processDeviceInfo()
         return tadoRestClient.getTadoDeviceInfo()
     }
@@ -199,12 +198,6 @@ class ControllerAdmin(
     @GetMapping("/admin/tado/dayreport")
     fun tadoHistorical(@RequestParam(name="day", required = false) inputDay: String = LocalDate.now().toString()): TadoDayReport {
         return tadoRestClient.getTadoHistoricalInfo(parseDate(inputDay))
-    }
-
-    @Tag(name="3b. Tado")
-    @GetMapping("/admin/tado/allZones")
-    fun tadoAllZones(): TadoZoneStates {
-        return tadoRestClient.getAllZones()
     }
 
     @Tag(name="4. Shelly")

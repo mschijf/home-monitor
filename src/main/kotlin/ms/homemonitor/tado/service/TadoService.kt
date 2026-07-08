@@ -69,11 +69,14 @@ class TadoService(
 
     fun processDeviceInfo() {
         val now = LocalDateTime.now()
-        val deviceInfo = tadoClient.getTadoDeviceInfo()
+        val deviceInfoList = tadoClient.getTadoDeviceInfo()
+        log.info("deviceInfoList: $deviceInfoList")
         tadoDeviceRepository.saveAndFlush(
             TadoDeviceEntity(
                 time=now,
-                batteryState = deviceInfo.batteryState
+                batteryState = deviceInfoList
+                    .first { it.deviceType == "RU02" }
+                    .batteryState
             )
         )
     }
