@@ -2,7 +2,7 @@ spring:
   config:
     import: "optional:/home/martinschijf/application/config/secrets.yml"
   datasource:
-    url: jdbc:postgresql://192.168.2.39:5432/home-monitor
+    url: jdbc:postgresql://192.168.178.40:5432/home-monitor
     username: ${home-monitor.datasource.username}
     password: ${home-monitor.datasource.password}
   flyway:
