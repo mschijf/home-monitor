@@ -7,7 +7,6 @@
 2025-02-17T18:31:43.051+01:00  INFO 3087623 --- [home-monitoring] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
 2025-02-17T18:31:43.233+01:00  INFO 3087623 --- [home-monitoring] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
 2025-02-17T18:31:43.243+01:00  INFO 3087623 --- [home-monitoring] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 13509 ms
-2025-02-17T18:31:47.303+01:00  INFO 3087623 --- [home-monitoring] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://192.168.2.39:5432/home-monitor (PostgreSQL 14.15)
 2025-02-17T18:31:47.525+01:00  INFO 3087623 --- [home-monitoring] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.134s)
 2025-02-17T18:31:47.756+01:00  INFO 3087623 --- [home-monitoring] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 0
 2025-02-17T18:31:47.770+01:00  INFO 3087623 --- [home-monitoring] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
@@ -51,7 +50,6 @@
 2025-02-17T19:05:10.314+01:00  INFO 3096178 --- [home-monitoring] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
 2025-02-17T19:05:10.443+01:00  INFO 3096178 --- [home-monitoring] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
 2025-02-17T19:05:10.449+01:00  INFO 3096178 --- [home-monitoring] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 13841 ms
-2025-02-17T19:05:14.824+01:00  INFO 3096178 --- [home-monitoring] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://192.168.2.39:5432/home-monitor (PostgreSQL 14.15)
 2025-02-17T19:05:15.123+01:00  INFO 3096178 --- [home-monitoring] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.165s)
 2025-02-17T19:05:15.425+01:00  INFO 3096178 --- [home-monitoring] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 0
 2025-02-17T19:05:15.440+01:00  INFO 3096178 --- [home-monitoring] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.

@@ -8,6 +8,11 @@ START (FLASH to sd card)
 ** find out ip adres (werkt via monitor and keyboard)
 check na opstarten ip-adres: hostname -I
 
+** find out hostname
+doe
+$> hostname
+zorg ervoor dat de naam 'pi' is (zodat het met pi.local te benaderen is via browser).
+
 ssh moet nu al werken!!
 maar onderstaand kan ook nog via keyboard + monitor
 

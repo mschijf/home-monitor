@@ -30,7 +30,7 @@
       "title": "Swagger",
       "tooltip": "Goto Swagger",
       "type": "link",
-      "url": "http://192.168.2.39:8080/swagger-ui/index.html#/controller/enecoPost"
+      "url": "http://192.168.178.40:8080/swagger-ui/index.html#/controller/enecoPost"
     },
     {
       "asDropdown": false,
@@ -361,6 +361,8 @@
           },
           "fieldMinMax": false,
           "mappings": [],
+          "max": 5,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -390,11 +392,9 @@
       "hideTimeOverride": true,
       "id": 123,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
-        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -402,9 +402,9 @@
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
       "pluginVersion": "11.3.1",
       "targets": [
@@ -488,7 +488,7 @@
           }
         }
       ],
-      "type": "stat"
+      "type": "gauge"
     },
     {
       "datasource": {
@@ -1277,7 +1277,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT distinct\n    inside_temperature as Woonkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 1\n;",
+          "rawSql": "SELECT \n    inside_temperature as Woonkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 1\norder by time\n;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1306,7 +1306,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT distinct\n    inside_temperature as Slaapkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 3\n;",
+          "rawSql": "SELECT \n    inside_temperature as Slaapkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 3",
           "refId": "B",
           "sql": {
             "columns": [
@@ -1335,7 +1335,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT distinct\n    inside_temperature as Werkkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 6\n;",
+          "rawSql": "SELECT\n    inside_temperature as Werkkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 6\n;",
           "refId": "C",
           "sql": {
             "columns": [
@@ -1364,7 +1364,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT distinct\n    inside_temperature as Badkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 7\n;",
+          "rawSql": "SELECT \n    inside_temperature as Badkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 7\n;",
           "refId": "D",
           "sql": {
             "columns": [
@@ -1714,7 +1714,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\nCASE \n        WHEN wind_kph < 1   THEN 0\n        WHEN wind_kph < 6   THEN 1\n        WHEN wind_kph < 12  THEN 2\n        WHEN wind_kph < 20  THEN 3\n        WHEN wind_kph < 29  THEN 4\n        WHEN wind_kph < 39  THEN 5\n        WHEN wind_kph < 50  THEN 6\n        WHEN wind_kph < 62  THEN 7\n        WHEN wind_kph < 75  THEN 8\n        WHEN wind_kph < 89  THEN 9\n        WHEN wind_kph < 103 THEN 10\n        WHEN wind_kph < 118 THEN 11\n        ELSE 12\n        END AS wind,\n        wind_dir as richting\nFROM weather\nwhere $__timeFilter(\"time\") order by time desc limit 1\n;",
+          "rawSql": "SELECT wind_kph,\nCASE \n        WHEN wind_kph < 1   THEN 0\n        WHEN wind_kph < 6   THEN 1\n        WHEN wind_kph < 12  THEN 2\n        WHEN wind_kph < 20  THEN 3\n        WHEN wind_kph < 29  THEN 4\n        WHEN wind_kph < 39  THEN 5\n        WHEN wind_kph < 50  THEN 6\n        WHEN wind_kph < 62  THEN 7\n        WHEN wind_kph < 75  THEN 8\n        WHEN wind_kph < 89  THEN 9\n        WHEN wind_kph < 103 THEN 10\n        WHEN wind_kph < 118 THEN 11\n        ELSE 12\n        END AS wind,\n        wind_dir as richting\nFROM weather\nwhere $__timeFilter(\"time\") order by time desc limit 1\n;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1743,7 +1743,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT (uv/7.8)*(100-cloud) as \"zon% calc\" FROM weather WHERE $__timeFilter(\"time\") ORDER BY \"time\" DESC limit 1",
+          "rawSql": "SELECT (uv/7.8)*(100-cloud) as \"zon% calc\" FROM weather \nWHERE $__timeFilter(\"time\") ORDER BY \"time\" DESC limit 1",
           "refId": "B",
           "sql": {
             "columns": [
@@ -1823,7 +1823,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT distinct\n    humidity_percentage as Woonkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 1\n;",
+          "rawSql": "SELECT\n    humidity_percentage as Woonkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 1\n;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1852,7 +1852,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT distinct\n    humidity_percentage as Slaapkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 3\n;",
+          "rawSql": "SELECT\n    humidity_percentage as Slaapkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 3\n;",
           "refId": "B",
           "sql": {
             "columns": [
@@ -1881,7 +1881,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT distinct\n    humidity_percentage as Werkkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 6\n;",
+          "rawSql": "SELECT\n    humidity_percentage as Werkkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 6\n;",
           "refId": "C",
           "sql": {
             "columns": [
@@ -1910,7 +1910,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT distinct\n    humidity_percentage as Badkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 7\n;",
+          "rawSql": "SELECT\n    humidity_percentage as Badkamer\nFROM tado\nwhere $__timeFilter(\"time\") and zone_id = 7\n;",
           "refId": "D",
           "sql": {
             "columns": [
@@ -1945,6 +1945,7 @@
             "mode": "thresholds"
           },
           "mappings": [],
+          "max": 25,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -2433,7 +2434,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT inside_temperature as werkkamer, \"time\" FROM shelly WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
+          "rawSql": "SELECT inside_temperature as \"shelly\", \"time\" FROM shelly WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
           "refId": "B",
           "sql": {
             "columns": [
@@ -2953,7 +2954,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT humidity_percentage as werkkamer, \"time\" FROM shelly WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
+          "rawSql": "SELECT humidity_percentage as \"shelly\", \"time\" FROM shelly WHERE $__timeFilter(\"time\") ORDER BY \"time\" ASC ",
           "refId": "A",
           "sql": {
             "columns": [
@@ -3435,7 +3436,7 @@
           "root_selector": "$.actualPreviousYear",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+          "url": "http://192.168.178.40:8080/homewizard/electricity/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3516,7 +3517,7 @@
           "root_selector": "$.actualYTDPreviousYear",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+          "url": "http://192.168.178.40:8080/homewizard/electricity/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3597,7 +3598,7 @@
           "root_selector": "$.actualYTD",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+          "url": "http://192.168.178.40:8080/homewizard/electricity/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3678,7 +3679,7 @@
           "root_selector": "$.prognose.extrapolate",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+          "url": "http://192.168.178.40:8080/homewizard/electricity/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3759,7 +3760,7 @@
           "root_selector": "$.prognose.followTrendRollingYear",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+          "url": "http://192.168.178.40:8080/homewizard/electricity/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3840,7 +3841,7 @@
           "root_selector": "$.prognose.followPreviousYear",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+          "url": "http://192.168.178.40:8080/homewizard/electricity/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3921,7 +3922,7 @@
           "root_selector": "$.prognose.followTrend28Days",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+          "url": "http://192.168.178.40:8080/homewizard/electricity/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4002,7 +4003,7 @@
           "root_selector": "$.prognose.followTrendWeighted",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+          "url": "http://192.168.178.40:8080/homewizard/electricity/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4083,7 +4084,7 @@
           "root_selector": "$.prognose.followTrendYTD",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/electricity/summary",
+          "url": "http://192.168.178.40:8080/homewizard/electricity/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4132,7 +4133,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           },
@@ -4307,7 +4309,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue"
+                "color": "super-light-blue",
+                "value": null
               }
             ]
           }
@@ -4358,7 +4361,7 @@
           "root_selector": "$.actualPreviousYear",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/water/summary",
+          "url": "http://192.168.178.40:8080/homewizard/water/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4387,7 +4390,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue"
+                "color": "super-light-blue",
+                "value": null
               }
             ]
           }
@@ -4438,7 +4442,7 @@
           "root_selector": "$.actualYTDPreviousYear",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/water/summary",
+          "url": "http://192.168.178.40:8080/homewizard/water/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4467,7 +4471,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue"
+                "color": "blue",
+                "value": null
               }
             ]
           }
@@ -4518,7 +4523,7 @@
           "root_selector": "$.actualYTD",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/water/summary",
+          "url": "http://192.168.178.40:8080/homewizard/water/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4547,7 +4552,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-blue"
+                "color": "dark-blue",
+                "value": null
               }
             ]
           }
@@ -4598,7 +4604,7 @@
           "root_selector": "$.prognose.extrapolate",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/water/summary",
+          "url": "http://192.168.178.40:8080/homewizard/water/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4627,7 +4633,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-blue"
+                "color": "dark-blue",
+                "value": null
               }
             ]
           }
@@ -4678,7 +4685,7 @@
           "root_selector": "$.prognose.followTrendRollingYear",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/water/summary",
+          "url": "http://192.168.178.40:8080/homewizard/water/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4707,7 +4714,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-blue"
+                "color": "dark-blue",
+                "value": null
               }
             ]
           }
@@ -4758,7 +4766,7 @@
           "root_selector": "$.prognose.followPreviousYear",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/water/summary",
+          "url": "http://192.168.178.40:8080/homewizard/water/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4787,7 +4795,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-blue"
+                "color": "dark-blue",
+                "value": null
               }
             ]
           }
@@ -4838,7 +4847,7 @@
           "root_selector": "$.prognose.followTrend28Days",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/water/summary",
+          "url": "http://192.168.178.40:8080/homewizard/water/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4867,7 +4876,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-blue"
+                "color": "dark-blue",
+                "value": null
               }
             ]
           }
@@ -4918,7 +4928,7 @@
           "root_selector": "$.prognose.followTrendWeighted",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/water/summary",
+          "url": "http://192.168.178.40:8080/homewizard/water/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4947,7 +4957,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-blue"
+                "color": "dark-blue",
+                "value": null
               }
             ]
           }
@@ -4998,7 +5009,7 @@
           "root_selector": "$.prognose.followTrendYTD",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/homewizard/water/summary",
+          "url": "http://192.168.178.40:8080/homewizard/water/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -5049,7 +5060,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -5208,7 +5220,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-orange"
+                "color": "super-light-orange",
+                "value": null
               }
             ]
           }
@@ -5259,7 +5272,7 @@
           "root_selector": "$.actualPreviousYear",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
+          "url": "http://192.168.178.40:8080/eneco/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -5288,7 +5301,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-orange"
+                "color": "super-light-orange",
+                "value": null
               }
             ]
           }
@@ -5339,7 +5353,7 @@
           "root_selector": "$.actualYTDPreviousYear",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
+          "url": "http://192.168.178.40:8080/eneco/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -5368,7 +5382,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "orange"
+                "color": "orange",
+                "value": null
               }
             ]
           }
@@ -5419,7 +5434,7 @@
           "root_selector": "$.actualYTD",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
+          "url": "http://192.168.178.40:8080/eneco/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -5448,7 +5463,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-orange"
+                "color": "dark-orange",
+                "value": null
               }
             ]
           }
@@ -5499,7 +5515,7 @@
           "root_selector": "$.prognose.extrapolate",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
+          "url": "http://192.168.178.40:8080/eneco/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -5528,7 +5544,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-orange"
+                "color": "dark-orange",
+                "value": null
               }
             ]
           }
@@ -5579,7 +5596,7 @@
           "root_selector": "$.prognose.followTrendRollingYear",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
+          "url": "http://192.168.178.40:8080/eneco/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -5608,7 +5625,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-orange"
+                "color": "dark-orange",
+                "value": null
               }
             ]
           }
@@ -5659,7 +5677,7 @@
           "root_selector": "$.prognose.followPreviousYear",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
+          "url": "http://192.168.178.40:8080/eneco/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -5688,7 +5706,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-orange"
+                "color": "dark-orange",
+                "value": null
               }
             ]
           }
@@ -5739,7 +5758,7 @@
           "root_selector": "$.prognose.followTrend28Days",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
+          "url": "http://192.168.178.40:8080/eneco/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -5768,7 +5787,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-orange"
+                "color": "dark-orange",
+                "value": null
               }
             ]
           }
@@ -5819,7 +5839,7 @@
           "root_selector": "$.prognose.followTrendWeighted",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
+          "url": "http://192.168.178.40:8080/eneco/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -5848,7 +5868,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-orange"
+                "color": "dark-orange",
+                "value": null
               }
             ]
           }
@@ -5899,7 +5920,7 @@
           "root_selector": "$.prognose.followTrendYTD",
           "source": "url",
           "type": "json",
-          "url": "http://192.168.2.39:8080/eneco/summary",
+          "url": "http://192.168.178.40:8080/eneco/summary",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -6014,7 +6035,7 @@
             "h": 8,
             "w": 20,
             "x": 0,
-            "y": 321
+            "y": 388
           },
           "id": 120,
           "options": {
@@ -6196,7 +6217,7 @@
             "h": 8,
             "w": 20,
             "x": 0,
-            "y": 329
+            "y": 396
           },
           "id": 119,
           "options": {
@@ -6377,7 +6398,7 @@
             "h": 8,
             "w": 20,
             "x": 0,
-            "y": 436
+            "y": 503
           },
           "id": 122,
           "options": {
@@ -6559,7 +6580,7 @@
             "h": 8,
             "w": 20,
             "x": 0,
-            "y": 444
+            "y": 511
           },
           "id": 121,
           "options": {
@@ -6651,7 +6672,7 @@
       "type": "row"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -6659,243 +6680,244 @@
         "y": 81
       },
       "id": 86,
-      "panels": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ce5mpc55vhptse"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "water"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "blue",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 666
-          },
-          "id": 87,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "11.3.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "ce5mpc55vhptse"
-              },
-              "disableTextWrap": false,
-              "editorMode": "builder",
-              "expr": "homewizardWaterActiveLpm",
-              "fullMetaSearch": false,
-              "includeNullMetadata": true,
-              "instant": false,
-              "legendFormat": "water",
-              "range": true,
-              "refId": "A",
-              "useBackend": false
-            }
-          ],
-          "title": "Water (Lpm)",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ce5mpc55vhptse"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "power"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "green",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 666
-          },
-          "id": 88,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "11.3.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "ce5mpc55vhptse"
-              },
-              "disableTextWrap": false,
-              "editorMode": "code",
-              "expr": "homewizardActivePowerL1Watt + homewizardActivePowerL2Watt + homewizardActivePowerL3Watt",
-              "fullMetaSearch": false,
-              "includeNullMetadata": true,
-              "instant": false,
-              "legendFormat": "power",
-              "range": true,
-              "refId": "A",
-              "useBackend": false
-            }
-          ],
-          "title": "Power",
-          "type": "timeseries"
-        }
-      ],
+      "panels": [],
       "repeat": "NowPeriod",
       "title": "Nu",
       "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ce5mpc55vhptse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "water"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 82
+      },
+      "id": 87,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ce5mpc55vhptse"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "homewizardWaterActiveLpm",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "water",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Water (Lpm)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ce5mpc55vhptse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "power"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 82
+      },
+      "id": 88,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ce5mpc55vhptse"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "homewizardActivePowerL1Watt + homewizardActivePowerL2Watt + homewizardActivePowerL3Watt",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "power",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Power",
+      "type": "timeseries"
     },
     {
       "collapsed": true,
@@ -6903,7 +6925,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 82
+        "y": 90
       },
       "id": 5,
       "panels": [
@@ -6988,7 +7010,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 667
+            "y": 734
           },
           "id": 85,
           "options": {
@@ -7185,7 +7207,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 857
+            "y": 924
           },
           "id": 95,
           "options": {
@@ -7358,7 +7380,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 864
+            "y": 931
           },
           "id": 83,
           "options": {
@@ -7426,7 +7448,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 83
+        "y": 91
       },
       "id": 34,
       "panels": [
@@ -7511,7 +7533,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 668
+            "y": 735
           },
           "id": 71,
           "options": {
@@ -7651,7 +7673,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 685
+            "y": 752
           },
           "id": 66,
           "options": {
@@ -7790,7 +7812,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 693
+            "y": 760
           },
           "id": 80,
           "options": {
@@ -7867,7 +7889,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 84
+        "y": 92
       },
       "id": 48,
       "panels": [
@@ -7901,7 +7923,7 @@
             "h": 4,
             "w": 6,
             "x": 0,
-            "y": 1318
+            "y": 1385
           },
           "hideTimeOverride": true,
           "id": 62,
@@ -7991,7 +8013,7 @@
             "h": 4,
             "w": 6,
             "x": 6,
-            "y": 1318
+            "y": 1385
           },
           "hideTimeOverride": true,
           "id": 61,
@@ -8094,7 +8116,7 @@
             "h": 4,
             "w": 6,
             "x": 12,
-            "y": 1318
+            "y": 1385
           },
           "hideTimeOverride": true,
           "id": 36,
@@ -8206,7 +8228,7 @@
             "h": 4,
             "w": 6,
             "x": 18,
-            "y": 1318
+            "y": 1385
           },
           "id": 58,
           "options": {
@@ -8367,7 +8389,7 @@
             "h": 7,
             "w": 12,
             "x": 0,
-            "y": 1322
+            "y": 1389
           },
           "id": 129,
           "options": {
@@ -8509,7 +8531,7 @@
             "h": 7,
             "w": 12,
             "x": 12,
-            "y": 1322
+            "y": 1389
           },
           "id": 67,
           "options": {
@@ -8652,7 +8674,7 @@
             "h": 7,
             "w": 12,
             "x": 0,
-            "y": 1329
+            "y": 1396
           },
           "id": 127,
           "options": {
@@ -8809,7 +8831,7 @@
             "h": 7,
             "w": 12,
             "x": 12,
-            "y": 1329
+            "y": 1396
           },
           "id": 128,
           "options": {
@@ -8947,7 +8969,7 @@
             "h": 7,
             "w": 12,
             "x": 12,
-            "y": 1336
+            "y": 1403
           },
           "id": 149,
           "options": {
@@ -9016,7 +9038,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 85
+        "y": 93
       },
       "id": 118,
       "panels": [
@@ -9035,8 +9057,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -9094,10 +9115,10 @@
             ]
           },
           "gridPos": {
-            "h": 4,
-            "w": 4,
+            "h": 7,
+            "w": 7,
             "x": 0,
-            "y": 104
+            "y": 94
           },
           "id": 147,
           "options": {
@@ -9158,6 +9179,150 @@
         },
         {
           "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ae5mp6r3ghhq8f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "green",
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": -1
+                  },
+                  {
+                    "color": "green",
+                    "value": 0
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 17,
+            "x": 7,
+            "y": 94
+          },
+          "hideTimeOverride": true,
+          "id": 177,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-postgresql-datasource",
+                "uid": "ae47yxjg85kowb"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "hide": false,
+              "rawQuery": true,
+              "rawSql": "SELECT zone_name, serial_number, battery_state FROM tado_device_state ",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [
+                      {
+                        "name": "last_eneco_import",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50,
+                "whereJsonTree": {
+                  "children1": [
+                    {
+                      "id": "b89aaa9b-cdef-4012-b456-71933a69cb85",
+                      "properties": {
+                        "field": "id",
+                        "fieldSrc": "field",
+                        "operator": "equal",
+                        "value": [
+                          0
+                        ],
+                        "valueError": [
+                          null
+                        ],
+                        "valueSrc": [
+                          "value"
+                        ],
+                        "valueType": [
+                          "number"
+                        ]
+                      },
+                      "type": "rule"
+                    }
+                  ],
+                  "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
+                  "type": "group"
+                },
+                "whereString": "id = 0"
+              },
+              "table": "admin"
+            }
+          ],
+          "timeFrom": "2d",
+          "title": "Tado Battery",
+          "transformations": [
+            {
+              "id": "convertFieldType",
+              "options": {
+                "conversions": [
+                  {
+                    "destinationType": "time",
+                    "targetField": "value"
+                  }
+                ],
+                "fields": {}
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
             "type": "yesoreyeram-infinity-datasource",
             "uid": "ee9nfq7i30dmoa"
           },
@@ -9181,8 +9346,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -9254,7 +9418,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 108
+            "y": 124
           },
           "id": 117,
           "options": {
@@ -9292,7 +9456,7 @@
               "root_selector": "",
               "source": "url",
               "type": "json",
-              "url": "http://192.168.2.39:8080/log/logs",
+              "url": "http://192.168.178.40:8080/log/logs",
               "url_options": {
                 "data": "",
                 "method": "GET"
@@ -9338,7 +9502,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 86
+        "y": 94
       },
       "id": 110,
       "panels": [
@@ -9380,8 +9544,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -9421,7 +9584,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 105
+            "y": 95
           },
           "id": 168,
           "options": {
@@ -9518,8 +9681,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               }
@@ -9558,7 +9720,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 112
+            "y": 102
           },
           "id": 169,
           "options": {
@@ -9710,7 +9872,7 @@
             "h": 9,
             "w": 14,
             "x": 0,
-            "y": 119
+            "y": 109
           },
           "id": 79,
           "options": {
@@ -9778,150 +9940,6 @@
           "fieldConfig": {
             "defaults": {
               "color": {
-                "fixedColor": "green",
-                "mode": "thresholds"
-              },
-              "custom": {
-                "align": "auto",
-                "cellOptions": {
-                  "type": "auto"
-                },
-                "inspect": false
-              },
-              "fieldMinMax": false,
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": -1
-                  },
-                  {
-                    "color": "green",
-                    "value": 0
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 7,
-            "w": 10,
-            "x": 14,
-            "y": 119
-          },
-          "hideTimeOverride": true,
-          "id": 177,
-          "options": {
-            "cellHeight": "sm",
-            "footer": {
-              "countRows": false,
-              "fields": "",
-              "reducer": [
-                "sum"
-              ],
-              "show": false
-            },
-            "showHeader": true
-          },
-          "pluginVersion": "11.3.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "grafana-postgresql-datasource",
-                "uid": "ae47yxjg85kowb"
-              },
-              "editorMode": "code",
-              "format": "table",
-              "hide": false,
-              "rawQuery": true,
-              "rawSql": "SELECT zone_name, serial_number, battery_state FROM tado_device_state ",
-              "refId": "A",
-              "sql": {
-                "columns": [
-                  {
-                    "parameters": [
-                      {
-                        "name": "last_eneco_import",
-                        "type": "functionParameter"
-                      }
-                    ],
-                    "type": "function"
-                  }
-                ],
-                "groupBy": [
-                  {
-                    "property": {
-                      "type": "string"
-                    },
-                    "type": "groupBy"
-                  }
-                ],
-                "limit": 50,
-                "whereJsonTree": {
-                  "children1": [
-                    {
-                      "id": "b89aaa9b-cdef-4012-b456-71933a69cb85",
-                      "properties": {
-                        "field": "id",
-                        "fieldSrc": "field",
-                        "operator": "equal",
-                        "value": [
-                          0
-                        ],
-                        "valueError": [
-                          null
-                        ],
-                        "valueSrc": [
-                          "value"
-                        ],
-                        "valueType": [
-                          "number"
-                        ]
-                      },
-                      "type": "rule"
-                    }
-                  ],
-                  "id": "8aa988b9-0123-4456-b89a-b1933a65434b",
-                  "type": "group"
-                },
-                "whereString": "id = 0"
-              },
-              "table": "admin"
-            }
-          ],
-          "timeFrom": "2d",
-          "title": "Tado Battery",
-          "transformations": [
-            {
-              "id": "convertFieldType",
-              "options": {
-                "conversions": [
-                  {
-                    "destinationType": "time",
-                    "targetField": "value"
-                  }
-                ],
-                "fields": {}
-              }
-            }
-          ],
-          "type": "table"
-        },
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ae5mp6r3ghhq8f"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
                 "mode": "thresholds"
               },
               "mappings": [],
@@ -9945,7 +9963,7 @@
             "h": 2,
             "w": 10,
             "x": 14,
-            "y": 126
+            "y": 109
           },
           "hideTimeOverride": false,
           "id": 170,
@@ -10019,7 +10037,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 87
+        "y": 95
       },
       "id": 148,
       "panels": [
@@ -10061,8 +10079,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -10074,7 +10091,7 @@
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 106
+            "y": 173
           },
           "id": 134,
           "options": {
@@ -10187,8 +10204,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -10200,7 +10216,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 116
+            "y": 183
           },
           "id": 137,
           "options": {
@@ -10350,7 +10366,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 123
+            "y": 190
           },
           "id": 132,
           "options": {
@@ -10508,7 +10524,7 @@
             "h": 4,
             "w": 4,
             "x": 0,
-            "y": 130
+            "y": 197
           },
           "id": 133,
           "options": {
@@ -10644,7 +10660,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 134
+            "y": 201
           },
           "id": 131,
           "options": {
@@ -10769,7 +10785,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 142
+            "y": 209
           },
           "id": 140,
           "options": {
@@ -10897,7 +10913,7 @@
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 149
+            "y": 216
           },
           "id": 142,
           "options": {
@@ -11064,7 +11080,7 @@
             "h": 11,
             "w": 24,
             "x": 0,
-            "y": 159
+            "y": 226
           },
           "hideTimeOverride": false,
           "id": 143,
@@ -11186,7 +11202,7 @@
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 170
+            "y": 237
           },
           "id": 141,
           "options": {
@@ -11259,7 +11275,7 @@
     }
   ],
   "preload": false,
-  "refresh": "15s",
+  "refresh": "5m",
   "schemaVersion": 40,
   "tags": [],
   "templating": {
@@ -11285,6 +11301,6 @@
   "timezone": "browser",
   "title": "Home-monitor",
   "uid": "bdsucvo44sy68b",
-  "version": 382,
+  "version": 395,
   "weekStart": ""
 }
