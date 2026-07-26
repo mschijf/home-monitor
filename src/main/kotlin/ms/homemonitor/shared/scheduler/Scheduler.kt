@@ -63,6 +63,9 @@ class Scheduler(
     @Scheduled(cron = "\${home-monitor.scheduler.system.dbStats}")
     fun dbStats()  = runSafely { systemService.processDbStats() }
 
+    @Scheduled(cron = "\${home-monitor.scheduler.system.ping}")
+    fun pingInfo()  = runSafely { systemService.processPing() }
+
     @Scheduled(cron = "\${home-monitor.scheduler.system.backup}")
     fun doBackup() = runSafely {
         systemService.executeBackup()

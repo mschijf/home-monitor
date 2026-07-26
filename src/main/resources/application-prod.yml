@@ -36,6 +36,7 @@ home-monitor:
   system:
     cpuTemperatureCmd: cat /sys/class/thermal/thermal_zone0/temp
     gpuTemperatureCmd: vcgencmd measure_temp
+    ping: ping 8.8.8.8 -c 55 -q
     dropbox:
       dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
       root: Backup/home-monitor/
@@ -72,6 +73,7 @@ home-monitor:
     system:
       temperature: 0 * * * * *
       dbStats: 0 * * * * *
+      ping: 0 * * * * *
       backup: 0 15 1-23/2 * * *
       dropboxFreeSpace: 0 20 1-23/2 * * *
 

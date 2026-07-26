@@ -1,0 +1,8 @@
+echo "PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data."
+echo "64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=12.4 ms"
+echo "64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=10.5 ms"
+echo "64 bytes from 8.8.8.8: icmp_seq=3 ttl=117 time=10.5 ms"
+echo ""
+echo ""--- 8.8.8.8 ping statistics ---""
+echo "3 packets transmitted, 3 received, 0% packet loss, time 2003ms"
+echo "rtt min/avg/max/mdev = 10.524/11.158/12.421/0.892 ms"

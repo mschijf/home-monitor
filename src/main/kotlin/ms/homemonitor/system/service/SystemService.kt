@@ -3,6 +3,7 @@ package ms.homemonitor.system.service
 import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
 import ms.homemonitor.system.cliclient.BackupClient
 import ms.homemonitor.system.cliclient.DropboxClient
+import ms.homemonitor.system.cliclient.PingClient
 import ms.homemonitor.system.cliclient.SystemTemperatureClient
 import ms.homemonitor.system.repository.BackupStatsEntity
 import ms.homemonitor.system.repository.BackupStatsRepository
@@ -19,13 +20,22 @@ class SystemService(
     private val databaseAdminRepository: DatabaseAdminRepository,
     private val dropboxClient: DropboxClient,
     private val measurement: MicroMeterMeasurement,
-    @Value("\${home-monitor.system.backup.keepWeeks}") private val keepNumberOfWeekDetailsBackupFiles: Int
+    @Value("\${home-monitor.system.backup.keepWeeks}") private val keepNumberOfWeekDetailsBackupFiles: Int,
+    private val pingClient: PingClient
 ) {
 
     fun processMeasurement() {
         val data = systemTemperatureClient.getSystemTemperature()
         measurement.setDoubleGauge("systemCpuTemperature", data.cpuTemperature)
         measurement.setDoubleGauge("systemGpuTemperature", data.gpuTemperature)
+    }
+
+    fun processPing() {
+        val data = pingClient.getPingData()
+        measurement.setDoubleGauge("pingPackageLost", (data.packetsTransmitted - data.packetsReceived).toDouble())
+        measurement.setDoubleGauge("pingMinTime", data.minTimeMillis)
+        measurement.setDoubleGauge("pingAvgTime", data.avgTimeMillis)
+        measurement.setDoubleGauge("pingMaxTime", data.maxTimeMillis)
     }
 
     fun processDbStats() {
@@ -57,7 +67,7 @@ class SystemService(
         val stats = dropboxClient.getBackupStats()
         val freeSpace = dropboxClient.getFreeBackupSpace()
         if (stats.isNotEmpty()) {
-            val entity = backupStatsRepository.findById(1).orElse(BackupStatsEntity(1))
+            val entity = backupStatsRepository.findById(1).orElse(BackupStatsEntity(1))!!
 
             entity.oldest = stats.first().dateTime
             entity.last = stats.last().dateTime

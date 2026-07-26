@@ -15,8 +15,10 @@ import ms.homemonitor.smartplug.restclient.TuyaClient
 import ms.homemonitor.smartplug.restclient.model.TuyaDataDetail
 import ms.homemonitor.smartplug.restclient.model.TuyaDeviceMasterData
 import ms.homemonitor.system.cliclient.DropboxClient
+import ms.homemonitor.system.cliclient.PingClient
 import ms.homemonitor.system.cliclient.SystemTemperatureClient
 import ms.homemonitor.system.cliclient.model.BackupDataModel
+import ms.homemonitor.system.cliclient.model.PingDataModel
 import ms.homemonitor.system.cliclient.model.SystemTemperatureModel
 import ms.homemonitor.system.service.SystemService
 import ms.homemonitor.tado.restclient.TadoAccessToken
@@ -57,6 +59,7 @@ class ControllerAdmin(
     private val heatService: HeatService,
     private val tuyaClient: TuyaClient,
     private val weatherApiClient: WeatherApiClient,
+    private val pingClient: PingClient,
 ) {
 
     private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
@@ -245,6 +248,12 @@ class ControllerAdmin(
     @GetMapping("/admin/backupprocess/space")
     fun getFreeBackupSpace(): Long {
         return dropboxClient.getFreeBackupSpace()
+    }
+
+    @Tag(name="6. System")
+    @GetMapping("/admin/ping")
+    fun getPing(): PingDataModel {
+        return pingClient.getPingData()
     }
 
     @Tag(name="6. System")
