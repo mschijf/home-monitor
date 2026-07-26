@@ -31,8 +31,8 @@ home-monitor:
   mock-location: ./mock
 
   homewizard:
-    electricityBaseRestUrl: http://192.168.178.48/api/v1
-    waterBaseRestUrl: http://192.168.178.139/api/v1
+    electricityBaseRestUrl: http://p1meter-0F9760.local/api/v1
+    waterBaseRestUrl: http://watermeter-1990B4.local/api/v1
     initialWaterValue: 799.017
 
   eneco:
