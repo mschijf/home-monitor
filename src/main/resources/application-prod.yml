@@ -74,6 +74,7 @@ home-monitor:
       temperature: 0 * * * * *
       dbStats: 0 * * * * *
       ping: 0 * * * * *
+      speedTest: 0 0 * * * *
       backup: 0 15 1-23/2 * * *
       dropboxFreeSpace: 0 20 1-23/2 * * *
 

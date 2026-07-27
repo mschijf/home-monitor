@@ -4,6 +4,7 @@ import ms.homemonitor.shared.tools.micrometer.MicroMeterMeasurement
 import ms.homemonitor.system.cliclient.BackupClient
 import ms.homemonitor.system.cliclient.DropboxClient
 import ms.homemonitor.system.cliclient.PingClient
+import ms.homemonitor.system.cliclient.SpeedTestClient
 import ms.homemonitor.system.cliclient.SystemTemperatureClient
 import ms.homemonitor.system.repository.BackupStatsEntity
 import ms.homemonitor.system.repository.BackupStatsRepository
@@ -21,7 +22,8 @@ class SystemService(
     private val dropboxClient: DropboxClient,
     private val measurement: MicroMeterMeasurement,
     @Value("\${home-monitor.system.backup.keepWeeks}") private val keepNumberOfWeekDetailsBackupFiles: Int,
-    private val pingClient: PingClient
+    private val pingClient: PingClient,
+    private val speedTestClient: SpeedTestClient
 ) {
 
     fun processMeasurement() {
@@ -36,6 +38,14 @@ class SystemService(
         measurement.setDoubleGauge("pingMinTime", data.minTimeMillis)
         measurement.setDoubleGauge("pingAvgTime", data.avgTimeMillis)
         measurement.setDoubleGauge("pingMaxTime", data.maxTimeMillis)
+    }
+
+    fun processSpeedTest() {
+        val data = speedTestClient.getSpeedTestData()
+        measurement.setDoubleGauge("speedTestDownloadMbps", data.download.bandwidth.toDouble()/(1000*1000/8) )
+        measurement.setDoubleGauge("speedTestUploadMbps", data.upload.bandwidth.toDouble()/(1000*1000/8) )
+        measurement.setDoubleGauge("speedTestDownloadJitter", data.download.latency.jitter)
+        measurement.setDoubleGauge("speedTestUploadJitter", data.upload.latency.jitter)
     }
 
     fun processDbStats() {

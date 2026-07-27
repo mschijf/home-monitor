@@ -66,6 +66,7 @@ home-monitor:
     cpuTemperatureCmd: cat ${home-monitor.mock-location}/sys_class_thermal_thermal_zone0_temp
     gpuTemperatureCmd: ${home-monitor.mock-location}/vcgencmd.sh measure_temp
     ping: ${home-monitor.mock-location}/pingmock.sh
+    speedtest: ${home-monitor.mock-location}/speedtestmock.sh
     dropbox:
         dropbox_uploader: ${home-monitor.mock-location}/dropbox_uploader.sh
         root: Backup/home-monitor/
@@ -105,6 +106,7 @@ home-monitor:
       backup: "-"
       dropboxFreeSpace: "-"
       ping: "-"
+      speedTest: "-"
 
 
 management:
