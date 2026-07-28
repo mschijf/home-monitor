@@ -37,7 +37,7 @@ home-monitor:
     cpuTemperatureCmd: cat /sys/class/thermal/thermal_zone0/temp
     gpuTemperatureCmd: vcgencmd measure_temp
     ping: ping 8.8.8.8 -c 55 -q
-    speedtest: speedtest --format=json --server-id=32582
+    speedTest: speedtest --format=json --server-id=32582
     dropbox:
       dropbox_uploader: /home/martinschijf/dropbox-uploader/dropbox_uploader.sh
       root: Backup/home-monitor/
@@ -75,7 +75,7 @@ home-monitor:
       temperature: 0 * * * * *
       dbStats: 0 * * * * *
       ping: 0 * * * * *
-      speedTest: 0 0 * * * *
+      speedTest: 0 35 1-23/12 * * *
       backup: 0 15 1-23/2 * * *
       dropboxFreeSpace: 0 20 1-23/2 * * *
 
