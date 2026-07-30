@@ -9,9 +9,12 @@ import ms.homemonitor.system.cliclient.SystemTemperatureClient
 import ms.homemonitor.system.repository.BackupStatsEntity
 import ms.homemonitor.system.repository.BackupStatsRepository
 import ms.homemonitor.system.repository.DatabaseAdminRepository
+import ms.homemonitor.system.repository.SpeedTestStatsEntity
+import ms.homemonitor.system.repository.SpeedTestStatsRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import java.time.ZoneId
 
 @Service
 class SystemService(
@@ -23,7 +26,8 @@ class SystemService(
     private val measurement: MicroMeterMeasurement,
     @Value("\${home-monitor.system.backup.keepWeeks}") private val keepNumberOfWeekDetailsBackupFiles: Int,
     private val pingClient: PingClient,
-    private val speedTestClient: SpeedTestClient
+    private val speedTestClient: SpeedTestClient,
+    private val speedTestStatsRepository: SpeedTestStatsRepository,
 ) {
 
     fun processMeasurement() {
@@ -42,10 +46,18 @@ class SystemService(
 
     fun processSpeedTest() {
         val data = speedTestClient.getSpeedTestData()
-        measurement.setDoubleGauge("speedTestDownloadMbps", data.download.bandwidth.toDouble()/ 125_000.0 )
-        measurement.setDoubleGauge("speedTestUploadMbps", data.upload.bandwidth.toDouble()/ 125_000.0 )
-        measurement.setDoubleGauge("speedTestDownloadJitter", data.download.latency.jitter)
-        measurement.setDoubleGauge("speedTestUploadJitter", data.upload.latency.jitter)
+//        measurement.setDoubleGauge("speedTestDownloadMbps", data.download.bandwidth.toDouble() / 125_000.0)
+//        measurement.setDoubleGauge("speedTestUploadMbps", data.upload.bandwidth.toDouble() / 125_000.0)
+//        measurement.setDoubleGauge("speedTestDownloadJitter", data.download.latency.jitter)
+//        measurement.setDoubleGauge("speedTestUploadJitter", data.upload.latency.jitter)
+
+        speedTestStatsRepository.saveAndFlush(SpeedTestStatsEntity(
+            time = LocalDateTime.ofInstant(data.timestamp, ZoneId.systemDefault()),
+            downloadSpeed = data.download.bandwidth.toDouble() / 125_000.0,
+            uploadSpeed = data.upload.bandwidth.toDouble() / 125_000.0,
+            downloadJitter = data.download.latency.jitter,
+            uploadJitter = data.upload.latency.jitter,
+        ))
     }
 
     fun processDbStats() {

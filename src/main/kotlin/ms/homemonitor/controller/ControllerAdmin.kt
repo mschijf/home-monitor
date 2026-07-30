@@ -262,6 +262,7 @@ class ControllerAdmin(
     @Tag(name="6. System")
     @GetMapping("/admin/speedtest")
     fun getSpeedTest(): SpeedTestResultModel {
+        systemService.processSpeedTest()
         return speedTestClient.getSpeedTestData()
     }
 
