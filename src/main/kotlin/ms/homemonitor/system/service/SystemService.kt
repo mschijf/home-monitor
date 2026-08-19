@@ -46,10 +46,10 @@ class SystemService(
 
     fun processSpeedTest() {
         val data = speedTestClient.getSpeedTestData()
-//        measurement.setDoubleGauge("speedTestDownloadMbps", data.download.bandwidth.toDouble() / 125_000.0)
-//        measurement.setDoubleGauge("speedTestUploadMbps", data.upload.bandwidth.toDouble() / 125_000.0)
-//        measurement.setDoubleGauge("speedTestDownloadJitter", data.download.latency.jitter)
-//        measurement.setDoubleGauge("speedTestUploadJitter", data.upload.latency.jitter)
+        measurement.setDoubleGauge("speedTestDownloadMbps", data.download.bandwidth.toDouble() / 125_000.0)
+        measurement.setDoubleGauge("speedTestUploadMbps", data.upload.bandwidth.toDouble() / 125_000.0)
+        measurement.setDoubleGauge("speedTestDownloadJitter", data.download.latency.jitter)
+        measurement.setDoubleGauge("speedTestUploadJitter", data.upload.latency.jitter)
 
         speedTestStatsRepository.saveAndFlush(SpeedTestStatsEntity(
             time = LocalDateTime.ofInstant(data.timestamp, ZoneId.systemDefault()),
